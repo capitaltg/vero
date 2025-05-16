@@ -106,11 +106,11 @@ const exampleItems = [
 const richContentItems = [
   {
     id: 'item-1',
-    title: 'What is Summit UI?',
+    title: 'What is Vero?',
     content: (
       <div className="space-y-2">
         <p>
-          Summit UI is a modern React component library built with TypeScript and Tailwind CSS. It
+          Vero is a modern React component library built with TypeScript and Tailwind CSS. It
           provides a comprehensive set of accessible, customizable components for building modern
           web applications.
         </p>
@@ -128,9 +128,9 @@ const richContentItems = [
     title: 'Getting Started',
     content: (
       <div className="space-y-2">
-        <p>To get started with Summit UI, install it via npm:</p>
+        <p>To get started with Vero, install it via npm:</p>
         <pre className="rounded-md bg-gray-100 p-2">
-          <code>npm install summit-ui</code>
+          <code>npm install @capitaltg/vero</code>
         </pre>
       </div>
     ),
@@ -146,7 +146,7 @@ const longContentItems = [
         <h3 className="text-lg font-semibold">1. Introduction</h3>
         <p>
           These Website Standard Terms and Conditions written on this webpage shall manage your use
-          of our website, Summit UI accessible at https://summit-ui.dev.
+          of our website. Please read these terms carefully before using any part of the site.
         </p>
         <p>
           These Terms will be applied fully and affect your use of this Website. By using this
@@ -155,8 +155,8 @@ const longContentItems = [
         </p>
         <h3 className="text-lg font-semibold">2. Intellectual Property Rights</h3>
         <p>
-          Other than the content you own, under these Terms, Summit UI and/or its licensors own all
-          the intellectual property rights and materials contained in this Website.
+          Other than the content you own, under these Terms, Vero and/or its licensors own all the
+          intellectual property rights and materials contained in this Website.
         </p>
         <p>
           You are granted limited license only for purposes of viewing the material contained on

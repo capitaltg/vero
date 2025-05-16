@@ -1,5 +1,5 @@
 {
-  "name": "@dzwillia/summit-ui",
+  "name": "@capitaltg/vero",
   "version": "1.1.0",
   "description": "Accessible, modern, open source React component library inspired by USWDS built with Radix UI",
   "type": "module",
@@ -34,14 +34,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dzwillia/summit-ui.git"
+    "url": "git+https://github.com/capitaltg/vero.git"
   },
   "author": "Dave Williams",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dzwillia/summit-ui/issues"
+    "url": "https://github.com/capitaltg/vero/issues"
   },
-  "homepage": "https://github.com/dzwillia/summit-ui#readme",
+  "homepage": "https://github.com/capitaltg/vero#readme",
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

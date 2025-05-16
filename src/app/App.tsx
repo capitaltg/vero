@@ -98,7 +98,7 @@ export const App: React.FC = () => {
       <div className="w-full max-w-2xl space-y-8">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Summit UI</h1>
+            <h1 className="text-3xl font-bold">Vero</h1>
             <p className="mt-2 text-muted-foreground">Configure your development environment</p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Badge>React</Badge>

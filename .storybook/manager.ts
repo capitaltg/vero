@@ -4,8 +4,8 @@ import './manager.css';
 
 const theme = create({
   base: 'light',
-  brandTitle: 'Summit UI',
-  brandUrl: 'https://github.com/dzwillia/summit-ui',
+  brandTitle: 'Vero',
+  brandUrl: 'https://github.com/capitaltg/vero',
   brandTarget: '_blank',
 });
 

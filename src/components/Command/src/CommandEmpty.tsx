@@ -4,7 +4,7 @@ import * as React from 'react';
 import { CommandEmptyProps } from '../types';
 
 const PrimitiveDiv = Primitive.div;
-const emptyClassName = 'p-3 py-2.5 text-sm';
+const emptyClassName = 'px-3 py-2.5 text-sm';
 
 const CommandEmpty = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Empty>,

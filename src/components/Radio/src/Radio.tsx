@@ -37,7 +37,7 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
       return (
         <div
           className={cn(
-            'relative rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground',
+            'relative rounded-lg border-2 border-muted bg-popover px-4 py-4 hover:bg-accent hover:text-accent-foreground',
             isChecked && 'border-primary-400',
             isDisabled && 'cursor-not-allowed opacity-50',
             className,

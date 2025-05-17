@@ -142,7 +142,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
         className={cn(
           styles.input,
           styles.focusRingWithin,
-          'flex min-h-[2.5rem] w-full cursor-text flex-wrap gap-1.5 !p-1.5',
+          'flex min-h-[2.5rem] w-full cursor-text flex-wrap gap-1.5 !px-1.5 !py-1.5',
           isDisabled && 'cursor-not-allowed',
           className,
         )}

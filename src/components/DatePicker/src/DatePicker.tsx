@@ -26,7 +26,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
             {value ? format(value, 'LLLL dd, y') : <span>{placeholder}</span>}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
+        <PopoverContent className="w-auto px-0 py-0">
           <Calendar mode="single" selected={value} onSelect={onChange} initialFocus />
         </PopoverContent>
       </Popover>

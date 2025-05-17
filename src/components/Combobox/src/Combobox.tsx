@@ -41,7 +41,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="w-[--radix-popover-trigger-width] p-0">
+        <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">
           <Command>
             <CommandInput placeholder={searchPlaceholder} />
             <CommandEmpty>{emptyMessage}</CommandEmpty>

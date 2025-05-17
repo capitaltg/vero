@@ -94,7 +94,7 @@ export const App: React.FC = () => {
   ];
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-6">
+    <div className="flex min-h-screen items-center justify-center bg-background px-6 py-6">
       <div className="w-full max-w-2xl space-y-8">
         <div className="flex items-start justify-between">
           <div>

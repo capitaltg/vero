@@ -12,7 +12,7 @@ export const alertVariants = cva(
       },
       size: {
         sm: 'px-3 py-2 text-sm [&>svg]:mr-2 [&>svg]:h-5 [&>svg]:w-5',
-        default: 'p-4 text-base [&>svg]:mr-3 [&>svg]:h-8 [&>svg]:w-8',
+        default: 'px-4 py-4 text-base [&>svg]:mr-3 [&>svg]:h-8 [&>svg]:w-8',
       },
     },
     defaultVariants: {

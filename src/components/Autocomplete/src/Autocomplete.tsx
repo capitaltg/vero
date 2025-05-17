@@ -169,7 +169,7 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="w-[--radix-popover-trigger-width] p-0">
+        <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">
           <Command shouldFilter={false}>
             <CommandInput
               placeholder={placeholder}

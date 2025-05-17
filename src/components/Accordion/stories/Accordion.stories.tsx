@@ -129,7 +129,7 @@ const richContentItems = [
     content: (
       <div className="space-y-2">
         <p>To get started with Vero, install it via npm:</p>
-        <pre className="rounded-md bg-gray-100 p-2">
+        <pre className="rounded-md bg-gray-100 px-2 py-2">
           <code>npm install @capitaltg/vero</code>
         </pre>
       </div>

@@ -1,3 +1,6 @@
+// Make sure we include index.css in the build
+import './styles/index.css';
+
 // Export components
 export * from './components/Accordion';
 export * from './components/Alert';

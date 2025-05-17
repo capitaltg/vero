@@ -17,8 +17,8 @@
       "require": "./dist/index.cjs"
     },
     "./tailwind.config.js": "./dist/tailwind.config.js",
-    "./preflight.css": "./dist/styles/preflight.css",
-    "./index.css": "./dist/styles/index.css"
+    "./preflight.css": "./dist/preflight.css",
+    "./index.css": "./dist/index.css"
   },
   "scripts": {
     "dev": "vite",

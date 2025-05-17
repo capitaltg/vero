@@ -23,8 +23,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: path.resolve(__dirname, 'src/index.ts'),
-        'styles/preflight': path.resolve(__dirname, 'src/styles/preflight.css'),
-        'styles/index': path.resolve(__dirname, 'src/styles/index.css'),
+        preflight: path.resolve(__dirname, 'src/styles/preflight.css'),
       },
       name: 'ui',
       formats: ['es', 'cjs'],

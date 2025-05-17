@@ -30,7 +30,8 @@
     "commitlint": "commitlint --edit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "release:patch": "npm run build && npm version patch && git push && git push --tags && npm publish"
+    "release:patch": "npm run build && npm version patch && git push && git push --tags && npm publish",
+    "release:minor": "npm run build && npm version minor && git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",

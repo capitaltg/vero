@@ -18,7 +18,7 @@
     },
     "./tailwind.config.js": "./dist/tailwind.config.js",
     "./preflight.css": "./dist/styles/preflight.css",
-    "./no-preflight.css": "./dist/styles/no-preflight.css"
+    "./index.css": "./dist/styles/index.css"
   },
   "scripts": {
     "dev": "vite",

@@ -5,6 +5,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
   CommandLoading,
 } from '@/components/Command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover';
@@ -182,24 +183,26 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
               <CommandForceEmpty>{emptyMessage}</CommandForceEmpty>
             ) : null}
             {!loading && !error && displayOptions.length > 0 ? (
-              <CommandGroup className="max-h-[12rem] overflow-y-auto">
-                {displayOptions.map(option => (
-                  <CommandItem
-                    key={option.value}
-                    value={option.value}
-                    onSelect={handleSelect}
-                    className="cursor-pointer"
-                  >
-                    <Check
-                      className={cn(
-                        'mr-2 h-4 w-4',
-                        option.value === value ? 'opacity-100' : 'opacity-0',
-                      )}
-                    />
-                    {option.label}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+              <CommandList className="max-h-[12rem] overflow-y-auto">
+                <CommandGroup>
+                  {displayOptions.map(option => (
+                    <CommandItem
+                      key={option.value}
+                      value={option.value}
+                      onSelect={handleSelect}
+                      className="cursor-pointer"
+                    >
+                      <Check
+                        className={cn(
+                          'mr-2 h-4 w-4',
+                          option.value === value ? 'opacity-100' : 'opacity-0',
+                        )}
+                      />
+                      {option.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
             ) : null}
           </Command>
         </PopoverContent>

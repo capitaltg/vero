@@ -2,7 +2,14 @@ import { cn } from '@/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button } from '../../Button';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '../../Command';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '../../Command';
 import { Popover, PopoverContent, PopoverTrigger } from '../../Popover';
 import { MultiSelectProps } from '../types';
 
@@ -42,36 +49,38 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
         <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">
           <Command>
             <CommandInput placeholder={searchPlaceholder} />
-            <CommandEmpty>{emptyMessage}</CommandEmpty>
-            <CommandGroup className="max-h-[12rem] overflow-y-auto">
-              {options.map(option => (
-                <CommandItem
-                  key={option.value}
-                  value={option.value}
-                  onSelect={() => {
-                    onChange(
-                      value.includes(option.value)
-                        ? value.filter(v => v !== option.value)
-                        : [...value, option.value],
-                    );
-                  }}
-                >
-                  <div className="flex items-center">
-                    <div
-                      className={cn(
-                        'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary-400',
-                        value.includes(option.value) ? 'bg-primary-400 text-white' : 'opacity-50',
-                      )}
-                    >
-                      {value.includes(option.value) ? (
-                        <Check className="h-3 w-3" strokeWidth={3} />
-                      ) : null}
+            <CommandList className="max-h-[12rem] overflow-y-auto">
+              <CommandEmpty>{emptyMessage}</CommandEmpty>
+              <CommandGroup>
+                {options.map(option => (
+                  <CommandItem
+                    key={option.value}
+                    value={option.value}
+                    onSelect={() => {
+                      onChange(
+                        value.includes(option.value)
+                          ? value.filter(v => v !== option.value)
+                          : [...value, option.value],
+                      );
+                    }}
+                  >
+                    <div className="flex items-center">
+                      <div
+                        className={cn(
+                          'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary-400',
+                          value.includes(option.value) ? 'bg-primary-400 text-white' : 'opacity-50',
+                        )}
+                      >
+                        {value.includes(option.value) ? (
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        ) : null}
+                      </div>
+                      {option.label}
                     </div>
-                    {option.label}
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
           </Command>
         </PopoverContent>
       </Popover>

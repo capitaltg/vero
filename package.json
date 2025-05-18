@@ -1,6 +1,6 @@
 {
   "name": "@capitaltg/vero",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Accessible, modern, open source React component library inspired by USWDS built with Radix UI",
   "type": "module",
   "main": "dist/index.js",

@@ -26,6 +26,7 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
       emptyMessage = 'No results found',
       errorMessage = 'Failed to load options',
       className,
+      listClassName,
       maxSuggestions = 10,
       debounceMs = 300,
       minSearch = 2,
@@ -183,7 +184,7 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
               <CommandForceEmpty>{emptyMessage}</CommandForceEmpty>
             ) : null}
             {!loading && !error && displayOptions.length > 0 ? (
-              <CommandList className="max-h-[12rem] overflow-y-auto">
+              <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
                 <CommandGroup>
                   {displayOptions.map(option => (
                     <CommandItem

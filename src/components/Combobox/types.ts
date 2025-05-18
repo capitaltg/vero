@@ -11,4 +11,5 @@ export interface ComboboxProps {
   searchPlaceholder?: string;
   emptyMessage?: string;
   className?: string;
+  listClassName?: string;
 }

@@ -11,4 +11,5 @@ export interface MultiSelectProps {
   searchPlaceholder?: string;
   emptyMessage?: string;
   className?: string;
+  listClassName?: string;
 }

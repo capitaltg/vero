@@ -23,6 +23,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
       searchPlaceholder = 'Search items...',
       emptyMessage = 'No items found',
       className,
+      listClassName,
     },
     ref,
   ) => {
@@ -45,7 +46,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
         <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">
           <Command>
             <CommandInput placeholder={searchPlaceholder} />
-            <CommandList className="max-h-[12rem] overflow-y-auto">
+            <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
               <CommandEmpty>{emptyMessage}</CommandEmpty>
               <CommandGroup>
                 {options.map(option => (

@@ -13,6 +13,7 @@ export interface AutocompleteProps {
   placeholder?: string;
   emptyMessage?: string;
   className?: string;
+  listClassName?: string;
   maxSuggestions?: number;
   // Debounce delay for async searches (in milliseconds)
   debounceMs?: number;

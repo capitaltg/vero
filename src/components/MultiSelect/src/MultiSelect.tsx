@@ -23,6 +23,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
       searchPlaceholder = 'Search items...',
       emptyMessage = 'No items found',
       className,
+      listClassName,
     },
     ref,
   ) => {
@@ -49,7 +50,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
         <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">
           <Command>
             <CommandInput placeholder={searchPlaceholder} />
-            <CommandList className="max-h-[12rem] overflow-y-auto">
+            <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
               <CommandEmpty>{emptyMessage}</CommandEmpty>
               <CommandGroup>
                 {options.map(option => (

@@ -49,6 +49,8 @@ export const Playground: Story = {
       to: 'End date',
     },
   },
+  // Removes this story from auto-generated documentation
+  tags: ['!autodocs'],
 };
 
 /**

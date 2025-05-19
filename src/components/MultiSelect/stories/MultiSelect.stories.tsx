@@ -44,6 +44,8 @@ export const Playground: Story = {
     onChange: () => {},
     placeholder: 'Select frameworks...',
   },
+  // Removes this story from auto-generated documentation
+  tags: ['!autodocs'],
 };
 
 /**

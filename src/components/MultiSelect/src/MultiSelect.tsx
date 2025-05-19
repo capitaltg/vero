@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button } from '../../Button';
 import {
@@ -29,6 +29,34 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
   ) => {
     const [open, setOpen] = useState(false);
 
+    const selectedLabels = value.map(v => options.find(opt => opt.value === v)?.label || v);
+
+    const renderTriggerContent = () => {
+      if (value.length === 0) {
+        return <span className="text-muted-foreground">{placeholder}</span>;
+      }
+
+      return (
+        <div className="flex flex-wrap gap-1">
+          {selectedLabels.map((label, index) => (
+            <div
+              key={value[index]}
+              className="flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm text-secondary-foreground"
+            >
+              {label}
+              <X
+                className="h-3 w-3 cursor-pointer opacity-50 hover:opacity-100"
+                onClick={e => {
+                  e.stopPropagation();
+                  onChange(value.filter((_, i) => i !== index));
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      );
+    };
+
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -39,11 +67,11 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
             aria-expanded={open}
             className={cn(
               'w-full justify-between',
-              value.length === 0 && 'text-muted-foreground',
+              value.length > 0 && 'h-auto min-h-[2.5rem]',
               className,
             )}
           >
-            {value.length > 0 ? `${value.length} selected` : placeholder}
+            <div className="flex-1 text-left">{renderTriggerContent()}</div>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>

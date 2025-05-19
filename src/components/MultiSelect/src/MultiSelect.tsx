@@ -45,6 +45,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
             >
               {label}
               <X
+                role="button"
                 aria-label={`Remove ${label}`}
                 className="h-3 w-3 cursor-pointer opacity-50 hover:opacity-100"
                 strokeWidth={3}
@@ -67,11 +68,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
             variant="input"
             role="combobox"
             aria-expanded={open}
-            className={cn(
-              'w-full justify-between px-3',
-              value.length > 0 && 'h-auto min-h-[2.5rem]',
-              className,
-            )}
+            className={cn('h-auto min-h-[2.5rem] w-full justify-between px-3 py-1.5', className)}
           >
             <div className="flex-1 text-left">{renderTriggerContent()}</div>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

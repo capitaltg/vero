@@ -45,17 +45,6 @@ export const Disabled: Story = {
 };
 
 /**
- * Textarea with custom height.
- * Demonstrates how to control the initial height using rows.
- */
-export const WithRows: Story = {
-  args: {
-    rows: 8,
-    placeholder: 'This textarea has 8 rows...',
-  },
-};
-
-/**
  * A read-only textarea.
  * Shows how the component appears when content can be viewed but not modified.
  */
@@ -75,5 +64,16 @@ export const WithCustomStyle: Story = {
   args: {
     className: 'min-h-[12rem] font-mono',
     placeholder: 'This textarea has custom styling...',
+  },
+};
+
+/**
+ * Auto-growing textarea.
+ * Shows how the textarea expands vertically as content is added.
+ */
+export const Growable: Story = {
+  args: {
+    isGrowable: true,
+    placeholder: 'This textarea will grow as you type...',
   },
 };

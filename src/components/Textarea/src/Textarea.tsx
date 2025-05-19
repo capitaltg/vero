@@ -1,18 +1,18 @@
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { TextareaProps } from '../types';
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, isDisabled = false, isGrowable = false, ...props }, ref) => {
-    const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     /**
      * TODO: remove this once CSS `field-sizing: content` becomes ratified
      * and widely supported
      * ref: https://caniuse.com/?search=field-sizing
      */
-    React.useEffect(() => {
+    useEffect(() => {
       if (isGrowable && textareaRef.current) {
         const textarea = textareaRef.current;
         const adjustHeight = () => {

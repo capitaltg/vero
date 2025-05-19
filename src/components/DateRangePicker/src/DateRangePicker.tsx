@@ -48,7 +48,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
               id="date"
               variant="input"
               className={cn(
-                'w-full justify-start text-left font-normal',
+                'w-full justify-start px-3 text-left font-normal',
                 !value.from && !value.to && 'text-muted-foreground',
               )}
               data-component="date-range-picker"

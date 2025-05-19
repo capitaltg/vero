@@ -149,7 +149,7 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
             role="combobox"
             aria-expanded={open}
             className={cn(
-              'w-full justify-between',
+              'w-full justify-between px-3',
               !selectedOption && !value && 'text-muted-foreground',
               className,
             )}

@@ -142,7 +142,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
         className={cn(
           styles.input,
           styles.focusRingWithin,
-          'flex min-h-[2.5rem] w-full cursor-text flex-wrap gap-1.5 !px-1.5 !py-1.5',
+          'flex h-auto min-h-[2.5rem] w-full cursor-text flex-wrap gap-1.5 py-1.5',
           isDisabled && 'cursor-not-allowed',
           className,
         )}
@@ -167,9 +167,10 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             {tag.text}
             {!isDisabled ? (
               <X
-                className="h-3 w-3 opacity-50 transition-opacity hover:opacity-100"
                 role="button"
                 aria-label={`Remove ${tag.text}`}
+                className="h-3 w-3 opacity-50 transition-opacity hover:opacity-100"
+                strokeWidth={3}
                 onClick={e => {
                   e.stopPropagation();
                   removeTag(tag.id);

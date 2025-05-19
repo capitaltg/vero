@@ -37,7 +37,11 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
             variant="input"
             role="combobox"
             aria-expanded={open}
-            className={cn('w-full justify-between', !value && 'text-muted-foreground', className)}
+            className={cn(
+              'w-full justify-between px-3',
+              !value && 'text-muted-foreground',
+              className,
+            )}
           >
             {value ? options.find(option => option.value === value)?.label : placeholder}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

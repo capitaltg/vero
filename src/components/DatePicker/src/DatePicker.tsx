@@ -16,7 +16,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
             ref={ref}
             variant="input"
             className={cn(
-              'w-full justify-start text-left font-normal',
+              'w-full justify-start px-3 text-left font-normal',
               !value && 'text-muted-foreground',
               className,
             )}

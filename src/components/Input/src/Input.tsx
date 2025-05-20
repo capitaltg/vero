@@ -5,10 +5,10 @@ import { InputProps } from '../types';
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, transform = 'none', isDisabled = false, onChange, ...props }, ref) => {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
       if (!onChange) return;
 
-      let value = event.target.value;
+      let value = evt.target.value;
       const transforms = Array.isArray(transform) ? transform : [transform];
 
       transforms.forEach(t => {
@@ -28,8 +28,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       });
 
       // Update the input value directly for immediate feedback
-      event.target.value = value;
-      onChange(event);
+      evt.target.value = value;
+      onChange(evt);
     };
 
     return (

@@ -6,5 +6,5 @@ export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'disabled'> {
   transform?: TextTransform | TextTransform[];
   isDisabled?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (evt: React.ChangeEvent<HTMLInputElement>) => void;
 }

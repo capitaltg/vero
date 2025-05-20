@@ -49,8 +49,8 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
                 aria-label={`Remove ${label}`}
                 className="h-3 w-3 cursor-pointer opacity-50 hover:opacity-100"
                 strokeWidth={3}
-                onClick={e => {
-                  e.stopPropagation();
+                onClick={evt => {
+                  evt.stopPropagation();
                   onChange(value.filter((_, i) => i !== index));
                 }}
               />

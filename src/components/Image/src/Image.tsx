@@ -7,9 +7,9 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(
     const [hasError, setHasError] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(true);
 
-    const handleError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const handleError = (evt: React.SyntheticEvent<HTMLImageElement, Event>) => {
       setHasError(true);
-      onError?.(event);
+      onError?.(evt);
     };
 
     const handleLoad = () => {

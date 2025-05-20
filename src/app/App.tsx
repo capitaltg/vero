@@ -141,7 +141,7 @@ export const App: React.FC = () => {
                 transform="uppercase"
                 placeholder="Type something..."
                 value={uppercaseText}
-                onChange={e => setUppercaseText(e.target.value)}
+                onChange={evt => setUppercaseText(evt.target.value)}
               />
             </FormItem>
 
@@ -150,7 +150,7 @@ export const App: React.FC = () => {
                 transform="lowercase"
                 placeholder="Type something..."
                 value={lowercaseText}
-                onChange={e => setLowercaseText(e.target.value)}
+                onChange={evt => setLowercaseText(evt.target.value)}
               />
             </FormItem>
 
@@ -159,7 +159,7 @@ export const App: React.FC = () => {
                 transform="trim"
                 placeholder="Type something..."
                 value={trimmedText}
-                onChange={e => setTrimmedText(e.target.value)}
+                onChange={evt => setTrimmedText(evt.target.value)}
               />
             </FormItem>
 
@@ -171,7 +171,7 @@ export const App: React.FC = () => {
                 transform={['trim', 'uppercase']}
                 placeholder="Type something..."
                 value={trimmedUpperText}
-                onChange={e => setTrimmedUpperText(e.target.value)}
+                onChange={evt => setTrimmedUpperText(evt.target.value)}
               />
             </FormItem>
 
@@ -180,7 +180,7 @@ export const App: React.FC = () => {
                 id="name"
                 placeholder="Enter your name"
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={evt => setName(evt.target.value)}
               />
             </FormItem>
 
@@ -190,7 +190,7 @@ export const App: React.FC = () => {
                 type="email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={evt => setEmail(evt.target.value)}
               />
             </FormItem>
 
@@ -199,7 +199,7 @@ export const App: React.FC = () => {
                 id="company"
                 placeholder="Enter your company"
                 value={company}
-                onChange={e => setCompany(e.target.value)}
+                onChange={evt => setCompany(evt.target.value)}
               />
             </FormItem>
 
@@ -214,7 +214,7 @@ export const App: React.FC = () => {
                 id="description"
                 placeholder="Describe your project in 20 characters or less..."
                 value={description}
-                onChange={e => setDescription(e.target.value)}
+                onChange={evt => setDescription(evt.target.value)}
               />
             </FormItem>
 

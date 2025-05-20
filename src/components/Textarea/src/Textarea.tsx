@@ -29,14 +29,14 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     return (
       <textarea
-        ref={element => {
+        ref={el => {
           // Handle both refs
           if (typeof ref === 'function') {
-            ref(element);
+            ref(el);
           } else if (ref) {
-            ref.current = element;
+            ref.current = el;
           }
-          textareaRef.current = element;
+          textareaRef.current = el;
         }}
         disabled={isDisabled}
         className={cn(

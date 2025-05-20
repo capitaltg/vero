@@ -40,28 +40,28 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       setInputValue('');
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === 'Enter' && inputValue.trim()) {
-        event.preventDefault();
+    const handleKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+      if (evt.key === 'Enter' && inputValue.trim()) {
+        evt.preventDefault();
         addTag(inputValue);
-      } else if (event.key === 'Backspace' && !inputValue && value.length > 0) {
-        event.preventDefault();
+      } else if (evt.key === 'Backspace' && !inputValue && value.length > 0) {
+        evt.preventDefault();
         setFocusedTagIndex(value.length - 1);
         tagsRef.current[value.length - 1]?.focus();
       } else if (
-        event.key === 'ArrowLeft' &&
+        evt.key === 'ArrowLeft' &&
         !inputValue &&
         focusedTagIndex === -1 &&
         value.length > 0
       ) {
-        event.preventDefault();
+        evt.preventDefault();
         setFocusedTagIndex(value.length - 1);
         tagsRef.current[value.length - 1]?.focus();
       }
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
+    const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = evt.target.value;
 
       if (delimiters.length > 0) {
         const lastChar = newValue.slice(-1);
@@ -87,9 +87,9 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       setInputValue(newValue);
     };
 
-    const handleTagKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
-      if (event.key === 'Backspace' || event.key === 'Delete') {
-        event.preventDefault();
+    const handleTagKeyDown = (evt: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+      if (evt.key === 'Backspace' || evt.key === 'Delete') {
+        evt.preventDefault();
         removeTag(value[index].id);
         if (index > 0) {
           setFocusedTagIndex(index - 1);
@@ -98,12 +98,12 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
           inputRef.current?.focus();
           setFocusedTagIndex(-1);
         }
-      } else if (event.key === 'ArrowLeft' && index > 0) {
-        event.preventDefault();
+      } else if (evt.key === 'ArrowLeft' && index > 0) {
+        evt.preventDefault();
         setFocusedTagIndex(index - 1);
         tagsRef.current[index - 1]?.focus();
-      } else if (event.key === 'ArrowRight') {
-        event.preventDefault();
+      } else if (evt.key === 'ArrowRight') {
+        evt.preventDefault();
         if (index < value.length - 1) {
           setFocusedTagIndex(index + 1);
           tagsRef.current[index + 1]?.focus();
@@ -118,8 +118,8 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       onChange(value.filter(tag => tag.id !== tagId));
     };
 
-    const handleContainerClick = (event: React.MouseEvent) => {
-      if (event.target === event.currentTarget) {
+    const handleContainerClick = (evt: React.MouseEvent) => {
+      if (evt.target === evt.currentTarget) {
         inputRef.current?.focus();
         setFocusedTagIndex(-1);
       }
@@ -154,8 +154,8 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             ref={el => (tagsRef.current[index] = el)}
             type="button"
             disabled={isDisabled}
-            onClick={e => e.stopPropagation()}
-            onKeyDown={e => handleTagKeyDown(e, index)}
+            onClick={evt => evt.stopPropagation()}
+            onKeyDown={evt => handleTagKeyDown(evt, index)}
             className={cn(
               'flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm text-secondary-foreground transition-colors',
               'hover:bg-secondary/80',
@@ -171,8 +171,8 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                 aria-label={`Remove ${tag.text}`}
                 className="h-3 w-3 opacity-50 transition-opacity hover:opacity-100"
                 strokeWidth={3}
-                onClick={e => {
-                  e.stopPropagation();
+                onClick={evt => {
+                  evt.stopPropagation();
                   removeTag(tag.id);
                 }}
               />

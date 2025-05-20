@@ -33,11 +33,11 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
 
     const renderTriggerContent = () => {
       if (value.length === 0) {
-        return <span className="text-muted-foreground">{placeholder}</span>;
+        return <span className="self-center text-muted-foreground">{placeholder}</span>;
       }
 
       return (
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-1 flex-wrap gap-1">
           {selectedLabels.map((label, index) => (
             <div
               key={value[index]}
@@ -68,10 +68,13 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
             variant="input"
             role="combobox"
             aria-expanded={open}
-            className={cn('h-auto min-h-[2.5rem] w-full justify-between px-3 py-1.5', className)}
+            className={cn(
+              'flex h-auto min-h-[2.5rem] w-full items-stretch justify-between px-3 py-1.5',
+              className,
+            )}
           >
-            <div className="flex-1 text-left">{renderTriggerContent()}</div>
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <div className="flex flex-1 text-left">{renderTriggerContent()}</div>
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 self-center opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">

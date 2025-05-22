@@ -10,6 +10,7 @@ export default {
   prefix: '',
   safelist: ['theme-uswds'],
   theme: {
+    /*
     container: {
       center: true,
       padding: '2rem',
@@ -17,6 +18,7 @@ export default {
         '2xl': '1400px',
       },
     },
+    */
     extend: {
       colors: {
         // semantic colors

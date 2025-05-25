@@ -117,7 +117,7 @@ const StepIndicator = React.forwardRef<HTMLDivElement, StepIndicatorProps>(
               {index < steps.length - 1 ? (
                 <div
                   className={cn(
-                    'bg-border absolute',
+                    'absolute bg-muted',
                     orientation === 'vertical'
                       ? sizeStyles[size].connector.vertical
                       : sizeStyles[size].connector.horizontal,

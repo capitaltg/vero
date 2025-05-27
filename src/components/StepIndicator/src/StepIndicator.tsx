@@ -9,6 +9,8 @@ import {
 } from '../constants';
 import { StepIndicatorProps } from '../types';
 
+type StepIndicatorStatus = 'default' | 'current' | 'completed';
+
 const StepIndicator = React.forwardRef<HTMLDivElement, StepIndicatorProps>(
   ({ steps, currentStep, orientation = 'horizontal', size = 'default', className }, ref) => {
     return (
@@ -16,7 +18,11 @@ const StepIndicator = React.forwardRef<HTMLDivElement, StepIndicatorProps>(
         {steps.map((step, index) => {
           const isCompleted = index < currentStep;
           const isCurrent = index === currentStep;
-          const status = isCurrent ? 'current' : isCompleted ? 'completed' : 'default';
+
+          // Determine the status of the step indicator
+          let status: StepIndicatorStatus = 'default';
+          if (isCurrent) status = 'current';
+          if (isCompleted) status = 'completed';
 
           return (
             <div
@@ -26,6 +32,7 @@ const StepIndicator = React.forwardRef<HTMLDivElement, StepIndicatorProps>(
                 orientation === 'horizontal' && 'flex-1 justify-center',
               )}
             >
+              {/* Step item */}
               <div
                 className={cn(
                   'relative flex',

@@ -1,4 +1,4 @@
-import { Badge } from '@/components/Badge';
+import { Button } from '@/components/Button';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Alert } from '../src/Alert';
 
@@ -11,6 +11,7 @@ const meta = {
     size: 'default',
     headingLevel: 'h2',
     hasIcon: true,
+    isClosable: false,
   },
   argTypes: {
     variant: {
@@ -55,6 +56,15 @@ const meta = {
     hasIcon: {
       control: 'boolean',
       description: 'Whether to show the status icon',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    isClosable: {
+      control: 'boolean',
+      description: 'Whether the alert can be dismissed',
       table: {
         type: {
           summary: 'boolean',
@@ -213,6 +223,19 @@ export const SmallNoIconNoHeading: Story = {
 };
 
 /**
+ * A closable alert.
+ * Shows how to add a close button to dismiss the alert.
+ */
+export const Closable: Story = {
+  args: {
+    variant: 'info',
+    heading: 'Closable Alert',
+    children: 'This alert can be dismissed by clicking the close button.',
+    isClosable: true,
+  },
+};
+
+/**
  * An alert with a custom heading level.
  * Demonstrates how to adjust the semantic heading level for accessibility.
  */
@@ -252,10 +275,28 @@ export const RichContent: Story = {
           </a>{' '}
           and demonstrates support for React components.
         </p>
+      </div>
+    ),
+  },
+};
+
+/**
+ * A confirmation action alert.
+ * Used to confirm critical actions like deletions or irreversible changes.
+ */
+export const ConfirmationAction: Story = {
+  args: {
+    variant: 'danger',
+    heading: 'Delete Account?',
+    children: (
+      <div>
         <p>
-          <Badge variant="primary">React</Badge> <Badge variant="primary">Extensible</Badge>{' '}
-          <Badge variant="primary">Rich Content</Badge>
+          Are you sure you permanently want to delete your account? This action cannot be undone.
         </p>
+        <div className="mt-8 flex justify-end gap-3">
+          <Button variant="ghost">Cancel</Button>
+          <Button variant="danger">Delete account</Button>
+        </div>
       </div>
     ),
   },

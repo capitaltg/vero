@@ -1,6 +1,8 @@
 import { Button } from '@/components/Button';
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 import { Alert } from '../src/Alert';
+import { AlertProps } from '../types';
 
 const meta = {
   title: 'Components/Alert',
@@ -85,6 +87,16 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const AlertDemo = ({ ...args }: AlertProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  return (
+    <div className="space-y-4">
+      <Button onClick={() => setIsOpen(true)}>Show Alert</Button>
+      {isOpen ? <Alert {...args} onClose={() => setIsOpen(false)} /> : null}
+    </div>
+  );
+};
 
 /**
  * A successs alert with standard sizing.
@@ -227,6 +239,7 @@ export const SmallNoIconNoHeading: Story = {
  * Shows how to add a close button to dismiss the alert.
  */
 export const Closable: Story = {
+  render: args => <AlertDemo {...args} />,
   args: {
     variant: 'info',
     heading: 'Closable Alert',

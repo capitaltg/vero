@@ -1,7 +1,12 @@
 import { cn } from '@/lib/utils';
 import { AlertCircle, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 import * as React from 'react';
-import { alertHeadingVariants, alertVariants } from '../constants';
+import {
+  alertContentVariants,
+  alertHeadingVariants,
+  alertIconVariants,
+  alertVariants,
+} from '../constants';
 import { AlertProps } from '../types';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
@@ -28,12 +33,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
 
     return (
       <div ref={ref} className={cn(alertVariants({ variant, size }), className)} {...props}>
-        {hasIcon ? icons[variant] : null}
-        <div className="flex-1">
+        {hasIcon ? (
+          <span className={cn(alertIconVariants({ variant, size, hasHeading: !!heading }))}>
+            {icons[variant]}
+          </span>
+        ) : null}
+        <div className={cn(alertContentVariants({ size, hasIcon, hasHeading: !!heading }))}>
           {heading ? (
-            <HeadingTag className={cn(alertHeadingVariants({ variant, size }))}>
-              {heading}
-            </HeadingTag>
+            <HeadingTag className={cn(alertHeadingVariants({ size }))}>{heading}</HeadingTag>
           ) : null}
           {children}
         </div>

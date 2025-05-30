@@ -29,6 +29,7 @@ export * from './components/Select';
 export * from './components/StepIndicator';
 export * from './components/Switch';
 export * from './components/SwitchGroup';
+export * from './components/Tabs';
 export * from './components/TagInput';
 export * from './components/Textarea';
 export * from './components/Tooltip';

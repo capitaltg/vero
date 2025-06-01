@@ -31,7 +31,7 @@ const meta = {
     },
     variant: {
       control: 'radio',
-      options: ['default', 'tile'],
+      options: ['default', 'tile', 'button'],
       description: 'Visual variant of radio buttons',
       type: { name: 'string', required: false },
     },
@@ -176,5 +176,49 @@ export const TileWithSelection: Story = {
     value: 'business',
     onChange: () => {},
     variant: 'tile',
+  },
+};
+
+/**
+ * RadioGroup with button variant.
+ * Shows radio options styled as buttons.
+ */
+export const Button: Story = {
+  render: args => <RadioGroupDemo {...args} />,
+  args: {
+    options: defaultOptions,
+    value: '',
+    onChange: () => {},
+    variant: 'button',
+    orientation: 'horizontal',
+  },
+};
+
+/**
+ * Button variant RadioGroup with vertical layout.
+ * Shows radio options styled as buttons arranged vertically.
+ */
+export const ButtonVertical: Story = {
+  render: args => <RadioGroupDemo {...args} />,
+  args: {
+    options: defaultOptions,
+    value: '',
+    onChange: () => {},
+    variant: 'button',
+    orientation: 'vertical',
+  },
+};
+
+/**
+ * Button variant RadioGroup with a pre-selected value.
+ * Demonstrates how button radio options appear with an initial selection.
+ */
+export const ButtonWithSelection: Story = {
+  render: args => <RadioGroupDemo {...args} />,
+  args: {
+    options: defaultOptions,
+    value: 'option2',
+    onChange: () => {},
+    variant: 'button',
   },
 };

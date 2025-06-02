@@ -1,3 +1,4 @@
+import { buttonVariants } from '@/components/Button/constants';
 import { Label } from '@/components/Label';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
@@ -32,6 +33,37 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
 
     const radioCircle =
       'aspect-square h-5 w-5 rounded-full border-2 border-gray-500 text-primary-400 ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary-400 ';
+
+    if (variant === 'button') {
+      return (
+        <div
+          className={cn(
+            'relative',
+            isChecked
+              ? cn(styles.button, buttonVariants({ variant: 'primary' }))
+              : cn(styles.button, buttonVariants({ variant: 'input' })),
+            isDisabled && 'cursor-not-allowed opacity-50',
+            className,
+          )}
+        >
+          <RadioGroupPrimitive.Item
+            ref={ref}
+            id={id}
+            className="absolute inset-0 opacity-0"
+            checked={isChecked}
+            disabled={isDisabled}
+            aria-label={ariaLabel}
+            {...props}
+          />
+          <div className="flex items-center gap-2">
+            {label ? <span className="font-medium">{label}</span> : null}
+            {description ? (
+              <span className="text-sm text-muted-foreground">{description}</span>
+            ) : null}
+          </div>
+        </div>
+      );
+    }
 
     if (variant === 'tile') {
       return (

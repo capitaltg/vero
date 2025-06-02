@@ -26,14 +26,25 @@ const meta = {
     orientation: {
       control: 'radio',
       options: ['horizontal', 'vertical'],
-      description: 'Layout orientation of the radio group',
+      description:
+        'Layout orientation of the radio group (only applies to default and button variants)',
       type: { name: 'string', required: false },
+      table: {
+        type: {
+          summary: 'horizontal | vertical',
+        },
+      },
     },
     variant: {
       control: 'radio',
       options: ['default', 'tile', 'button'],
       description: 'Visual variant of radio buttons',
       type: { name: 'string', required: false },
+      table: {
+        type: {
+          summary: 'default | tile | button',
+        },
+      },
     },
   },
   tags: ['autodocs'],

@@ -16,11 +16,11 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       showOutsideDays={showOutsideDays}
       className={cn('px-3 py-3', className)}
       classNames={{
-        months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
+        months: 'flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
-        caption: 'flex justify-center pt-1 relative items-center',
+        caption: 'relative flex items-center justify-center pt-1',
         caption_label: 'text-sm font-medium',
-        nav: 'space-x-1 flex items-center',
+        nav: 'flex items-center space-x-1',
         nav_button: cn(
           buttonVariants({ variant: 'ghost' }),
           'h-7 w-7 px-0 py-0 focus:ring-2 focus:ring-offset-0',
@@ -30,7 +30,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         table: 'w-full border-collapse space-y-1',
         head_row: 'flex',
         head_cell: cn(cellWidth, 'rounded-md text-sm font-normal text-muted-foreground'),
-        row: 'flex w-full mt-2',
+        row: 'mt-2 flex w-full',
         cell: cn(
           cellWidth,
           cellHeight,

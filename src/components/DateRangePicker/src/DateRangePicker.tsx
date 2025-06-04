@@ -78,6 +78,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
                 from: value.from,
                 to: value.to,
               }}
+              showOutsideDays={false}
               onDayClick={handleDayClick}
               numberOfMonths={2}
               modifiers={{

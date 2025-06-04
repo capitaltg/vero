@@ -4,13 +4,13 @@ import { cva } from 'class-variance-authority';
 export const buttonVariants = cva(styles.button, {
   variants: {
     variant: {
-      default: 'border border-primary-400 bg-transparent text-primary-400 hover:underline',
+      default: 'border border-primary-400 text-primary-400 hover:underline',
       primary: 'border border-primary-400 bg-primary-400 text-white hover:bg-primary-500',
       danger: 'border border-danger-400 bg-danger-400 text-white hover:bg-danger-500',
-      link: 'bg-transparent text-link underline-offset-4 hover:underline',
+      link: 'text-link underline-offset-4 hover:underline',
       input:
         'border border-input bg-background font-normal hover:bg-accent hover:text-accent-foreground',
-      ghost: 'bg-transparent hover:bg-base-200 hover:text-black',
+      ghost: 'hover:bg-base-200 hover:text-black',
     },
     size: {
       default: 'h-10 px-4 py-2',

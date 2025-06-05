@@ -8,37 +8,58 @@ const IconLeft = () => <ChevronLeft className="h-4 w-4" />;
 const IconRight = () => <ChevronRight className="h-4 w-4" />;
 
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
+  const cellWidth = 'w-9 md:w-10 lg:w-11 px-0';
+  const cellHeight = 'h-9 md:h-10 lg:h-11 py-0';
+
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn('px-3 py-3', className)}
       classNames={{
-        months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
+        months: 'flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
-        caption: 'flex justify-center pt-1 relative items-center',
+        caption: 'relative flex items-center justify-center pt-1',
         caption_label: 'text-sm font-medium',
-        nav: 'space-x-1 flex items-center',
+        nav: 'flex items-center space-x-1',
         nav_button: cn(
-          buttonVariants({ variant: 'input' }),
-          'h-7 w-7 bg-transparent px-0 py-0 opacity-50 hover:opacity-100 focus:border-ring focus:opacity-100 focus:ring-1 focus:ring-offset-0',
+          buttonVariants({ variant: 'ghost' }),
+          'h-7 w-7 px-0 py-0 focus:ring-2 focus:ring-offset-0 md:h-8 md:w-8 lg:h-9 lg:w-9',
         ),
-        nav_button_previous: 'absolute left-1',
-        nav_button_next: 'absolute right-1',
+        nav_button_previous: 'absolute left-0',
+        nav_button_next: 'absolute right-0',
         table: 'w-full border-collapse space-y-1',
-        head_row: 'flex',
-        head_cell: 'text-muted-foreground rounded-md w-9 font-normal text-[0.875rem]',
-        row: 'flex w-full mt-2',
-        cell: 'h-9 w-9 text-center text-sm px-0 py-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
+        head_row: 'mb-1 flex',
+        head_cell: cn(
+          cellWidth,
+          'rounded-l-full rounded-r-full text-sm font-normal text-muted-foreground',
+        ),
+        row: 'mt-1 flex w-full',
+        cell: cn(
+          cellWidth,
+          cellHeight,
+          'relative text-center text-sm focus-within:relative focus-within:z-20',
+          '[&:has([aria-selected])]:bg-accent',
+          /* This is needed to ensure that the selected day's cell has rounded corners */
+          props?.mode !== 'range' &&
+            '[&:has([aria-selected])]:rounded-l-full [&:has([aria-selected])]:rounded-r-full',
+          '[&:has([aria-selected].day-outside)]:bg-accent/50',
+          '[&:has([aria-selected].day-range-end)]:rounded-r-full',
+          '[&:has([aria-selected].day-range-start)]:rounded-l-full',
+          'first:[&:has([aria-selected])]:rounded-l-md',
+          'last:[&:has([aria-selected])]:rounded-r-md',
+        ),
         day: cn(
           buttonVariants({ variant: 'ghost' }),
-          'h-9 w-9 px-0 py-0 font-normal focus:opacity-100 focus:ring-2 focus:ring-offset-0 aria-selected:opacity-100',
+          cellWidth,
+          cellHeight,
+          'rounded-l-full rounded-r-full font-normal focus:opacity-100 focus:ring-2 focus:ring-offset-0 aria-selected:opacity-100',
         ),
+        day_range_start: 'day-range-start',
         day_range_end: 'day-range-end',
         day_selected:
-          'bg-primary-400 text-primary-foreground hover:bg-primary-400 hover:text-primary-foreground focus:bg-primary-400 focus:text-primary-foreground',
+          'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
         day_today: 'bg-accent text-accent-foreground',
-        day_outside:
-          'day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
+        day_outside: 'day-outside text-muted-foreground opacity-50',
         day_disabled: 'text-muted-foreground opacity-50',
         day_range_middle: 'aria-selected:bg-accent aria-selected:text-accent-foreground',
         day_hidden: 'invisible',

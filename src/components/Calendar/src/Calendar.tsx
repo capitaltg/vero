@@ -42,7 +42,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         /* This is needed to ensure that the selected day's cell has rounded corners */
         selected:
           props?.mode !== 'range' ? '[&>button]:bg-primary [&>button]:text-primary-foreground' : '',
-        today: 'rounded-l-full rounded-r-full bg-accent text-accent-foreground',
+        today:
+          '[&>button]:rounded-l-full [&>button]:rounded-r-full [&>button]:bg-accent [&>button]:text-accent-foreground',
         outside: 'day-outside text-muted-foreground opacity-50',
         disabled: 'text-muted-foreground opacity-50',
         range_middle:

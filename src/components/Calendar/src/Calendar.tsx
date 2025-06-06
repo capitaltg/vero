@@ -4,10 +4,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { DayPicker } from 'react-day-picker';
 import { CalendarProps } from '../types';
 
-const IconLeft = () => <ChevronLeft className="h-4 w-4" />;
-const IconRight = () => <ChevronRight className="h-4 w-4" />;
-
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
+  const navHeight = 'h-7 md:h-9';
+  const navButton = 'w-7 px-0 py-0 focus:ring-2 focus:ring-offset-0 md:w-9';
   const cellWidth = 'w-9 md:w-10 lg:w-11 px-0';
   const cellHeight = 'h-9 md:h-10 lg:h-11 py-0';
 
@@ -16,58 +15,47 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       showOutsideDays={showOutsideDays}
       className={cn('px-3 py-3', className)}
       classNames={{
-        months: 'flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0',
+        months: 'flex flex-col gap-4 sm:flex-row',
         month: 'space-y-4',
-        caption: 'relative flex items-center justify-center pt-1',
-        caption_label: 'text-sm font-medium',
-        nav: 'flex items-center space-x-1',
-        nav_button: cn(
-          buttonVariants({ variant: 'ghost' }),
-          'h-7 w-7 px-0 py-0 focus:ring-2 focus:ring-offset-0 md:h-8 md:w-8 lg:h-9 lg:w-9',
-        ),
-        nav_button_previous: 'absolute left-0',
-        nav_button_next: 'absolute right-0',
-        table: 'w-full border-collapse space-y-1',
-        head_row: 'mb-1 flex',
-        head_cell: cn(
+        month_caption: cn(navHeight, 'flex items-center justify-center text-sm font-medium'),
+        nav: 'absolute left-4 right-4 flex items-center justify-between',
+        button_previous: cn(buttonVariants({ variant: 'ghost' }), navHeight, navButton),
+        button_next: cn(buttonVariants({ variant: 'ghost' }), navHeight, navButton),
+        month_grid: 'w-full border-collapse space-y-1',
+        weekdays: 'mb-1 flex',
+        weekday: cn(
           cellWidth,
           'rounded-l-full rounded-r-full text-sm font-normal text-muted-foreground',
         ),
-        row: 'mt-1 flex w-full',
-        cell: cn(
-          cellWidth,
-          cellHeight,
-          'relative text-center text-sm focus-within:relative focus-within:z-20',
-          '[&:has([aria-selected])]:bg-accent',
-          /* This is needed to ensure that the selected day's cell has rounded corners */
-          props?.mode !== 'range' &&
-            '[&:has([aria-selected])]:rounded-l-full [&:has([aria-selected])]:rounded-r-full',
-          '[&:has([aria-selected].day-outside)]:bg-accent/50',
-          '[&:has([aria-selected].day-range-end)]:rounded-r-full',
-          '[&:has([aria-selected].day-range-start)]:rounded-l-full',
-          'first:[&:has([aria-selected])]:rounded-l-md',
-          'last:[&:has([aria-selected])]:rounded-r-md',
-        ),
-        day: cn(
+        week: 'mt-1 flex w-full',
+        day: cn(cellWidth, cellHeight),
+        day_button: cn(
           buttonVariants({ variant: 'ghost' }),
           cellWidth,
           cellHeight,
-          'rounded-l-full rounded-r-full font-normal focus:opacity-100 focus:ring-2 focus:ring-offset-0 aria-selected:opacity-100',
+          'relative rounded-l-full rounded-r-full text-center text-sm font-normal focus-within:relative focus-within:z-20 focus:opacity-100 focus:ring-2 focus:ring-offset-0',
         ),
-        day_range_start: 'day-range-start',
-        day_range_end: 'day-range-end',
-        day_selected:
-          'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
-        day_today: 'bg-accent text-accent-foreground',
-        day_outside: 'day-outside text-muted-foreground opacity-50',
-        day_disabled: 'text-muted-foreground opacity-50',
-        day_range_middle: 'aria-selected:bg-accent aria-selected:text-accent-foreground',
-        day_hidden: 'invisible',
+        range_start:
+          'rounded-l-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground',
+        range_end:
+          'rounded-r-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground',
+        /* This is needed to ensure that the selected day's cell has rounded corners */
+        selected:
+          props?.mode !== 'range' ? '[&>button]:bg-primary [&>button]:text-primary-foreground' : '',
+        today:
+          '[&>button]:rounded-l-full [&>button]:rounded-r-full [&>button]:bg-accent [&>button]:text-accent-foreground',
+        outside: 'day-outside text-muted-foreground opacity-50',
+        disabled: 'text-muted-foreground opacity-50',
+        range_middle:
+          'first:rounded-l-md last:rounded-r-md aria-selected:bg-accent aria-selected:text-accent-foreground',
+        hidden: 'invisible',
         ...classNames,
       }}
       components={{
-        IconLeft,
-        IconRight,
+        Chevron: props => {
+          if (props.orientation === 'left') return <ChevronLeft {...props} />;
+          return <ChevronRight {...props} />;
+        },
       }}
       {...props}
     />

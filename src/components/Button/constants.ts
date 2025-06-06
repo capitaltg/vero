@@ -10,7 +10,7 @@ export const buttonVariants = cva(styles.button, {
       link: 'text-link underline-offset-4 hover:underline',
       input:
         'border border-input bg-background font-normal hover:bg-accent hover:text-accent-foreground',
-      ghost: 'hover:bg-base-200 hover:text-black',
+      ghost: 'hover:bg-black hover:bg-opacity-10 hover:text-black',
     },
     size: {
       default: 'h-10 px-4 py-2',

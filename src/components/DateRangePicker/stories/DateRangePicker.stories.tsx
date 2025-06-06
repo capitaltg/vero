@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { addWeeks } from 'date-fns';
 import { useState } from 'react';
 import { DateRangePicker } from '../src/DateRangePicker';
 import type { DateRange, DateRangePickerProps } from '../types';
@@ -77,8 +78,8 @@ export const WithValue: Story = {
   render: args => <DateRangePickerDemo {...args} />,
   args: {
     value: {
-      from: new Date('2024-03-15'),
-      to: new Date('2024-03-20'),
+      from: addWeeks(new Date(), -2), // 2 weeks before
+      to: new Date(),
     },
     onChange: () => {},
     placeholder: {

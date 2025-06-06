@@ -71,12 +71,15 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
           </PopoverTrigger>
           <PopoverContent className="w-auto px-0 py-0" align="start">
             <Calendar
-              initialFocus
+              autoFocus
               mode="range"
               defaultMonth={value.from}
               selected={{
                 from: value.from,
                 to: value.to,
+              }}
+              onSelect={range => {
+                if (range) onChange(range);
               }}
               showOutsideDays={false}
               onDayClick={handleDayClick}

@@ -1,54 +1,83 @@
-# React + TypeScript + Vite
+# Vero - React Component Library
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Accessible, modern, open source React component library inspired by USWDS built with Radix UI.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎨 **Modern Design**: Clean, professional components inspired by USWDS
+- ♿ **Accessible**: Built with accessibility in mind using Radix UI primitives
+- 🎯 **TypeScript**: Full TypeScript support with comprehensive type definitions
+- 🎨 **Customizable**: Easily themeable with CSS custom properties
+- 📱 **Responsive**: Mobile-first design approach
+- ⚡ **Performance**: Optimized for speed and bundle size
 
-## Expanding the ESLint configuration
+## React Compatibility
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Vero supports both React 18 and React 19:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+- **React 18.2.0+**: Full support with all features
+- **React 19.0.0+**: Full support with all features
+
+## Installation
+
+```bash
+npm install @capitaltg/vero
+# or
+yarn add @capitaltg/vero
+# or
+pnpm add @capitaltg/vero
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Quick Start
+
+1. Install the package and its peer dependencies:
+
+```bash
+npm install @capitaltg/vero react react-dom tailwindcss tailwindcss-animate
+```
+
+2. Import the CSS in your main CSS file:
+
+```css
+@import '@capitaltg/vero/index.css';
+```
+
+3. Configure Tailwind CSS by extending your `tailwind.config.js`:
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+import veroConfig from '@capitaltg/vero/tailwind.config.js';
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+export default {
+  ...veroConfig,
+  content: [...veroConfig.content, './src/**/*.{js,ts,jsx,tsx}'],
+};
 ```
+
+4. Start using components:
+
+```tsx
+import { Button, Input, FormItem } from '@capitaltg/vero';
+
+function App() {
+  return (
+    <div>
+      <FormItem label="Email" hintText="Enter your email address">
+        <Input type="email" placeholder="you@example.com" />
+      </FormItem>
+      <Button variant="primary">Submit</Button>
+    </div>
+  );
+}
+```
+
+## Documentation
+
+Visit our [Storybook documentation](https://capitaltg.github.io/vero/) to explore all available components and their usage examples.
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## License
+
+MIT © [Capital Technology Group](https://github.com/capitaltg)

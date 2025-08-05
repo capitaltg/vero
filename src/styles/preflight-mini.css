@@ -1,0 +1,8 @@
+/* these styles are pulled from Tailwind's Preflight and are still required */
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border: 0 solid;
+}

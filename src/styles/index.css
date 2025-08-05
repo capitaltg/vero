@@ -1,16 +1,4 @@
+@import url(preflight-mini.css);
 @import url(theme.css);
 @import url(components.css);
 @import url(utilities.css);
-
-/* these styles are pulled from Tailwind's Preflight and are still required */
-
-@tailwind base;
-
-@layer base {
-  *,
-  ::before,
-  ::after {
-    box-sizing: border-box;
-    border: 0 solid;
-  }
-}

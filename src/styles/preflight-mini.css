@@ -1,8 +1,13 @@
 /* these styles are pulled from Tailwind's Preflight and are still required */
 
-*,
-::before,
-::after {
-  box-sizing: border-box;
-  border: 0 solid;
+/* there is no good way to add these styles to the base layer without either
+   importing the entire Tailwind base layer (which includes Preflight) or
+   turning off all of Preflight which removes a bunch of useful styles */
+@layer theme {
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+    border: 0 solid;
+  }
 }

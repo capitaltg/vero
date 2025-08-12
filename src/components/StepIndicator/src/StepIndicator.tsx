@@ -12,9 +12,16 @@ import { StepIndicatorProps } from '../types';
 type StepIndicatorStatus = 'default' | 'current' | 'completed';
 
 const StepIndicator = React.forwardRef<HTMLDivElement, StepIndicatorProps>(
-  ({ steps, currentStep, orientation = 'horizontal', size = 'default', className }, ref) => {
+  (
+    { steps, currentStep, orientation = 'horizontal', size = 'default', className, ...props },
+    ref,
+  ) => {
     return (
-      <div ref={ref} className={cn(stepIndicatorVariants({ orientation, size }), className)}>
+      <div
+        ref={ref}
+        className={cn(stepIndicatorVariants({ orientation, size }), className)}
+        {...props}
+      >
         {steps.map((step, index) => {
           const isCompleted = index < currentStep;
           const isCurrent = index === currentStep;

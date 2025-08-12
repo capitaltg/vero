@@ -24,6 +24,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
       emptyMessage = 'No items found',
       className,
       listClassName,
+      ...props
     },
     ref,
   ) => {
@@ -42,6 +43,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
               !value && 'text-muted-foreground',
               className,
             )}
+            {...props}
           >
             {value ? options.find(option => option.value === value)?.label : placeholder}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

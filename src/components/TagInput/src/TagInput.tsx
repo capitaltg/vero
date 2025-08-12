@@ -14,6 +14,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       delimiterChars,
       isDisabled = false,
       onChange,
+      ...props
     },
     ref,
   ) => {
@@ -146,6 +147,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
           isDisabled && 'cursor-not-allowed',
           className,
         )}
+        {...props}
         onClick={handleContainerClick}
       >
         {value.map((tag, index) => (

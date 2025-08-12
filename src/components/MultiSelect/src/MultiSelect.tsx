@@ -24,6 +24,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
       emptyMessage = 'No items found',
       className,
       listClassName,
+      ...props
     },
     ref,
   ) => {
@@ -72,6 +73,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
               'flex h-auto min-h-[2.5rem] w-full items-stretch justify-between px-3 py-1.5',
               className,
             )}
+            {...props}
           >
             <div className="flex flex-1 text-left">{renderTriggerContent()}</div>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 self-center opacity-50" />

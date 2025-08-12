@@ -7,12 +7,13 @@ import { SelectItem } from './SelectItem';
 import { SelectTrigger } from './SelectTrigger';
 
 const SingleSelect = React.forwardRef<HTMLButtonElement, SingleSelectProps>(
-  ({ options, value, onChange, placeholder = 'Select an option', className }, ref) => {
+  ({ options, value, onChange, placeholder = 'Select an option', className, ...props }, ref) => {
     return (
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger
           ref={ref}
           className={cn('w-full justify-between', !value && 'text-muted-foreground', className)}
+          {...props}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

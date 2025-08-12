@@ -30,6 +30,7 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
       maxSuggestions = 10,
       debounceMs = 300,
       minSearch = 2,
+      ...props
     },
     ref,
   ) => {
@@ -153,6 +154,7 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
               !selectedOption && !value && 'text-muted-foreground',
               className,
             )}
+            {...props}
           >
             <span className="truncate">
               {selectedOption ? selectedOption.label : value || placeholder}

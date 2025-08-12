@@ -5,11 +5,12 @@ import { Label } from '../../Label';
 import { FormItemProps } from '../types';
 
 const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
-  ({ label, hintText, errorText, className, children }, ref) => {
+  ({ label, hintText, errorText, className, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn('space-y-1', className)}
+        {...props}
         data-error={errorText ? 'true' : undefined}
       >
         <div className="space-y-1">

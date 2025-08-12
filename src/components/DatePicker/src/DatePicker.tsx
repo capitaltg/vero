@@ -8,7 +8,7 @@ import * as React from 'react';
 import { DatePickerProps } from '../types';
 
 const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
-  ({ value, onChange, placeholder = 'Pick a date', className }, ref) => {
+  ({ value, onChange, placeholder = 'Pick a date', className, ...props }, ref) => {
     return (
       <Popover>
         <PopoverTrigger asChild>
@@ -20,6 +20,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
               !value && 'text-muted-foreground',
               className,
             )}
+            {...props}
             data-component="date-picker"
           >
             <CalendarIcon className="mr-2 h-4 w-4" />

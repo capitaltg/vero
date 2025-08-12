@@ -5,9 +5,9 @@ import * as React from 'react';
 import { BreadcrumbsProps } from '../types';
 
 const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
-  ({ items, separator = <ChevronRight className="h-4 w-4" />, className }, ref) => {
+  ({ items, separator = <ChevronRight className="h-4 w-4" />, className, ...props }, ref) => {
     return (
-      <nav ref={ref} aria-label="Breadcrumb" className={cn('flex', className)}>
+      <nav ref={ref} aria-label="Breadcrumb" className={cn('flex', className)} {...props}>
         <ol className="flex flex-wrap items-center gap-1">
           {items.map((item, index) => (
             <li key={index} className="flex items-center gap-1">

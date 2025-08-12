@@ -11,7 +11,7 @@ const focusRingWithinSm = tw`focus-within:ring-offset-[2px]`;
 
 const input = tw`flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50`;
 
-const button = tw`inline-flex items-center justify-center whitespace-nowrap rounded-sm bg-transparent text-sm font-bold ring-offset-background transition-colors disabled:pointer-events-none disabled:opacity-50`;
+const button = tw`inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-sm bg-transparent text-sm font-bold ring-offset-background transition-colors disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50`;
 
 export const styles = {
   focusRing,

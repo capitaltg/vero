@@ -4,9 +4,9 @@ import { Checkbox } from '../../Checkbox';
 import { CheckboxGroupProps } from '../types';
 
 const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
-  ({ options, value, onChange, className, columns = 2 }, ref) => {
+  ({ options, value, onChange, className, columns = 2, ...props }, ref) => {
     return (
-      <div ref={ref} className={cn('', className)}>
+      <div ref={ref} className={cn('', className)} {...props}>
         <div
           className={cn(
             'grid gap-3',

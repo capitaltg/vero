@@ -17,6 +17,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
         to: 'Pick end date',
       },
       className,
+      ...props
     },
     ref,
   ) => {
@@ -51,6 +52,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
                 'w-full justify-start px-3 text-left font-normal',
                 !value.from && !value.to && 'text-muted-foreground',
               )}
+              {...props}
               data-component="date-range-picker"
             >
               <CalendarIcon className="mr-2 h-4 w-4" />

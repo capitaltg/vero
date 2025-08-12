@@ -4,7 +4,7 @@ import { Switch } from '../../Switch';
 import { SwitchGroupProps } from '../types';
 
 const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
-  ({ options, value, onChange, className, columns = 1 }, ref) => {
+  ({ options, value, onChange, className, columns = 1, ...props }, ref) => {
     const handleSwitchChange = useCallback(
       (id: string, isChecked: boolean) => {
         const addId = (id: string) => onChange([...value, id]);
@@ -20,7 +20,7 @@ const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
     );
 
     return (
-      <div ref={ref} className={cn('', className)}>
+      <div ref={ref} className={cn('', className)} {...props}>
         <div className={cn('grid gap-3', `grid-cols-${columns}`)}>
           {options.map(option => (
             <Switch

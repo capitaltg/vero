@@ -5,8 +5,10 @@ export const buttonVariants = cva(styles.button, {
   variants: {
     variant: {
       default: 'border border-primary-400 text-primary-400 hover:underline',
-      primary: 'border border-primary-400 bg-primary-400 text-white hover:bg-primary-500',
-      danger: 'border border-danger-400 bg-danger-400 text-white hover:bg-danger-500',
+      primary:
+        'border border-primary-400 bg-primary-400 text-white hover:bg-primary-500 hover:underline',
+      danger:
+        'border border-danger-400 bg-danger-400 text-white hover:bg-danger-500 hover:underline',
       link: 'text-link underline-offset-4 hover:underline',
       input:
         'border border-input bg-background font-normal hover:bg-accent hover:text-accent-foreground',
@@ -15,7 +17,7 @@ export const buttonVariants = cva(styles.button, {
     size: {
       default: 'h-10 px-4 py-2',
       sm: 'h-8 px-3 text-sm',
-      lg: 'h-12 rounded-lg px-8 text-lg',
+      lg: 'h-12 rounded-md px-8 text-lg',
     },
   },
   defaultVariants: {

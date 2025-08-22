@@ -11,8 +11,8 @@ export const alertVariants = cva(
         info: 'border-info-400 bg-info-100 dark:bg-info-700',
       },
       size: {
-        sm: 'px-3 py-2 text-sm',
-        default: 'px-4 py-4 text-base',
+        sm: 'items-center gap-2 px-4 py-2.5 text-sm',
+        default: 'gap-3 px-4 py-4 text-base',
       },
     },
     defaultVariants: {
@@ -24,8 +24,8 @@ export const alertVariants = cva(
 export const alertIconVariants = cva('', {
   variants: {
     size: {
-      sm: 'mr-2 [&>svg]:h-5 [&>svg]:w-5',
-      default: 'mr-3 [&>svg]:h-8 [&>svg]:w-8',
+      sm: '[&>svg]:h-5 [&>svg]:w-5',
+      default: '[&>svg]:h-8 [&>svg]:w-8',
     },
     variant: {
       success: 'text-success-400',
@@ -40,11 +40,6 @@ export const alertIconVariants = cva('', {
   },
   compoundVariants: [
     {
-      size: 'sm',
-      hasHeading: true,
-      class: 'mt-0.5',
-    },
-    {
       size: 'default',
       hasHeading: true,
       class: '-mt-0.5',
@@ -58,8 +53,8 @@ export const alertIconVariants = cva('', {
 export const alertContentVariants = cva('flex-1', {
   variants: {
     size: {
-      sm: '',
-      default: '',
+      sm: 'flex flex-row items-center gap-2',
+      default: 'flex flex-col gap-1',
     },
     hasIcon: {
       true: '',
@@ -80,10 +75,10 @@ export const alertContentVariants = cva('flex-1', {
   ],
 });
 
-export const alertHeadingVariants = cva('mb-1 font-bold text-base-700 dark:text-base-100', {
+export const alertHeadingVariants = cva('font-bold text-base-700 dark:text-base-100', {
   variants: {
     size: {
-      sm: 'text-base',
+      sm: 'text-base leading-none',
       default: 'text-lg',
     },
   },

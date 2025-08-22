@@ -190,7 +190,7 @@ export const Small: Story = {
   args: {
     variant: 'success',
     size: 'sm',
-    heading: 'Success',
+    heading: 'Success!',
     children: 'Your changes have been saved successfully.',
   },
 };
@@ -203,7 +203,7 @@ export const SmallNoIcon: Story = {
   args: {
     variant: 'success',
     size: 'sm',
-    heading: 'Success',
+    heading: 'Success!',
     children: 'Your changes have been saved successfully.',
     hasIcon: false,
   },

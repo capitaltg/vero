@@ -23,4 +23,6 @@ export interface AutocompleteProps {
   loadingMessage?: string;
   // Error message when async fetch fails
   errorMessage?: string;
+  // Z-index for the popover
+  zIndex?: number;
 }

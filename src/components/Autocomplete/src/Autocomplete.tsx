@@ -10,6 +10,7 @@ import {
 } from '@/components/Command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover';
 import { cn } from '@/lib/utils';
+import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AutocompleteOption, AutocompleteProps } from '../types';
@@ -30,11 +31,13 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
       maxSuggestions = 10,
       debounceMs = 300,
       minSearch = 2,
+      zIndex,
       ...props
     },
     ref,
   ) => {
     const [open, setOpen] = useState(false);
+    const resolvedZIndex = getZIndex('dropdown', zIndex);
     const [inputValue, setInputValue] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -173,7 +176,11 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">
+        <PopoverContent
+          align="start"
+          className="w-[--radix-popover-trigger-width] px-0 py-0"
+          zIndex={resolvedZIndex}
+        >
           <Command shouldFilter={false}>
             <CommandInput
               placeholder={placeholder}

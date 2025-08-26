@@ -6,4 +6,5 @@ export type PopoverTriggerProps = ComponentPropsWithoutRef<typeof PopoverPrimiti
 export interface PopoverContentProps
   extends ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {
   hasArrow?: boolean;
+  zIndex?: number;
 }

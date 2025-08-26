@@ -2,13 +2,16 @@ import { Button } from '@/components/Button';
 import { Calendar } from '@/components/Calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover';
 import { cn } from '@/lib/utils';
+import { getZIndex } from '@/lib/z-index';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
 import { DatePickerProps } from '../types';
 
 const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
-  ({ value, onChange, placeholder = 'Pick a date', className, ...props }, ref) => {
+  ({ value, onChange, placeholder = 'Pick a date', className, zIndex, ...props }, ref) => {
+    const resolvedZIndex = getZIndex('popover', zIndex);
+
     return (
       <Popover>
         <PopoverTrigger asChild>
@@ -27,7 +30,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
             {value ? format(value, 'LLLL dd, y') : <span>{placeholder}</span>}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto px-0 py-0" align="start">
+        <PopoverContent className="w-auto px-0 py-0" align="start" zIndex={resolvedZIndex}>
           <Calendar mode="single" selected={value} onSelect={onChange} autoFocus />
         </PopoverContent>
       </Popover>

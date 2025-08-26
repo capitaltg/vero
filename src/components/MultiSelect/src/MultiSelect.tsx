@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button } from '../../Button';
@@ -24,11 +25,13 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
       emptyMessage = 'No items found',
       className,
       listClassName,
+      zIndex,
       ...props
     },
     ref,
   ) => {
     const [open, setOpen] = useState(false);
+    const resolvedZIndex = getZIndex('dropdown', zIndex);
 
     const selectedLabels = value.map(v => options.find(opt => opt.value === v)?.label || v);
 
@@ -79,7 +82,11 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 self-center opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">
+        <PopoverContent
+          align="start"
+          className="w-[--radix-popover-trigger-width] px-0 py-0"
+          zIndex={resolvedZIndex}
+        >
           <Command>
             <CommandInput placeholder={searchPlaceholder} />
             <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>

@@ -9,6 +9,7 @@ import {
 } from '@/components/Command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover';
 import { cn } from '@/lib/utils';
+import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import React, { useState } from 'react';
 import { ComboboxProps } from '../types';
@@ -24,11 +25,13 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
       emptyMessage = 'No items found',
       className,
       listClassName,
+      zIndex,
       ...props
     },
     ref,
   ) => {
     const [open, setOpen] = useState(false);
+    const resolvedZIndex = getZIndex('dropdown', zIndex);
 
     return (
       <Popover open={open} onOpenChange={setOpen}>
@@ -49,7 +52,11 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="w-[--radix-popover-trigger-width] px-0 py-0">
+        <PopoverContent
+          align="start"
+          className="w-[--radix-popover-trigger-width] px-0 py-0"
+          zIndex={resolvedZIndex}
+        >
           <Command>
             <CommandInput placeholder={searchPlaceholder} />
             <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>

@@ -10,4 +10,6 @@ export interface TooltipProps
   offset?: number;
   hasArrow?: boolean;
   className?: string;
+  style?: React.CSSProperties;
+  zIndex?: number;
 }

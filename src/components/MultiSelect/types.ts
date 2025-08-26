@@ -12,4 +12,5 @@ export interface MultiSelectProps {
   emptyMessage?: string;
   className?: string;
   listClassName?: string;
+  zIndex?: number;
 }

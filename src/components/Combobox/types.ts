@@ -12,4 +12,5 @@ export interface ComboboxProps {
   emptyMessage?: string;
   className?: string;
   listClassName?: string;
+  zIndex?: number;
 }

@@ -5,15 +5,21 @@ import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import * as React from 'react';
+import React, { useState } from 'react';
 import { DatePickerProps } from '../types';
 
 const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
   ({ value, onChange, placeholder = 'Pick a date', className, zIndex, ...props }, ref) => {
+    const [open, setOpen] = useState(false);
     const resolvedZIndex = getZIndex('popover', zIndex);
 
+    const handleDateSelect = (date?: Date) => {
+      onChange(date);
+      setOpen(false);
+    };
+
     return (
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             ref={ref}
@@ -31,7 +37,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto px-0 py-0" align="start" zIndex={resolvedZIndex}>
-          <Calendar mode="single" selected={value} onSelect={onChange} autoFocus />
+          <Calendar mode="single" selected={value} onSelect={handleDateSelect} autoFocus />
         </PopoverContent>
       </Popover>
     );

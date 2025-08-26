@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { getZIndex } from '@/lib/z-index';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
@@ -17,10 +18,13 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
         to: 'Pick end date',
       },
       className,
+      zIndex,
       ...props
     },
     ref,
   ) => {
+    const resolvedZIndex = getZIndex('popover', zIndex);
+
     const handleDayClick = (day: Date) => {
       const { from, to } = value;
 
@@ -71,7 +75,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
               })()}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto px-0 py-0" align="start">
+          <PopoverContent className="w-auto px-0 py-0" align="start" zIndex={resolvedZIndex}>
             <Calendar
               autoFocus
               mode="range"

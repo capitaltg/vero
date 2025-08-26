@@ -11,4 +11,5 @@ export interface DateRangePickerProps {
     to?: string;
   };
   className?: string;
+  zIndex?: number;
 }

@@ -3,4 +3,5 @@ export interface DatePickerProps {
   onChange: (date?: Date) => void;
   placeholder?: string;
   className?: string;
+  zIndex?: number;
 }

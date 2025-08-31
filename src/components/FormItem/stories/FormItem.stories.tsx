@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { HelpCircle } from 'lucide-react';
+import { Button } from '../../Button';
 import { Input } from '../../Input';
+import { Tooltip, TooltipProvider } from '../../Tooltip';
 import { FormItem } from '../src/FormItem';
 
 const meta = {
@@ -58,4 +61,66 @@ export const WithHintAndError: Story = {
     errorText: 'Please enter a valid email address',
     children: <Input type="email" placeholder="Enter your email" />,
   },
+};
+
+/**
+ * FormItem with required field indicator.
+ * Shows how to mark a field as required with a red asterisk.
+ */
+export const Required: Story = {
+  args: {
+    label: 'Email',
+    hintText: 'This field is required',
+    isRequired: true,
+    children: <Input type="email" placeholder="Enter your email" />,
+  },
+};
+
+/**
+ * FormItem with a label slot.
+ * Demonstrates how to add additional components to the right of the label.
+ */
+export const WithLabelSlot: Story = {
+  args: {
+    label: 'Password',
+    labelSlot: (
+      <Tooltip content="Password must be at least 8 characters with uppercase, lowercase, and numbers">
+        <Button variant="ghost" size="sm" className="h-auto p-1">
+          <HelpCircle className="h-4 w-4 text-muted-foreground" />
+        </Button>
+      </Tooltip>
+    ),
+    hintText: 'Must be at least 8 characters long',
+    children: <Input type="password" placeholder="Enter your password" />,
+  },
+  render: args => (
+    <TooltipProvider>
+      <FormItem {...args} />
+    </TooltipProvider>
+  ),
+};
+
+/**
+ * FormItem with both required indicator and label slot.
+ * Shows how the required asterisk and label slot work together.
+ */
+export const RequiredWithLabelSlot: Story = {
+  args: {
+    label: 'API Key',
+    isRequired: true,
+    labelSlot: (
+      <Tooltip content="Your API key can be found in your account settings">
+        <Button variant="ghost" size="sm" className="h-auto p-1">
+          <HelpCircle className="h-4 w-4 text-muted-foreground" />
+        </Button>
+      </Tooltip>
+    ),
+    hintText: 'Enter your unique API key',
+    children: <Input type="password" placeholder="Enter your API Key" />,
+  },
+  render: args => (
+    <TooltipProvider>
+      <FormItem {...args} />
+    </TooltipProvider>
+  ),
 };

@@ -5,7 +5,10 @@ import { Label } from '../../Label';
 import { FormItemProps } from '../types';
 
 const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
-  ({ label, hintText, errorText, className, children, ...props }, ref) => {
+  (
+    { label, labelSlot, hintText, errorText, className, children, isRequired = false, ...props },
+    ref,
+  ) => {
     return (
       <div
         ref={ref}
@@ -15,11 +18,17 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
       >
         <div className="space-y-1">
           {label ? (
-            typeof label === 'string' ? (
-              <Label className="font-bold">{label}</Label>
-            ) : (
-              label
-            )
+            <div className="flex items-center">
+              {typeof label === 'string' ? (
+                <Label className="font-bold">
+                  {label}
+                  {isRequired ? <span className="ml-0.5 text-destructive">*</span> : null}
+                </Label>
+              ) : (
+                label
+              )}
+              {labelSlot ? <div className="ml-2">{labelSlot}</div> : null}
+            </div>
           ) : null}
           {hintText ? <p className={styles.text.hint}>{hintText}</p> : null}
         </div>

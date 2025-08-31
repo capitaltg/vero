@@ -59,3 +59,16 @@ export const WithHintAndError: Story = {
     children: <Input type="email" placeholder="Enter your email" />,
   },
 };
+
+/**
+ * FormItem with required field indicator.
+ * Shows how to mark a field as required with a red asterisk.
+ */
+export const Required: Story = {
+  args: {
+    label: 'Email',
+    hintText: 'This field is required',
+    isRequired: true,
+    children: <Input type="email" placeholder="Enter your email" />,
+  },
+};

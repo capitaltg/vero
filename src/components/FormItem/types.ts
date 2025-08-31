@@ -6,4 +6,5 @@ export interface FormItemProps {
   errorText?: ReactNode;
   className?: string;
   children: ReactNode;
+  isRequired?: boolean;
 }

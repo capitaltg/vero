@@ -25,4 +25,6 @@ export interface AutocompleteProps {
   errorMessage?: string;
   // Z-index for the popover
   zIndex?: number;
+  // Whether the component is disabled
+  isDisabled?: boolean;
 }

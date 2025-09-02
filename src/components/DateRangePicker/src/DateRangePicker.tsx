@@ -19,6 +19,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       },
       className,
       zIndex,
+      isDisabled = false,
       ...props
     },
     ref,
@@ -56,6 +57,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
                 'w-full justify-start px-3 text-left font-normal',
                 !value.from && !value.to && 'text-muted-foreground',
               )}
+              isDisabled={isDisabled}
               {...props}
               data-component="date-range-picker"
             >

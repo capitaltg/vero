@@ -1,3 +1,4 @@
+import { useDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import React, { useEffect, useRef } from 'react';
@@ -6,6 +7,7 @@ import { TextareaProps } from '../types';
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, isDisabled = false, isGrowable = false, ...props }, ref) => {
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+    const disabledProps = useDisabled({ isDisabled });
 
     /**
      * TODO: remove this once CSS `field-sizing: content` becomes ratified
@@ -38,13 +40,13 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           }
           textareaRef.current = el;
         }}
-        disabled={isDisabled}
         className={cn(
           styles.input,
           'min-h-[5rem]',
           isGrowable && 'resize-none overflow-hidden',
           className,
         )}
+        {...disabledProps}
         {...props}
       />
     );

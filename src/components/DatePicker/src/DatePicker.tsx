@@ -9,7 +9,18 @@ import React, { useState } from 'react';
 import { DatePickerProps } from '../types';
 
 const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
-  ({ value, onChange, placeholder = 'Pick a date', className, zIndex, ...props }, ref) => {
+  (
+    {
+      value,
+      onChange,
+      placeholder = 'Pick a date',
+      className,
+      zIndex,
+      isDisabled = false,
+      ...props
+    },
+    ref,
+  ) => {
     const [open, setOpen] = useState(false);
     const resolvedZIndex = getZIndex('popover', zIndex);
 
@@ -29,6 +40,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
               !value && 'text-muted-foreground',
               className,
             )}
+            isDisabled={isDisabled}
             {...props}
             data-component="date-picker"
           >

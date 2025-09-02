@@ -26,6 +26,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
       className,
       listClassName,
       zIndex,
+      isDisabled = false,
       ...props
     },
     ref,
@@ -46,6 +47,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
               !value && 'text-muted-foreground',
               className,
             )}
+            isDisabled={isDisabled}
             {...props}
           >
             {value ? options.find(option => option.value === value)?.label : placeholder}

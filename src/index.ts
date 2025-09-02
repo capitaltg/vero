@@ -37,3 +37,6 @@ export * from './components/Tooltip';
 // Export utilities
 export * from './lib/utils';
 export * from './lib/z-index';
+
+// Export hooks
+export * from './hooks';

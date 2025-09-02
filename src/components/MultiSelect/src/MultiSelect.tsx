@@ -26,13 +26,13 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
       className,
       listClassName,
       zIndex,
+      isDisabled = false,
       ...props
     },
     ref,
   ) => {
     const [open, setOpen] = useState(false);
     const resolvedZIndex = getZIndex('dropdown', zIndex);
-
     const selectedLabels = value.map(v => options.find(opt => opt.value === v)?.label || v);
 
     const renderTriggerContent = () => {
@@ -76,6 +76,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
               'flex h-auto min-h-[2.5rem] w-full items-stretch justify-between px-3 py-1.5',
               className,
             )}
+            isDisabled={isDisabled}
             {...props}
           >
             <div className="flex flex-1 text-left">{renderTriggerContent()}</div>

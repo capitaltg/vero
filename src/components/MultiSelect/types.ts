@@ -13,4 +13,5 @@ export interface MultiSelectProps {
   className?: string;
   listClassName?: string;
   zIndex?: number;
+  isDisabled?: boolean;
 }

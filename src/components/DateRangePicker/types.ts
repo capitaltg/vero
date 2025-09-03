@@ -12,4 +12,5 @@ export interface DateRangePickerProps {
   };
   className?: string;
   zIndex?: number;
+  isDisabled?: boolean;
 }

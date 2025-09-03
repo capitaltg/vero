@@ -1,5 +1,6 @@
 import { buttonVariants } from '@/components/Button/constants';
 import { Label } from '@/components/Label';
+import { useDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
@@ -17,7 +18,7 @@ const validateProps = (label?: React.ReactNode, ariaLabel?: string) => {
 };
 
 const radioCircleClasses =
-  'aspect-square h-5 w-5 rounded-full border-2 border-gray-500 text-primary-400 ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary-400 ';
+  'aspect-square h-5 w-5 rounded-full border-2 border-gray-500 text-primary-400 ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 data-[state=checked]:border-primary-400 ';
 
 const DefaultRadioLabel = ({ id, label }: Pick<RadioProps, 'id' | 'label'>) => {
   if (!label) return null;
@@ -34,29 +35,38 @@ const DefaultRadio = ({
   className,
   'aria-label': ariaLabel,
   ...props
-}: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => (
-  <div className="flex items-center gap-2">
-    <RadioGroupPrimitive.Item
-      ref={ref}
-      id={id}
+}: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
+  const disabledProps = useDisabled({ isDisabled });
+
+  return (
+    <div
       className={cn(
-        styles.focusRingVisible,
-        styles.focusRingVisibleSm,
-        radioCircleClasses,
-        className,
+        'flex items-center gap-2',
+        isDisabled && 'cursor-not-allowed opacity-50 [&>*]:cursor-not-allowed',
       )}
-      checked={isChecked}
-      disabled={isDisabled}
-      aria-label={ariaLabel}
-      {...props}
     >
-      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <Circle className="h-3 w-3 fill-current text-current" />
-      </RadioGroupPrimitive.Indicator>
-    </RadioGroupPrimitive.Item>
-    <DefaultRadioLabel id={id} label={label} />
-  </div>
-);
+      <RadioGroupPrimitive.Item
+        ref={ref}
+        id={id}
+        className={cn(
+          styles.focusRingVisible,
+          styles.focusRingVisibleSm,
+          radioCircleClasses,
+          className,
+        )}
+        checked={isChecked}
+        aria-label={ariaLabel}
+        {...props}
+        {...disabledProps}
+      >
+        <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
+          <Circle className="h-3 w-3 fill-current text-current" />
+        </RadioGroupPrimitive.Indicator>
+      </RadioGroupPrimitive.Item>
+      <DefaultRadioLabel id={id} label={label} />
+    </div>
+  );
+};
 
 const TileRadio = ({
   ref,
@@ -68,45 +78,47 @@ const TileRadio = ({
   className,
   'aria-label': ariaLabel,
   ...props
-}: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => (
-  <div
-    className={cn(
-      'relative rounded-lg border-2 border-muted bg-popover px-4 py-4 hover:bg-accent hover:text-accent-foreground',
-      isChecked && 'border-primary-400',
-      isDisabled && 'cursor-not-allowed opacity-50',
-      className,
-    )}
-  >
-    <div className="flex items-start gap-3">
-      <RadioGroupPrimitive.Item
-        ref={ref}
-        id={id}
-        className={cn(
-          styles.focusRingVisible,
-          styles.focusRingVisibleSm,
-          radioCircleClasses,
-          'mt-1',
-        )}
-        checked={isChecked}
-        disabled={isDisabled}
-        aria-label={ariaLabel}
-        {...props}
-      >
-        <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-          <Circle className="h-3 w-3 fill-current text-current" />
-        </RadioGroupPrimitive.Indicator>
-      </RadioGroupPrimitive.Item>
-      <div className="space-y-1">
-        {label ? (
-          <Label htmlFor={id} className="font-medium">
-            {label}
-          </Label>
-        ) : null}
-        {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+}: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
+  const disabledProps = useDisabled({ isDisabled });
+
+  return (
+    <div
+      className={cn(
+        'relative rounded-lg border-2 border-muted bg-popover px-4 py-4',
+        isChecked && 'border-primary-400',
+        isDisabled
+          ? 'cursor-not-allowed opacity-50 [&_*]:cursor-not-allowed'
+          : 'hover:bg-accent hover:text-accent-foreground',
+        className,
+      )}
+    >
+      <div className="flex items-start gap-3">
+        <RadioGroupPrimitive.Item
+          ref={ref}
+          id={id}
+          className={cn(
+            styles.focusRingVisible,
+            styles.focusRingVisibleSm,
+            radioCircleClasses,
+            'mt-1',
+          )}
+          checked={isChecked}
+          aria-label={ariaLabel}
+          {...props}
+          {...disabledProps}
+        >
+          <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
+            <Circle className="h-3 w-3 fill-current text-current" />
+          </RadioGroupPrimitive.Indicator>
+        </RadioGroupPrimitive.Item>
+        <div className="space-y-1">
+          <DefaultRadioLabel id={id} label={label} />
+          {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const ButtonRadio = ({
   ref,
@@ -118,32 +130,36 @@ const ButtonRadio = ({
   className,
   'aria-label': ariaLabel,
   ...props
-}: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => (
-  <div
-    className={cn(
-      'relative',
-      isChecked
-        ? cn(styles.button, buttonVariants({ variant: 'primary' }))
-        : cn(styles.button, buttonVariants({ variant: 'input' })),
-      isDisabled && 'cursor-not-allowed opacity-50',
-      className,
-    )}
-  >
-    <RadioGroupPrimitive.Item
-      ref={ref}
-      id={id}
-      className="absolute inset-0 opacity-0"
-      checked={isChecked}
-      disabled={isDisabled}
-      aria-label={ariaLabel}
-      {...props}
-    />
-    <div className="flex items-center gap-2">
-      {label ? <span className="font-medium">{label}</span> : null}
-      {description ? <span className="text-sm text-muted-foreground">{description}</span> : null}
+}: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
+  const disabledProps = useDisabled({ isDisabled });
+
+  return (
+    <div
+      className={cn(
+        'relative',
+        isChecked
+          ? cn(styles.button, buttonVariants({ variant: 'primary' }))
+          : cn(styles.button, buttonVariants({ variant: 'input' })),
+        isDisabled && 'pointer-events-none cursor-not-allowed opacity-50',
+        className,
+      )}
+    >
+      <RadioGroupPrimitive.Item
+        ref={ref}
+        id={id}
+        className="absolute inset-0 opacity-0"
+        checked={isChecked}
+        aria-label={ariaLabel}
+        {...props}
+        {...disabledProps}
+      />
+      <div className="flex items-center gap-2">
+        {label ? <span className="font-medium">{label}</span> : null}
+        {description ? <span className="text-sm text-muted-foreground">{description}</span> : null}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>, RadioProps>(
   (

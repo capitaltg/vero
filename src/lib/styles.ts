@@ -9,7 +9,7 @@ const focusRingVisibleSm = tw`focus-visible:ring-offset-[2px]`;
 const focusRingWithin = tw`focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring focus-within:ring-offset-[3px] focus-within:ring-offset-background`;
 const focusRingWithinSm = tw`focus-within:ring-offset-[2px]`;
 
-const input = tw`flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50`;
+const input = tw`flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50`;
 
 const button = tw`inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-sm bg-transparent text-sm font-bold ring-offset-background transition-colors disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50`;
 
@@ -34,7 +34,7 @@ export const styles = {
     subtitle: tw`mt-2 text-base-400`,
     hint: tw`text-sm text-base-400`,
     error: tw`text-sm font-medium text-destructive`,
-    label: tw`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70`,
+    label: tw`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 peer-aria-disabled:cursor-not-allowed peer-aria-disabled:opacity-70`,
   },
 
   // Common component styles

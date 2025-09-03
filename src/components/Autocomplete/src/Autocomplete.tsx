@@ -32,6 +32,7 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
       debounceMs = 300,
       minSearch = 2,
       zIndex,
+      isDisabled = false,
       ...props
     },
     ref,
@@ -157,6 +158,7 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
               !selectedOption && !value && 'text-muted-foreground',
               className,
             )}
+            isDisabled={isDisabled}
             {...props}
           >
             <span className="truncate">

@@ -13,4 +13,5 @@ export interface ComboboxProps {
   className?: string;
   listClassName?: string;
   zIndex?: number;
+  isDisabled?: boolean;
 }

@@ -4,4 +4,5 @@ export interface DatePickerProps {
   placeholder?: string;
   className?: string;
   zIndex?: number;
+  isDisabled?: boolean;
 }

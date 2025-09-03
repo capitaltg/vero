@@ -1,3 +1,4 @@
+import { useDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as React from 'react';
@@ -5,6 +6,8 @@ import { InputProps } from '../types';
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, transform = 'none', isDisabled = false, onChange, ...props }, ref) => {
+    const disabledProps = useDisabled({ isDisabled });
+
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
       if (!onChange) return;
 
@@ -36,10 +39,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         type={type}
-        disabled={isDisabled}
         className={cn(styles.input, className)}
         onChange={handleChange}
         {...props}
+        {...disabledProps}
       />
     );
   },

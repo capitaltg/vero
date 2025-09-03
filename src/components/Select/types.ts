@@ -12,9 +12,13 @@ export interface SingleSelectProps {
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
+  isDisabled?: boolean;
 }
 
-export type SelectTriggerProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>;
+export interface SelectTriggerProps
+  extends Omit<ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>, 'disabled'> {
+  isDisabled?: boolean;
+}
 export type SelectContentProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Content>;
 export type SelectItemProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Item>;
 export type SelectLabelProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Label>;

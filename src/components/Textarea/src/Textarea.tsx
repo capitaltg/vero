@@ -46,8 +46,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           isGrowable && 'resize-none overflow-hidden',
           className,
         )}
-        {...disabledProps}
         {...props}
+        {...disabledProps}
       />
     );
   },

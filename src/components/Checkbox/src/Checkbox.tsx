@@ -44,8 +44,8 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
           )}
           checked={isChecked}
           aria-label={ariaLabel}
-          {...disabledProps}
           {...props}
+          {...disabledProps}
         >
           <CheckboxPrimitive.Indicator
             className={cn('flex items-center justify-center text-current')}

@@ -1,11 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 export interface FormItemProps {
   label?: ReactNode;
   labelSlot?: ReactNode;
-  hintText?: ReactNode;
-  errorText?: ReactNode;
+  hintText?: string;
+  errorText?: string;
   className?: string;
-  children: ReactNode;
+  children: ReactElement;
+  elementId?: string;
   isRequired?: boolean;
 }

@@ -207,7 +207,9 @@ export const App: React.FC = () => {
               label="Project Description"
               hintText="A brief overview of your project's goals and requirements"
               errorText={
-                description.length > 20 ? 'Project description must be 20 characters or less' : null
+                description.length > 20
+                  ? 'Project description must be 20 characters or less'
+                  : undefined
               }
             >
               <Textarea

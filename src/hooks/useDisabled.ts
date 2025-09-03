@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
 
-export interface UseDisabledOptions {
+export type UseDisabledOptions = {
   isDisabled?: boolean;
-}
+};
 
-export interface UseDisabledReturn {
-  'aria-disabled': boolean;
+// When disabled → full props
+export type UseDisabledActive = {
+  isDisabled: true;
+  'aria-disabled': true;
 
   // mouse and touch events
   onMouseDown: (evt: React.MouseEvent) => void;
@@ -19,6 +21,7 @@ export interface UseDisabledReturn {
   onKeyUp: (evt: React.KeyboardEvent) => void;
   onKeyPress: (evt: React.KeyboardEvent) => void;
 
+  /*
   // form events
   onInput: (evt: React.FormEvent) => void;
   onChange: (evt: React.ChangeEvent) => void;
@@ -29,13 +32,25 @@ export interface UseDisabledReturn {
   onCopy: (evt: React.ClipboardEvent) => void;
   onCut: (evt: React.ClipboardEvent) => void;
   onPaste: (evt: React.ClipboardEvent) => void;
+  */
 
   // drag events
   onDrag: (evt: React.DragEvent) => void;
   onDragStart: (evt: React.DragEvent) => void;
   onDragEnd: (evt: React.DragEvent) => void;
   onDrop: (evt: React.DragEvent) => void;
-}
+
+  // optional for text-like inputs
+  readOnly?: true;
+};
+
+// When not disabled → no props
+export type UseDisabledInactive = {
+  isDisabled: false;
+};
+
+// Union type
+export type UseDisabledReturn = UseDisabledActive | UseDisabledInactive;
 
 /**
  * Hook for handling disabled state in interactive components.
@@ -89,6 +104,7 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     [isDisabled],
   );
 
+  /*
   const handleFormEvent = useCallback(
     (evt: React.FormEvent) => {
       if (isDisabled) {
@@ -118,6 +134,7 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     },
     [isDisabled],
   );
+  */
 
   const handleDragEvent = useCallback(
     (evt: React.DragEvent) => {
@@ -129,8 +146,13 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     [isDisabled],
   );
 
+  if (!isDisabled) {
+    return { isDisabled: false };
+  }
+
   return {
-    'aria-disabled': isDisabled,
+    isDisabled: true,
+    'aria-disabled': true,
 
     // mouse and touch events
     onMouseDown: handleMouseEvent,
@@ -144,6 +166,7 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     onKeyUp: handleKeyboardEvent,
     onKeyPress: handleKeyboardEvent,
 
+    /*
     // form events
     onInput: handleFormEvent,
     onChange: handleChangeEvent,
@@ -154,6 +177,7 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     onCopy: handleClipboardEvent,
     onCut: handleClipboardEvent,
     onPaste: handleClipboardEvent,
+    */
 
     // drag events
     onDrag: handleDragEvent,

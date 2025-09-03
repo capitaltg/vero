@@ -22,7 +22,7 @@ export interface FormItemProps {
    */
   className?: string;
   /**
-   * The ID of the form element associated with this form item. This ID will be also be used to generate the label, hint, and error IDs for accessibility. If not provided, the ID of the child element will be used if available.
+   * The ID used to generate the label, hint, and error IDs for accessibility. If not provided, the ID of the top-level child element will be used if available. This ID must be unique on the page and must be used as the `id` attribute of the child form element so that it can be assocated with the label.
    */
   elementId?: string;
   /**

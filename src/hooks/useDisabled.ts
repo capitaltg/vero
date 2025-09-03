@@ -27,12 +27,12 @@ export type UseDisabledActive = {
   onChange: (evt: React.ChangeEvent) => void;
   onSubmit: (evt: React.FormEvent) => void;
   onReset: (evt: React.FormEvent) => void;
+  */
 
   // clipboard events
   onCopy: (evt: React.ClipboardEvent) => void;
   onCut: (evt: React.ClipboardEvent) => void;
   onPaste: (evt: React.ClipboardEvent) => void;
-  */
 
   // drag events
   onDrag: (evt: React.DragEvent) => void;
@@ -124,6 +124,7 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     },
     [isDisabled],
   );
+  */
 
   const handleClipboardEvent = useCallback(
     (evt: React.ClipboardEvent) => {
@@ -134,7 +135,6 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     },
     [isDisabled],
   );
-  */
 
   const handleDragEvent = useCallback(
     (evt: React.DragEvent) => {
@@ -172,12 +172,12 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     onChange: handleChangeEvent,
     onSubmit: handleFormEvent,
     onReset: handleFormEvent,
+    */
 
     // clipboard events
     onCopy: handleClipboardEvent,
     onCut: handleClipboardEvent,
     onPaste: handleClipboardEvent,
-    */
 
     // drag events
     onDrag: handleDragEvent,

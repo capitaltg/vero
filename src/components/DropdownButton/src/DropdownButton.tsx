@@ -22,12 +22,12 @@ const DropdownButton = React.forwardRef<
     ref,
   ) => (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger asChild disabled={isDisabled}>
+      <DropdownMenuPrimitive.Trigger asChild>
         <Button
           ref={ref}
           variant={variant}
-          isDisabled={isDisabled}
           className={cn('flex items-center gap-1', className)}
+          isDisabled={isDisabled}
           {...props}
         >
           {children}
@@ -49,7 +49,6 @@ const DropdownButton = React.forwardRef<
             ) : (
               <DropdownMenuPrimitive.Item
                 key={item.label}
-                disabled={item.isDisabled}
                 className={cn(
                   'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
                   item.onClick && 'cursor-pointer',

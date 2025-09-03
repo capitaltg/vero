@@ -21,13 +21,11 @@ export type UseDisabledActive = {
   onKeyUp: (evt: React.KeyboardEvent) => void;
   onKeyPress: (evt: React.KeyboardEvent) => void;
 
-  /*
   // form events
   onInput: (evt: React.FormEvent) => void;
-  onChange: (evt: React.ChangeEvent) => void;
   onSubmit: (evt: React.FormEvent) => void;
   onReset: (evt: React.FormEvent) => void;
-  */
+  // onChange: (evt: React.ChangeEvent) => void;
 
   // clipboard events
   onCopy: (evt: React.ClipboardEvent) => void;
@@ -104,7 +102,6 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     [isDisabled],
   );
 
-  /*
   const handleFormEvent = useCallback(
     (evt: React.FormEvent) => {
       if (isDisabled) {
@@ -115,6 +112,7 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     [isDisabled],
   );
 
+  /*
   const handleChangeEvent = useCallback(
     (evt: React.ChangeEvent) => {
       if (isDisabled) {
@@ -166,13 +164,11 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
     onKeyUp: handleKeyboardEvent,
     onKeyPress: handleKeyboardEvent,
 
-    /*
     // form events
     onInput: handleFormEvent,
-    onChange: handleChangeEvent,
     onSubmit: handleFormEvent,
     onReset: handleFormEvent,
-    */
+    // onChange: handleChangeEvent,
 
     // clipboard events
     onCopy: handleClipboardEvent,

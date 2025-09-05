@@ -4,7 +4,7 @@ export type UseDisabledOptions = {
   isDisabled?: boolean;
 };
 
-// When disabled → full props
+// When disabled, override all relevant events to block interaction
 export type UseDisabledActive = {
   isDisabled: true;
   'aria-disabled': true;
@@ -42,13 +42,15 @@ export type UseDisabledActive = {
   readOnly?: true;
 };
 
-// When not disabled → no props
+// When enabled, output nothing
 export type UseDisabledInactive = {
   isDisabled: false;
 };
 
 // Union type
-export type UseDisabledReturn = UseDisabledActive | UseDisabledInactive;
+export type UseDisabledReturn =
+  | Omit<UseDisabledActive, 'isDisabled'>
+  | Omit<UseDisabledInactive, 'isDisabled'>;
 
 /**
  * Hook for handling disabled state in interactive components.
@@ -145,11 +147,10 @@ export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): Us
   );
 
   if (!isDisabled) {
-    return { isDisabled: false };
+    return {};
   }
 
   return {
-    isDisabled: true,
     'aria-disabled': true,
 
     // mouse and touch events

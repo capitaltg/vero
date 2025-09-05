@@ -1,6 +1,6 @@
 import { buttonVariants } from '@/components/Button/constants';
 import { Label } from '@/components/Label';
-import { useDisabled } from '@/hooks';
+import { useAriaDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
@@ -36,7 +36,7 @@ const DefaultRadio = ({
   'aria-label': ariaLabel,
   ...props
 }: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
-  const disabledProps = useDisabled({ isDisabled });
+  const disabledProps = useAriaDisabled({ isDisabled });
 
   return (
     <div
@@ -79,7 +79,7 @@ const TileRadio = ({
   'aria-label': ariaLabel,
   ...props
 }: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
-  const disabledProps = useDisabled({ isDisabled });
+  const disabledProps = useAriaDisabled({ isDisabled });
 
   return (
     <div
@@ -131,7 +131,7 @@ const ButtonRadio = ({
   'aria-label': ariaLabel,
   ...props
 }: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
-  const disabledProps = useDisabled({ isDisabled });
+  const disabledProps = useAriaDisabled({ isDisabled });
 
   return (
     <div

@@ -65,7 +65,9 @@ export type UseDisabledReturn =
  * @param options - Configuration options
  * @returns Event handlers and ARIA attributes for disabled state
  */
-export function useDisabled({ isDisabled = false }: UseDisabledOptions = {}): UseDisabledReturn {
+export function useAriaDisabled({
+  isDisabled = false,
+}: UseDisabledOptions = {}): UseDisabledReturn {
   const handleMouseEvent = useCallback(
     (evt: React.MouseEvent) => {
       if (isDisabled) {

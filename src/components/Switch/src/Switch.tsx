@@ -1,5 +1,5 @@
 import { Label } from '@/components/Label';
-import { useDisabled } from '@/hooks';
+import { useAriaDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as SwitchPrimitives from '@radix-ui/react-switch';
@@ -19,7 +19,7 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
     },
     ref,
   ) => {
-    const disabledProps = useDisabled({ isDisabled });
+    const disabledProps = useAriaDisabled({ isDisabled });
 
     if (!label && !ariaLabel) {
       throw new Error('Switch must have either a label prop or an aria-label attribute');

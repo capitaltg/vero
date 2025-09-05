@@ -1,4 +1,4 @@
-import { useDisabled } from '@/hooks';
+import { useAriaDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as SelectPrimitive from '@radix-ui/react-select';
@@ -10,7 +10,7 @@ const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   SelectTriggerProps
 >(({ className, children, isDisabled = false, ...props }, ref) => {
-  const disabledProps = useDisabled({ isDisabled });
+  const disabledProps = useAriaDisabled({ isDisabled });
 
   return (
     <SelectPrimitive.Trigger

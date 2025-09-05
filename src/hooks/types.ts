@@ -1,9 +1,9 @@
-export type UseDisabledOptions = {
+export type UseAriaDisabledOptions = {
   isDisabled?: boolean;
 };
 
 // When disabled, override all relevant events to block interaction
-export type UseDisabledActive = {
+export type UseAriaDisabledActive = {
   isDisabled: true;
   'aria-disabled': true;
 
@@ -41,11 +41,11 @@ export type UseDisabledActive = {
 };
 
 // When enabled, output nothing
-export type UseDisabledInactive = {
+export type UseAriaDisabledInactive = {
   isDisabled: false;
 };
 
 // Union type
-export type UseDisabledReturn =
-  | Omit<UseDisabledActive, 'isDisabled'>
-  | Omit<UseDisabledInactive, 'isDisabled'>;
+export type UseAriaDisabledReturn =
+  | Omit<UseAriaDisabledActive, 'isDisabled'>
+  | Omit<UseAriaDisabledInactive, 'isDisabled'>;

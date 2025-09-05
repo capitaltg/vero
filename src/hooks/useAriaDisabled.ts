@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { UseDisabledOptions, UseDisabledReturn } from './types';
+import { UseAriaDisabledOptions, UseAriaDisabledReturn } from './types';
 
 /**
  * Hook for handling disabled state in interactive components.
@@ -16,7 +16,7 @@ import { UseDisabledOptions, UseDisabledReturn } from './types';
  */
 export function useAriaDisabled({
   isDisabled = false,
-}: UseDisabledOptions = {}): UseDisabledReturn {
+}: UseAriaDisabledOptions = {}): UseAriaDisabledReturn {
   const handleMouseEvent = useCallback(
     (evt: React.MouseEvent) => {
       if (isDisabled) {

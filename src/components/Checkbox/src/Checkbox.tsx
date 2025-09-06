@@ -1,5 +1,5 @@
 import { Label } from '@/components/Label';
-import { useDisabled } from '@/hooks';
+import { useAriaDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
@@ -20,7 +20,7 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
     },
     ref,
   ) => {
-    const disabledProps = useDisabled({ isDisabled });
+    const disabledProps = useAriaDisabled({ isDisabled });
 
     if (!label && !ariaLabel) {
       throw new Error('Checkbox must have either a label prop or an aria-label attribute');

@@ -1,1 +1,1 @@
-export * from './useDisabled';
+export * from './useAriaDisabled';

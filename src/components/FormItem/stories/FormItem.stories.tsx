@@ -22,6 +22,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: 'Email',
+    elementId: 'default-element-id',
     children: <Input type="email" placeholder="Enter your email" />,
   },
 };
@@ -33,6 +34,7 @@ export const Default: Story = {
 export const WithHintText: Story = {
   args: {
     label: 'Password',
+    elementId: 'password-element-id',
     hintText: 'Must be at least 8 characters long',
     children: <Input type="password" placeholder="Enter your password" />,
   },
@@ -45,6 +47,7 @@ export const WithHintText: Story = {
 export const WithError: Story = {
   args: {
     label: 'Username',
+    elementId: 'username-element-id',
     errorText: 'Username is already taken',
     children: <Input placeholder="Choose a username" />,
   },
@@ -57,6 +60,7 @@ export const WithError: Story = {
 export const WithHintAndError: Story = {
   args: {
     label: 'Email',
+    elementId: 'email-element-id',
     hintText: 'We will never share your email',
     errorText: 'Please enter a valid email address',
     children: <Input type="email" placeholder="Enter your email" />,
@@ -70,6 +74,7 @@ export const WithHintAndError: Story = {
 export const Required: Story = {
   args: {
     label: 'Email',
+    elementId: 'email-required-element-id',
     hintText: 'This field is required',
     isRequired: true,
     children: <Input type="email" placeholder="Enter your email" />,
@@ -83,6 +88,7 @@ export const Required: Story = {
 export const WithLabelSlot: Story = {
   args: {
     label: 'Password',
+    elementId: 'password-label-slot-element-id',
     labelSlot: (
       <Tooltip content="Password must be at least 8 characters with uppercase, lowercase, and numbers">
         <Button variant="ghost" size="sm" className="h-auto p-1">
@@ -107,6 +113,7 @@ export const WithLabelSlot: Story = {
 export const RequiredWithLabelSlot: Story = {
   args: {
     label: 'API Key',
+    elementId: 'api-key-element-id',
     isRequired: true,
     labelSlot: (
       <Tooltip content="Your API key can be found in your account settings">

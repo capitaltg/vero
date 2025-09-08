@@ -136,7 +136,11 @@ export const App: React.FC = () => {
         <div className="space-y-6">
           {/* Text Inputs with Transformations */}
           <div className="space-y-4">
-            <FormItem label="Uppercase Text" hintText="This text will always be uppercase">
+            <FormItem
+              label="Uppercase Text"
+              elementId="uppercase-input-id"
+              hintText="This text will always be uppercase"
+            >
               <Input
                 transform="uppercase"
                 placeholder="Type something..."
@@ -145,7 +149,11 @@ export const App: React.FC = () => {
               />
             </FormItem>
 
-            <FormItem label="Lowercase Text" hintText="This text will always be lowercase">
+            <FormItem
+              label="Lowercase Text"
+              elementId="lowercase-input-id"
+              hintText="This text will always be lowercase"
+            >
               <Input
                 transform="lowercase"
                 placeholder="Type something..."
@@ -154,7 +162,11 @@ export const App: React.FC = () => {
               />
             </FormItem>
 
-            <FormItem label="Trimmed Text" hintText="This text will always be trimmed">
+            <FormItem
+              label="Trimmed Text"
+              elementId="trimmed-input-id"
+              hintText="This text will always be trimmed"
+            >
               <Input
                 transform="trim"
                 placeholder="Type something..."
@@ -165,6 +177,7 @@ export const App: React.FC = () => {
 
             <FormItem
               label="Trimmed & Uppercase Text"
+              elementId="trimmed-uppercase-input-id"
               hintText="This text will be trimmed and converted to uppercase"
             >
               <Input
@@ -175,7 +188,11 @@ export const App: React.FC = () => {
               />
             </FormItem>
 
-            <FormItem label="Name" hintText="Your full name as it will appear in the project">
+            <FormItem
+              label="Name"
+              elementId="name-input-id"
+              hintText="Your full name as it will appear in the project"
+            >
               <Input
                 id="name"
                 placeholder="Enter your name"
@@ -184,7 +201,11 @@ export const App: React.FC = () => {
               />
             </FormItem>
 
-            <FormItem label="Email" hintText="Your work email address for project communications">
+            <FormItem
+              label="Email"
+              elementId="email-input-id"
+              hintText="Your work email address for project communications"
+            >
               <Input
                 id="email"
                 type="email"
@@ -194,7 +215,11 @@ export const App: React.FC = () => {
               />
             </FormItem>
 
-            <FormItem label="Company" hintText="The organization you represent">
+            <FormItem
+              label="Company"
+              elementId="company-input-id"
+              hintText="The organization you represent"
+            >
               <Input
                 id="company"
                 placeholder="Enter your company"
@@ -205,6 +230,7 @@ export const App: React.FC = () => {
 
             <FormItem
               label="Project Description"
+              elementId="project-description-textarea-id"
               hintText="A brief overview of your project's goals and requirements"
               errorText={
                 description.length > 20
@@ -220,13 +246,21 @@ export const App: React.FC = () => {
               />
             </FormItem>
 
-            <FormItem label="Tags" hintText="Add tags to your project">
+            <FormItem
+              label="Tags"
+              elementId="tags-tag-input-id"
+              hintText="Add tags to your project"
+            >
               <TagInput value={tags} onChange={setTags} placeholder="Add a tag..." />
             </FormItem>
           </div>
 
           {/* Theme Select */}
-          <FormItem label="Theme" hintText="Select your preferred theme">
+          <FormItem
+            label="Theme"
+            elementId="theme-single-select-id"
+            hintText="Select your preferred theme"
+          >
             <SingleSelect
               options={themeOptions}
               value={theme}
@@ -236,7 +270,11 @@ export const App: React.FC = () => {
           </FormItem>
 
           {/* Library Combobox */}
-          <FormItem label="Library" hintText="Search and select from over 140 React libraries">
+          <FormItem
+            label="Library"
+            elementId="library-combobox-id"
+            hintText="Search and select from over 140 React libraries"
+          >
             <Combobox
               options={libraries}
               value={library}
@@ -249,6 +287,7 @@ export const App: React.FC = () => {
           {/* Async Search with Autocomplete */}
           <FormItem
             label="React Library Search"
+            elementId="react-library-search-autocomplete-id"
             hintText="Search through 140+ React libraries with async loading"
           >
             <Autocomplete
@@ -264,6 +303,7 @@ export const App: React.FC = () => {
           {/* Switches */}
           <FormItem
             label="Project Settings"
+            elementId="project-settings-switch-group-id"
             hintText="Configure your project's visibility and licensing"
           >
             <SwitchGroup
@@ -277,13 +317,18 @@ export const App: React.FC = () => {
           {/* Radio Buttons */}
           <FormItem
             label="Project Type"
+            elementId="project-type-radio-group-id"
             hintText="Select the primary type of application you're building"
           >
             <RadioGroup options={projectTypes} value={projectType} onChange={setProjectType} />
           </FormItem>
 
           {/* Checkbox Group */}
-          <FormItem label="Features" hintText="Select all the features you need in your project">
+          <FormItem
+            label="Features"
+            elementId="features-checkbox-group-id"
+            hintText="Select all the features you need in your project"
+          >
             <CheckboxGroup
               options={features}
               value={selectedFeatures}
@@ -293,7 +338,11 @@ export const App: React.FC = () => {
 
           {/* Single Selects */}
           <div className="space-y-4">
-            <FormItem label="Framework" hintText="Choose the primary framework for your project">
+            <FormItem
+              label="Framework"
+              elementId="framework-combobox-id"
+              hintText="Choose the primary framework for your project"
+            >
               <Combobox
                 options={frameworks}
                 value={framework}
@@ -303,7 +352,11 @@ export const App: React.FC = () => {
               />
             </FormItem>
 
-            <FormItem label="Database" hintText="Select the main database for your application">
+            <FormItem
+              label="Database"
+              elementId="database-combobox-id"
+              hintText="Select the main database for your application"
+            >
               <Combobox
                 options={databases}
                 value={database}
@@ -315,6 +368,7 @@ export const App: React.FC = () => {
 
             <FormItem
               label="Primary Language"
+              elementId="primary-language-combobox-id"
               hintText="Choose the main programming language for development"
             >
               <Combobox
@@ -330,16 +384,28 @@ export const App: React.FC = () => {
           {/* Date Inputs */}
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <FormItem label="Project Start" hintText="When development begins">
+              <FormItem
+                label="Project Start"
+                elementId="project-start-datepicker-id"
+                hintText="When development begins"
+              >
                 <DatePicker value={startDate1} onChange={setStartDate1} placeholder="Pick a date" />
               </FormItem>
 
-              <FormItem label="Project End" hintText="Expected completion date">
+              <FormItem
+                label="Project End"
+                elementId="project-end-datepicker-id"
+                hintText="Expected completion date"
+              >
                 <DatePicker value={endDate1} onChange={setEndDate1} placeholder="Pick a date" />
               </FormItem>
             </div>
 
-            <FormItem label="Project Duration" hintText="Select the start and end dates">
+            <FormItem
+              label="Project Duration"
+              elementId="project-duration-daterangepicker-id"
+              hintText="Select the start and end dates"
+            >
               <DateRangePicker
                 value={dateRange1}
                 onChange={setDateRange1}
@@ -351,17 +417,26 @@ export const App: React.FC = () => {
             </FormItem>
 
             <div className="grid grid-cols-2 gap-4">
-              <FormItem label="Maintenance Start" hintText="When support period begins">
+              <FormItem
+                label="Maintenance Start"
+                elementId="maintenance-start-datepicker-id"
+                hintText="When support period begins"
+              >
                 <DatePicker value={startDate2} onChange={setStartDate2} placeholder="Pick a date" />
               </FormItem>
 
-              <FormItem label="Maintenance End" hintText="Support period end date">
+              <FormItem
+                label="Maintenance End"
+                elementId="maintenance-end-datepicker-id"
+                hintText="Support period end date"
+              >
                 <DatePicker value={endDate2} onChange={setEndDate2} placeholder="Pick a date" />
               </FormItem>
             </div>
 
             <FormItem
               label="Maintenance Period"
+              elementId="maintenance-period-daterangepicker-id"
               hintText="Select the maintenance start and end dates"
             >
               <DateRangePicker
@@ -377,7 +452,11 @@ export const App: React.FC = () => {
 
           {/* Multi Selects */}
           <div className="space-y-4">
-            <FormItem label="Cloud Providers" hintText="Select all cloud platforms you plan to use">
+            <FormItem
+              label="Cloud Providers"
+              elementId="cloud-providers-multiselect-id"
+              hintText="Select all cloud platforms you plan to use"
+            >
               <MultiSelect
                 options={clouds}
                 value={selectedClouds}
@@ -389,6 +468,7 @@ export const App: React.FC = () => {
 
             <FormItem
               label="Development Tools"
+              elementId="development-tools-multiselect-id"
               hintText="Choose the development tools for your team"
             >
               <MultiSelect
@@ -402,6 +482,7 @@ export const App: React.FC = () => {
 
             <FormItem
               label="Additional Languages"
+              elementId="additional-languages-multiselect-id"
               hintText="Other programming languages used in the project"
             >
               <MultiSelect

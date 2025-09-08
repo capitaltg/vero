@@ -40,8 +40,8 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
           )}
           checked={isChecked}
           aria-label={ariaLabel}
-          {...disabledProps}
           {...props}
+          {...disabledProps}
           ref={ref}
           id={id}
         >

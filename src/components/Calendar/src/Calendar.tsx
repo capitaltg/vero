@@ -2,7 +2,7 @@ import { Button } from '@/components/Button';
 import { buttonVariants } from '@/components/Button/constants';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ChevronProps, DayPicker, MonthCaptionProps } from 'react-day-picker';
 import { CalendarProps } from '../types';
 import { CalendarMonthPicker } from './CalendarMonthPicker';
@@ -11,6 +11,8 @@ import { CalendarYearPicker } from './CalendarYearPicker';
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
   const [actionState, setActionState] = useState<'month' | 'year' | 'default'>('default');
   const [activeMonth, setActiveMonth] = useState<Date | undefined>(undefined);
+  const monthButtonRef = useRef<HTMLButtonElement>(null);
+  const yearButtonRef = useRef<HTMLButtonElement>(null);
 
   const navHeight = 'h-7 md:h-9';
   const navButton = 'w-7 px-0 py-0 focus:ring-2 focus:ring-offset-0 md:w-9';
@@ -33,6 +35,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         )}
       >
         <Button
+          ref={monthButtonRef}
           variant="ghost"
           size="sm"
           className="px-1.5 focus:ring-2 focus:ring-offset-0"
@@ -43,6 +46,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         <Button
           variant="ghost"
           size="sm"
+          ref={yearButtonRef}
           className="px-1.5 focus:ring-2 focus:ring-offset-0"
           onClick={() => setActionState('year')}
         >
@@ -61,6 +65,10 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
             newMonth.setMonth(month);
             setActiveMonth(newMonth);
             setActionState('default');
+            // Focus the month button after selection
+            setTimeout(() => {
+              monthButtonRef.current?.focus();
+            }, 0);
           }}
         />
       );
@@ -72,6 +80,10 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
             newYear.setFullYear(year);
             setActiveMonth(newYear);
             setActionState('default');
+            // Focus the month button after selection
+            setTimeout(() => {
+              yearButtonRef.current?.focus();
+            }, 0);
           }}
         />
       );

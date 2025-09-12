@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button';
 import { cn } from '@/lib';
+import { useEffect, useRef } from 'react';
 import { CalendarYearPickerProps } from '../types';
 
 // Returns an array of years, e.g. [2023, 2022, ..., 2000]
@@ -8,11 +9,20 @@ const getYears = (qty = 24): number[] =>
 
 export const CalendarYearPicker = (props: CalendarYearPickerProps) => {
   const { onSelect } = props;
+  const firstButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    // Autofocus the first year button when the component mounts
+    if (firstButtonRef.current) {
+      firstButtonRef.current.focus();
+    }
+  }, []);
 
   return (
     <div className="-mx-1 -my-1 grid max-h-72 w-full grid-cols-2 gap-1 overflow-y-auto px-1 py-1 md:grid-cols-3 lg:grid-cols-4">
-      {getYears().map(year => (
+      {getYears().map((year, idx) => (
         <Button
+          ref={idx === 0 ? firstButtonRef : undefined}
           key={year}
           aria-label="Select calendar year"
           variant="ghost"

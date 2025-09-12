@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button';
 import { cn } from '@/lib';
+import { useEffect, useRef } from 'react';
 import { CalendarMonthPickerProps } from '../types';
 
 // Returns an array of month names, e.g. ['January', 'February', ...]
@@ -9,11 +10,20 @@ const getMonths = (): string[] =>
 
 export const CalendarMonthPicker = (props: CalendarMonthPickerProps) => {
   const { onSelect } = props;
+  const firstButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    // Autofocus the first month button when the component mounts
+    if (firstButtonRef.current) {
+      firstButtonRef.current.focus();
+    }
+  }, []);
 
   return (
     <div className="-mx-1 -my-1 grid grid-cols-1 gap-1 px-1 py-1 md:grid-cols-2 lg:grid-cols-3">
       {getMonths().map((month, idx) => (
         <Button
+          ref={idx === 0 ? firstButtonRef : undefined}
           key={month}
           aria-label="Select calendar month"
           variant="ghost"

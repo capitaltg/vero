@@ -34,7 +34,6 @@ export const CalendarYearPicker = (props: CalendarYearPickerProps) => {
         <Button
           ref={idx === 0 ? firstButtonRef : undefined}
           key={year}
-          aria-label="Select calendar year"
           variant="ghost"
           size="sm"
           className={cn(

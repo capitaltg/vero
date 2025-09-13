@@ -25,7 +25,6 @@ export const CalendarMonthPicker = (props: CalendarMonthPickerProps) => {
         <Button
           ref={idx === 0 ? firstButtonRef : undefined}
           key={month}
-          aria-label="Select calendar month"
           variant="ghost"
           size="sm"
           className={cn(

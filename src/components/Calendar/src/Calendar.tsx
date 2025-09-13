@@ -36,19 +36,47 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       >
         <Button
           ref={monthButtonRef}
+          aria-label="Select calendar month"
           variant="ghost"
           size="sm"
           className="px-1.5 focus:ring-2 focus:ring-offset-0"
-          onClick={() => setActionState('month')}
+          onClick={() => {
+            // if the user clicks the month that's already selected, just go back to default view
+            if (actionState === 'month') {
+              setActionState('default');
+
+              // focus the month button after selection
+              setTimeout(() => {
+                monthButtonRef.current?.focus();
+              }, 0);
+              return;
+            }
+
+            setActionState('month');
+          }}
         >
           {calendarMonth.date.toLocaleString('default', { month: 'long' })}
         </Button>
         <Button
+          ref={yearButtonRef}
+          aria-label="Select calendar year"
           variant="ghost"
           size="sm"
-          ref={yearButtonRef}
           className="px-1.5 focus:ring-2 focus:ring-offset-0"
-          onClick={() => setActionState('year')}
+          onClick={() => {
+            // if the user clicks the year that's already selected, just go back to default view
+            if (actionState === 'year') {
+              setActionState('default');
+
+              // focus the year button after selection
+              setTimeout(() => {
+                yearButtonRef.current?.focus();
+              }, 0);
+              return;
+            }
+
+            setActionState('year');
+          }}
         >
           {calendarMonth.date.getFullYear()}
         </Button>
@@ -61,11 +89,12 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       return (
         <CalendarMonthPicker
           onSelect={month => {
+            // set the active month to the selected month, keeping the current year if possible
             const newMonth = activeMonth ? new Date(activeMonth) : new Date();
             newMonth.setMonth(month);
             setActiveMonth(newMonth);
             setActionState('default');
-            // Focus the month button after selection
+            // focus the month button after selection
             setTimeout(() => {
               monthButtonRef.current?.focus();
             }, 0);
@@ -78,11 +107,12 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
           startMonth={props.startMonth}
           endMonth={props.endMonth}
           onSelect={year => {
+            // set the active month to the selected year, keeping the current month if possible
             const newYear = activeMonth ? new Date(activeMonth) : new Date();
             newYear.setFullYear(year);
             setActiveMonth(newYear);
             setActionState('default');
-            // Focus the month button after selection
+            // focus the month button after selection
             setTimeout(() => {
               yearButtonRef.current?.focus();
             }, 0);

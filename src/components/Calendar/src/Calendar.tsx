@@ -20,6 +20,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
   const cellHeight = 'h-9 md:h-10 lg:h-11 py-0';
 
   const Chevron = (props: ChevronProps) => {
+    if (actionState === 'month' || actionState === 'year') return <></>;
+
     const { orientation } = props;
     if (orientation === 'left') return <ChevronLeft {...props} />;
     return <ChevronRight {...props} />;

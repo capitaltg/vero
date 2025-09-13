@@ -66,6 +66,20 @@ export const WithValue: Story = {
 };
 
 /**
+ * DatePicker with restricted start and end months.
+ * Shows how to limit the selectable date range within the specified months and years.
+ */
+export const WithStartAndEndMonth: Story = {
+  render: args => <DatePickerDemo {...args} />,
+  args: {
+    onChange: () => {},
+    placeholder: 'Pick a date',
+    startMonth: new Date(2020, 0),
+    endMonth: new Date(2025, 11),
+  },
+};
+
+/**
  * DatePicker with custom placeholder text.
  * Shows how to customize the placeholder message when no date is selected.
  */

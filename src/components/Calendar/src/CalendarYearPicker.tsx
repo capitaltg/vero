@@ -3,12 +3,22 @@ import { cn } from '@/lib';
 import { useEffect, useRef } from 'react';
 import { CalendarYearPickerProps } from '../types';
 
-// Returns an array of years, e.g. [2023, 2022, ..., 2000]
-const getYears = (qty = 24): number[] =>
-  Array.from({ length: qty }, (_, i) => new Date().getFullYear() - qty + 1 + i).reverse();
+// Returns an array of years based on `startMonth` and `endMonth` constraints
+const getYears = (startMonth?: Date, endMonth?: Date): number[] => {
+  const currentYear = new Date().getFullYear();
+  const startYear = startMonth ? startMonth.getFullYear() : currentYear - 23;
+  const endYear = endMonth ? endMonth.getFullYear() : currentYear;
+
+  const years: number[] = [];
+  for (let year = endYear; year >= startYear; year--) {
+    years.push(year);
+  }
+
+  return years;
+};
 
 export const CalendarYearPicker = (props: CalendarYearPickerProps) => {
-  const { onSelect } = props;
+  const { onSelect, startMonth, endMonth } = props;
   const firstButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -19,8 +29,8 @@ export const CalendarYearPicker = (props: CalendarYearPickerProps) => {
   }, []);
 
   return (
-    <div className="-mx-1 -my-1 grid max-h-72 w-full grid-cols-2 gap-1 overflow-y-auto px-1 py-1 md:grid-cols-3 lg:grid-cols-4">
-      {getYears().map((year, idx) => (
+    <div className="-mx-1 -my-1 grid max-h-72 min-w-80 gap-1 overflow-y-auto px-1 py-1 md:grid-cols-3 lg:grid-cols-4">
+      {getYears(startMonth, endMonth).map((year, idx) => (
         <Button
           ref={idx === 0 ? firstButtonRef : undefined}
           key={year}

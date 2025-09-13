@@ -75,6 +75,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
     if (actionState === 'year')
       return (
         <CalendarYearPicker
+          startMonth={props.startMonth}
+          endMonth={props.endMonth}
           onSelect={year => {
             const newYear = activeMonth ? new Date(activeMonth) : new Date();
             newYear.setFullYear(year);
@@ -105,9 +107,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
   };
 
   const defaultMonth =
-    props?.defaultMonth ??
+    props.defaultMonth ??
     activeMonth ??
-    (props?.mode === 'single' ? props?.selected : new Date()) ??
+    (props.mode === 'single' ? props.selected : new Date()) ??
     new Date();
 
   return (

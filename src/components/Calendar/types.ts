@@ -7,6 +7,8 @@ export type CalendarMonthPickerProps = {
 
 export type CalendarYearPickerProps = {
   onSelect?: (year: number) => void;
+  startMonth?: Date;
+  endMonth?: Date;
 };
 
 export type CalendarProps = ComponentProps<typeof DayPicker>;

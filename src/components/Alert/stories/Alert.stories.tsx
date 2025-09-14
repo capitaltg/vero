@@ -5,7 +5,7 @@ import { Alert } from '../src/Alert';
 import { AlertProps } from '../types';
 
 const meta = {
-  title: 'Components/Alert',
+  title: 'Layout Components/Alert',
   component: Alert,
   parameters: {},
   tags: ['autodocs'],

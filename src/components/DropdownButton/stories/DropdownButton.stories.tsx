@@ -3,7 +3,7 @@ import { Mail, Settings, User } from 'lucide-react';
 import { DropdownButton } from '../src/DropdownButton';
 
 const meta = {
-  title: 'Components/DropdownButton',
+  title: 'Form Components/DropdownButton',
   component: DropdownButton,
   parameters: {},
   tags: ['autodocs'],

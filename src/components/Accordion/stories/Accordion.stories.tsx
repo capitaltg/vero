@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Accordion } from '../src/Accordion';
 
 const meta = {
-  title: 'Components/Accordion',
+  title: 'Layout Components/Accordion',
   component: Accordion,
   parameters: {},
   tags: ['autodocs'],

@@ -4,7 +4,7 @@ import { Checkbox } from '../src/Checkbox';
 import { CheckboxProps } from '../types';
 
 const meta = {
-  title: 'Components/Checkbox',
+  title: 'Form Components/Checkbox',
   component: Checkbox,
   parameters: {},
   argTypes: {

@@ -7,7 +7,7 @@ import { DialogHeader } from '../src/DialogHeader';
 import { DialogTitle } from '../src/DialogTitle';
 
 const meta = {
-  title: 'Components/Dialog',
+  title: 'Layout Components/Dialog',
   component: Dialog,
   parameters: {},
   tags: ['autodocs'],

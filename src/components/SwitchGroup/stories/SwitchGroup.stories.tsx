@@ -11,7 +11,7 @@ const options = [
 ];
 
 const meta = {
-  title: 'Components/SwitchGroup',
+  title: 'Form Components/SwitchGroup',
   component: SwitchGroup,
   parameters: {},
   argTypes: {

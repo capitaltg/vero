@@ -3,7 +3,7 @@ import { Button } from '../../Button';
 import { Popover, PopoverContent, PopoverTrigger } from '../src/Popover';
 
 const meta = {
-  title: 'Components/Popover',
+  title: 'Layout Components/Popover',
   component: Popover,
   parameters: {},
   tags: ['autodocs'],

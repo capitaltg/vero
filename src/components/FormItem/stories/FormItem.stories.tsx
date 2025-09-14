@@ -6,7 +6,7 @@ import { Tooltip, TooltipProvider } from '../../Tooltip';
 import { FormItem } from '../src/FormItem';
 
 const meta = {
-  title: 'Components/FormItem',
+  title: 'Form Components/FormItem',
   component: FormItem,
   parameters: {},
   tags: ['autodocs'],

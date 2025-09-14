@@ -5,7 +5,7 @@ import { Radio } from '../src/Radio';
 import { RadioProps } from '../types';
 
 const meta = {
-  title: 'Components/Radio',
+  title: 'Form Components/Radio',
   component: Radio,
   parameters: {},
   argTypes: {

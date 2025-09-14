@@ -6,7 +6,7 @@ import { CommandInput } from '../src/CommandInput';
 import { CommandItem } from '../src/CommandItem';
 
 const meta = {
-  title: 'Components/Command',
+  title: 'Layout Components/Command',
   component: Command,
   parameters: {},
   tags: ['autodocs'],

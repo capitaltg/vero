@@ -4,7 +4,7 @@ import { TagInput } from '../src/TagInput';
 import { Tag, TagInputProps } from '../types';
 
 const meta = {
-  title: 'Components/TagInput',
+  title: 'Form Components/TagInput',
   component: TagInput,
   parameters: {},
   argTypes: {

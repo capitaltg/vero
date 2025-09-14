@@ -4,7 +4,7 @@ import { CheckboxGroup } from '../src/CheckboxGroup';
 import type { CheckboxGroupProps } from '../types';
 
 const meta = {
-  title: 'Components/CheckboxGroup',
+  title: 'Form Components/CheckboxGroup',
   component: CheckboxGroup,
   parameters: {},
   tags: ['autodocs'],

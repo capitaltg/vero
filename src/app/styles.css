@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 /* Example of app-specific base styles */
+/*
 @layer base {
   h1 {
     @apply text-4xl text-gray-800;
@@ -14,3 +15,4 @@
     @apply bg-gray-50 text-gray-900;
   }
 }
+*/

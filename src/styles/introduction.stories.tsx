@@ -98,49 +98,85 @@ export const Welcome: Story = {
         {/* Component Overview */}
         <div>
           <h2 className="mb-6 text-2xl font-bold">Component Library</h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-lg border-2 border-base-200 bg-card p-6">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="flex flex-col rounded-lg border-2 border-base-200 bg-card p-6">
               <div className="mb-4">
-                <h4 className="font-semibold">Form Components</h4>
+                <h4 className="font-semibold">Inputs & Forms</h4>
               </div>
               <div className="mb-4 space-y-1 text-sm text-muted-foreground">
-                <div>• Button, Input, Checkbox</div>
-                <div>• Radio, Select, Switch</div>
-                <div>• Form validation & accessibility</div>
+                <div>• Input, Textarea, TagInput</div>
+                <div>• Checkbox, Radio, Switch</div>
+                <div>• Select, Combobox, MultiSelect</div>
+                <div>• FormItem, Label</div>
               </div>
               <div className="mt-auto">
-                <Button variant="link" size="sm">
-                  View Components →
+                <Button variant="link" size="sm" className="px-0" asChild>
+                  <a
+                    href="/?path=/story/inputs-forms"
+                    aria-label="View Inputs and Forms Components"
+                  >
+                    View Components →
+                  </a>
                 </Button>
               </div>
             </div>
-            <div className="rounded-lg border-2 border-base-200 bg-card p-6">
+            <div className="flex flex-col rounded-lg border-2 border-base-200 bg-card p-6">
               <div className="mb-4">
-                <h4 className="font-semibold">Layout Components</h4>
+                <h4 className="font-semibold">Actions & Navigation</h4>
               </div>
               <div className="mb-4 space-y-1 text-sm text-muted-foreground">
-                <div>• Accordion, Tabs</div>
-                <div>• Dialog, Popover, Tooltip</div>
-                <div>• Responsive grid system</div>
+                <div>• Button, DropdownButton</div>
+                <div>• Breadcrumbs, Tabs</div>
+                <div>• StepIndicator</div>
               </div>
               <div className="mt-auto">
-                <Button variant="link" size="sm">
-                  View Components →
+                <Button variant="link" size="sm" className="px-0" asChild>
+                  <a
+                    href="/?path=/story/actions-navigation"
+                    aria-label="View Actions and Navigation Components"
+                  >
+                    View Components →
+                  </a>
                 </Button>
               </div>
             </div>
-            <div className="rounded-lg border-2 border-base-200 bg-card p-6">
+            <div className="flex flex-col rounded-lg border-2 border-base-200 bg-card p-6">
               <div className="mb-4">
-                <h4 className="font-semibold">Data Components</h4>
+                <h4 className="font-semibold">Overlays & Feedback</h4>
               </div>
               <div className="mb-4 space-y-1 text-sm text-muted-foreground">
-                <div>• DatePicker, Calendar</div>
-                <div>• Combobox, Autocomplete</div>
-                <div>• Badge, StepIndicator</div>
+                <div>• Dialog, Popover</div>
+                <div>• Tooltip, Alert</div>
+                <div>• Command</div>
               </div>
               <div className="mt-auto">
-                <Button variant="link" size="sm">
-                  View Components →
+                <Button variant="link" size="sm" className="px-0" asChild>
+                  <a
+                    href="/?path=/story/overlays-feedback"
+                    aria-label="View Overlays and Feedback Components"
+                  >
+                    View Components →
+                  </a>
+                </Button>
+              </div>
+            </div>
+            <div className="flex flex-col rounded-lg border-2 border-base-200 bg-card p-6">
+              <div className="mb-4">
+                <h4 className="font-semibold">Data & Display</h4>
+              </div>
+              <div className="mb-4 space-y-1 text-sm text-muted-foreground">
+                <div>• DatePicker, DateRangePicker</div>
+                <div>• Autocomplete, Badge</div>
+                <div>• Image, Accordion</div>
+              </div>
+              <div className="mt-auto">
+                <Button variant="link" size="sm" className="px-0" asChild>
+                  <a
+                    href="/?path=/story/data-display"
+                    aria-label="View Data and Display Components"
+                  >
+                    View Components →
+                  </a>
                 </Button>
               </div>
             </div>

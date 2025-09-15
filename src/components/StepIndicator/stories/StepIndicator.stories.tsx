@@ -4,7 +4,7 @@ import { Button } from '../../Button';
 import { StepIndicator } from '../src/StepIndicator';
 
 const meta = {
-  title: 'Data Components/StepIndicator',
+  title: 'Actions & Navigation/StepIndicator',
   component: StepIndicator,
   parameters: {},
   tags: ['autodocs'],

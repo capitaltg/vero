@@ -4,7 +4,7 @@ import { RadioGroup } from '../src/RadioGroup';
 import type { RadioGroupProps } from '../types';
 
 const meta = {
-  title: 'Form Components/RadioGroup',
+  title: 'Inputs & Forms/RadioGroup',
   component: RadioGroup,
   parameters: {},
   argTypes: {

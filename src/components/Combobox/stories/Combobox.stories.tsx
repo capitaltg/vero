@@ -4,7 +4,7 @@ import { Combobox } from '../src/Combobox';
 import type { ComboboxProps } from '../types';
 
 const meta = {
-  title: 'Data Components/Combobox',
+  title: 'Inputs & Forms/Combobox',
   component: Combobox,
   parameters: {},
   tags: ['autodocs'],

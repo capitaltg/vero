@@ -5,7 +5,7 @@ import { Autocomplete } from '../src/Autocomplete';
 import { AutocompleteProps } from '../types';
 
 const meta = {
-  title: 'Data Components/Autocomplete',
+  title: 'Data & Display/Autocomplete',
   component: Autocomplete,
   parameters: {},
   tags: ['autodocs'],

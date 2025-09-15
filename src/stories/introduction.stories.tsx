@@ -217,7 +217,13 @@ export const Welcome: Story = {
 
         {/* Footer */}
         <div className="border-t border-base-200 pt-6 text-center text-sm text-muted-foreground">
-          <p>Built with ❤️ by Capital Technology Group</p>
+          <p>
+            Built with ❤️ by{' '}
+            <a href="https://github.com/dzwillia" className="font-bold">
+              @dzwillia
+            </a>{' '}
+            and the Vero team
+          </p>
           <p className="mt-2">Licensed under MIT • Version 1.4.2</p>
         </div>
       </div>

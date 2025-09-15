@@ -11,6 +11,7 @@ const theme = create({
 
 addons.setConfig({
   theme,
+  initialActive: 'introduction--welcome',
   sidebar: {
     showRoots: true,
   },

@@ -3,7 +3,7 @@ import { Home, Settings, User } from 'lucide-react';
 import { Breadcrumbs } from '../src/Breadcrumbs';
 
 const meta = {
-  title: 'Components/Breadcrumbs',
+  title: 'Actions & Navigation/Breadcrumbs',
   component: Breadcrumbs,
   parameters: {},
   tags: ['autodocs'],

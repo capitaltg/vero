@@ -4,7 +4,7 @@ import { SingleSelect } from '../src/SingleSelect';
 import type { SingleSelectProps } from '../types';
 
 const meta = {
-  title: 'Components/Select',
+  title: 'Inputs & Forms/Select',
   component: SingleSelect,
   parameters: {},
   argTypes: {

@@ -4,7 +4,7 @@ import { Switch } from '../src/Switch';
 import { SwitchProps } from '../types';
 
 const meta = {
-  title: 'Components/Switch',
+  title: 'Inputs & Forms/Switch',
   component: Switch,
   parameters: {},
   argTypes: {

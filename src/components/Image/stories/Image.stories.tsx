@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Image } from '../src/Image';
 
 const meta = {
-  title: 'Components/Image',
+  title: 'Data & Display/Image',
   component: Image,
   parameters: {},
   tags: ['autodocs'],

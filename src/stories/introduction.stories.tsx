@@ -27,8 +27,8 @@ export const Welcome: Story = {
             Radix UI
           </p>
           <div className="flex justify-center gap-4">
-            <Button variant="primary" size="lg">
-              Get Started
+            <Button variant="primary" size="lg" asChild>
+              <a href="/?path=/story/data-display">Get Started</a>
             </Button>
             <Button asChild variant="ghost" size="lg">
               <a href="https://github.com/capitaltg/vero" target="_blank" rel="noopener noreferrer">
@@ -185,29 +185,29 @@ export const Welcome: Story = {
 
         {/* Design Principles */}
         <div className="rounded-lg border-2 border-base-200 bg-card p-6">
-          <h2 className="mb-4 text-2xl font-bold">Design Principles</h2>
+          <h2 className="mb-4 text-2xl font-bold">🎨 Design Principles</h2>
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <h3 className="mb-2 font-semibold text-primary-400">Accessibility First</h3>
+              <h3 className="mb-2 text-lg font-semibold">Accessibility First</h3>
               <p className="text-sm text-muted-foreground">
                 Every component is built with accessibility in mind, following WCAG 2.1 AA
                 guidelines.
               </p>
             </div>
             <div>
-              <h3 className="mb-2 font-semibold text-primary-400">Government Ready</h3>
+              <h3 className="mb-2 text-lg font-semibold">Government Ready</h3>
               <p className="text-sm text-muted-foreground">
                 Inspired by USWDS, designed for government and enterprise applications.
               </p>
             </div>
             <div>
-              <h3 className="mb-2 font-semibold text-primary-400">Developer Experience</h3>
+              <h3 className="mb-2 text-lg font-semibold">Developer Experience</h3>
               <p className="text-sm text-muted-foreground">
                 TypeScript-first with excellent IDE support and comprehensive documentation.
               </p>
             </div>
             <div>
-              <h3 className="mb-2 font-semibold text-primary-400">Customizable</h3>
+              <h3 className="mb-2 text-lg font-semibold">Customizable</h3>
               <p className="text-sm text-muted-foreground">
                 Built with Tailwind CSS and CVA for easy theming and customization.
               </p>

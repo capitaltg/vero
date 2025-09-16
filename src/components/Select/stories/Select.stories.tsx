@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { SingleSelect } from '../src/SingleSelect';
-import type { SingleSelectProps } from '../types';
+import { Select } from '../src/SingleSelect';
+import { SelectProps } from '../types';
 
 const meta = {
   title: 'Inputs & Forms/Select',
-  component: SingleSelect,
+  component: Select,
   parameters: {},
   argTypes: {
     value: {
@@ -30,7 +30,7 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof SingleSelect>;
+} satisfies Meta<typeof Select>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -43,11 +43,11 @@ const options = [
   { value: 'mango', label: 'Mango' },
 ];
 
-const SelectDemo = ({ value: initialValue = '', ...args }: SingleSelectProps) => {
+const SelectDemo = ({ value: initialValue = '', ...args }: SelectProps) => {
   const [value, setValue] = useState(initialValue);
   return (
     <div className="space-y-4">
-      <SingleSelect
+      <Select
         {...args}
         value={value}
         onChange={newValue => {

@@ -219,7 +219,12 @@ export const Welcome: Story = {
         <div className="border-t border-base-200 pt-6 text-center text-sm text-muted-foreground">
           <p>
             Built with ❤️ by{' '}
-            <a href="https://github.com/dzwillia" className="font-bold">
+            <a
+              href="https://github.com/dzwillia"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold"
+            >
               @dzwillia
             </a>{' '}
             and the Vero team

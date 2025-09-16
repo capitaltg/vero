@@ -1,18 +1,18 @@
 import { cn } from '@/lib/utils';
 import * as React from 'react';
-import { SingleSelectProps } from '../types';
-import { Select, SelectValue } from './Select';
+import { SelectProps } from '../types';
+import { SelectRoot, SelectValue } from './Select';
 import { SelectContent } from './SelectContent';
 import { SelectItem } from './SelectItem';
 import { SelectTrigger } from './SelectTrigger';
 
-const SingleSelect = React.forwardRef<HTMLButtonElement, SingleSelectProps>(
+const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
   (
     { options, value, onChange, placeholder = 'Select an option', className, isDisabled, ...props },
     ref,
   ) => {
     return (
-      <Select value={value} onValueChange={onChange}>
+      <SelectRoot value={value} onValueChange={onChange}>
         <SelectTrigger
           ref={ref}
           className={cn('w-full justify-between', !value && 'text-muted-foreground', className)}
@@ -28,10 +28,10 @@ const SingleSelect = React.forwardRef<HTMLButtonElement, SingleSelectProps>(
             </SelectItem>
           ))}
         </SelectContent>
-      </Select>
+      </SelectRoot>
     );
   },
 );
-SingleSelect.displayName = 'SingleSelect';
+Select.displayName = 'Select';
 
-export { SingleSelect };
+export { Select, Select as SingleSelect };

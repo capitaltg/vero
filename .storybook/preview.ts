@@ -11,6 +11,18 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: [
+          'Getting Started',
+          'Overlays & Feedback',
+          'Actions & Navigation',
+          'Data & Display',
+          '*',
+        ],
+      },
+    },
     layout: 'padded',
   },
   globalTypes: {

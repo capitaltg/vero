@@ -17,7 +17,7 @@ const getYears = (startMonth?: Date, endMonth?: Date): number[] => {
   return years;
 };
 
-export const CalendarYearPicker = (props: CalendarYearPickerProps) => {
+const CalendarYearPicker = (props: CalendarYearPickerProps) => {
   const { onSelect, startMonth, endMonth } = props;
   const firstButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -49,3 +49,5 @@ export const CalendarYearPicker = (props: CalendarYearPickerProps) => {
     </div>
   );
 };
+
+export { CalendarYearPicker };

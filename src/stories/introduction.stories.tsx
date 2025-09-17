@@ -3,7 +3,7 @@ import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 
 const meta: Meta = {
-  title: 'Introduction',
+  title: 'Getting Started/Introduction',
   parameters: {
     layout: 'fullscreen',
     docs: {

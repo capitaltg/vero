@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Select } from '../src/Select';
-import { SelectProps } from '../types';
+import type { SelectProps } from '../types';
 
 const meta = {
   title: 'Inputs & Forms/Select',

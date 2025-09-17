@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import * as React from 'react';
-import { SelectProps } from '../types';
+import type { SelectProps } from '../types';
 import { SelectContent } from './SelectContent';
 import { SelectItem } from './SelectItem';
 import { SelectTrigger } from './SelectTrigger';

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { Select } from '../src/SingleSelect';
+import { Select } from '../src/Select';
 import { SelectProps } from '../types';
 
 const meta = {

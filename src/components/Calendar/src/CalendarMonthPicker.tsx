@@ -8,7 +8,7 @@ import { CalendarMonthPickerProps } from '../types';
 const getMonths = (): string[] =>
   Array.from({ length: 12 }, (_, i) => new Date(0, i).toLocaleString('en-US', { month: 'long' }));
 
-export const CalendarMonthPicker = (props: CalendarMonthPickerProps) => {
+const CalendarMonthPicker = (props: CalendarMonthPickerProps) => {
   const { onSelect } = props;
   const firstButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -40,3 +40,5 @@ export const CalendarMonthPicker = (props: CalendarMonthPickerProps) => {
     </div>
   );
 };
+
+export { CalendarMonthPicker };

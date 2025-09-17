@@ -6,7 +6,7 @@ export interface SelectOption {
   label: string;
 }
 
-export interface SingleSelectProps {
+export interface SelectProps {
   options: SelectOption[];
   value: string;
   onChange: (value: string) => void;
@@ -14,6 +14,9 @@ export interface SingleSelectProps {
   className?: string;
   isDisabled?: boolean;
 }
+
+// TODO: Remove when removing SingleSelect component
+export type SingleSelectProps = SelectProps;
 
 export interface SelectTriggerProps
   extends Omit<ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>, 'disabled'> {

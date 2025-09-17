@@ -10,7 +10,7 @@ import { Input } from '@/components/Input';
 import { Label } from '@/components/Label';
 import { MultiSelect } from '@/components/MultiSelect';
 import { RadioGroup } from '@/components/RadioGroup';
-import { SingleSelect } from '@/components/Select';
+import { Select } from '@/components/Select';
 import { SwitchGroup } from '@/components/SwitchGroup';
 import { Tag, TagInput } from '@/components/TagInput';
 import { Textarea } from '@/components/Textarea';
@@ -110,7 +110,7 @@ export const App: React.FC = () => {
             </div>
           </div>
           <div className="w-[16rem]">
-            <SingleSelect
+            <Select
               options={themeSelectOptions}
               value={currentTheme}
               onChange={setCurrentTheme}
@@ -261,7 +261,7 @@ export const App: React.FC = () => {
             elementId="theme-single-select-id"
             hintText="Select your preferred theme"
           >
-            <SingleSelect
+            <Select
               options={themeOptions}
               value={theme}
               onChange={setTheme}

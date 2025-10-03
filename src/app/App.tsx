@@ -3,6 +3,7 @@ import { Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
 import { CheckboxGroup } from '@/components/CheckboxGroup';
 import { Combobox } from '@/components/Combobox';
+import { DateInput } from '@/components/DateInput';
 import { DatePicker } from '@/components/DatePicker';
 import { DateRange, DateRangePicker } from '@/components/DateRangePicker';
 import { FormItem } from '@/components/FormItem';
@@ -56,6 +57,7 @@ export const App: React.FC = () => {
   const [endDate2, setEndDate2] = useState<Date>();
   const [dateRange1, setDateRange1] = useState<DateRange>({});
   const [dateRange2, setDateRange2] = useState<DateRange>({});
+  const [validatedDate, setValidatedDate] = useState<Date>();
 
   // Multi selects
   const [selectedClouds, setSelectedClouds] = useState<string[]>([]);
@@ -383,6 +385,20 @@ export const App: React.FC = () => {
 
           {/* Date Inputs */}
           <div className="space-y-4">
+            <FormItem
+              label="Validated Date Input"
+              elementId="validated-date-input-id"
+              hintText="Enter a date manually or use the calendar picker"
+            >
+              <DateInput
+                value={validatedDate}
+                onChange={setValidatedDate}
+                placeholder="MM/DD/YYYY"
+                minDate={new Date(2020, 0, 1)}
+                maxDate={new Date(2030, 11, 31)}
+              />
+            </FormItem>
+
             <div className="grid grid-cols-2 gap-4">
               <FormItem
                 label="Project Start"

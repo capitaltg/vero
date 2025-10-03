@@ -61,7 +61,7 @@ import { Button, Input, FormItem } from '@capitaltg/vero';
 function App() {
   return (
     <div>
-      <FormItem label="Email" hintText="Enter your email address">
+      <FormItem label="Email" elementId="email-input" hintText="Enter your email address">
         <Input type="email" placeholder="you@example.com" />
       </FormItem>
       <Button variant="primary">Submit</Button>

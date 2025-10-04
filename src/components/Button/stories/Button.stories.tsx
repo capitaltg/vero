@@ -12,6 +12,10 @@ const meta = {
       options: ['default', 'primary', 'danger', 'link', 'input', 'ghost'],
       description: 'The visual style variant of the button',
     },
+    isOutline: {
+      control: 'boolean',
+      description: 'Whether the button should have an outline style',
+    },
     size: {
       options: ['default', 'sm', 'lg'],
       control: 'radio',
@@ -57,6 +61,30 @@ export const Danger: Story = {
   args: {
     children: 'Danger Button',
     variant: 'danger',
+  },
+};
+
+/**
+ * The primary button with outline style.
+ * Shows how the outline prop works with the primary variant.
+ */
+export const PrimaryOutline: Story = {
+  args: {
+    children: 'Primary Outline Button',
+    variant: 'primary',
+    isOutline: true,
+  },
+};
+
+/**
+ * The danger button with outline style.
+ * Used for dangerous or destructive actions with a more subtle appearance.
+ */
+export const DangerOutline: Story = {
+  args: {
+    children: 'Danger Outline Button',
+    variant: 'danger',
+    isOutline: true,
   },
 };
 

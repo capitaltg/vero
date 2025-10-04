@@ -14,14 +14,31 @@ export const buttonVariants = cva(styles.button, {
         'border border-input bg-background font-normal hover:bg-accent hover:text-accent-foreground',
       ghost: 'hover:bg-black hover:bg-opacity-10 hover:text-black',
     },
+    isOutline: {
+      true: '',
+      false: '',
+    },
     size: {
       default: 'h-10 px-4 py-2',
       sm: 'h-8 px-3 text-sm',
       lg: 'h-12 rounded-md px-8 text-lg',
     },
   },
+  compoundVariants: [
+    {
+      variant: 'primary',
+      isOutline: true,
+      class: 'bg-transparent text-primary-400 hover:bg-primary-500 hover:text-white',
+    },
+    {
+      variant: 'danger',
+      isOutline: true,
+      class: 'bg-transparent text-danger-400 hover:bg-danger-500 hover:text-white',
+    },
+  ],
   defaultVariants: {
     variant: 'default',
     size: 'default',
+    isOutline: false,
   },
 });

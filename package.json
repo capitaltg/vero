@@ -21,7 +21,8 @@
     "./index.css": "./dist/index.css"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run storybook",
+    "app": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

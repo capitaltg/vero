@@ -75,7 +75,7 @@ export const alertContentVariants = cva('flex flex-1', {
   ],
 });
 
-export const alertHeadingVariants = cva('font-bold text-base-700 dark:text-base-100', {
+export const alertHeadingVariants = cva('mb-0 mt-0 font-bold text-base-700 dark:text-base-100', {
   variants: {
     size: {
       sm: 'text-base/5',

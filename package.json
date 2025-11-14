@@ -97,6 +97,8 @@
     "husky": "^8.0.0",
     "postcss": "^8.4.35",
     "prettier": "^3.5.3",
+    "prettier-plugin-classnames": "^0.8.5",
+    "prettier-plugin-merge": "^0.8.0",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "^18.2.0",

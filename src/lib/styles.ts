@@ -3,15 +3,22 @@ import { tw } from '@/lib/utils';
 const focusRing = tw`focus:outline-none focus:ring-[3px] focus:ring-ring focus:ring-offset-[3px]`;
 const focusRingSm = tw`focus:ring-offset-2`;
 
-const focusRingVisible = tw`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:ring-offset-[3px] focus-visible:ring-offset-background`;
+const focusRingVisible = tw`focus-visible:outline-none focus-visible:ring-[3px]
+focus-visible:ring-ring focus-visible:ring-offset-[3px] focus-visible:ring-offset-background`;
 const focusRingVisibleSm = tw`focus-visible:ring-offset-[2px]`;
 
-const focusRingWithin = tw`focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring focus-within:ring-offset-[3px] focus-within:ring-offset-background`;
+const focusRingWithin = tw`focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring
+focus-within:ring-offset-[3px] focus-within:ring-offset-background`;
 const focusRingWithinSm = tw`focus-within:ring-offset-[2px]`;
 
-const input = tw`flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50`;
+const input = tw`flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm
+ring-offset-background disabled:cursor-not-allowed disabled:opacity-50
+aria-disabled:cursor-not-allowed aria-disabled:opacity-50`;
 
-const button = tw`inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-sm bg-transparent text-sm font-bold ring-offset-background transition-colors disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50`;
+const button = tw`inline-flex cursor-pointer items-center justify-center whitespace-nowrap
+rounded-sm bg-transparent text-sm font-bold ring-offset-background transition-colors
+disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50
+aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50`;
 
 export const styles = {
   focusRing,

@@ -173,7 +173,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
           buttonVariants({ variant: 'ghost' }),
           cellWidth,
           cellHeight,
-          'relative rounded-l-full rounded-r-full text-center text-sm font-normal focus-within:relative focus-within:z-20 focus:opacity-100 focus:ring-2 focus:ring-offset-0',
+          `relative rounded-l-full rounded-r-full text-center text-sm font-normal
+          focus-within:relative focus-within:z-20 focus:opacity-100 focus:ring-2
+          focus:ring-offset-0`,
         ),
         range_start:
           'rounded-l-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground',

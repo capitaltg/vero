@@ -54,7 +54,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             className={cn(
               styles.focusRing,
               styles.focusRingSm,
-              '-mt-0.5 shrink-0 rounded-full bg-transparent px-1.5 py-1.5 opacity-70 transition hover:bg-black/10 hover:opacity-100 focus:bg-black/10 focus:opacity-100',
+              `-mt-0.5 shrink-0 rounded-full bg-transparent px-1.5 py-1.5 opacity-70 transition
+                hover:bg-black/10 hover:opacity-100 focus:bg-black/10 focus:opacity-100`,
             )}
           >
             <X className="h-5 w-5" strokeWidth={3} />

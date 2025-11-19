@@ -73,19 +73,22 @@ export const CustomStyling: Story = {
       <TabsList className="grid w-full grid-cols-3 border-none bg-base-200 text-black">
         <TabsTrigger
           value="tab1"
-          className="hover:bg-white hover:text-primary disabled:pointer-events-none data-[state=active]:bg-white data-[state=active]:text-primary-400"
+          className="hover:bg-white hover:text-primary disabled:pointer-events-none
+            data-[state=active]:bg-white data-[state=active]:text-primary-400"
         >
           Favorites
         </TabsTrigger>
         <TabsTrigger
           value="tab2"
-          className="hover:bg-white hover:text-primary disabled:pointer-events-none data-[state=active]:bg-white data-[state=active]:text-primary-400"
+          className="hover:bg-white hover:text-primary disabled:pointer-events-none
+            data-[state=active]:bg-white data-[state=active]:text-primary-400"
         >
           Calls
         </TabsTrigger>
         <TabsTrigger
           value="tab3"
-          className="hover:bg-white hover:text-primary disabled:pointer-events-none data-[state=active]:bg-white data-[state=active]:text-primary-400"
+          className="hover:bg-white hover:text-primary disabled:pointer-events-none
+            data-[state=active]:bg-white data-[state=active]:text-primary-400"
         >
           Contacts
         </TabsTrigger>

@@ -24,11 +24,15 @@ const AccordionItems = ({
             className={cn(accordionTriggerVariants({ variant, caretPosition }), triggerClassName)}
           >
             {caretPosition === 'left' ? (
-              <ChevronRight className="mr-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200" />
+              <ChevronRight
+                className="mr-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200"
+              />
             ) : null}
             <span className="flex-1 text-left">{item.title}</span>
             {caretPosition === 'right' ? (
-              <ChevronDown className="ml-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200" />
+              <ChevronDown
+                className="ml-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200"
+              />
             ) : null}
           </AccordionPrimitive.Trigger>
         </AccordionPrimitive.Header>

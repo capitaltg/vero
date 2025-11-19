@@ -45,7 +45,8 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
           {selectedLabels.map((label, index) => (
             <div
               key={value[index]}
-              className="flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm text-secondary-foreground"
+              className="flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm
+                text-secondary-foreground"
             >
               {label}
               <X
@@ -108,7 +109,8 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
                     <div className="flex items-center">
                       <div
                         className={cn(
-                          'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary-400',
+                          `mr-2 flex h-4 w-4 items-center justify-center rounded-sm border
+                          border-primary-400`,
                           value.includes(option.value) ? 'bg-primary-400 text-white' : 'opacity-50',
                         )}
                       >

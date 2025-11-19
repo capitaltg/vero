@@ -32,10 +32,12 @@ const RadioGroup = React.forwardRef<
           variant === 'tile' && 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
           variant === 'button' &&
             orientation === 'horizontal' &&
-            'flex flex-row gap-0 [&>*:first-child]:ml-0 [&>*:first-child]:rounded-l-sm [&>*:last-child]:rounded-r-sm [&>*]:-ml-[1px] [&>*]:rounded-none',
+            `flex flex-row gap-0 [&>*:first-child]:ml-0 [&>*:first-child]:rounded-l-sm
+            [&>*:last-child]:rounded-r-sm [&>*]:-ml-[1px] [&>*]:rounded-none`,
           variant === 'button' &&
             orientation === 'vertical' &&
-            'flex flex-col gap-0 [&>*:first-child]:mt-0 [&>*:first-child]:rounded-t-sm [&>*:last-child]:rounded-b-sm [&>*]:-mt-[1px] [&>*]:rounded-none',
+            `flex flex-col gap-0 [&>*:first-child]:mt-0 [&>*:first-child]:rounded-t-sm
+            [&>*:last-child]:rounded-b-sm [&>*]:-mt-[1px] [&>*]:rounded-none`,
           className,
           { ...props },
         )}

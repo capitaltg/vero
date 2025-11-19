@@ -159,7 +159,8 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             onClick={evt => evt.stopPropagation()}
             onKeyDown={evt => handleTagKeyDown(evt, index)}
             className={cn(
-              'flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm text-secondary-foreground transition-colors',
+              `flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm
+              text-secondary-foreground transition-colors`,
               'hover:bg-secondary/80',
               isDisabled && 'cursor-not-allowed opacity-50',
               styles.focusRing,
@@ -189,7 +190,8 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
           onKeyDown={handleKeyDown}
           onFocus={() => setFocusedTagIndex(-1)}
           placeholder={value.length === 0 ? placeholderText : ''}
-          className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed"
+          className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground
+            disabled:cursor-not-allowed"
           disabled={isDisabled || (maxTags !== undefined && value.length >= maxTags)}
         />
       </div>

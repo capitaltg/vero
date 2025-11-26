@@ -52,6 +52,27 @@ export const projectTypes = [
   { value: 'desktop', label: 'Desktop Application' },
 ];
 
+export const deploymentPlans = [
+  {
+    value: 'starter',
+    label: 'Starter',
+    description:
+      'Perfect for small projects and prototypes. Includes basic features and limited resources.',
+  },
+  {
+    value: 'professional',
+    label: 'Professional',
+    description:
+      'Ideal for production applications. Enhanced performance, monitoring, and support.',
+  },
+  {
+    value: 'enterprise',
+    label: 'Enterprise',
+    description:
+      'Maximum scalability and reliability. Dedicated resources, SLA, and priority support.',
+  },
+];
+
 export const settingsOptions = [
   { id: 'public', label: 'Public Repository' },
   { id: 'opensource', label: 'Open Source' },

@@ -17,6 +17,7 @@ import { Textarea } from '@/components/Textarea';
 import {
   clouds,
   databases,
+  deploymentPlans,
   features,
   frameworks,
   languages,
@@ -70,6 +71,7 @@ export const App: React.FC = () => {
 
   // Radio
   const [projectType, setProjectType] = useState('web');
+  const [deploymentPlan, setDeploymentPlan] = useState('starter');
 
   // Theme
   const [currentTheme, setCurrentTheme] = useState<string>('theme-uswds');
@@ -321,6 +323,20 @@ export const App: React.FC = () => {
             hintText="Select the primary type of application you're building"
           >
             <RadioGroup options={projectTypes} value={projectType} onChange={setProjectType} />
+          </FormItem>
+
+          {/* Tile Radio Group */}
+          <FormItem
+            label="Deployment Plan"
+            elementId="deployment-plan-radio-group-id"
+            hintText="Choose the plan that best fits your project needs"
+          >
+            <RadioGroup
+              options={deploymentPlans}
+              value={deploymentPlan}
+              onChange={setDeploymentPlan}
+              variant="tile"
+            />
           </FormItem>
 
           {/* Checkbox Group */}

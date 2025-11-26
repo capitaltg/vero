@@ -88,31 +88,35 @@ const TileRadio = ({
         isChecked && 'border-primary-400',
         isDisabled
           ? 'cursor-not-allowed opacity-50 [&_*]:cursor-not-allowed'
-          : 'hover:bg-accent hover:text-accent-foreground',
+          : 'cursor-pointer hover:bg-accent hover:text-accent-foreground',
         className,
       )}
     >
+      <RadioGroupPrimitive.Item
+        ref={ref}
+        id={id}
+        className="absolute inset-0 opacity-0"
+        checked={isChecked}
+        aria-label={ariaLabel}
+        {...props}
+        {...disabledProps}
+      />
       <div className="flex items-start gap-3">
-        <RadioGroupPrimitive.Item
-          ref={ref}
-          id={id}
+        <div
           className={cn(
-            styles.focusRingVisible,
-            styles.focusRingVisibleSm,
             radioCircleClasses,
-            'mt-1',
+            'pointer-events-none mt-1',
+            isChecked && 'border-primary-400',
           )}
-          checked={isChecked}
-          aria-label={ariaLabel}
-          {...props}
-          {...disabledProps}
         >
-          <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-            <Circle className="h-3 w-3 fill-current text-current" />
-          </RadioGroupPrimitive.Indicator>
-        </RadioGroupPrimitive.Item>
-        <div className="space-y-1">
-          <DefaultRadioLabel id={id} label={label} />
+          {isChecked ? (
+            <div className="flex h-full w-full items-center justify-center">
+              <Circle className="h-3 w-3 fill-current text-primary-400" />
+            </div>
+          ) : null}
+        </div>
+        <div className="pointer-events-none space-y-1">
+          {label && typeof label === 'string' ? <div className="font-medium">{label}</div> : label}
           {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
         </div>
       </div>

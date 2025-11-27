@@ -28,7 +28,7 @@ export const Welcome: Story = {
           </p>
           <div className="flex justify-center gap-4">
             <Button variant="primary" size="lg" asChild>
-              <a href="/?path=/story/data-display">Get Started</a>
+              <a href="/?path=/docs/overlays-feedback-alert--docs">Get Started</a>
             </Button>
             <Button asChild variant="ghost" size="lg">
               <a href="https://github.com/capitaltg/vero" target="_blank" rel="noopener noreferrer">

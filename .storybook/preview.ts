@@ -19,6 +19,8 @@ const preview: Preview = {
           'Overlays & Feedback',
           'Actions & Navigation',
           'Data & Display',
+          'Inputs & Forms',
+          'Examples',
           '*',
         ],
       },

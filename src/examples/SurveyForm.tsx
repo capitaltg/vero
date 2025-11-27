@@ -4,11 +4,20 @@ import { CheckboxGroup } from '../components/CheckboxGroup';
 import { FormItem } from '../components/FormItem';
 import { Input } from '../components/Input';
 import { RadioGroup } from '../components/RadioGroup';
-import { StepIndicator } from '../components/StepIndicator';
+import { StepIndicator, type StepIdFromSteps } from '../components/StepIndicator';
 import { Textarea } from '../components/Textarea';
 
 export const SurveyForm = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const steps = [
+    { id: 'contact', label: 'Contact Info' },
+    { id: 'satisfaction', label: 'Satisfaction' },
+    { id: 'features', label: 'Features' },
+    { id: 'feedback', label: 'Feedback' },
+  ] as const;
+
+  type StepId = StepIdFromSteps<typeof steps>;
+
+  const [currentStep, setCurrentStep] = useState<StepId>('contact');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [satisfaction, setSatisfaction] = useState('');
@@ -47,22 +56,17 @@ export const SurveyForm = () => {
     { value: '10', label: '10' },
   ];
 
-  const steps = [
-    { id: 'contact', label: 'Contact Info' },
-    { id: 'satisfaction', label: 'Satisfaction' },
-    { id: 'features', label: 'Features' },
-    { id: 'feedback', label: 'Feedback' },
-  ];
-
   const handleNext = () => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1);
+    const currentIndex = steps.findIndex(s => s.id === currentStep);
+    if (currentIndex < steps.length - 1) {
+      setCurrentStep(steps[currentIndex + 1].id);
     }
   };
 
   const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
+    const currentIndex = steps.findIndex(s => s.id === currentStep);
+    if (currentIndex > 0) {
+      setCurrentStep(steps[currentIndex - 1].id);
     }
   };
 
@@ -73,13 +77,13 @@ export const SurveyForm = () => {
 
   const isStepValid = () => {
     switch (currentStep) {
-      case 0:
+      case 'contact':
         return name && email;
-      case 1:
+      case 'satisfaction':
         return satisfaction;
-      case 2:
+      case 'features':
         return features.length > 0;
-      case 3:
+      case 'feedback':
         return recommendation;
       default:
         return false;
@@ -98,7 +102,7 @@ export const SurveyForm = () => {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Step 1: Contact Information */}
-          {currentStep === 0 ? (
+          {currentStep === 'contact' ? (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Contact Information</h2>
               <FormItem label="Full Name" elementId="name" isRequired>
@@ -130,7 +134,7 @@ export const SurveyForm = () => {
           ) : null}
 
           {/* Step 2: Overall Satisfaction */}
-          {currentStep === 1 ? (
+          {currentStep === 'satisfaction' ? (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Overall Satisfaction</h2>
               <FormItem
@@ -149,7 +153,7 @@ export const SurveyForm = () => {
           ) : null}
 
           {/* Step 3: Feature Satisfaction */}
-          {currentStep === 2 ? (
+          {currentStep === 'features' ? (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Feature Satisfaction</h2>
               <FormItem
@@ -164,7 +168,7 @@ export const SurveyForm = () => {
           ) : null}
 
           {/* Step 4: Additional Feedback */}
-          {currentStep === 3 ? (
+          {currentStep === 'feedback' ? (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Additional Feedback</h2>
               <FormItem
@@ -204,12 +208,12 @@ export const SurveyForm = () => {
               type="button"
               variant="default"
               onClick={handleBack}
-              isDisabled={currentStep === 0}
+              isDisabled={currentStep === 'contact'}
             >
               Back
             </Button>
 
-            {currentStep < 3 ? (
+            {currentStep !== 'feedback' ? (
               <Button
                 type="button"
                 variant="primary"

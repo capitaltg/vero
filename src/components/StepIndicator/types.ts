@@ -4,10 +4,25 @@ export interface Step {
   description?: string;
 }
 
-export interface StepIndicatorProps {
-  steps: Step[];
-  currentStep: number;
+type StepId<T extends readonly Step[] | Step[]> = T[number]['id'];
+
+export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonly Step[]> {
+  steps: T;
+  currentStep: StepId<T>;
   className?: string;
   orientation?: 'horizontal' | 'vertical';
   size?: 'default' | 'sm' | 'lg';
 }
+
+/**
+ * Helper type to extract the step id type from a steps array.
+ * Useful for typing state variables that hold the current step id.
+ *
+ * @example
+ * ```ts
+ * const steps = [{ id: '1', label: 'Step 1' }, { id: '2', label: 'Step 2' }] as const;
+ * type StepId = StepIdFromSteps<typeof steps>; // '1' | '2'
+ * const [currentStep, setCurrentStep] = useState<StepId>('1');
+ * ```
+ */
+export type StepIdFromSteps<T extends readonly Step[] | Step[]> = StepId<T>;

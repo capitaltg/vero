@@ -1,2 +1,2 @@
 export { StepIndicator } from './src/StepIndicator';
-export type { Step, StepIndicatorProps } from './types';
+export type { Step, StepIndicatorProps, StepIdFromSteps } from './types';

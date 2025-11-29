@@ -40,7 +40,7 @@ export const stepIndicatorCircleVariants = cva(
   },
 );
 
-export const stepIndicatoConnectorVariants = cva('absolute bg-muted', {
+export const stepIndicatorConnectorVariants = cva('absolute bg-muted', {
   variants: {
     size: {
       sm: '',

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Button } from '../../Button';
 import { StepIndicator } from '../src/StepIndicator';
+import type { StepIdFromSteps } from '../types';
 
 const meta = {
   title: 'Actions & Navigation/StepIndicator',
@@ -15,45 +16,57 @@ type Story = StoryObj<typeof meta>;
 
 const steps = [
   {
-    id: '1',
+    id: 'account',
     label: 'Account',
     description: 'Create your account',
   },
   {
-    id: '2',
+    id: 'profile',
     label: 'Profile',
     description: 'Complete your profile',
   },
   {
-    id: '3',
+    id: 'review',
     label: 'Review',
     description: 'Review your information',
   },
   {
-    id: '4',
+    id: 'complete',
     label: 'Complete',
     description: 'Registration completed',
   },
-];
+] as const;
 
 const InteractiveDemo = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState<StepIdFromSteps<typeof steps>>('profile');
+
+  const handlePrevious = () => {
+    const currentIndex = steps.findIndex(s => s.id === currentStep);
+    if (currentIndex > 0) {
+      setCurrentStep(steps[currentIndex - 1].id);
+    }
+  };
+
+  const handleNext = () => {
+    const currentIndex = steps.findIndex(s => s.id === currentStep);
+    if (currentIndex < steps.length - 1) {
+      setCurrentStep(steps[currentIndex + 1].id);
+    }
+  };
+
+  const currentIndex = steps.findIndex(s => s.id === currentStep);
 
   return (
     <div className="space-y-8">
       <StepIndicator steps={steps} currentStep={currentStep} />
       <div className="flex gap-4">
-        <Button
-          variant="default"
-          onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
-          isDisabled={currentStep === 0}
-        >
+        <Button variant="default" onClick={handlePrevious} isDisabled={currentIndex === 0}>
           Previous
         </Button>
         <Button
           variant="primary"
-          onClick={() => setCurrentStep(prev => Math.min(steps.length, prev + 1))}
-          isDisabled={currentStep === steps.length}
+          onClick={handleNext}
+          isDisabled={currentIndex === steps.length - 1}
         >
           Next
         </Button>
@@ -70,7 +83,7 @@ export const Interactive: Story = {
   render: () => <InteractiveDemo />,
   args: {
     steps,
-    currentStep: 1,
+    currentStep: 'profile',
   },
 };
 
@@ -80,7 +93,7 @@ export const Interactive: Story = {
 export const Default: Story = {
   args: {
     steps,
-    currentStep: 1,
+    currentStep: 'profile',
   },
 };
 
@@ -90,7 +103,7 @@ export const Default: Story = {
 export const Small: Story = {
   args: {
     steps,
-    currentStep: 1,
+    currentStep: 'profile',
     size: 'sm',
   },
 };
@@ -101,7 +114,7 @@ export const Small: Story = {
 export const Large: Story = {
   args: {
     steps,
-    currentStep: 1,
+    currentStep: 'profile',
     size: 'lg',
   },
 };
@@ -112,18 +125,20 @@ export const Large: Story = {
 export const Vertical: Story = {
   args: {
     steps,
-    currentStep: 2,
+    currentStep: 'review',
     orientation: 'vertical',
   },
 };
 
 /**
  * StepIndicator with all steps completed.
+ * Uses showCurrentAsCompleted to mark the final step as completed.
  */
 export const Completed: Story = {
   args: {
     steps,
-    currentStep: 4,
+    currentStep: 'complete',
+    showCurrentAsCompleted: true,
   },
 };
 
@@ -133,10 +148,10 @@ export const Completed: Story = {
 export const SimpleSteps: Story = {
   args: {
     steps: [
-      { id: '1', label: 'Cart' },
-      { id: '2', label: 'Delivery' },
-      { id: '3', label: 'Payment' },
-    ],
-    currentStep: 1,
+      { id: 'cart', label: 'Cart' },
+      { id: 'delivery', label: 'Delivery' },
+      { id: 'payment', label: 'Payment' },
+    ] as const,
+    currentStep: 'delivery',
   },
 };

@@ -1,18 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
-import { Button } from '../../Button';
 import { StepIndicator } from '../src/StepIndicator';
-import type { StepIdFromSteps } from '../types';
-
-const meta = {
-  title: 'Actions & Navigation/StepIndicator',
-  component: StepIndicator,
-  parameters: {},
-  tags: ['autodocs'],
-} satisfies Meta<typeof StepIndicator>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
+import { StepIndicatorInteractive } from '../demos/StepIndicatorInteractive';
+import sourceCode from '../demos/StepIndicatorInteractive.tsx?raw';
 
 const steps = [
   {
@@ -37,53 +26,33 @@ const steps = [
   },
 ] as const;
 
-const InteractiveDemo = () => {
-  const [currentStep, setCurrentStep] = useState<StepIdFromSteps<typeof steps>>('profile');
+const meta = {
+  title: 'Actions & Navigation/StepIndicator',
+  component: StepIndicator,
+  parameters: {},
+  tags: ['autodocs'],
+} satisfies Meta<typeof StepIndicator>;
 
-  const handlePrevious = () => {
-    const currentIndex = steps.findIndex(s => s.id === currentStep);
-    if (currentIndex > 0) {
-      setCurrentStep(steps[currentIndex - 1].id);
-    }
-  };
-
-  const handleNext = () => {
-    const currentIndex = steps.findIndex(s => s.id === currentStep);
-    if (currentIndex < steps.length - 1) {
-      setCurrentStep(steps[currentIndex + 1].id);
-    }
-  };
-
-  const currentIndex = steps.findIndex(s => s.id === currentStep);
-
-  return (
-    <div className="space-y-8">
-      <StepIndicator steps={steps} currentStep={currentStep} />
-      <div className="flex gap-4">
-        <Button variant="default" onClick={handlePrevious} isDisabled={currentIndex === 0}>
-          Previous
-        </Button>
-        <Button
-          variant="primary"
-          onClick={handleNext}
-          isDisabled={currentIndex === steps.length - 1}
-        >
-          Next
-        </Button>
-      </div>
-    </div>
-  );
-};
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 /**
  * Interactive demo of the StepIndicator component.
  * Shows how the component updates as users progress through steps.
  */
 export const Interactive: Story = {
-  render: () => <InteractiveDemo />,
+  render: () => <StepIndicatorInteractive />,
   args: {
     steps,
     currentStep: 'profile',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCode,
+        language: 'tsx',
+      },
+    },
   },
 };
 

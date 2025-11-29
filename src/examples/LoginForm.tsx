@@ -30,9 +30,11 @@ export const LoginForm = () => {
           <p className="mt-2 text-muted-foreground">Sign in to your account to continue</p>
         </div>
 
-        {showError ? <Alert variant="danger" title="Login failed">
+        {showError ? (
+          <Alert variant="danger" title="Login failed">
             Invalid email or password. Please try again.
-          </Alert> : null}
+          </Alert>
+        ) : null}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <FormItem label="Email Address" elementId="email" isRequired>

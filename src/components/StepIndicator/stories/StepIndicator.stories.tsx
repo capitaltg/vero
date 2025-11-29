@@ -16,29 +16,29 @@ type Story = StoryObj<typeof meta>;
 
 const steps = [
   {
-    id: '1',
+    id: 'account',
     label: 'Account',
     description: 'Create your account',
   },
   {
-    id: '2',
+    id: 'profile',
     label: 'Profile',
     description: 'Complete your profile',
   },
   {
-    id: '3',
+    id: 'review',
     label: 'Review',
     description: 'Review your information',
   },
   {
-    id: '4',
+    id: 'complete',
     label: 'Complete',
     description: 'Registration completed',
   },
 ] as const;
 
 const InteractiveDemo = () => {
-  const [currentStep, setCurrentStep] = useState<StepIdFromSteps<typeof steps>>('2');
+  const [currentStep, setCurrentStep] = useState<StepIdFromSteps<typeof steps>>('profile');
 
   const handlePrevious = () => {
     const currentIndex = steps.findIndex(s => s.id === currentStep);
@@ -83,7 +83,7 @@ export const Interactive: Story = {
   render: () => <InteractiveDemo />,
   args: {
     steps,
-    currentStep: '2',
+    currentStep: 'profile',
   },
 };
 
@@ -93,7 +93,7 @@ export const Interactive: Story = {
 export const Default: Story = {
   args: {
     steps,
-    currentStep: '2',
+    currentStep: 'profile',
   },
 };
 
@@ -103,7 +103,7 @@ export const Default: Story = {
 export const Small: Story = {
   args: {
     steps,
-    currentStep: '2',
+    currentStep: 'profile',
     size: 'sm',
   },
 };
@@ -114,7 +114,7 @@ export const Small: Story = {
 export const Large: Story = {
   args: {
     steps,
-    currentStep: '2',
+    currentStep: 'profile',
     size: 'lg',
   },
 };
@@ -125,18 +125,20 @@ export const Large: Story = {
 export const Vertical: Story = {
   args: {
     steps,
-    currentStep: '3',
+    currentStep: 'review',
     orientation: 'vertical',
   },
 };
 
 /**
  * StepIndicator with all steps completed.
+ * Uses showCurrentAsCompleted to mark the final step as completed.
  */
 export const Completed: Story = {
   args: {
     steps,
-    currentStep: '4',
+    currentStep: 'complete',
+    showCurrentAsCompleted: true,
   },
 };
 
@@ -146,10 +148,10 @@ export const Completed: Story = {
 export const SimpleSteps: Story = {
   args: {
     steps: [
-      { id: '1', label: 'Cart' },
-      { id: '2', label: 'Delivery' },
-      { id: '3', label: 'Payment' },
+      { id: 'cart', label: 'Cart' },
+      { id: 'delivery', label: 'Delivery' },
+      { id: 'payment', label: 'Payment' },
     ] as const,
-    currentStep: '2',
+    currentStep: 'delivery',
   },
 };

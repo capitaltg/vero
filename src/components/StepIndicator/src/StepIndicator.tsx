@@ -18,6 +18,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
     orientation = 'horizontal',
     size = 'default',
     className,
+    showCurrentAsCompleted = false,
     ...props
   }: StepIndicatorProps<T>,
   ref: React.ForwardedRef<HTMLDivElement>,
@@ -30,13 +31,18 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
     >
       {steps.map((step, index) => {
         const currentStepIndex = steps.findIndex(s => s.id === currentStep);
-        const isCompleted = currentStepIndex !== -1 && index < currentStepIndex;
         const isCurrent = step.id === currentStep;
+        const isCompleted =
+          currentStepIndex !== -1 &&
+          (index < currentStepIndex || (showCurrentAsCompleted && isCurrent));
 
         // Determine the status of the step indicator
         let status: StepIndicatorStatus = 'default';
-        if (isCurrent) status = 'current';
-        if (isCompleted) status = 'completed';
+        if (isCompleted) {
+          status = 'completed';
+        } else if (isCurrent) {
+          status = 'current';
+        }
 
         return (
           <div

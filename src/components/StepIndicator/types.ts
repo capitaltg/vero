@@ -12,6 +12,11 @@ export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonl
   className?: string;
   orientation?: 'horizontal' | 'vertical';
   size?: 'default' | 'sm' | 'lg';
+  /**
+   * If true, the current step will be shown as completed instead of current.
+   * Useful for showing the final step as completed when the process is finished.
+   */
+  showCurrentAsCompleted?: boolean;
 }
 
 /**

@@ -15,9 +15,9 @@ export const ComboboxDefault = () => {
     <div className="space-y-4">
       <Combobox
         options={options}
+        placeholder="Select framework..."
         value={value}
         onChange={setValue}
-        placeholder="Select framework..."
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

@@ -7,18 +7,18 @@ import { FormItem } from '../src/FormItem';
 export const FormItemWithLabelSlot = () => (
   <TooltipProvider>
     <FormItem
-      label="Password"
       elementId="password-label-slot-element-id"
+      hintText="Must be at least 8 characters long"
+      label="Password"
       labelSlot={
         <Tooltip content="Password must be at least 8 characters with uppercase, lowercase, and numbers">
-          <Button variant="ghost" size="sm" className="h-auto p-1">
+          <Button className="h-auto p-1" size="sm" variant="ghost">
             <HelpCircle className="h-4 w-4 text-muted-foreground" />
           </Button>
         </Tooltip>
       }
-      hintText="Must be at least 8 characters long"
     >
-      <Input type="password" placeholder="Enter your password" />
+      <Input placeholder="Enter your password" type="password" />
     </FormItem>
   </TooltipProvider>
 );

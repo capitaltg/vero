@@ -26,19 +26,19 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(
       <div className={cn('relative overflow-hidden', shapeStyles[shape], className)}>
         {isLoading ? (
           <div
-            className="absolute inset-0 animate-pulse bg-muted"
             aria-hidden="true"
+            className="absolute inset-0 animate-pulse bg-muted"
             role="presentation"
           />
         ) : null}
         <img
           ref={ref}
-          src={hasError && fallback ? fallback : src}
           alt={alt}
+          className={cn('h-full w-full object-cover', isLoading && 'invisible')}
           loading={isLazy ? 'lazy' : 'eager'}
+          src={hasError && fallback ? fallback : src}
           onError={handleError}
           onLoad={handleLoad}
-          className={cn('h-full w-full object-cover', isLoading && 'invisible')}
           {...props}
         />
       </div>

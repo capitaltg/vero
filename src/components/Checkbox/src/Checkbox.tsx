@@ -35,7 +35,8 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
       <div className="flex items-center space-x-2">
         <CheckboxPrimitive.Root
           ref={ref}
-          id={id}
+          aria-label={ariaLabel}
+          checked={isChecked}
           className={cn(
             styles.focusRingVisible,
             styles.focusRingVisibleSm,
@@ -44,8 +45,7 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
             data-[state=checked]:bg-primary-400 data-[state=checked]:text-white`,
             className,
           )}
-          checked={isChecked}
-          aria-label={ariaLabel}
+          id={id}
           {...props}
           {...disabledProps}
         >

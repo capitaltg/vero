@@ -12,7 +12,7 @@ export const SwitchGroupThreeColumns = () => {
   const [value, setValue] = useState<string[]>([]);
   return (
     <div className="space-y-4">
-      <SwitchGroup options={options} columns={3} value={value} onChange={setValue} />
+      <SwitchGroup columns={3} options={options} value={value} onChange={setValue} />
       <p className="text-sm text-muted-foreground">
         Selected IDs: {value.length > 0 ? value.join(', ') : 'none'}
       </p>

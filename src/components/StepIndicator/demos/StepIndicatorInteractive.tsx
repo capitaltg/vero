@@ -47,15 +47,15 @@ export const StepIndicatorInteractive = () => {
 
   return (
     <div className="space-y-8">
-      <StepIndicator steps={steps} currentStep={currentStep} />
+      <StepIndicator currentStep={currentStep} steps={steps} />
       <div className="flex gap-4">
-        <Button variant="default" onClick={handlePrevious} isDisabled={currentIndex === 0}>
+        <Button isDisabled={currentIndex === 0} variant="default" onClick={handlePrevious}>
           Previous
         </Button>
         <Button
+          isDisabled={currentIndex === steps.length - 1}
           variant="primary"
           onClick={handleNext}
-          isDisabled={currentIndex === steps.length - 1}
         >
           Next
         </Button>

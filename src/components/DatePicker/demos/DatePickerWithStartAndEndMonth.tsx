@@ -6,11 +6,11 @@ export const DatePickerWithStartAndEndMonth = () => {
   return (
     <div className="space-y-4">
       <DatePicker
-        value={value}
-        onChange={setValue}
+        endMonth={new Date(2025, 11)}
         placeholder="Pick a date"
         startMonth={new Date(2020, 0)}
-        endMonth={new Date(2025, 11)}
+        value={value}
+        onChange={setValue}
       />
       <p className="text-sm text-muted-foreground">
         Selected date: {value ? value.toLocaleDateString() : 'none'}

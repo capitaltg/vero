@@ -36,13 +36,13 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
         <PopoverTrigger asChild>
           <Button
             ref={ref}
-            variant="input"
             className={cn(
               'w-full justify-start px-3 text-left font-normal',
               !value && 'text-muted-foreground',
               className,
             )}
             isDisabled={isDisabled}
+            variant="input"
             {...props}
             data-component="date-picker"
           >
@@ -50,14 +50,14 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
             {value ? format(value, 'LLLL dd, y') : <span>{placeholder}</span>}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto px-0 py-0" align="start" zIndex={resolvedZIndex}>
+        <PopoverContent align="start" className="w-auto px-0 py-0" zIndex={resolvedZIndex}>
           <Calendar
-            mode="single"
-            startMonth={startMonth}
-            endMonth={endMonth}
-            selected={value}
-            onSelect={handleDateSelect}
             autoFocus
+            endMonth={endMonth}
+            mode="single"
+            selected={value}
+            startMonth={startMonth}
+            onSelect={handleDateSelect}
           />
         </PopoverContent>
       </Popover>

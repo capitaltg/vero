@@ -277,10 +277,10 @@ export const RichContent: Story = {
         <p>
           This alert also contains <strong>rich content</strong> including{' '}
           <a
-            href="https://storybook.js.org/docs/react/writing-stories/introduction"
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-link hover:underline"
+            href="https://storybook.js.org/docs/react/writing-stories/introduction"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             links to documentation
           </a>{' '}

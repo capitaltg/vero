@@ -24,7 +24,7 @@ export const Default: Story = {
   args: {
     label: 'Email',
     elementId: 'default-element-id',
-    children: <Input type="email" placeholder="Enter your email" />,
+    children: <Input placeholder="Enter your email" type="email" />,
   },
 };
 
@@ -37,7 +37,7 @@ export const WithHintText: Story = {
     label: 'Password',
     elementId: 'password-element-id',
     hintText: 'Must be at least 8 characters long',
-    children: <Input type="password" placeholder="Enter your password" />,
+    children: <Input placeholder="Enter your password" type="password" />,
   },
 };
 
@@ -64,7 +64,7 @@ export const WithHintAndError: Story = {
     elementId: 'email-element-id',
     hintText: 'We will never share your email',
     errorText: 'Please enter a valid email address',
-    children: <Input type="email" placeholder="Enter your email" />,
+    children: <Input placeholder="Enter your email" type="email" />,
   },
 };
 
@@ -78,7 +78,7 @@ export const Required: Story = {
     elementId: 'email-required-element-id',
     hintText: 'This field is required',
     isRequired: true,
-    children: <Input type="email" placeholder="Enter your email" />,
+    children: <Input placeholder="Enter your email" type="email" />,
   },
 };
 

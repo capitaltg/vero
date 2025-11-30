@@ -98,36 +98,36 @@ export const SurveyForm = () => {
           <p className="mt-2 text-muted-foreground">Help us improve by sharing your experience</p>
         </div>
 
-        <StepIndicator steps={steps} currentStep={currentStep} />
+        <StepIndicator currentStep={currentStep} steps={steps} />
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form className="space-y-8" onSubmit={handleSubmit}>
           {/* Step 1: Contact Information */}
           {currentStep === 'contact' ? (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Contact Information</h2>
-              <FormItem label="Full Name" elementId="name" isRequired>
+              <FormItem isRequired elementId="name" label="Full Name">
                 <Input
+                  required
                   id="name"
                   placeholder="John Doe"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  required
                 />
               </FormItem>
 
               <FormItem
-                label="Email Address"
+                isRequired
                 elementId="email"
                 hintText="We'll send you a copy of your responses"
-                isRequired
+                label="Email Address"
               >
                 <Input
+                  required
                   id="email"
-                  type="email"
                   placeholder="john.doe@example.com"
+                  type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  required
                 />
               </FormItem>
             </div>
@@ -138,15 +138,15 @@ export const SurveyForm = () => {
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Overall Satisfaction</h2>
               <FormItem
-                label="How satisfied are you with our product?"
-                elementId="satisfaction"
                 isRequired
+                elementId="satisfaction"
+                label="How satisfied are you with our product?"
               >
                 <RadioGroup
                   options={satisfactionOptions}
                   value={satisfaction}
-                  onChange={setSatisfaction}
                   variant="tile"
+                  onChange={setSatisfaction}
                 />
               </FormItem>
             </div>
@@ -157,10 +157,10 @@ export const SurveyForm = () => {
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Feature Satisfaction</h2>
               <FormItem
-                label="Which aspects of our product are you most satisfied with?"
+                isRequired
                 elementId="features"
                 hintText="Select all that apply"
-                isRequired
+                label="Which aspects of our product are you most satisfied with?"
               >
                 <CheckboxGroup options={featureOptions} value={features} onChange={setFeatures} />
               </FormItem>
@@ -172,31 +172,31 @@ export const SurveyForm = () => {
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Additional Feedback</h2>
               <FormItem
-                label="How likely are you to recommend us to a friend or colleague?"
+                isRequired
                 elementId="recommendation"
                 hintText="0 = Not at all likely, 10 = Extremely likely"
-                isRequired
+                label="How likely are you to recommend us to a friend or colleague?"
               >
                 <RadioGroup
                   options={recommendationOptions}
-                  value={recommendation}
-                  onChange={setRecommendation}
-                  variant="button"
                   orientation="horizontal"
+                  value={recommendation}
+                  variant="button"
+                  onChange={setRecommendation}
                 />
               </FormItem>
 
               <FormItem
-                label="What improvements would you like to see?"
                 elementId="improvements"
                 hintText="Optional - Your suggestions help us improve"
+                label="What improvements would you like to see?"
               >
                 <Textarea
                   id="improvements"
                   placeholder="Share your thoughts..."
+                  rows={5}
                   value={improvements}
                   onChange={e => setImprovements(e.target.value)}
-                  rows={5}
                 />
               </FormItem>
             </div>
@@ -205,25 +205,25 @@ export const SurveyForm = () => {
           {/* Navigation Buttons */}
           <div className="flex justify-between border-t border-muted pt-6">
             <Button
+              isDisabled={currentStep === 'contact'}
               type="button"
               variant="default"
               onClick={handleBack}
-              isDisabled={currentStep === 'contact'}
             >
               Back
             </Button>
 
             {currentStep !== 'feedback' ? (
               <Button
+                isDisabled={!isStepValid()}
                 type="button"
                 variant="primary"
                 onClick={handleNext}
-                isDisabled={!isStepValid()}
               >
                 Next
               </Button>
             ) : (
-              <Button type="submit" variant="primary" isDisabled={!isStepValid()}>
+              <Button isDisabled={!isStepValid()} type="submit" variant="primary">
                 Submit Survey
               </Button>
             )}

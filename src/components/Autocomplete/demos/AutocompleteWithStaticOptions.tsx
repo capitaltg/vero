@@ -16,9 +16,9 @@ export const AutocompleteWithStaticOptions = ({
           { value: '2', label: 'Option 2' },
           { value: '3', label: 'Option 3' },
         ]}
+        placeholder="Select an option..."
         value={value}
         onChange={setValue}
-        placeholder="Select an option..."
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

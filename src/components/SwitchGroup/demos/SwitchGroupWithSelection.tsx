@@ -12,7 +12,7 @@ export const SwitchGroupWithSelection = () => {
   const [value, setValue] = useState<string[]>(['notifications', 'emails']);
   return (
     <div className="space-y-4">
-      <SwitchGroup options={options} columns={2} value={value} onChange={setValue} />
+      <SwitchGroup columns={2} options={options} value={value} onChange={setValue} />
       <p className="text-sm text-muted-foreground">
         Selected IDs: {value.length > 0 ? value.join(', ') : 'none'}
       </p>

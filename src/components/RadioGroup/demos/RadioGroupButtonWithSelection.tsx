@@ -11,7 +11,7 @@ export const RadioGroupButtonWithSelection = () => {
   const [value, setValue] = useState('option2');
   return (
     <div className="space-y-4">
-      <RadioGroup options={defaultOptions} value={value} onChange={setValue} variant="button" />
+      <RadioGroup options={defaultOptions} value={value} variant="button" onChange={setValue} />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>
   );

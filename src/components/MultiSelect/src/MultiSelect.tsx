@@ -50,9 +50,9 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
             >
               {label}
               <X
-                role="button"
                 aria-label={`Remove ${label}`}
                 className="h-3 w-3 cursor-pointer opacity-50 hover:opacity-100"
+                role="button"
                 strokeWidth={3}
                 onClick={evt => {
                   evt.stopPropagation();
@@ -70,14 +70,14 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
         <PopoverTrigger asChild>
           <Button
             ref={ref}
-            variant="input"
-            role="combobox"
             aria-expanded={open}
             className={cn(
               'flex h-auto min-h-[2.5rem] w-full items-stretch justify-between px-3 py-1.5',
               className,
             )}
             isDisabled={isDisabled}
+            role="combobox"
+            variant="input"
             {...props}
           >
             <div className="flex flex-1 text-left">{renderTriggerContent()}</div>

@@ -19,21 +19,21 @@ export const DialogDefault = () => (
       </DialogHeader>
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="name" className="text-right">
+          <label className="text-right" htmlFor="name">
             Name
           </label>
           <input
-            id="name"
             className="col-span-3 h-10 rounded-sm border border-input bg-background px-3"
+            id="name"
           />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
-          <label htmlFor="username" className="text-right">
+          <label className="text-right" htmlFor="username">
             Username
           </label>
           <input
-            id="username"
             className="col-span-3 h-10 rounded-sm border border-input bg-background px-3"
+            id="username"
           />
         </div>
       </div>

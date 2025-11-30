@@ -6,7 +6,7 @@ export const PopoverWithArrow = () => (
     <PopoverTrigger asChild>
       <Button variant="input">Open Popover</Button>
     </PopoverTrigger>
-    <PopoverContent className="w-80" hasArrow>
+    <PopoverContent hasArrow className="w-80">
       <div className="grid gap-4">
         <div className="space-y-2">
           <h4 className="font-medium leading-none">Dimensions</h4>
@@ -14,23 +14,23 @@ export const PopoverWithArrow = () => (
         </div>
         <div className="grid gap-2">
           <div className="grid grid-cols-3 items-center gap-4">
-            <label htmlFor="width" className="text-sm">
+            <label className="text-sm" htmlFor="width">
               Width
             </label>
             <input
-              id="width"
-              defaultValue="100%"
               className="col-span-2 h-8 rounded-sm border border-input bg-transparent px-3 text-sm"
+              defaultValue="100%"
+              id="width"
             />
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
-            <label htmlFor="height" className="text-sm">
+            <label className="text-sm" htmlFor="height">
               Height
             </label>
             <input
-              id="height"
-              defaultValue="25px"
               className="col-span-2 h-8 rounded-sm border border-input bg-transparent px-3 text-sm"
+              defaultValue="25px"
+              id="height"
             />
           </div>
         </div>

@@ -39,9 +39,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         <Button
           ref={monthButtonRef}
           aria-label="Select calendar month"
-          variant="ghost"
-          size="sm"
           className="px-1.5 focus:ring-2 focus:ring-offset-0"
+          size="sm"
+          variant="ghost"
           onClick={() => {
             // if the user clicks the month that's already selected, just go back to default view
             if (actionState === 'month') {
@@ -62,9 +62,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         <Button
           ref={yearButtonRef}
           aria-label="Select calendar year"
-          variant="ghost"
-          size="sm"
           className="px-1.5 focus:ring-2 focus:ring-offset-0"
+          size="sm"
+          variant="ghost"
           onClick={() => {
             // if the user clicks the year that's already selected, just go back to default view
             if (actionState === 'year') {
@@ -106,8 +106,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
     if (actionState === 'year')
       return (
         <CalendarYearPicker
-          startMonth={props.startMonth}
           endMonth={props.endMonth}
+          startMonth={props.startMonth}
           onSelect={year => {
             // set the active month to the selected year, keeping the current month if possible
             const newYear = activeMonth ? new Date(activeMonth) : new Date();
@@ -146,10 +146,6 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 
   return (
     <DayPicker
-      showOutsideDays={showOutsideDays}
-      defaultMonth={defaultMonth}
-      month={activeMonth}
-      onMonthChange={setActiveMonth}
       className={cn('min-w-80 px-3 py-3', className)}
       classNames={{
         months: 'flex flex-col gap-4 sm:flex-row',
@@ -194,6 +190,10 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         ...classNames,
       }}
       components={getComponents()}
+      defaultMonth={defaultMonth}
+      month={activeMonth}
+      showOutsideDays={showOutsideDays}
+      onMonthChange={setActiveMonth}
       {...props}
       disableNavigation={actionState !== 'default'}
     />

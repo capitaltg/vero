@@ -13,7 +13,7 @@ export const SelectWithValue = () => {
   const [value, setValue] = useState('apple');
   return (
     <div className="space-y-4">
-      <Select options={options} value={value} onChange={setValue} placeholder="Select a fruit..." />
+      <Select options={options} placeholder="Select a fruit..." value={value} onChange={setValue} />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>
   );

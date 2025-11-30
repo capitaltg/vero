@@ -38,8 +38,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         ref={ref}
-        type={type}
         className={cn(styles.input, className)}
+        type={type}
         onChange={handleChange}
         {...props}
         {...disabledProps}

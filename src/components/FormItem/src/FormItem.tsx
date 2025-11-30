@@ -42,7 +42,7 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
           {label ? (
             <div className="flex items-center">
               {typeof label === 'string' ? (
-                <Label className="font-bold" id={labelId} htmlFor={childId}>
+                <Label className="font-bold" htmlFor={childId} id={labelId}>
                   {label}
                   {isRequired ? <span className="ml-0.5 text-destructive">*</span> : null}
                 </Label>

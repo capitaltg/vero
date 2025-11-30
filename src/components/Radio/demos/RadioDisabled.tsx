@@ -7,12 +7,12 @@ export const RadioDisabled = () => {
   return (
     <div className="space-y-4">
       <Radio
-        label="Disabled radio"
         id="radio-3"
-        value="option-3"
         isChecked={isChecked}
-        onClick={() => setIsChecked(!isChecked)}
         isDisabled={true}
+        label="Disabled radio"
+        value="option-3"
+        onClick={() => setIsChecked(!isChecked)}
       />
       <p className="text-sm text-muted-foreground">
         Radio {isChecked ? 'is selected' : 'is not selected'}

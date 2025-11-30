@@ -5,7 +5,7 @@ export const DatePickerCustomPlaceholder = () => {
   const [value, setValue] = useState<Date | undefined>(undefined);
   return (
     <div className="space-y-4">
-      <DatePicker value={value} onChange={setValue} placeholder="Select your birthday" />
+      <DatePicker placeholder="Select your birthday" value={value} onChange={setValue} />
       <p className="text-sm text-muted-foreground">
         Selected date: {value ? value.toLocaleDateString() : 'none'}
       </p>

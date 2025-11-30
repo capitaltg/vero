@@ -20,8 +20,8 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
             <div key={option.id} className="flex items-center space-x-2">
               <Checkbox
                 id={option.id}
-                label={option.label}
                 isChecked={value.includes(option.id)}
+                label={option.label}
                 onCheckedChange={isChecked => {
                   if (isChecked) {
                     onChange([...value, option.id]);

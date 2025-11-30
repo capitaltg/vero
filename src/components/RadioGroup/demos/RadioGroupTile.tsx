@@ -23,7 +23,7 @@ export const RadioGroupTile = () => {
   const [value, setValue] = useState('');
   return (
     <div className="space-y-4">
-      <RadioGroup options={tileOptions} value={value} onChange={setValue} variant="tile" />
+      <RadioGroup options={tileOptions} value={value} variant="tile" onChange={setValue} />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>
   );

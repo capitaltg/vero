@@ -29,19 +29,19 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Root>,
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           ref={ref}
-          side={side}
           align={align}
-          sideOffset={offset}
           className={cn(styles.tooltip, className)}
+          side={side}
+          sideOffset={offset}
           style={{ zIndex: resolvedZIndex, ...props.style }}
           {...props}
         >
           {content}
           {hasArrow ? (
             <TooltipPrimitive.Arrow
-              width={11}
-              height={5}
               className="fill-base-700 stroke-base-700"
+              height={5}
+              width={11}
             />
           ) : null}
         </TooltipPrimitive.Content>

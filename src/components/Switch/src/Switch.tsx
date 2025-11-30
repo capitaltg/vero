@@ -33,6 +33,8 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
     return (
       <div className="flex items-center space-x-2">
         <SwitchPrimitives.Root
+          aria-label={ariaLabel}
+          checked={isChecked}
           className={cn(
             styles.focusRingVisible,
             `peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2
@@ -40,8 +42,6 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
             data-[state=checked]:bg-primary-400 data-[state=unchecked]:bg-muted`,
             className,
           )}
-          checked={isChecked}
-          aria-label={ariaLabel}
           {...props}
           {...disabledProps}
           ref={ref}

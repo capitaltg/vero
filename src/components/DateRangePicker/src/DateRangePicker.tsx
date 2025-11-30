@@ -51,13 +51,13 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
           <PopoverTrigger asChild>
             <Button
               ref={ref}
-              id="date"
-              variant="input"
               className={cn(
                 'w-full justify-start px-3 text-left font-normal',
                 !value.from && !value.to && 'text-muted-foreground',
               )}
+              id="date"
               isDisabled={isDisabled}
+              variant="input"
               {...props}
               data-component="date-range-picker"
             >
@@ -77,23 +77,23 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
               })()}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto px-0 py-0" align="start" zIndex={resolvedZIndex}>
+          <PopoverContent align="start" className="w-auto px-0 py-0" zIndex={resolvedZIndex}>
             <Calendar
               autoFocus
-              mode="range"
               defaultMonth={value.from}
+              mode="range"
+              modifiers={{
+                today: () => false, // Disable the "today" modifier
+              }}
+              numberOfMonths={2}
               selected={{
                 from: value.from,
                 to: value.to,
               }}
-              onSelect={range => {
-                if (range) onChange(range);
-              }}
               showOutsideDays={false}
               onDayClick={handleDayClick}
-              numberOfMonths={2}
-              modifiers={{
-                today: () => false, // Disable the "today" modifier
+              onSelect={range => {
+                if (range) onChange(range);
               }}
             />
           </PopoverContent>

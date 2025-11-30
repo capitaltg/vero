@@ -7,11 +7,11 @@ export const SwitchDisabled = () => {
   return (
     <div className="space-y-4">
       <Switch
-        label="Disabled switch"
         id="disabled"
         isChecked={isChecked}
-        onCheckedChange={() => setIsChecked(!isChecked)}
         isDisabled={true}
+        label="Disabled switch"
+        onCheckedChange={() => setIsChecked(!isChecked)}
       />
       <p className="text-sm text-muted-foreground">Switch {isChecked ? 'is on' : 'is off'}</p>
     </div>

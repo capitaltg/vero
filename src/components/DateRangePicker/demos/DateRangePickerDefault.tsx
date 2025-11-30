@@ -7,12 +7,12 @@ export const DateRangePickerDefault = () => {
   return (
     <div className="space-y-4">
       <DateRangePicker
-        value={value}
-        onChange={setValue}
         placeholder={{
           from: 'Start date',
           to: 'End date',
         }}
+        value={value}
+        onChange={setValue}
       />
       <p className="text-sm text-muted-foreground">
         Selected range:{' '}

@@ -27,11 +27,11 @@ export const Welcome: Story = {
             Radix UI
           </p>
           <div className="flex justify-center gap-4">
-            <Button variant="primary" size="lg" asChild>
+            <Button asChild size="lg" variant="primary">
               <a href="/?path=/docs/overlays-feedback-alert--docs">Get Started</a>
             </Button>
-            <Button asChild variant="ghost" size="lg">
-              <a href="https://github.com/capitaltg/vero" target="_blank" rel="noopener noreferrer">
+            <Button asChild size="lg" variant="ghost">
+              <a href="https://github.com/capitaltg/vero" rel="noopener noreferrer" target="_blank">
                 View on GitHub
               </a>
             </Button>
@@ -110,10 +110,10 @@ export const Welcome: Story = {
                 <div>• FormItem, Label</div>
               </div>
               <div className="mt-auto">
-                <Button variant="link" size="sm" className="px-0" asChild>
+                <Button asChild className="px-0" size="sm" variant="link">
                   <a
-                    href="/?path=/story/inputs-forms"
                     aria-label="View Inputs and Forms Components"
+                    href="/?path=/story/inputs-forms"
                   >
                     View Components →
                   </a>
@@ -130,10 +130,10 @@ export const Welcome: Story = {
                 <div>• StepIndicator</div>
               </div>
               <div className="mt-auto">
-                <Button variant="link" size="sm" className="px-0" asChild>
+                <Button asChild className="px-0" size="sm" variant="link">
                   <a
-                    href="/?path=/story/actions-navigation"
                     aria-label="View Actions and Navigation Components"
+                    href="/?path=/story/actions-navigation"
                   >
                     View Components →
                   </a>
@@ -150,10 +150,10 @@ export const Welcome: Story = {
                 <div>• Command</div>
               </div>
               <div className="mt-auto">
-                <Button variant="link" size="sm" className="px-0" asChild>
+                <Button asChild className="px-0" size="sm" variant="link">
                   <a
-                    href="/?path=/story/overlays-feedback"
                     aria-label="View Overlays and Feedback Components"
+                    href="/?path=/story/overlays-feedback"
                   >
                     View Components →
                   </a>
@@ -170,10 +170,10 @@ export const Welcome: Story = {
                 <div>• Image, Accordion</div>
               </div>
               <div className="mt-auto">
-                <Button variant="link" size="sm" className="px-0" asChild>
+                <Button asChild className="px-0" size="sm" variant="link">
                   <a
-                    href="/?path=/story/data-display"
                     aria-label="View Data and Display Components"
+                    href="/?path=/story/data-display"
                   >
                     View Components →
                   </a>
@@ -220,10 +220,10 @@ export const Welcome: Story = {
           <p>
             Built with ❤️ by{' '}
             <a
-              href="https://github.com/dzwillia"
-              target="_blank"
-              rel="noopener noreferrer"
               className="font-bold"
+              href="https://github.com/dzwillia"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               @dzwillia
             </a>{' '}

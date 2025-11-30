@@ -15,9 +15,9 @@ export const SelectCustomPlaceholder = () => {
     <div className="space-y-4">
       <Select
         options={options}
+        placeholder="Choose your favorite fruit"
         value={value}
         onChange={setValue}
-        placeholder="Choose your favorite fruit"
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

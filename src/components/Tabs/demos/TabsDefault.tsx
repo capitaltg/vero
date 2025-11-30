@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
 
 export const TabsDefault = () => (
-  <Tabs defaultValue="account" className="w-md">
+  <Tabs className="w-md" defaultValue="account">
     <TabsList>
       <TabsTrigger value="account">Account</TabsTrigger>
       <TabsTrigger value="password">Password</TabsTrigger>

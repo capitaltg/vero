@@ -20,14 +20,14 @@ const PopoverContent = React.forwardRef<
       <PopoverPrimitive.Content
         ref={ref}
         align={align}
-        sideOffset={sideOffset}
         className={cn(styles.popover, className)}
+        sideOffset={sideOffset}
         style={{ zIndex: resolvedZIndex, ...props.style }}
         {...props}
       >
         {children}
         {hasArrow ? (
-          <PopoverArrow className="fill-popover stroke-muted stroke-[1px]" width={15} height={7} />
+          <PopoverArrow className="fill-popover stroke-muted stroke-[1px]" height={7} width={15} />
         ) : null}
       </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>

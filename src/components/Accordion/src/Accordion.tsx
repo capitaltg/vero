@@ -86,9 +86,9 @@ const Accordion = React.forwardRef<
     if (mode === 'multiple') {
       return (
         <AccordionPrimitive.Root
+          defaultValue={defaultValue}
           type="multiple"
           value={value}
-          defaultValue={defaultValue}
           onValueChange={onValueChange}
           {...sharedProps}
         >
@@ -100,11 +100,11 @@ const Accordion = React.forwardRef<
     // default to single mode
     return (
       <AccordionPrimitive.Root
+        collapsible={isCollapsible}
+        defaultValue={defaultValue}
         type="single"
         value={value}
-        defaultValue={defaultValue}
         onValueChange={onValueChange}
-        collapsible={isCollapsible}
         {...sharedProps}
       >
         <AccordionItems {...itemProps} />

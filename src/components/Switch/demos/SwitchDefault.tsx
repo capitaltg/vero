@@ -7,9 +7,9 @@ export const SwitchDefault = () => {
   return (
     <div className="space-y-4">
       <Switch
-        label="Airplane Mode"
         id="airplane-mode"
         isChecked={isChecked}
+        label="Airplane Mode"
         onCheckedChange={() => setIsChecked(!isChecked)}
       />
       <p className="text-sm text-muted-foreground">Switch {isChecked ? 'is on' : 'is off'}</p>

@@ -1,7 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { RadioGroup } from '../src/RadioGroup';
-import type { RadioGroupProps } from '../types';
+import { RadioGroupDefault } from '../demos/RadioGroupDefault';
+import { RadioGroupWithSelection } from '../demos/RadioGroupWithSelection';
+import { RadioGroupHorizontal } from '../demos/RadioGroupHorizontal';
+import { RadioGroupVertical } from '../demos/RadioGroupVertical';
+import { RadioGroupTile } from '../demos/RadioGroupTile';
+import { RadioGroupTileWithSelection } from '../demos/RadioGroupTileWithSelection';
+import { RadioGroupButton } from '../demos/RadioGroupButton';
+import { RadioGroupButtonVertical } from '../demos/RadioGroupButtonVertical';
+import { RadioGroupButtonWithSelection } from '../demos/RadioGroupButtonWithSelection';
+import sourceCodeDefault from '../demos/RadioGroupDefault.tsx?raw';
+import sourceCodeWithSelection from '../demos/RadioGroupWithSelection.tsx?raw';
+import sourceCodeHorizontal from '../demos/RadioGroupHorizontal.tsx?raw';
+import sourceCodeVertical from '../demos/RadioGroupVertical.tsx?raw';
+import sourceCodeTile from '../demos/RadioGroupTile.tsx?raw';
+import sourceCodeTileWithSelection from '../demos/RadioGroupTileWithSelection.tsx?raw';
+import sourceCodeButton from '../demos/RadioGroupButton.tsx?raw';
+import sourceCodeButtonVertical from '../demos/RadioGroupButtonVertical.tsx?raw';
+import sourceCodeButtonWithSelection from '../demos/RadioGroupButtonWithSelection.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/RadioGroup',
@@ -77,23 +93,6 @@ const tileOptions = [
   },
 ];
 
-const RadioGroupDemo = ({ value: initialValue = '', ...args }: RadioGroupProps) => {
-  const [value, setValue] = useState(initialValue);
-  return (
-    <div className="space-y-4">
-      <RadioGroup
-        {...args}
-        value={value}
-        onChange={newValue => {
-          setValue(newValue);
-          args.onChange?.(newValue);
-        }}
-      />
-      <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
-    </div>
-  );
-};
-
 /**
  * Interactive playground for the RadioGroup component.
  * Use the controls to experiment with different props and states.
@@ -113,11 +112,19 @@ export const Playground: Story = {
  * Shows a basic vertical radio group with no initial selection.
  */
 export const Default: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupDefault />,
   args: {
     options: defaultOptions,
     value: '',
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -126,11 +133,19 @@ export const Default: Story = {
  * Demonstrates how the group appears with an initial selection.
  */
 export const WithSelection: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupWithSelection />,
   args: {
     options: defaultOptions,
     value: 'option2',
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithSelection,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -139,12 +154,20 @@ export const WithSelection: Story = {
  * Shows radio options arranged in a horizontal line.
  */
 export const Horizontal: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupHorizontal />,
   args: {
     options: defaultOptions,
     value: '',
     onChange: () => {},
     orientation: 'horizontal',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeHorizontal,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -153,12 +176,20 @@ export const Horizontal: Story = {
  * Shows radio options stacked vertically.
  */
 export const Vertical: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupVertical />,
   args: {
     options: defaultOptions,
     value: '',
     onChange: () => {},
     orientation: 'vertical',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeVertical,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -167,12 +198,20 @@ export const Vertical: Story = {
  * Shows radio options as larger tiles with descriptions.
  */
 export const Tile: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupTile />,
   args: {
     options: tileOptions,
     value: '',
     onChange: () => {},
     variant: 'tile',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeTile,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -181,12 +220,20 @@ export const Tile: Story = {
  * Demonstrates how tile radio options appear with an initial selection.
  */
 export const TileWithSelection: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupTileWithSelection />,
   args: {
     options: tileOptions,
     value: 'business',
     onChange: () => {},
     variant: 'tile',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeTileWithSelection,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -195,13 +242,21 @@ export const TileWithSelection: Story = {
  * Shows radio options styled as buttons.
  */
 export const Button: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupButton />,
   args: {
     options: defaultOptions,
     value: '',
     onChange: () => {},
     variant: 'button',
     orientation: 'horizontal',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeButton,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -210,13 +265,21 @@ export const Button: Story = {
  * Shows radio options styled as buttons arranged vertically.
  */
 export const ButtonVertical: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupButtonVertical />,
   args: {
     options: defaultOptions,
     value: '',
     onChange: () => {},
     variant: 'button',
     orientation: 'vertical',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeButtonVertical,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -225,11 +288,19 @@ export const ButtonVertical: Story = {
  * Demonstrates how button radio options appear with an initial selection.
  */
 export const ButtonWithSelection: Story = {
-  render: args => <RadioGroupDemo {...args} />,
+  render: () => <RadioGroupButtonWithSelection />,
   args: {
     options: defaultOptions,
     value: 'option2',
     onChange: () => {},
     variant: 'button',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeButtonWithSelection,
+        language: 'tsx',
+      },
+    },
   },
 };

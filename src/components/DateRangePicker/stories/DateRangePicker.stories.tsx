@@ -1,8 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { addWeeks } from 'date-fns';
-import { useState } from 'react';
 import { DateRangePicker } from '../src/DateRangePicker';
-import type { DateRange, DateRangePickerProps } from '../types';
+import { DateRangePickerDefault } from '../demos/DateRangePickerDefault';
+import { DateRangePickerWithValue } from '../demos/DateRangePickerWithValue';
+import { DateRangePickerCustomPlaceholders } from '../demos/DateRangePickerCustomPlaceholders';
+import sourceCodeDefault from '../demos/DateRangePickerDefault.tsx?raw';
+import sourceCodeWithValue from '../demos/DateRangePickerWithValue.tsx?raw';
+import sourceCodeCustomPlaceholders from '../demos/DateRangePickerCustomPlaceholders.tsx?raw';
 
 const meta = {
   title: 'Data & Display/DateRangePicker',
@@ -13,29 +17,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const DateRangePickerDemo = ({ value: initialValue = {}, ...args }: DateRangePickerProps) => {
-  const [value, setValue] = useState<DateRange>(initialValue);
-  return (
-    <div className="space-y-4">
-      <DateRangePicker {...args} value={value} onChange={setValue} />
-      <p className="text-sm text-muted-foreground">
-        Selected range:{' '}
-        {value.from ? (
-          value.to ? (
-            <>
-              {value.from.toLocaleDateString()} - {value.to.toLocaleDateString()}
-            </>
-          ) : (
-            value.from.toLocaleDateString()
-          )
-        ) : (
-          'none'
-        )}
-      </p>
-    </div>
-  );
-};
 
 /**
  * Interactive playground for the DateRangePicker component.
@@ -59,13 +40,21 @@ export const Playground: Story = {
  * Shows the basic date range picker with no pre-selected dates.
  */
 export const Default: Story = {
-  render: args => <DateRangePickerDemo {...args} />,
+  render: () => <DateRangePickerDefault />,
   args: {
     value: {},
     onChange: () => {},
     placeholder: {
       from: 'Start date',
       to: 'End date',
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
     },
   },
 };
@@ -75,7 +64,7 @@ export const Default: Story = {
  * Demonstrates how the component appears with initial start and end dates.
  */
 export const WithValue: Story = {
-  render: args => <DateRangePickerDemo {...args} />,
+  render: () => <DateRangePickerWithValue />,
   args: {
     value: {
       from: addWeeks(new Date(), -2), // 2 weeks before
@@ -87,6 +76,14 @@ export const WithValue: Story = {
       to: 'End date',
     },
   },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithValue,
+        language: 'tsx',
+      },
+    },
+  },
 };
 
 /**
@@ -94,13 +91,21 @@ export const WithValue: Story = {
  * Shows how to customize the placeholder messages for both start and end dates.
  */
 export const CustomPlaceholders: Story = {
-  render: args => <DateRangePickerDemo {...args} />,
+  render: () => <DateRangePickerCustomPlaceholders />,
   args: {
     value: {},
     onChange: () => {},
     placeholder: {
       from: 'Check-in date',
       to: 'Check-out date',
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeCustomPlaceholders,
+        language: 'tsx',
+      },
     },
   },
 };

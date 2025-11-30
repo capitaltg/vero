@@ -1,7 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { SwitchGroup } from '../src/SwitchGroup';
-import type { SwitchGroupProps } from '../types';
+import { SwitchGroupDefault } from '../demos/SwitchGroupDefault';
+import { SwitchGroupWithSelection } from '../demos/SwitchGroupWithSelection';
+import { SwitchGroupSingleColumn } from '../demos/SwitchGroupSingleColumn';
+import { SwitchGroupThreeColumns } from '../demos/SwitchGroupThreeColumns';
+import { SwitchGroupWithManyOptions } from '../demos/SwitchGroupWithManyOptions';
+import sourceCodeDefault from '../demos/SwitchGroupDefault.tsx?raw';
+import sourceCodeWithSelection from '../demos/SwitchGroupWithSelection.tsx?raw';
+import sourceCodeSingleColumn from '../demos/SwitchGroupSingleColumn.tsx?raw';
+import sourceCodeThreeColumns from '../demos/SwitchGroupThreeColumns.tsx?raw';
+import sourceCodeWithManyOptions from '../demos/SwitchGroupWithManyOptions.tsx?raw';
 
 const options = [
   { id: 'notifications', label: 'Enable notifications' },
@@ -42,18 +50,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const SwitchGroupDemo = ({ value: initialValue = [], ...args }: SwitchGroupProps) => {
-  const [value, setValue] = useState<string[]>(initialValue);
-  return (
-    <div className="space-y-4">
-      <SwitchGroup {...args} value={value} onChange={setValue} />
-      <p className="text-sm text-muted-foreground">
-        Selected IDs: {value.length > 0 ? value.join(', ') : 'none'}
-      </p>
-    </div>
-  );
-};
-
 /**
  * Interactive playground for the SwitchGroup component.
  * Use the controls to experiment with different props and states.
@@ -73,12 +69,20 @@ export const Playground: Story = {
  * Shows a group of switches arranged in a single column with no initial selections.
  */
 export const Default: Story = {
-  render: args => <SwitchGroupDemo {...args} />,
+  render: () => <SwitchGroupDefault />,
   args: {
     options,
     columns: 2,
     value: [],
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -87,12 +91,20 @@ export const Default: Story = {
  * Demonstrates how the group appears with multiple switches toggled on.
  */
 export const WithSelection: Story = {
-  render: args => <SwitchGroupDemo {...args} />,
+  render: () => <SwitchGroupWithSelection />,
   args: {
     options,
     value: ['notifications', 'emails'],
     onChange: () => {},
     columns: 2,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithSelection,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -101,12 +113,20 @@ export const WithSelection: Story = {
  * Shows switches stacked vertically in one column.
  */
 export const SingleColumn: Story = {
-  render: args => <SwitchGroupDemo {...args} />,
+  render: () => <SwitchGroupSingleColumn />,
   args: {
     options,
     columns: 1,
     value: [],
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeSingleColumn,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -115,12 +135,20 @@ export const SingleColumn: Story = {
  * Demonstrates how switches can be arranged in multiple columns.
  */
 export const ThreeColumns: Story = {
-  render: args => <SwitchGroupDemo {...args} />,
+  render: () => <SwitchGroupThreeColumns />,
   args: {
     options,
     columns: 3,
     value: [],
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeThreeColumns,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -129,7 +157,7 @@ export const ThreeColumns: Story = {
  * Shows how the component handles a larger set of switches, including disabled states.
  */
 export const WithManyOptions: Story = {
-  render: args => <SwitchGroupDemo {...args} />,
+  render: () => <SwitchGroupWithManyOptions />,
   args: {
     options: [
       ...options,
@@ -142,5 +170,13 @@ export const WithManyOptions: Story = {
     columns: 2,
     value: [],
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithManyOptions,
+        language: 'tsx',
+      },
+    },
   },
 };

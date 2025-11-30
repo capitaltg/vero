@@ -1,7 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useEffect, useState } from 'react';
 import { Switch } from '../src/Switch';
-import { SwitchProps } from '../types';
+import { SwitchDefault } from '../demos/SwitchDefault';
+import { SwitchChecked } from '../demos/SwitchChecked';
+import { SwitchDisabled } from '../demos/SwitchDisabled';
+import { SwitchDisabledChecked } from '../demos/SwitchDisabledChecked';
+import { SwitchWithCustomLabel } from '../demos/SwitchWithCustomLabel';
+import sourceCodeDefault from '../demos/SwitchDefault.tsx?raw';
+import sourceCodeChecked from '../demos/SwitchChecked.tsx?raw';
+import sourceCodeDisabled from '../demos/SwitchDisabled.tsx?raw';
+import sourceCodeDisabledChecked from '../demos/SwitchDisabledChecked.tsx?raw';
+import sourceCodeWithCustomLabel from '../demos/SwitchWithCustomLabel.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/Switch',
@@ -24,21 +32,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const SwitchDemo = ({ isChecked: initialValue = false, ...args }: SwitchProps) => {
-  const [isChecked, setIsChecked] = useState<boolean>(initialValue);
-
-  useEffect(() => {
-    setIsChecked(!!initialValue);
-  }, [initialValue]);
-
-  return (
-    <div className="space-y-4">
-      <Switch {...args} isChecked={isChecked} onCheckedChange={() => setIsChecked(!isChecked)} />
-      <p className="text-sm text-muted-foreground">Switch {isChecked ? 'is on' : 'is off'}</p>
-    </div>
-  );
-};
-
 /**
  * Interactive playground for the Switch component.
  * Use the controls to experiment with different props and states.
@@ -57,10 +50,18 @@ export const Playground: Story = {
  * Shows a basic toggle switch with a label.
  */
 export const Default: Story = {
-  render: args => <SwitchDemo {...args} />,
+  render: () => <SwitchDefault />,
   args: {
     label: 'Airplane Mode',
     id: 'airplane-mode',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -69,11 +70,19 @@ export const Default: Story = {
  * Demonstrates how the switch appears when toggled on.
  */
 export const Checked: Story = {
-  render: args => <SwitchDemo {...args} />,
+  render: () => <SwitchChecked />,
   args: {
     label: 'Notifications',
     id: 'notifications',
     isChecked: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeChecked,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -82,11 +91,19 @@ export const Checked: Story = {
  * Shows how the switch appears when it's not interactive.
  */
 export const Disabled: Story = {
-  render: args => <SwitchDemo {...args} />,
+  render: () => <SwitchDisabled />,
   args: {
     label: 'Disabled switch',
     id: 'disabled',
     isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabled,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -95,12 +112,20 @@ export const Disabled: Story = {
  * Demonstrates a non-interactive switch that's toggled on.
  */
 export const DisabledChecked: Story = {
-  render: args => <SwitchDemo {...args} />,
+  render: () => <SwitchDisabledChecked />,
   args: {
     label: 'Disabled checked switch',
     id: 'disabled-checked',
     isChecked: true,
     isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabledChecked,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -109,7 +134,7 @@ export const DisabledChecked: Story = {
  * Shows how to use rich content in the switch label.
  */
 export const WithCustomLabel: Story = {
-  render: args => <SwitchDemo {...args} />,
+  render: () => <SwitchWithCustomLabel />,
   args: {
     label: (
       <div className="flex flex-col">
@@ -118,5 +143,13 @@ export const WithCustomLabel: Story = {
       </div>
     ),
     id: 'dark-mode',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithCustomLabel,
+        language: 'tsx',
+      },
+    },
   },
 };

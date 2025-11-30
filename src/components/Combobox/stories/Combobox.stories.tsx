@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { Combobox } from '../src/Combobox';
-import type { ComboboxProps } from '../types';
+import { ComboboxDefault } from '../demos/ComboboxDefault';
+import { ComboboxWithValue } from '../demos/ComboboxWithValue';
+import { ComboboxCustomPlaceholders } from '../demos/ComboboxCustomPlaceholders';
+import sourceCodeDefault from '../demos/ComboboxDefault.tsx?raw';
+import sourceCodeWithValue from '../demos/ComboboxWithValue.tsx?raw';
+import sourceCodeCustomPlaceholders from '../demos/ComboboxCustomPlaceholders.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/Combobox',
@@ -20,16 +24,6 @@ const options = [
   { value: 'svelte', label: 'Svelte' },
   { value: 'solid', label: 'Solid' },
 ];
-
-const ComboboxDemo = ({ value: initialValue = '', ...args }: ComboboxProps) => {
-  const [value, setValue] = useState<string>(initialValue);
-  return (
-    <div className="space-y-4">
-      <Combobox {...args} value={value} onChange={setValue} />
-      <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
-    </div>
-  );
-};
 
 /**
  * Interactive playground for the Combobox component.
@@ -51,12 +45,20 @@ export const Playground: Story = {
  * Shows a searchable dropdown with framework options.
  */
 export const Default: Story = {
-  render: args => <ComboboxDemo {...args} />,
+  render: () => <ComboboxDefault />,
   args: {
     options,
     value: '',
     onChange: () => {},
     placeholder: 'Select framework...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -65,12 +67,20 @@ export const Default: Story = {
  * Demonstrates how the component appears with an initial selection.
  */
 export const WithValue: Story = {
-  render: args => <ComboboxDemo {...args} />,
+  render: () => <ComboboxWithValue />,
   args: {
     options,
     value: 'react',
     onChange: () => {},
     placeholder: 'Select framework...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithValue,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -79,7 +89,7 @@ export const WithValue: Story = {
  * Shows how to customize the placeholder and search text.
  */
 export const CustomPlaceholders: Story = {
-  render: args => <ComboboxDemo {...args} />,
+  render: () => <ComboboxCustomPlaceholders />,
   args: {
     options,
     value: '',
@@ -87,5 +97,13 @@ export const CustomPlaceholders: Story = {
     placeholder: 'Choose your framework',
     searchPlaceholder: 'Search frameworks...',
     emptyMessage: 'No frameworks found',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeCustomPlaceholders,
+        language: 'tsx',
+      },
+    },
   },
 };

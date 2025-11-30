@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { MultiSelect } from '../src/MultiSelect';
-import type { MultiSelectProps } from '../types';
+import { MultiSelectDefault } from '../demos/MultiSelectDefault';
+import { MultiSelectWithSelection } from '../demos/MultiSelectWithSelection';
+import { MultiSelectCustomPlaceholders } from '../demos/MultiSelectCustomPlaceholders';
+import { MultiSelectWithManyOptions } from '../demos/MultiSelectWithManyOptions';
+import sourceCodeDefault from '../demos/MultiSelectDefault.tsx?raw';
+import sourceCodeWithSelection from '../demos/MultiSelectWithSelection.tsx?raw';
+import sourceCodeCustomPlaceholders from '../demos/MultiSelectCustomPlaceholders.tsx?raw';
+import sourceCodeWithManyOptions from '../demos/MultiSelectWithManyOptions.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/MultiSelect',
@@ -20,18 +26,6 @@ const options = [
   { value: 'svelte', label: 'Svelte' },
   { value: 'solid', label: 'Solid' },
 ];
-
-const MultiSelectDemo = ({ value: initialValue = [], ...args }: MultiSelectProps) => {
-  const [value, setValue] = useState<string[]>(initialValue);
-  return (
-    <div className="space-y-4">
-      <MultiSelect {...args} value={value} onChange={setValue} />
-      <p className="text-sm text-muted-foreground">
-        Selected values: {value.length > 0 ? value.join(', ') : 'none'}
-      </p>
-    </div>
-  );
-};
 
 /**
  * Interactive playground for the MultiSelect component.
@@ -53,12 +47,20 @@ export const Playground: Story = {
  * Shows a searchable dropdown that allows multiple selections from a list of frameworks.
  */
 export const Default: Story = {
-  render: args => <MultiSelectDemo {...args} />,
+  render: () => <MultiSelectDefault />,
   args: {
     options,
     value: [],
     onChange: () => {},
     placeholder: 'Select frameworks...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -67,12 +69,20 @@ export const Default: Story = {
  * Demonstrates how the component appears with multiple items already selected.
  */
 export const WithSelection: Story = {
-  render: args => <MultiSelectDemo {...args} />,
+  render: () => <MultiSelectWithSelection />,
   args: {
     options,
     value: ['react', 'vue'],
     onChange: () => {},
     placeholder: 'Select frameworks...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithSelection,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -81,7 +91,7 @@ export const WithSelection: Story = {
  * Shows how to customize the placeholder and search text for better user guidance.
  */
 export const CustomPlaceholders: Story = {
-  render: args => <MultiSelectDemo {...args} />,
+  render: () => <MultiSelectCustomPlaceholders />,
   args: {
     options,
     value: [],
@@ -90,6 +100,14 @@ export const CustomPlaceholders: Story = {
     searchPlaceholder: 'Search frameworks...',
     emptyMessage: 'No frameworks found',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeCustomPlaceholders,
+        language: 'tsx',
+      },
+    },
+  },
 };
 
 /**
@@ -97,7 +115,7 @@ export const CustomPlaceholders: Story = {
  * Demonstrates how the component handles a larger set of choices with scrolling.
  */
 export const WithManyOptions: Story = {
-  render: args => <MultiSelectDemo {...args} />,
+  render: () => <MultiSelectWithManyOptions />,
   args: {
     options: [
       ...options,
@@ -110,5 +128,13 @@ export const WithManyOptions: Story = {
     value: [],
     onChange: () => {},
     placeholder: 'Select frameworks...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithManyOptions,
+        language: 'tsx',
+      },
+    },
   },
 };

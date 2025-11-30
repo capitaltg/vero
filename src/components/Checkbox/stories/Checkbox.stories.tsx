@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useEffect, useState } from 'react';
 import { Checkbox } from '../src/Checkbox';
-import { CheckboxProps } from '../types';
+import { CheckboxDefault } from '../demos/CheckboxDefault';
+import { CheckboxChecked } from '../demos/CheckboxChecked';
+import { CheckboxDisabled } from '../demos/CheckboxDisabled';
+import { CheckboxDisabledChecked } from '../demos/CheckboxDisabledChecked';
+import sourceCodeDefault from '../demos/CheckboxDefault.tsx?raw';
+import sourceCodeChecked from '../demos/CheckboxChecked.tsx?raw';
+import sourceCodeDisabled from '../demos/CheckboxDisabled.tsx?raw';
+import sourceCodeDisabledChecked from '../demos/CheckboxDisabledChecked.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/Checkbox',
@@ -21,23 +27,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const CheckboxDemo = ({ isChecked: initialValue = false, ...args }: CheckboxProps) => {
-  const [isChecked, setIsChecked] = useState<boolean>(initialValue);
-
-  useEffect(() => {
-    setIsChecked(!!initialValue);
-  }, [initialValue]);
-
-  return (
-    <div className="space-y-4">
-      <Checkbox {...args} isChecked={isChecked} onCheckedChange={() => setIsChecked(!isChecked)} />
-      <p className="text-sm text-muted-foreground">
-        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
-      </p>
-    </div>
-  );
-};
-
 /**
  * Interactive playground for the Checkbox component.
  * Use the controls to experiment with different props and states.
@@ -56,10 +45,18 @@ export const Playground: Story = {
  * Shows a basic checkbox with a label and interactive state.
  */
 export const Default: Story = {
-  render: args => <CheckboxDemo {...args} />,
+  render: () => <CheckboxDefault />,
   args: {
     label: 'Accept terms and conditions',
     id: 'terms2',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -68,11 +65,19 @@ export const Default: Story = {
  * Demonstrates the appearance of a selected checkbox.
  */
 export const Checked: Story = {
-  render: args => <CheckboxDemo {...args} />,
+  render: () => <CheckboxChecked />,
   args: {
     label: 'Checked checkbox',
     id: 'checked',
     isChecked: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeChecked,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -81,11 +86,19 @@ export const Checked: Story = {
  * Shows how the checkbox appears when it's not interactive.
  */
 export const Disabled: Story = {
-  render: args => <CheckboxDemo {...args} />,
+  render: () => <CheckboxDisabled />,
   args: {
     label: 'Disabled checkbox',
     id: 'disabled',
     isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabled,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -94,11 +107,19 @@ export const Disabled: Story = {
  * Demonstrates a non-interactive checkbox that's already selected.
  */
 export const DisabledChecked: Story = {
-  render: args => <CheckboxDemo {...args} />,
+  render: () => <CheckboxDisabledChecked />,
   args: {
     label: 'Disabled checked checkbox',
     id: 'disabled-checked',
     isChecked: true,
     isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabledChecked,
+        language: 'tsx',
+      },
+    },
   },
 };

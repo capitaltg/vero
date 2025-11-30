@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { Select } from '../src/Select';
-import type { SelectProps } from '../types';
+import { SelectDefault } from '../demos/SelectDefault';
+import { SelectWithValue } from '../demos/SelectWithValue';
+import { SelectCustomPlaceholder } from '../demos/SelectCustomPlaceholder';
+import { SelectWithManyOptions } from '../demos/SelectWithManyOptions';
+import sourceCodeDefault from '../demos/SelectDefault.tsx?raw';
+import sourceCodeWithValue from '../demos/SelectWithValue.tsx?raw';
+import sourceCodeCustomPlaceholder from '../demos/SelectCustomPlaceholder.tsx?raw';
+import sourceCodeWithManyOptions from '../demos/SelectWithManyOptions.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/Select',
@@ -43,23 +49,6 @@ const options = [
   { value: 'mango', label: 'Mango' },
 ];
 
-const SelectDemo = ({ value: initialValue = '', ...args }: SelectProps) => {
-  const [value, setValue] = useState(initialValue);
-  return (
-    <div className="space-y-4">
-      <Select
-        {...args}
-        value={value}
-        onChange={newValue => {
-          setValue(newValue);
-          args.onChange?.(newValue);
-        }}
-      />
-      <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
-    </div>
-  );
-};
-
 /**
  * Interactive playground for the Select component.
  * Use the controls to experiment with different props and states.
@@ -80,12 +69,20 @@ export const Playground: Story = {
  * Shows a basic dropdown with a list of fruit options and placeholder text.
  */
 export const Default: Story = {
-  render: args => <SelectDemo {...args} />,
+  render: () => <SelectDefault />,
   args: {
     options,
     value: '',
     onChange: () => {},
     placeholder: 'Select a fruit...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -94,12 +91,20 @@ export const Default: Story = {
  * Demonstrates how the component appears with an initial selection.
  */
 export const WithValue: Story = {
-  render: args => <SelectDemo {...args} />,
+  render: () => <SelectWithValue />,
   args: {
     options,
     value: 'apple',
     onChange: () => {},
     placeholder: 'Select a fruit...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithValue,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -108,12 +113,20 @@ export const WithValue: Story = {
  * Shows how to customize the default text shown before selection.
  */
 export const CustomPlaceholder: Story = {
-  render: args => <SelectDemo {...args} />,
+  render: () => <SelectCustomPlaceholder />,
   args: {
     options,
     value: '',
     onChange: () => {},
     placeholder: 'Choose your favorite fruit',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeCustomPlaceholder,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -122,7 +135,7 @@ export const CustomPlaceholder: Story = {
  * Demonstrates how the component handles a larger set of choices with scrolling.
  */
 export const WithManyOptions: Story = {
-  render: args => <SelectDemo {...args} />,
+  render: () => <SelectWithManyOptions />,
   args: {
     options: [
       ...options,
@@ -135,5 +148,13 @@ export const WithManyOptions: Story = {
     value: '',
     onChange: () => {},
     placeholder: 'Select a fruit...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithManyOptions,
+        language: 'tsx',
+      },
+    },
   },
 };

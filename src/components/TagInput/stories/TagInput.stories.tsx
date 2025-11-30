@@ -1,7 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import { TagInputDefault } from '../demos/TagInputDefault';
+import sourceCodeDefault from '../demos/TagInputDefault.tsx?raw';
+import { TagInputDisabled } from '../demos/TagInputDisabled';
+import sourceCodeDisabled from '../demos/TagInputDisabled.tsx?raw';
+import { TagInputEmpty } from '../demos/TagInputEmpty';
+import sourceCodeEmpty from '../demos/TagInputEmpty.tsx?raw';
+import { TagInputWithMaxTags } from '../demos/TagInputWithMaxTags';
+import sourceCodeWithMaxTags from '../demos/TagInputWithMaxTags.tsx?raw';
+import { TagInputWithMultipleDelimiters } from '../demos/TagInputWithMultipleDelimiters';
+import sourceCodeWithMultipleDelimiters from '../demos/TagInputWithMultipleDelimiters.tsx?raw';
+import { TagInputWithSingleDelimiter } from '../demos/TagInputWithSingleDelimiter';
+import sourceCodeWithSingleDelimiter from '../demos/TagInputWithSingleDelimiter.tsx?raw';
 import { TagInput } from '../src/TagInput';
-import { Tag, TagInputProps } from '../types';
 
 const meta = {
   title: 'Inputs & Forms/TagInput',
@@ -28,39 +38,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-interface TagInputDemoProps extends TagInputProps {
-  initialTags?: Tag[];
-  maxTags?: number;
-}
-
-const defaultProps = {
-  value: [],
-  onChange: () => {},
-  placeholder: 'Add tags...',
-};
-
-const TagInputDemo = ({
-  initialTags = [],
-  maxTags,
-  isDisabled,
-  delimiterChars,
-}: TagInputDemoProps) => {
-  const [tags, setTags] = useState<Tag[]>(initialTags);
-
-  return (
-    <div className="space-y-4">
-      <TagInput
-        value={tags}
-        onChange={setTags}
-        maxTags={maxTags}
-        isDisabled={isDisabled}
-        delimiterChars={delimiterChars}
-      />
-      <p className="text-sm text-muted-foreground">Tags: {tags.map(tag => tag.text).join(', ')}</p>
-    </div>
-  );
-};
-
 /**
  * Interactive playground for the TagInput component.
  * Use the controls to experiment with different props and states.
@@ -84,15 +61,15 @@ export const Default: Story = {
     onChange: () => {},
     placeholder: 'Add tags...',
   },
-  render: () => (
-    <TagInputDemo
-      {...defaultProps}
-      initialTags={[
-        { id: '1', text: 'React' },
-        { id: '2', text: 'TypeScript' },
-      ]}
-    />
-  ),
+  render: () => <TagInputDefault />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
+  },
 };
 
 /**
@@ -105,7 +82,15 @@ export const Empty: Story = {
     onChange: () => {},
     placeholder: 'Add tags...',
   },
-  render: () => <TagInputDemo {...defaultProps} />,
+  render: () => <TagInputEmpty />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeEmpty,
+        language: 'tsx',
+      },
+    },
+  },
 };
 
 /**
@@ -122,16 +107,15 @@ export const Disabled: Story = {
     placeholder: 'Add tags...',
     isDisabled: true,
   },
-  render: () => (
-    <TagInputDemo
-      {...defaultProps}
-      initialTags={[
-        { id: '1', text: 'React' },
-        { id: '2', text: 'TypeScript' },
-      ]}
-      isDisabled={true}
-    />
-  ),
+  render: () => <TagInputDisabled />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabled,
+        language: 'tsx',
+      },
+    },
+  },
 };
 
 /**
@@ -148,16 +132,15 @@ export const WithMaxTags: Story = {
     placeholder: 'Add tags...',
     maxTags: 3,
   },
-  render: () => (
-    <TagInputDemo
-      {...defaultProps}
-      initialTags={[
-        { id: '1', text: 'React' },
-        { id: '2', text: 'TypeScript' },
-      ]}
-      maxTags={3}
-    />
-  ),
+  render: () => <TagInputWithMaxTags />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithMaxTags,
+        language: 'tsx',
+      },
+    },
+  },
 };
 
 /**
@@ -171,9 +154,15 @@ export const WithSingleDelimiter: Story = {
     placeholder: 'Add tags...',
     delimiterChars: ',',
   },
-  render: () => (
-    <TagInputDemo {...defaultProps} initialTags={[{ id: '1', text: 'React' }]} delimiterChars="," />
-  ),
+  render: () => <TagInputWithSingleDelimiter />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithSingleDelimiter,
+        language: 'tsx',
+      },
+    },
+  },
 };
 
 /**
@@ -187,11 +176,13 @@ export const WithMultipleDelimiters: Story = {
     placeholder: 'Add tags...',
     delimiterChars: [',', ' ', '|'],
   },
-  render: () => (
-    <TagInputDemo
-      {...defaultProps}
-      initialTags={[{ id: '1', text: 'React' }]}
-      delimiterChars={[',', ' ', '|']}
-    />
-  ),
+  render: () => <TagInputWithMultipleDelimiters />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithMultipleDelimiters,
+        language: 'tsx',
+      },
+    },
+  },
 };

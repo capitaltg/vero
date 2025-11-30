@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { DatePicker } from '../src/DatePicker';
-import type { DatePickerProps } from '../types';
+import { DatePickerDefault } from '../demos/DatePickerDefault';
+import { DatePickerWithValue } from '../demos/DatePickerWithValue';
+import { DatePickerWithStartAndEndMonth } from '../demos/DatePickerWithStartAndEndMonth';
+import { DatePickerCustomPlaceholder } from '../demos/DatePickerCustomPlaceholder';
+import sourceCodeDefault from '../demos/DatePickerDefault.tsx?raw';
+import sourceCodeWithValue from '../demos/DatePickerWithValue.tsx?raw';
+import sourceCodeWithStartAndEndMonth from '../demos/DatePickerWithStartAndEndMonth.tsx?raw';
+import sourceCodeCustomPlaceholder from '../demos/DatePickerCustomPlaceholder.tsx?raw';
 
 const meta = {
   title: 'Data & Display/DatePicker',
@@ -12,18 +18,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const DatePickerDemo = ({ value: initialValue, ...args }: DatePickerProps) => {
-  const [value, setValue] = useState<Date | undefined>(initialValue);
-  return (
-    <div className="space-y-4">
-      <DatePicker {...args} value={value} onChange={setValue} />
-      <p className="text-sm text-muted-foreground">
-        Selected date: {value ? value.toLocaleDateString() : 'none'}
-      </p>
-    </div>
-  );
-};
 
 /**
  * Interactive playground for the DatePicker component.
@@ -44,11 +38,19 @@ export const Playground: Story = {
  * Shows the basic date picker with no pre-selected date.
  */
 export const Default: Story = {
-  render: args => <DatePickerDemo {...args} />,
+  render: () => <DatePickerDefault />,
   args: {
     value: undefined,
     onChange: () => {},
     placeholder: 'Pick a date',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -57,11 +59,19 @@ export const Default: Story = {
  * Demonstrates how the component appears with an initial date value.
  */
 export const WithValue: Story = {
-  render: args => <DatePickerDemo {...args} />,
+  render: () => <DatePickerWithValue />,
   args: {
     value: new Date('2024-03-15'),
     onChange: () => {},
     placeholder: 'Pick a date',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithValue,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -70,12 +80,20 @@ export const WithValue: Story = {
  * Shows how to limit the selectable date range within the specified months and years.
  */
 export const WithStartAndEndMonth: Story = {
-  render: args => <DatePickerDemo {...args} />,
+  render: () => <DatePickerWithStartAndEndMonth />,
   args: {
     onChange: () => {},
     placeholder: 'Pick a date',
     startMonth: new Date(2020, 0),
     endMonth: new Date(2025, 11),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithStartAndEndMonth,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -84,10 +102,18 @@ export const WithStartAndEndMonth: Story = {
  * Shows how to customize the placeholder message when no date is selected.
  */
 export const CustomPlaceholder: Story = {
-  render: args => <DatePickerDemo {...args} />,
+  render: () => <DatePickerCustomPlaceholder />,
   args: {
     value: undefined,
     onChange: () => {},
     placeholder: 'Select your birthday',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeCustomPlaceholder,
+        language: 'tsx',
+      },
+    },
   },
 };

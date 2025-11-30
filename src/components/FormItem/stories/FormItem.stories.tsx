@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { HelpCircle } from 'lucide-react';
-import { Button } from '../../Button';
 import { Input } from '../../Input';
-import { Tooltip, TooltipProvider } from '../../Tooltip';
+import { FormItemRequiredWithLabelSlot } from '../demos/FormItemRequiredWithLabelSlot';
+import sourceCodeRequiredWithLabelSlot from '../demos/FormItemRequiredWithLabelSlot.tsx?raw';
+import { FormItemWithLabelSlot } from '../demos/FormItemWithLabelSlot';
+import sourceCodeWithLabelSlot from '../demos/FormItemWithLabelSlot.tsx?raw';
 import { FormItem } from '../src/FormItem';
 
 const meta = {
@@ -87,23 +88,16 @@ export const Required: Story = {
  */
 export const WithLabelSlot: Story = {
   args: {
-    label: 'Password',
-    elementId: 'password-label-slot-element-id',
-    labelSlot: (
-      <Tooltip content="Password must be at least 8 characters with uppercase, lowercase, and numbers">
-        <Button variant="ghost" size="sm" className="h-auto p-1">
-          <HelpCircle className="h-4 w-4 text-muted-foreground" />
-        </Button>
-      </Tooltip>
-    ),
-    hintText: 'Must be at least 8 characters long',
-    children: <Input type="password" placeholder="Enter your password" />,
+    children: <Input />,
   },
-  render: args => (
-    <TooltipProvider>
-      <FormItem {...args} />
-    </TooltipProvider>
-  ),
+  render: () => <FormItemWithLabelSlot />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithLabelSlot,
+      },
+    },
+  },
 };
 
 /**
@@ -112,22 +106,14 @@ export const WithLabelSlot: Story = {
  */
 export const RequiredWithLabelSlot: Story = {
   args: {
-    label: 'API Key',
-    elementId: 'api-key-element-id',
-    isRequired: true,
-    labelSlot: (
-      <Tooltip content="Your API key can be found in your account settings">
-        <Button variant="ghost" size="sm" className="h-auto p-1">
-          <HelpCircle className="h-4 w-4 text-muted-foreground" />
-        </Button>
-      </Tooltip>
-    ),
-    hintText: 'Enter your unique API key',
-    children: <Input type="password" placeholder="Enter your API Key" />,
+    children: <Input />,
   },
-  render: args => (
-    <TooltipProvider>
-      <FormItem {...args} />
-    </TooltipProvider>
-  ),
+  render: () => <FormItemRequiredWithLabelSlot />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeRequiredWithLabelSlot,
+      },
+    },
+  },
 };

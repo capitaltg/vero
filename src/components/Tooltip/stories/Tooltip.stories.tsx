@@ -1,5 +1,13 @@
-import { Button } from '@/components/Button';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '@/components/Button';
+import { TooltipAlignment } from '../demos/TooltipAlignment';
+import sourceCodeAlignment from '../demos/TooltipAlignment.tsx?raw';
+import { TooltipDefault } from '../demos/TooltipDefault';
+import sourceCodeDefault from '../demos/TooltipDefault.tsx?raw';
+import { TooltipPosition } from '../demos/TooltipPosition';
+import sourceCodePosition from '../demos/TooltipPosition.tsx?raw';
+import { TooltipWithoutArrow } from '../demos/TooltipWithoutArrow';
+import sourceCodeWithoutArrow from '../demos/TooltipWithoutArrow.tsx?raw';
 import { Tooltip, TooltipProvider } from '../src/Tooltip';
 
 const meta = {
@@ -28,7 +36,14 @@ export const Default: Story = {
     content: 'This is a tooltip',
     children: <Button variant="primary">Hover me</Button>,
   },
-  render: ({ content, children }) => <Tooltip content={content}>{children}</Tooltip>,
+  render: () => <TooltipDefault />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+      },
+    },
+  },
 };
 
 /**
@@ -42,11 +57,14 @@ export const Position: Story = {
     offset: 8,
     children: <Button variant="primary">Hover me</Button>,
   },
-  render: ({ content, side, offset, children }) => (
-    <Tooltip content={content} side={side} offset={offset}>
-      {children}
-    </Tooltip>
-  ),
+  render: () => <TooltipPosition />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodePosition,
+      },
+    },
+  },
 };
 
 /**
@@ -59,11 +77,14 @@ export const Alignment: Story = {
     align: 'start',
     children: <Button variant="primary">Hover me</Button>,
   },
-  render: ({ content, align, children }) => (
-    <Tooltip content={content} align={align}>
-      {children}
-    </Tooltip>
-  ),
+  render: () => <TooltipAlignment />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeAlignment,
+      },
+    },
+  },
 };
 
 /**
@@ -77,9 +98,12 @@ export const WithoutArrow: Story = {
     hasArrow: false,
     children: <Button variant="primary">Hover me</Button>,
   },
-  render: ({ content, hasArrow, children }) => (
-    <Tooltip content={content} hasArrow={hasArrow}>
-      {children}
-    </Tooltip>
-  ),
+  render: () => <TooltipWithoutArrow />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithoutArrow,
+      },
+    },
+  },
 };

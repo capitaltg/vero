@@ -1,8 +1,10 @@
 import { mockSearchLibraries } from '@/mocks';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { Autocomplete } from '../src/Autocomplete';
-import { AutocompleteProps } from '../types';
+import { AutocompleteDefault } from '../demos/AutocompleteDefault';
+import { AutocompleteWithStaticOptions } from '../demos/AutocompleteWithStaticOptions';
+import sourceCodeDefault from '../demos/AutocompleteDefault.tsx?raw';
+import sourceCodeWithStaticOptions from '../demos/AutocompleteWithStaticOptions.tsx?raw';
 
 const meta = {
   title: 'Data & Display/Autocomplete',
@@ -13,16 +15,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const AutocompleteDemo = ({ value: initialValue = '', ...args }: AutocompleteProps) => {
-  const [value, setValue] = useState<string>(initialValue);
-  return (
-    <div className="space-y-4">
-      <Autocomplete {...args} value={value} onChange={setValue} />
-      <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
-    </div>
-  );
-};
 
 /**
  * Interactive playground for the Autocomplete component.
@@ -45,12 +37,20 @@ export const Playground: Story = {
  * Search for "React" to see results.
  */
 export const Default: Story = {
-  render: args => <AutocompleteDemo {...args} />,
+  render: args => <AutocompleteDefault {...args} />,
   args: {
     loadOptions: mockSearchLibraries,
     value: '',
     onChange: () => {},
     placeholder: 'Search...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -59,7 +59,7 @@ export const Default: Story = {
  * This shows how the component behaves with a predefined list of options.
  */
 export const WithStaticOptions: Story = {
-  render: args => <AutocompleteDemo {...args} />,
+  render: args => <AutocompleteWithStaticOptions {...args} />,
   args: {
     options: [
       { value: '1', label: 'Option 1' },
@@ -69,5 +69,13 @@ export const WithStaticOptions: Story = {
     value: '',
     onChange: () => {},
     placeholder: 'Select an option...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithStaticOptions,
+        language: 'tsx',
+      },
+    },
   },
 };

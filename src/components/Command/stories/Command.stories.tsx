@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Command } from '../src/Command';
-import { CommandEmpty } from '../src/CommandEmpty';
-import { CommandGroup } from '../src/CommandGroup';
-import { CommandInput } from '../src/CommandInput';
-import { CommandItem } from '../src/CommandItem';
+import { CommandDefault } from '../demos/CommandDefault';
+import sourceCodeDefault from '../demos/CommandDefault.tsx?raw';
+import { CommandWithoutGroups } from '../demos/CommandWithoutGroups';
+import sourceCodeWithoutGroups from '../demos/CommandWithoutGroups.tsx?raw';
 
 const meta = {
   title: 'Overlays & Feedback/Command',
@@ -20,22 +20,14 @@ type Story = StoryObj<typeof meta>;
  * Shows a fully featured command palette with search, groups, and items.
  */
 export const Default: Story = {
-  render: () => (
-    <Command className="rounded-lg border shadow-md">
-      <CommandInput placeholder="Type a command or search..." />
-      <CommandEmpty>No results found.</CommandEmpty>
-      <CommandGroup heading="Suggestions">
-        <CommandItem>Calendar</CommandItem>
-        <CommandItem>Search</CommandItem>
-        <CommandItem>Settings</CommandItem>
-      </CommandGroup>
-      <CommandGroup heading="Recent">
-        <CommandItem>Documents</CommandItem>
-        <CommandItem>Projects</CommandItem>
-        <CommandItem>Tasks</CommandItem>
-      </CommandGroup>
-    </Command>
-  ),
+  render: () => <CommandDefault />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+      },
+    },
+  },
 };
 
 /**
@@ -43,13 +35,12 @@ export const Default: Story = {
  * Shows a basic list of commands without categorization.
  */
 export const WithoutGroups: Story = {
-  render: () => (
-    <Command className="rounded-lg border shadow-md">
-      <CommandInput placeholder="Search..." />
-      <CommandEmpty>No results found.</CommandEmpty>
-      <CommandItem>Item 1</CommandItem>
-      <CommandItem>Item 2</CommandItem>
-      <CommandItem>Item 3</CommandItem>
-    </Command>
-  ),
+  render: () => <CommandWithoutGroups />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithoutGroups,
+      },
+    },
+  },
 };

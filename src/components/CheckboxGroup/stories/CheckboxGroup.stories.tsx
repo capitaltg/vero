@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { CheckboxGroup } from '../src/CheckboxGroup';
-import type { CheckboxGroupProps } from '../types';
+import { CheckboxGroupDefault } from '../demos/CheckboxGroupDefault';
+import { CheckboxGroupWithSelection } from '../demos/CheckboxGroupWithSelection';
+import { CheckboxGroupSingleColumn } from '../demos/CheckboxGroupSingleColumn';
+import { CheckboxGroupThreeColumns } from '../demos/CheckboxGroupThreeColumns';
+import sourceCodeDefault from '../demos/CheckboxGroupDefault.tsx?raw';
+import sourceCodeWithSelection from '../demos/CheckboxGroupWithSelection.tsx?raw';
+import sourceCodeSingleColumn from '../demos/CheckboxGroupSingleColumn.tsx?raw';
+import sourceCodeThreeColumns from '../demos/CheckboxGroupThreeColumns.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/CheckboxGroup',
@@ -19,18 +25,6 @@ const options = [
   { id: 'option3', label: 'Option 3' },
   { id: 'option4', label: 'Option 4' },
 ];
-
-const CheckboxGroupDemo = ({ value: initialValue = [], ...args }: CheckboxGroupProps) => {
-  const [value, setValue] = useState<string[]>(initialValue);
-  return (
-    <div className="space-y-4">
-      <CheckboxGroup {...args} value={value} onChange={setValue} />
-      <p className="text-sm text-muted-foreground">
-        Selected IDs: {value.length > 0 ? value.join(', ') : 'none'}
-      </p>
-    </div>
-  );
-};
 
 /**
  * Interactive playground for the CheckboxGroup component.
@@ -51,11 +45,19 @@ export const Playground: Story = {
  * Shows a group of checkboxes with no initial selection.
  */
 export const Default: Story = {
-  render: args => <CheckboxGroupDemo {...args} />,
+  render: () => <CheckboxGroupDefault />,
   args: {
     options,
     value: [],
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -64,11 +66,19 @@ export const Default: Story = {
  * Demonstrates how the group appears with multiple checkboxes selected.
  */
 export const WithSelection: Story = {
-  render: args => <CheckboxGroupDemo {...args} />,
+  render: () => <CheckboxGroupWithSelection />,
   args: {
     options,
     value: ['option1', 'option3'],
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithSelection,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -77,12 +87,20 @@ export const WithSelection: Story = {
  * Shows checkboxes stacked vertically in one column.
  */
 export const SingleColumn: Story = {
-  render: args => <CheckboxGroupDemo {...args} />,
+  render: () => <CheckboxGroupSingleColumn />,
   args: {
     options,
     columns: 1,
     value: [],
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeSingleColumn,
+        language: 'tsx',
+      },
+    },
   },
 };
 
@@ -91,11 +109,19 @@ export const SingleColumn: Story = {
  * Demonstrates how checkboxes can be arranged in multiple columns.
  */
 export const ThreeColumns: Story = {
-  render: args => <CheckboxGroupDemo {...args} />,
+  render: () => <CheckboxGroupThreeColumns />,
   args: {
     options,
     columns: 3,
     value: [],
     onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeThreeColumns,
+        language: 'tsx',
+      },
+    },
   },
 };

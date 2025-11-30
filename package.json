@@ -32,6 +32,7 @@
     "commitlint": "commitlint --edit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "size": "size-limit",
     "release:patch": "npm run build && npm version patch && git push && git push --tags && npm publish",
     "release:minor": "npm run build && npm version minor && git push && git push --tags && npm publish"
   },
@@ -75,6 +76,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^17.7.0",
     "@eslint/js": "^9.22.0",
+    "@size-limit/preset-small-lib": "^12.0.0",
     "@storybook/addon-essentials": "^8.0.0",
     "@storybook/addon-interactions": "^8.0.0",
     "@storybook/addon-links": "^8.0.0",
@@ -104,6 +106,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup-plugin-copy": "^3.5.0",
+    "size-limit": "^12.0.0",
     "storybook": "^8.0.0",
     "tailwindcss": "^3.4.1",
     "typescript": "~5.4.2",
@@ -117,5 +120,23 @@
       "prettier --write",
       "eslint --fix"
     ]
-  }
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "150 KB"
+    },
+    {
+      "path": "dist/index.cjs",
+      "limit": "150 KB"
+    },
+    {
+      "path": "dist/index.css",
+      "limit": "50 KB"
+    },
+    {
+      "path": "dist/preflight.css",
+      "limit": "10 KB"
+    }
+  ]
 }

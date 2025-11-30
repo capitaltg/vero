@@ -13,10 +13,10 @@ export const RadioGroupButton = () => {
     <div className="space-y-4">
       <RadioGroup
         options={defaultOptions}
-        value={value}
-        onChange={setValue}
-        variant="button"
         orientation="horizontal"
+        value={value}
+        variant="button"
+        onChange={setValue}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

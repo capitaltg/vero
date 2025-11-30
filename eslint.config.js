@@ -30,6 +30,17 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/jsx-no-leaked-render': ['error', { validStrategies: ['ternary'] }],
+      'react/jsx-sort-props': [
+        'warn',
+        {
+          callbacksLast: true,
+          shorthandFirst: true,
+          shorthandLast: false,
+          ignoreCase: true,
+          noSortAlphabetically: false,
+          reservedFirst: true,
+        },
+      ],
     },
   },
 );

@@ -13,9 +13,9 @@ export const RadioGroupVertical = () => {
     <div className="space-y-4">
       <RadioGroup
         options={defaultOptions}
+        orientation="vertical"
         value={value}
         onChange={setValue}
-        orientation="vertical"
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

@@ -114,9 +114,9 @@ export const App: React.FC = () => {
           <div className="w-[16rem]">
             <Select
               options={themeSelectOptions}
+              placeholder="Select theme..."
               value={currentTheme}
               onChange={setCurrentTheme}
-              placeholder="Select theme..."
             />
           </div>
         </div>
@@ -139,61 +139,61 @@ export const App: React.FC = () => {
           {/* Text Inputs with Transformations */}
           <div className="space-y-4">
             <FormItem
-              label="Uppercase Text"
               elementId="uppercase-input-id"
               hintText="This text will always be uppercase"
+              label="Uppercase Text"
             >
               <Input
-                transform="uppercase"
                 placeholder="Type something..."
+                transform="uppercase"
                 value={uppercaseText}
                 onChange={evt => setUppercaseText(evt.target.value)}
               />
             </FormItem>
 
             <FormItem
-              label="Lowercase Text"
               elementId="lowercase-input-id"
               hintText="This text will always be lowercase"
+              label="Lowercase Text"
             >
               <Input
-                transform="lowercase"
                 placeholder="Type something..."
+                transform="lowercase"
                 value={lowercaseText}
                 onChange={evt => setLowercaseText(evt.target.value)}
               />
             </FormItem>
 
             <FormItem
-              label="Trimmed Text"
               elementId="trimmed-input-id"
               hintText="This text will always be trimmed"
+              label="Trimmed Text"
             >
               <Input
-                transform="trim"
                 placeholder="Type something..."
+                transform="trim"
                 value={trimmedText}
                 onChange={evt => setTrimmedText(evt.target.value)}
               />
             </FormItem>
 
             <FormItem
-              label="Trimmed & Uppercase Text"
               elementId="trimmed-uppercase-input-id"
               hintText="This text will be trimmed and converted to uppercase"
+              label="Trimmed & Uppercase Text"
             >
               <Input
-                transform={['trim', 'uppercase']}
                 placeholder="Type something..."
+                transform={['trim', 'uppercase']}
                 value={trimmedUpperText}
                 onChange={evt => setTrimmedUpperText(evt.target.value)}
               />
             </FormItem>
 
             <FormItem
-              label="Name"
               elementId="name-input-id"
               hintText="Your full name as it will appear in the project"
+              label="Name"
             >
               <Input
                 id="name"
@@ -204,23 +204,23 @@ export const App: React.FC = () => {
             </FormItem>
 
             <FormItem
-              label="Email"
               elementId="email-input-id"
               hintText="Your work email address for project communications"
+              label="Email"
             >
               <Input
                 id="email"
-                type="email"
                 placeholder="Enter your email"
+                type="email"
                 value={email}
                 onChange={evt => setEmail(evt.target.value)}
               />
             </FormItem>
 
             <FormItem
-              label="Company"
               elementId="company-input-id"
               hintText="The organization you represent"
+              label="Company"
             >
               <Input
                 id="company"
@@ -231,14 +231,14 @@ export const App: React.FC = () => {
             </FormItem>
 
             <FormItem
-              label="Project Description"
               elementId="project-description-textarea-id"
-              hintText="A brief overview of your project's goals and requirements"
               errorText={
                 description.length > 20
                   ? 'Project description must be 20 characters or less'
                   : undefined
               }
+              hintText="A brief overview of your project's goals and requirements"
+              label="Project Description"
             >
               <Textarea
                 id="description"
@@ -249,101 +249,101 @@ export const App: React.FC = () => {
             </FormItem>
 
             <FormItem
-              label="Tags"
               elementId="tags-tag-input-id"
               hintText="Add tags to your project"
+              label="Tags"
             >
-              <TagInput value={tags} onChange={setTags} placeholder="Add a tag..." />
+              <TagInput placeholder="Add a tag..." value={tags} onChange={setTags} />
             </FormItem>
           </div>
 
           {/* Theme Select */}
           <FormItem
-            label="Theme"
             elementId="theme-single-select-id"
             hintText="Select your preferred theme"
+            label="Theme"
           >
             <Select
               options={themeOptions}
+              placeholder="Select theme..."
               value={theme}
               onChange={setTheme}
-              placeholder="Select theme..."
             />
           </FormItem>
 
           {/* Library Combobox */}
           <FormItem
-            label="Library"
             elementId="library-combobox-id"
             hintText="Search and select from over 140 React libraries"
+            label="Library"
           >
             <Combobox
               options={libraries}
-              value={library}
-              onChange={setLibrary}
               placeholder="Select library..."
               searchPlaceholder="Search libraries..."
+              value={library}
+              onChange={setLibrary}
             />
           </FormItem>
 
           {/* Async Search with Autocomplete */}
           <FormItem
-            label="React Library Search"
             elementId="react-library-search-autocomplete-id"
             hintText="Search through 140+ React libraries with async loading"
+            label="React Library Search"
           >
             <Autocomplete
+              debounceMs={500}
               loadOptions={mockSearchLibraries}
+              minSearch={1}
+              placeholder="Search libraries..."
               value={searchQuery}
               onChange={setSearchQuery}
-              placeholder="Search libraries..."
-              debounceMs={500}
-              minSearch={1}
             />
           </FormItem>
 
           {/* Switches */}
           <FormItem
-            label="Project Settings"
             elementId="project-settings-switch-group-id"
             hintText="Configure your project's visibility and licensing"
+            label="Project Settings"
           >
             <SwitchGroup
+              columns={1}
               options={settingsOptions}
               value={settings}
               onChange={setSettings}
-              columns={1}
             />
           </FormItem>
 
           {/* Radio Buttons */}
           <FormItem
-            label="Project Type"
             elementId="project-type-radio-group-id"
             hintText="Select the primary type of application you're building"
+            label="Project Type"
           >
             <RadioGroup options={projectTypes} value={projectType} onChange={setProjectType} />
           </FormItem>
 
           {/* Tile Radio Group */}
           <FormItem
-            label="Deployment Plan"
             elementId="deployment-plan-radio-group-id"
             hintText="Choose the plan that best fits your project needs"
+            label="Deployment Plan"
           >
             <RadioGroup
               options={deploymentPlans}
               value={deploymentPlan}
-              onChange={setDeploymentPlan}
               variant="tile"
+              onChange={setDeploymentPlan}
             />
           </FormItem>
 
           {/* Checkbox Group */}
           <FormItem
-            label="Features"
             elementId="features-checkbox-group-id"
             hintText="Select all the features you need in your project"
+            label="Features"
           >
             <CheckboxGroup
               options={features}
@@ -355,44 +355,44 @@ export const App: React.FC = () => {
           {/* Single Selects */}
           <div className="space-y-4">
             <FormItem
-              label="Framework"
               elementId="framework-combobox-id"
               hintText="Choose the primary framework for your project"
+              label="Framework"
             >
               <Combobox
                 options={frameworks}
-                value={framework}
-                onChange={setFramework}
                 placeholder="Select framework..."
                 searchPlaceholder="Search framework..."
+                value={framework}
+                onChange={setFramework}
               />
             </FormItem>
 
             <FormItem
-              label="Database"
               elementId="database-combobox-id"
               hintText="Select the main database for your application"
+              label="Database"
             >
               <Combobox
                 options={databases}
-                value={database}
-                onChange={setDatabase}
                 placeholder="Select database..."
                 searchPlaceholder="Search database..."
+                value={database}
+                onChange={setDatabase}
               />
             </FormItem>
 
             <FormItem
-              label="Primary Language"
               elementId="primary-language-combobox-id"
               hintText="Choose the main programming language for development"
+              label="Primary Language"
             >
               <Combobox
                 options={languages}
-                value={language}
-                onChange={setLanguage}
                 placeholder="Select language..."
                 searchPlaceholder="Search language..."
+                value={language}
+                onChange={setLanguage}
               />
             </FormItem>
           </div>
@@ -401,67 +401,67 @@ export const App: React.FC = () => {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <FormItem
-                label="Project Start"
                 elementId="project-start-datepicker-id"
                 hintText="When development begins"
+                label="Project Start"
               >
-                <DatePicker value={startDate1} onChange={setStartDate1} placeholder="Pick a date" />
+                <DatePicker placeholder="Pick a date" value={startDate1} onChange={setStartDate1} />
               </FormItem>
 
               <FormItem
-                label="Project End"
                 elementId="project-end-datepicker-id"
                 hintText="Expected completion date"
+                label="Project End"
               >
-                <DatePicker value={endDate1} onChange={setEndDate1} placeholder="Pick a date" />
+                <DatePicker placeholder="Pick a date" value={endDate1} onChange={setEndDate1} />
               </FormItem>
             </div>
 
             <FormItem
-              label="Project Duration"
               elementId="project-duration-daterangepicker-id"
               hintText="Select the start and end dates"
+              label="Project Duration"
             >
               <DateRangePicker
-                value={dateRange1}
-                onChange={setDateRange1}
                 placeholder={{
                   from: 'Start date',
                   to: 'End date',
                 }}
+                value={dateRange1}
+                onChange={setDateRange1}
               />
             </FormItem>
 
             <div className="grid grid-cols-2 gap-4">
               <FormItem
-                label="Maintenance Start"
                 elementId="maintenance-start-datepicker-id"
                 hintText="When support period begins"
+                label="Maintenance Start"
               >
-                <DatePicker value={startDate2} onChange={setStartDate2} placeholder="Pick a date" />
+                <DatePicker placeholder="Pick a date" value={startDate2} onChange={setStartDate2} />
               </FormItem>
 
               <FormItem
-                label="Maintenance End"
                 elementId="maintenance-end-datepicker-id"
                 hintText="Support period end date"
+                label="Maintenance End"
               >
-                <DatePicker value={endDate2} onChange={setEndDate2} placeholder="Pick a date" />
+                <DatePicker placeholder="Pick a date" value={endDate2} onChange={setEndDate2} />
               </FormItem>
             </div>
 
             <FormItem
-              label="Maintenance Period"
               elementId="maintenance-period-daterangepicker-id"
               hintText="Select the maintenance start and end dates"
+              label="Maintenance Period"
             >
               <DateRangePicker
-                value={dateRange2}
-                onChange={setDateRange2}
                 placeholder={{
                   from: 'Start date',
                   to: 'End date',
                 }}
+                value={dateRange2}
+                onChange={setDateRange2}
               />
             </FormItem>
           </div>
@@ -469,44 +469,44 @@ export const App: React.FC = () => {
           {/* Multi Selects */}
           <div className="space-y-4">
             <FormItem
-              label="Cloud Providers"
               elementId="cloud-providers-multiselect-id"
               hintText="Select all cloud platforms you plan to use"
+              label="Cloud Providers"
             >
               <MultiSelect
                 options={clouds}
-                value={selectedClouds}
-                onChange={setSelectedClouds}
                 placeholder="Select cloud providers..."
                 searchPlaceholder="Search cloud providers..."
+                value={selectedClouds}
+                onChange={setSelectedClouds}
               />
             </FormItem>
 
             <FormItem
-              label="Development Tools"
               elementId="development-tools-multiselect-id"
               hintText="Choose the development tools for your team"
+              label="Development Tools"
             >
               <MultiSelect
                 options={tools}
-                value={selectedTools}
-                onChange={setSelectedTools}
                 placeholder="Select development tools..."
                 searchPlaceholder="Search tools..."
+                value={selectedTools}
+                onChange={setSelectedTools}
               />
             </FormItem>
 
             <FormItem
-              label="Additional Languages"
               elementId="additional-languages-multiselect-id"
               hintText="Other programming languages used in the project"
+              label="Additional Languages"
             >
               <MultiSelect
                 options={languages}
-                value={selectedLanguages}
-                onChange={setSelectedLanguages}
                 placeholder="Select languages..."
                 searchPlaceholder="Search languages..."
+                value={selectedLanguages}
+                onChange={setSelectedLanguages}
               />
             </FormItem>
           </div>

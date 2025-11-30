@@ -7,12 +7,12 @@ export const RadioTile = () => {
   return (
     <div className="space-y-4">
       <Radio
-        label="Tile Radio"
         description="This is a description for the tile radio option"
         id="radio-tile"
+        isChecked={isChecked}
+        label="Tile Radio"
         value="option-tile"
         variant="tile"
-        isChecked={isChecked}
         onClick={() => setIsChecked(!isChecked)}
       />
       <p className="text-sm text-muted-foreground">

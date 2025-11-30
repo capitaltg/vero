@@ -11,10 +11,10 @@ export const RadioSelected = () => {
   return (
     <div className="space-y-4">
       <Radio
-        label="Selected radio"
         id="radio-2"
-        value="option-2"
         isChecked={isChecked}
+        label="Selected radio"
+        value="option-2"
         onClick={() => setIsChecked(!isChecked)}
       />
       <p className="text-sm text-muted-foreground">

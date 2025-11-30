@@ -11,12 +11,12 @@ export const RadioTileSelected = () => {
   return (
     <div className="space-y-4">
       <Radio
-        label="Selected Tile Radio"
         description="This tile radio option is selected"
         id="radio-tile-selected"
+        isChecked={isChecked}
+        label="Selected Tile Radio"
         value="option-tile-selected"
         variant="tile"
-        isChecked={isChecked}
         onClick={() => setIsChecked(!isChecked)}
       />
       <p className="text-sm text-muted-foreground">

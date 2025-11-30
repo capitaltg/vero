@@ -12,7 +12,7 @@ export const CheckboxGroupSingleColumn = () => {
   const [value, setValue] = useState<string[]>([]);
   return (
     <div className="space-y-4">
-      <CheckboxGroup options={options} columns={1} value={value} onChange={setValue} />
+      <CheckboxGroup columns={1} options={options} value={value} onChange={setValue} />
       <p className="text-sm text-muted-foreground">
         Selected IDs: {value.length > 0 ? value.join(', ') : 'none'}
       </p>

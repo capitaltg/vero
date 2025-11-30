@@ -47,15 +47,15 @@ const DefaultRadio = ({
     >
       <RadioGroupPrimitive.Item
         ref={ref}
-        id={id}
+        aria-label={ariaLabel}
+        checked={isChecked}
         className={cn(
           styles.focusRingVisible,
           styles.focusRingVisibleSm,
           radioCircleClasses,
           className,
         )}
-        checked={isChecked}
-        aria-label={ariaLabel}
+        id={id}
         {...props}
         {...disabledProps}
       >
@@ -94,10 +94,10 @@ const TileRadio = ({
     >
       <RadioGroupPrimitive.Item
         ref={ref}
-        id={id}
-        className="absolute inset-0 opacity-0"
-        checked={isChecked}
         aria-label={ariaLabel}
+        checked={isChecked}
+        className="absolute inset-0 opacity-0"
+        id={id}
         {...props}
         {...disabledProps}
       />
@@ -150,10 +150,10 @@ const ButtonRadio = ({
     >
       <RadioGroupPrimitive.Item
         ref={ref}
-        id={id}
-        className="absolute inset-0 opacity-0"
-        checked={isChecked}
         aria-label={ariaLabel}
+        checked={isChecked}
+        className="absolute inset-0 opacity-0"
+        id={id}
         {...props}
         {...disabledProps}
       />
@@ -186,13 +186,13 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
       return (
         <ButtonRadio
           ref={ref}
-          id={id}
-          label={label}
+          aria-label={ariaLabel}
+          className={className}
           description={description}
+          id={id}
           isChecked={isChecked}
           isDisabled={isDisabled}
-          className={className}
-          aria-label={ariaLabel}
+          label={label}
           {...props}
         />
       );
@@ -202,13 +202,13 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
       return (
         <TileRadio
           ref={ref}
-          id={id}
-          label={label}
+          aria-label={ariaLabel}
+          className={className}
           description={description}
+          id={id}
           isChecked={isChecked}
           isDisabled={isDisabled}
-          className={className}
-          aria-label={ariaLabel}
+          label={label}
           {...props}
         />
       );
@@ -217,13 +217,13 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
     return (
       <DefaultRadio
         ref={ref}
-        id={id}
-        label={label}
+        aria-label={ariaLabel}
+        className={className}
         description={description}
+        id={id}
         isChecked={isChecked}
         isDisabled={isDisabled}
-        className={className}
-        aria-label={ariaLabel}
+        label={label}
         {...props}
       />
     );

@@ -39,8 +39,6 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
         <PopoverTrigger asChild>
           <Button
             ref={ref}
-            variant="input"
-            role="combobox"
             aria-expanded={open}
             className={cn(
               'w-full justify-between px-3',
@@ -48,6 +46,8 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
               className,
             )}
             isDisabled={isDisabled}
+            role="combobox"
+            variant="input"
             {...props}
           >
             {value ? options.find(option => option.value === value)?.label : placeholder}

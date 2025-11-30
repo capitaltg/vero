@@ -20,9 +20,9 @@ export const MultiSelectWithManyOptions = () => {
     <div className="space-y-4">
       <MultiSelect
         options={options}
+        placeholder="Select frameworks..."
         value={value}
         onChange={setValue}
-        placeholder="Select frameworks..."
       />
       <p className="text-sm text-muted-foreground">
         Selected values: {value.length > 0 ? value.join(', ') : 'none'}

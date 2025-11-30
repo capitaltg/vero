@@ -7,11 +7,11 @@ export const CheckboxDisabled = () => {
   return (
     <div className="space-y-4">
       <Checkbox
-        label="Disabled checkbox"
         id="disabled"
         isChecked={isChecked}
-        onCheckedChange={() => setIsChecked(!isChecked)}
         isDisabled={true}
+        label="Disabled checkbox"
+        onCheckedChange={() => setIsChecked(!isChecked)}
       />
       <p className="text-sm text-muted-foreground">
         Checkbox {isChecked ? 'is checked' : 'is unchecked'}

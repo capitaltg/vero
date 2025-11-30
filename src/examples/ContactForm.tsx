@@ -49,34 +49,34 @@ export const ContactForm = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <FormItem label="Full Name" elementId="name" isRequired>
+            <FormItem isRequired elementId="name" label="Full Name">
               <Input
+                required
                 id="name"
                 placeholder="John Doe"
                 value={name}
                 onChange={e => setName(e.target.value)}
-                required
               />
             </FormItem>
 
-            <FormItem label="Email Address" elementId="email" isRequired>
+            <FormItem isRequired elementId="email" label="Email Address">
               <Input
+                required
                 id="email"
-                type="email"
                 placeholder="john.doe@example.com"
+                type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                required
               />
             </FormItem>
           </div>
 
           <FormItem
-            label="Company"
             elementId="company"
             hintText="Optional - Let us know which organization you represent"
+            label="Company"
           >
             <Input
               id="company"
@@ -86,54 +86,54 @@ export const ContactForm = () => {
             />
           </FormItem>
 
-          <FormItem label="Subject" elementId="subject" isRequired>
+          <FormItem isRequired elementId="subject" label="Subject">
             <Select
               options={subjectOptions}
+              placeholder="Select a subject..."
               value={subject}
               onChange={setSubject}
-              placeholder="Select a subject..."
             />
           </FormItem>
 
           <FormItem
-            label="Priority"
+            isRequired
             elementId="priority"
             hintText="How urgent is your inquiry?"
-            isRequired
+            label="Priority"
           >
             <RadioGroup
               options={priorityOptions}
-              value={priority}
-              onChange={setPriority}
-              variant="button"
               orientation="horizontal"
+              value={priority}
+              variant="button"
+              onChange={setPriority}
             />
           </FormItem>
 
           <FormItem
-            label="Message"
+            isRequired
             elementId="message"
             hintText="Please provide as much detail as possible"
-            isRequired
+            label="Message"
           >
             <Textarea
+              required
               id="message"
               placeholder="Tell us more about your inquiry..."
+              rows={6}
               value={message}
               onChange={e => setMessage(e.target.value)}
-              rows={6}
-              required
             />
           </FormItem>
 
           <div className="flex gap-3">
-            <Button type="submit" variant="primary" size="lg" isDisabled={!isFormValid}>
+            <Button isDisabled={!isFormValid} size="lg" type="submit" variant="primary">
               Send Message
             </Button>
             <Button
+              size="lg"
               type="button"
               variant="outline"
-              size="lg"
               onClick={() => {
                 setName('');
                 setEmail('');

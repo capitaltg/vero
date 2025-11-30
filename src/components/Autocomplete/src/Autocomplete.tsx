@@ -150,8 +150,6 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
         <PopoverTrigger asChild>
           <Button
             ref={ref}
-            variant="input"
-            role="combobox"
             aria-expanded={open}
             className={cn(
               'w-full justify-between px-3',
@@ -159,6 +157,8 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
               className,
             )}
             isDisabled={isDisabled}
+            role="combobox"
+            variant="input"
             {...props}
           >
             <span className="truncate">
@@ -200,9 +200,9 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
                   {displayOptions.map(option => (
                     <CommandItem
                       key={option.value}
+                      className="cursor-pointer"
                       value={option.value}
                       onSelect={handleSelect}
-                      className="cursor-pointer"
                     >
                       <Check
                         className={cn(

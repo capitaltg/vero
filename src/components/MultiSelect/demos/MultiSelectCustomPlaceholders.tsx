@@ -14,12 +14,12 @@ export const MultiSelectCustomPlaceholders = () => {
   return (
     <div className="space-y-4">
       <MultiSelect
+        emptyMessage="No frameworks found"
         options={options}
-        value={value}
-        onChange={setValue}
         placeholder="Choose your frameworks"
         searchPlaceholder="Search frameworks..."
-        emptyMessage="No frameworks found"
+        value={value}
+        onChange={setValue}
       />
       <p className="text-sm text-muted-foreground">
         Selected values: {value.length > 0 ? value.join(', ') : 'none'}

@@ -26,14 +26,14 @@ const CalendarMonthPicker = (props: CalendarMonthPickerProps) => {
     >
       {getMonths().map((month, idx) => (
         <Button
-          ref={idx === 0 ? firstButtonRef : undefined}
           key={month}
-          variant="ghost"
-          size="sm"
+          ref={idx === 0 ? firstButtonRef : undefined}
           className={cn(
             `relative min-h-10 w-full text-center text-sm font-normal focus-within:relative
             focus-within:z-20 focus:opacity-100 focus:ring-2 focus:ring-offset-0`,
           )}
+          size="sm"
+          variant="ghost"
           onClick={() => {
             onSelect?.(idx);
           }}

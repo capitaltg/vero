@@ -6,7 +6,7 @@ export const PopoverCustomPosition = () => (
     <PopoverTrigger asChild>
       <Button variant="input">Open Popover</Button>
     </PopoverTrigger>
-    <PopoverContent className="w-80" align="start" hasArrow>
+    <PopoverContent hasArrow align="start" className="w-80">
       <p className="text-sm">This popover is aligned to the start.</p>
     </PopoverContent>
   </Popover>

@@ -26,9 +26,9 @@ const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
             <Switch
               key={option.id}
               id={option.id}
-              label={option.label}
               isChecked={value.includes(option.id)}
               isDisabled={option.isDisabled}
+              label={option.label}
               onCheckedChange={checked => handleSwitchChange(option.id, checked)}
             />
           ))}

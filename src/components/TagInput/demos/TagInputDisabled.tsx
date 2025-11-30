@@ -10,7 +10,7 @@ export const TagInputDisabled = () => {
 
   return (
     <div className="space-y-4">
-      <TagInput value={tags} onChange={setTags} placeholder="Add tags..." isDisabled={true} />
+      <TagInput isDisabled={true} placeholder="Add tags..." value={tags} onChange={setTags} />
       <p className="text-sm text-muted-foreground">Tags: {tags.map(tag => tag.text).join(', ')}</p>
     </div>
   );

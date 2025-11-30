@@ -154,10 +154,6 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
           <button
             key={tag.id}
             ref={el => (tagsRef.current[index] = el)}
-            type="button"
-            disabled={isDisabled}
-            onClick={evt => evt.stopPropagation()}
-            onKeyDown={evt => handleTagKeyDown(evt, index)}
             className={cn(
               `flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm
               text-secondary-foreground transition-colors`,
@@ -166,13 +162,17 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               styles.focusRing,
               'focus:ring-2 focus:ring-offset-0',
             )}
+            disabled={isDisabled}
+            type="button"
+            onClick={evt => evt.stopPropagation()}
+            onKeyDown={evt => handleTagKeyDown(evt, index)}
           >
             {tag.text}
             {!isDisabled ? (
               <X
-                role="button"
                 aria-label={`Remove ${tag.text}`}
                 className="h-3 w-3 opacity-50 transition-opacity hover:opacity-100"
+                role="button"
                 strokeWidth={3}
                 onClick={evt => {
                   evt.stopPropagation();
@@ -184,15 +184,15 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
         ))}
         <input
           ref={inputRef}
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          onFocus={() => setFocusedTagIndex(-1)}
-          placeholder={value.length === 0 ? placeholderText : ''}
           className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground
             disabled:cursor-not-allowed"
           disabled={isDisabled || (maxTags !== undefined && value.length >= maxTags)}
+          placeholder={value.length === 0 ? placeholderText : ''}
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          onFocus={() => setFocusedTagIndex(-1)}
+          onKeyDown={handleKeyDown}
         />
       </div>
     );

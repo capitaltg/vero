@@ -1,10 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
 
 export const TabsWithDisabledTab = () => (
-  <Tabs defaultValue="active" className="w-md">
+  <Tabs className="w-md" defaultValue="active">
     <TabsList>
       <TabsTrigger value="active">Active Tab</TabsTrigger>
-      <TabsTrigger value="disabled" disabled>
+      <TabsTrigger disabled value="disabled">
         Disabled Tab
       </TabsTrigger>
     </TabsList>

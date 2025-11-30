@@ -52,126 +52,126 @@ export const SignUpForm = () => {
           <p className="mt-2 text-muted-foreground">Join us today and start your journey</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
-            <FormItem label="First Name" elementId="first-name" isRequired>
+            <FormItem isRequired elementId="first-name" label="First Name">
               <Input
+                required
                 id="first-name"
                 placeholder="John"
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
-                required
               />
             </FormItem>
 
-            <FormItem label="Last Name" elementId="last-name" isRequired>
+            <FormItem isRequired elementId="last-name" label="Last Name">
               <Input
+                required
                 id="last-name"
                 placeholder="Doe"
                 value={lastName}
                 onChange={e => setLastName(e.target.value)}
-                required
               />
             </FormItem>
           </div>
 
           <FormItem
-            label="Email Address"
+            isRequired
             elementId="email"
             hintText="We'll never share your email with anyone else"
-            isRequired
+            label="Email Address"
           >
             <Input
+              required
               id="email"
-              type="email"
               placeholder="john.doe@example.com"
+              type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              required
             />
           </FormItem>
 
           <FormItem
-            label="Password"
+            isRequired
             elementId="password"
             hintText="Must be at least 8 characters"
-            isRequired
+            label="Password"
           >
             <Input
+              required
               id="password"
-              type="password"
               placeholder="••••••••"
+              type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              required
             />
           </FormItem>
 
           <FormItem
-            label="Confirm Password"
+            isRequired
             elementId="confirm-password"
             errorText={confirmPassword && !passwordsMatch ? 'Passwords do not match' : undefined}
-            isRequired
+            label="Confirm Password"
           >
             <Input
+              required
               id="confirm-password"
-              type="password"
               placeholder="••••••••"
+              type="password"
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
-              required
             />
           </FormItem>
 
-          <FormItem label="Country" elementId="country" isRequired>
+          <FormItem isRequired elementId="country" label="Country">
             <Select
               options={countryOptions}
+              placeholder="Select your country..."
               value={country}
               onChange={setCountry}
-              placeholder="Select your country..."
             />
           </FormItem>
 
           <div className="space-y-3">
             <Checkbox
               id="terms"
+              isChecked={agreeToTerms}
               label={
                 <span>
                   I agree to the{' '}
-                  <a href="#" className="font-medium text-primary-400 hover:underline">
+                  <a className="font-medium text-primary-400 hover:underline" href="#">
                     Terms of Service
                   </a>{' '}
                   and{' '}
-                  <a href="#" className="font-medium text-primary-400 hover:underline">
+                  <a className="font-medium text-primary-400 hover:underline" href="#">
                     Privacy Policy
                   </a>
                 </span>
               }
-              isChecked={agreeToTerms}
               onChange={setAgreeToTerms}
             />
 
             <Checkbox
               id="newsletter"
-              label="Send me product updates and newsletters"
               isChecked={subscribeNewsletter}
+              label="Send me product updates and newsletters"
               onChange={setSubscribeNewsletter}
             />
           </div>
 
           <Button
-            type="submit"
-            variant="primary"
-            size="lg"
             className="w-full"
             isDisabled={!isFormValid}
+            size="lg"
+            type="submit"
+            variant="primary"
           >
             Create Account
           </Button>
 
           <p className="text-center text-sm text-muted-foreground">
             Already have an account?{' '}
-            <a href="#" className="font-medium text-primary-400 hover:underline">
+            <a className="font-medium text-primary-400 hover:underline" href="#">
               Sign in
             </a>
           </p>

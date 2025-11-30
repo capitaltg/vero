@@ -23,8 +23,6 @@ const RadioGroup = React.forwardRef<
     return (
       <RadioGroupPrimitive.Root
         ref={ref}
-        value={value}
-        onValueChange={onChange}
         className={cn(
           'grid gap-3',
           orientation === 'horizontal' && variant === 'default' && 'flex flex-row gap-5',
@@ -41,16 +39,18 @@ const RadioGroup = React.forwardRef<
           className,
           { ...props },
         )}
+        value={value}
+        onValueChange={onChange}
       >
         {options.map(option => (
           <Radio
             key={option.value}
-            id={option.value}
-            value={option.value}
-            label={option.label}
             description={option.description}
-            variant={variant}
+            id={option.value}
             isChecked={value === option.value}
+            label={option.label}
+            value={option.value}
+            variant={variant}
           />
         ))}
       </RadioGroupPrimitive.Root>

@@ -49,14 +49,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         </div>
         {isClosable ? (
           <button
-            type="button"
-            onClick={onClose}
             className={cn(
               styles.focusRing,
               styles.focusRingSm,
               `-mt-0.5 shrink-0 rounded-full bg-transparent px-1.5 py-1.5 opacity-70 transition
                 hover:bg-black/10 hover:opacity-100 focus:bg-black/10 focus:opacity-100`,
             )}
+            type="button"
+            onClick={onClose}
           >
             <X className="h-5 w-5" strokeWidth={3} />
             <span className="sr-only">Close</span>

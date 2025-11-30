@@ -10,9 +10,9 @@ export const AutocompleteDefault = ({ value: initialValue = '', ...args }: Autoc
       <Autocomplete
         {...args}
         loadOptions={mockSearchLibraries}
+        placeholder="Search..."
         value={value}
         onChange={setValue}
-        placeholder="Search..."
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

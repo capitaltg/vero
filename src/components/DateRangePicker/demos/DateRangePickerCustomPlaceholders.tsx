@@ -7,12 +7,12 @@ export const DateRangePickerCustomPlaceholders = () => {
   return (
     <div className="space-y-4">
       <DateRangePicker
-        value={value}
-        onChange={setValue}
         placeholder={{
           from: 'Check-in date',
           to: 'Check-out date',
         }}
+        value={value}
+        onChange={setValue}
       />
       <p className="text-sm text-muted-foreground">
         Selected range:{' '}

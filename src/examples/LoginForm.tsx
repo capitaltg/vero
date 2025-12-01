@@ -64,7 +64,7 @@ export const LoginForm = () => {
               id="remember"
               isChecked={rememberMe}
               label="Remember me"
-              onChange={setRememberMe}
+              onCheckedChange={checked => setRememberMe(checked === true)}
             />
             <a className="text-sm font-medium text-primary-400 hover:underline" href="#">
               Forgot password?

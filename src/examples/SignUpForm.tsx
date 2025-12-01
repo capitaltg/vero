@@ -148,14 +148,14 @@ export const SignUpForm = () => {
                   </a>
                 </span>
               }
-              onChange={setAgreeToTerms}
+              onCheckedChange={checked => setAgreeToTerms(checked === true)}
             />
 
             <Checkbox
               id="newsletter"
               isChecked={subscribeNewsletter}
               label="Send me product updates and newsletters"
-              onChange={setSubscribeNewsletter}
+              onCheckedChange={checked => setSubscribeNewsletter(checked === true)}
             />
           </div>
 

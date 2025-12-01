@@ -1,4 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { ButtonLoadingComparison } from '../demos/ButtonLoadingComparison';
+import sourceCodeLoadingComparison from '../demos/ButtonLoadingComparison.tsx?raw';
+import { ButtonLoadingSizes } from '../demos/ButtonLoadingSizes';
+import sourceCodeLoadingSizes from '../demos/ButtonLoadingSizes.tsx?raw';
+import { ButtonLoadingVariants } from '../demos/ButtonLoadingVariants';
+import sourceCodeLoadingVariants from '../demos/ButtonLoadingVariants.tsx?raw';
+import { ButtonSizes } from '../demos/ButtonSizes';
+import sourceCodeSizes from '../demos/ButtonSizes.tsx?raw';
 import { Button } from '../src/Button';
 
 const meta = {
@@ -20,6 +28,11 @@ const meta = {
     className: {
       type: 'string',
       description: 'Additional class names to apply to the button',
+    },
+    isLoading: {
+      type: 'boolean',
+      description: 'Shows a loading spinner instead of the button text',
+      control: 'boolean',
     },
   },
 } satisfies Meta<typeof Button>;
@@ -94,28 +107,6 @@ export const Ghost: Story = {
 };
 
 /**
- * A small-sized button.
- * Used when space is limited or for secondary actions.
- */
-export const Small: Story = {
-  args: {
-    children: 'Small Button',
-    size: 'sm',
-  },
-};
-
-/**
- * A large-sized button.
- * Used for primary calls to action or when more emphasis is needed.
- */
-export const Large: Story = {
-  args: {
-    children: 'Large Button',
-    size: 'lg',
-  },
-};
-
-/**
  * A disabled button state.
  * Shows how the button appears when it's not interactive.
  */
@@ -123,5 +114,70 @@ export const Disabled: Story = {
   args: {
     children: 'Disabled Button',
     isDisabled: true,
+  },
+};
+
+/**
+ * Button sizes.
+ * Shows the small, default, and large button sizes side by side.
+ */
+export const Sizes: Story = {
+  render: args => <ButtonSizes {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeSizes,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * A loading button state.
+ * Shows a spinner instead of the button text while maintaining the same size.
+ * The button is automatically disabled when loading.
+ */
+export const Loading: Story = {
+  render: args => <ButtonLoadingComparison {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeLoadingComparison,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Loading state with different variants.
+ * Demonstrates how the loading spinner appears across all button variants.
+ */
+export const LoadingVariants: Story = {
+  render: args => <ButtonLoadingVariants {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeLoadingVariants,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Loading state with different sizes.
+ * Demonstrates how the loading spinner appears across all button sizes.
+ */
+export const LoadingSizes: Story = {
+  render: args => <ButtonLoadingSizes {...args} />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeLoadingSizes,
+        language: 'tsx',
+      },
+    },
   },
 };

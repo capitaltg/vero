@@ -133,7 +133,6 @@ export const ContactForm = () => {
             <Button
               size="lg"
               type="button"
-              variant="outline"
               onClick={() => {
                 setName('');
                 setEmail('');

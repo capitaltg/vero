@@ -40,6 +40,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         ref={ref}
+        aria-busy={isLoading}
         className={cn(buttonVariants({ variant, size }), 'relative', className)}
         {...props}
         {...disabledProps}
@@ -47,7 +48,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {isLoading ? (
           <>
             <span className="invisible">{children}</span>
-            <span className="absolute inset-0 flex items-center justify-center">
+            <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center">
               <Loader2 className="h-4 w-4 animate-spin" />
             </span>
           </>

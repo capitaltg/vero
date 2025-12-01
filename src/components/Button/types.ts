@@ -6,4 +6,5 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isDisabled?: boolean;
+  isLoading?: boolean;
 }

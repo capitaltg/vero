@@ -30,7 +30,7 @@ export const Welcome: Story = {
             <Button asChild size="lg" variant="primary">
               <a href="/?path=/docs/overlays-feedback-alert--docs">Get Started</a>
             </Button>
-            <Button asChild size="lg" variant="ghost">
+            <Button asChild size="lg">
               <a href="https://github.com/capitaltg/vero" rel="noopener noreferrer" target="_blank">
                 View on GitHub
               </a>

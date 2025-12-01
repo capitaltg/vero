@@ -1,6 +1,8 @@
+import { expectNoViolations } from '@/test/utils';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { Alert } from './Alert';
 
 describe('Alert', () => {
@@ -181,6 +183,133 @@ describe('Alert', () => {
       );
       const heading = screen.getByRole('heading', { name: 'Important Alert' });
       expect(heading.tagName).toBe('H2');
+    });
+
+    it('close button is keyboard accessible', async () => {
+      const user = userEvent.setup();
+      const handleClose = vi.fn();
+
+      render(
+        <Alert isClosable variant="info" onClose={handleClose}>
+          Message
+        </Alert>,
+      );
+
+      const closeButton = screen.getByRole('button', { name: /close/i });
+      expect(closeButton).toBeInTheDocument();
+
+      // Test keyboard navigation
+      await user.tab();
+      expect(closeButton).toHaveFocus();
+
+      await user.keyboard('{Enter}');
+      expect(handleClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('close button has accessible name', () => {
+      render(
+        <Alert isClosable variant="info">
+          Message
+        </Alert>,
+      );
+      const closeButton = screen.getByRole('button', { name: /close/i });
+      expect(closeButton).toBeInTheDocument();
+      // Screen reader text should be present
+      expect(screen.getByText('Close')).toHaveClass('sr-only');
+    });
+
+    it('has proper color contrast for all variants', async () => {
+      const variants = ['success', 'warning', 'danger', 'info'] as const;
+      for (const variant of variants) {
+        const { container, unmount } = render(
+          <Alert variant={variant}>{variant} alert with text content</Alert>,
+        );
+        const results = await axe(container, {
+          rules: {
+            'color-contrast': { enabled: true },
+          },
+        });
+        expectNoViolations(results);
+        unmount();
+      }
+    });
+
+    it('has no accessibility violations with default props', async () => {
+      const { container } = render(<Alert variant="info">Test message</Alert>);
+      const results = await axe(container);
+      expectNoViolations(results);
+    });
+
+    it('has no accessibility violations with heading', async () => {
+      const { container } = render(
+        <Alert heading="Alert Heading" variant="success">
+          Alert content
+        </Alert>,
+      );
+      const results = await axe(container);
+      expectNoViolations(results);
+    });
+
+    it('has no accessibility violations with closable alert', async () => {
+      const { container } = render(
+        <Alert isClosable variant="warning" onClose={vi.fn()}>
+          Closable alert message
+        </Alert>,
+      );
+      const results = await axe(container);
+      expectNoViolations(results);
+    });
+
+    it('has no accessibility violations with all variants', async () => {
+      const variants = ['success', 'warning', 'danger', 'info'] as const;
+      for (const variant of variants) {
+        const { container, unmount } = render(
+          <Alert heading={`${variant} Alert`} variant={variant}>
+            {variant} message
+          </Alert>,
+        );
+        const results = await axe(container);
+        expectNoViolations(results);
+        unmount();
+      }
+    });
+
+    it('has no accessibility violations with different sizes', async () => {
+      const { container: defaultContainer } = render(
+        <Alert size="default" variant="info">
+          Default size alert
+        </Alert>,
+      );
+      const defaultResults = await axe(defaultContainer);
+      expectNoViolations(defaultResults);
+
+      const { container: smContainer } = render(
+        <Alert size="sm" variant="info">
+          Small size alert
+        </Alert>,
+      );
+      const smResults = await axe(smContainer);
+      expectNoViolations(smResults);
+    });
+
+    it('has no accessibility violations without icon', async () => {
+      const { container } = render(
+        <Alert hasIcon={false} variant="info">
+          Alert without icon
+        </Alert>,
+      );
+      const results = await axe(container);
+      expectNoViolations(results);
+    });
+
+    it('has no accessibility violations with custom aria-label', async () => {
+      const { container } = render(
+        <Alert aria-label="Custom alert label" variant="danger">
+          Alert content
+        </Alert>,
+      );
+      const results = await axe(container);
+      expectNoViolations(results);
     });
   });
 

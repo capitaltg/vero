@@ -24,6 +24,7 @@
     "dev": "npm run storybook",
     "app": "vite",
     "build": "tsc -b && vite build",
+    "type-check": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",

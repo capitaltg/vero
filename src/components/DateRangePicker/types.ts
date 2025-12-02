@@ -1,9 +1,12 @@
+import { ButtonHTMLAttributes } from 'react';
+
 export interface DateRange {
   from?: Date;
   to?: Date;
 }
 
-export interface DateRangePickerProps {
+export interface DateRangePickerProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'> {
   value: DateRange;
   onChange: (range: DateRange) => void;
   placeholder?: {

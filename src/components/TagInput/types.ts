@@ -1,9 +1,11 @@
+import { HTMLAttributes } from 'react';
+
 export interface Tag {
   id: string;
   text: string;
 }
 
-export interface TagInputProps {
+export interface TagInputProps extends HTMLAttributes<HTMLDivElement> {
   value: Tag[];
   className?: string;
   placeholder?: string;

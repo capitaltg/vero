@@ -1,6 +1,6 @@
-import { ReactElement, ReactNode } from 'react';
+import { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
-export interface FormItemProps {
+export interface FormItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /**
    * The label for the form item. If a string is provided, it will be wrapped in a `<Label>` component. If a ReactNode is provided, it will be rendered as-is.
    */

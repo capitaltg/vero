@@ -1,12 +1,16 @@
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { ComponentPropsWithoutRef } from 'react';
 
+import * as SelectPrimitive from '@radix-ui/react-select';
+import { ButtonHTMLAttributes, ComponentPropsWithoutRef } from 'react';
+
 export interface SelectOption {
   value: string;
   label: string;
 }
 
-export interface SelectProps {
+export interface SelectProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'> {
   options: SelectOption[];
   value: string;
   onChange: (value: string) => void;

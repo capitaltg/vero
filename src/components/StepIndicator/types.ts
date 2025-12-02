@@ -1,3 +1,5 @@
+import { HTMLAttributes } from 'react';
+
 export interface Step {
   id: string;
   label: string;
@@ -6,7 +8,8 @@ export interface Step {
 
 type StepId<T extends readonly Step[] | Step[]> = T[number]['id'];
 
-export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonly Step[]> {
+export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonly Step[]>
+  extends HTMLAttributes<HTMLDivElement> {
   steps: T;
   currentStep: StepId<T>;
   className?: string;

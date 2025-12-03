@@ -1,9 +1,12 @@
+import { ButtonHTMLAttributes } from 'react';
+
 export interface AutocompleteOption {
   value: string;
   label: string;
 }
 
-export interface AutocompleteProps {
+export interface AutocompleteProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'> {
   // Async function to fetch options
   loadOptions?: (inputValue: string) => Promise<AutocompleteOption[]>;
   // Static options (used if loadOptions is not provided)

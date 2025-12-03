@@ -1,9 +1,11 @@
+import { HTMLAttributes } from 'react';
+
 export interface CheckboxOption {
   id: string;
   label: string;
 }
 
-export interface CheckboxGroupProps {
+export interface CheckboxGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   options: CheckboxOption[];
   value: string[];
   onChange: (value: string[]) => void;

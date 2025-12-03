@@ -1,10 +1,12 @@
+import { HTMLAttributes } from 'react';
+
 export interface SwitchOption {
   id: string;
   label: string;
   isDisabled?: boolean;
 }
 
-export interface SwitchGroupProps {
+export interface SwitchGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   options: SwitchOption[];
   value: string[];
   className?: string;

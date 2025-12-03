@@ -37,10 +37,10 @@ const RadioGroup = React.forwardRef<
             `flex flex-col gap-0 [&>*:first-child]:mt-0 [&>*:first-child]:rounded-t-sm
             [&>*:last-child]:rounded-b-sm [&>*]:-mt-[1px] [&>*]:rounded-none`,
           className,
-          { ...props },
         )}
         value={value}
         onValueChange={onChange}
+        {...props}
       >
         {options.map(option => (
           <Radio

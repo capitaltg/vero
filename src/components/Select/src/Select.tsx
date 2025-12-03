@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { getZIndex } from '@/lib/z-index';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import * as React from 'react';
 import type { SelectProps } from '../types';
@@ -12,9 +13,20 @@ const SelectValue = SelectPrimitive.Value;
 
 const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
   (
-    { options, value, onChange, placeholder = 'Select an option', className, isDisabled, ...props },
+    {
+      options,
+      value,
+      onChange,
+      placeholder = 'Select an option',
+      className,
+      zIndex,
+      isDisabled,
+      ...props
+    },
     ref,
   ) => {
+    const resolvedZIndex = getZIndex('dropdown', zIndex);
+
     return (
       <SelectRoot value={value} onValueChange={onChange}>
         <SelectTrigger
@@ -25,7 +37,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent zIndex={resolvedZIndex}>
           {options.map(option => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}

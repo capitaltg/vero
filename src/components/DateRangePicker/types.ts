@@ -6,7 +6,7 @@ export interface DateRange {
 }
 
 export interface DateRangePickerProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'> {
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled' | 'value'> {
   value: DateRange;
   onChange: (range: DateRange) => void;
   placeholder?: {

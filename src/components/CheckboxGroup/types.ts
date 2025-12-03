@@ -5,7 +5,7 @@ export interface CheckboxOption {
   label: string;
 }
 
-export interface CheckboxGroupProps extends HTMLAttributes<HTMLDivElement> {
+export interface CheckboxGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   options: CheckboxOption[];
   value: string[];
   onChange: (value: string[]) => void;

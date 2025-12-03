@@ -8,7 +8,10 @@ export interface RadioOption {
 }
 
 export interface RadioGroupProps
-  extends Omit<ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>, 'onValueChange'> {
+  extends Omit<
+    ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
+    'onValueChange' | 'onChange'
+  > {
   options: RadioOption[];
   value: string;
   onChange: (value: string) => void;

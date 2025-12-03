@@ -6,7 +6,7 @@ export interface SwitchOption {
   isDisabled?: boolean;
 }
 
-export interface SwitchGroupProps extends HTMLAttributes<HTMLDivElement> {
+export interface SwitchGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   options: SwitchOption[];
   value: string[];
   className?: string;

@@ -5,7 +5,7 @@ export interface Tag {
   text: string;
 }
 
-export interface TagInputProps extends HTMLAttributes<HTMLDivElement> {
+export interface TagInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value: Tag[];
   className?: string;
   placeholder?: string;

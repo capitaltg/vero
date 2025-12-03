@@ -1,7 +1,4 @@
 import * as SelectPrimitive from '@radix-ui/react-select';
-import { ComponentPropsWithoutRef } from 'react';
-
-import * as SelectPrimitive from '@radix-ui/react-select';
 import { ButtonHTMLAttributes, ComponentPropsWithoutRef } from 'react';
 
 export interface SelectOption {

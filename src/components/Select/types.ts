@@ -13,6 +13,7 @@ export interface SelectProps
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
+  zIndex?: number;
   isDisabled?: boolean;
 }
 
@@ -23,7 +24,10 @@ export interface SelectTriggerProps
   extends Omit<ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>, 'disabled'> {
   isDisabled?: boolean;
 }
-export type SelectContentProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Content>;
+export interface SelectContentProps
+  extends ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {
+  zIndex?: number;
+}
 export type SelectItemProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Item>;
 export type SelectLabelProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Label>;
 export type SelectSeparatorProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>;

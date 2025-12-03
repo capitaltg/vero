@@ -24,7 +24,7 @@
     "dev": "npm run storybook",
     "app": "vite",
     "build": "tsc -b && vite build",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",

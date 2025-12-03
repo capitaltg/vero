@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils';
-import * as React from 'react';
+import React, { useState } from 'react';
 import { ImageProps } from '../types';
 
 const Image = React.forwardRef<HTMLImageElement, ImageProps>(
   ({ src, alt, fallback, isLazy = true, shape = 'square', className, onError, ...props }, ref) => {
-    const [hasError, setHasError] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(true);
+    const [hasError, setHasError] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleError = (evt: React.SyntheticEvent<HTMLImageElement, Event>) => {
       setHasError(true);

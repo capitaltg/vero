@@ -104,7 +104,7 @@ export const Welcome: Story = {
                 <h4 className="font-semibold">Inputs & Forms</h4>
               </div>
               <div className="mb-4 space-y-1 text-sm text-muted-foreground">
-                <div>• Input, Textarea, TagInput</div>
+                <div>• Input, Textarea</div>
                 <div>• Checkbox, Radio, Switch</div>
                 <div>• Select, Combobox, MultiSelect</div>
                 <div>• FormItem, Label</div>
@@ -145,9 +145,8 @@ export const Welcome: Story = {
                 <h4 className="font-semibold">Overlays & Feedback</h4>
               </div>
               <div className="mb-4 space-y-1 text-sm text-muted-foreground">
-                <div>• Dialog, Popover</div>
-                <div>• Tooltip, Alert</div>
-                <div>• Command</div>
+                <div>• Dialog, Alert</div>
+                <div>• Popover, Tooltip</div>
               </div>
               <div className="mt-auto">
                 <Button asChild className="px-0" size="sm" variant="link">

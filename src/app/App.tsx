@@ -12,7 +12,6 @@ import { MultiSelect } from '@/components/MultiSelect';
 import { RadioGroup } from '@/components/RadioGroup';
 import { Select } from '@/components/Select';
 import { SwitchGroup } from '@/components/SwitchGroup';
-import { Tag, TagInput } from '@/components/TagInput';
 import { Textarea } from '@/components/Textarea';
 import {
   clouds,
@@ -76,11 +75,11 @@ export const App: React.FC = () => {
   // Theme
   const [currentTheme, setCurrentTheme] = useState<string>('theme-uswds');
 
-  // Tags
-  const [tags, setTags] = useState<Tag[]>([
-    { id: '1', text: 'React' },
-    { id: '2', text: 'TypeScript' },
-  ]);
+  // // Tags
+  // const [tags, setTags] = useState<Tag[]>([
+  //   { id: '1', text: 'React' },
+  //   { id: '2', text: 'TypeScript' },
+  // ]);
 
   useEffect(() => {
     const classList = document.documentElement.classList;
@@ -248,13 +247,13 @@ export const App: React.FC = () => {
               />
             </FormItem>
 
-            <FormItem
+            {/* <FormItem
               elementId="tags-tag-input-id"
               hintText="Add tags to your project"
               label="Tags"
             >
               <TagInput placeholder="Add a tag..." value={tags} onChange={setTags} />
-            </FormItem>
+            </FormItem> */}
           </div>
 
           {/* Theme Select */}

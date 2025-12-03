@@ -32,7 +32,7 @@ const meta = {
       control: 'boolean',
     },
   },
-  tags: ['autodocs'],
+  tags: ['!dev'], // This story will be hidden from the sidebar
 } satisfies Meta<typeof TagInput>;
 
 export default meta;

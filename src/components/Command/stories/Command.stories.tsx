@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Command } from '../src/Command';
 import { CommandDefault } from '../demos/CommandDefault';
 import sourceCodeDefault from '../demos/CommandDefault.tsx?raw';
 import { CommandWithoutGroups } from '../demos/CommandWithoutGroups';
 import sourceCodeWithoutGroups from '../demos/CommandWithoutGroups.tsx?raw';
+import { Command } from '../src/Command';
 
 const meta = {
   title: 'Overlays & Feedback/Command',
   component: Command,
   parameters: {},
-  tags: ['autodocs'],
+  tags: ['!dev'], // This story will be hidden from the sidebar
 } satisfies Meta<typeof Command>;
 
 export default meta;

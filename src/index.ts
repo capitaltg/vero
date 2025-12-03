@@ -12,7 +12,7 @@ export * from './components/Calendar';
 export * from './components/Checkbox';
 export * from './components/CheckboxGroup';
 export * from './components/Combobox';
-export * from './components/Command';
+// export * from './components/Command';
 export * from './components/DatePicker';
 export * from './components/DateRangePicker';
 export * from './components/Dialog';
@@ -30,7 +30,7 @@ export * from './components/StepIndicator';
 export * from './components/Switch';
 export * from './components/SwitchGroup';
 export * from './components/Tabs';
-export * from './components/TagInput';
+// export * from './components/TagInput';
 export * from './components/Textarea';
 export * from './components/Tooltip';
 

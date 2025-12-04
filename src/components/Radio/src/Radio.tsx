@@ -80,6 +80,28 @@ const TileRadio = ({
   ...props
 }: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
   const disabledProps = useAriaDisabled({ isDisabled });
+  const labelId = React.useId();
+  const descriptionId = React.useId();
+
+  // Use aria-labelledby/aria-describedby when no explicit aria-label is provided
+  const ariaProps = ariaLabel
+    ? { 'aria-label': ariaLabel }
+    : {
+        ...(label && { 'aria-labelledby': labelId }),
+        ...(description && { 'aria-describedby': descriptionId }),
+      };
+
+  const renderLabel = () => {
+    if (!label) return null;
+    if (typeof label === 'string') {
+      return (
+        <div className="font-medium" id={labelId}>
+          {label}
+        </div>
+      );
+    }
+    return <div id={labelId}>{label}</div>;
+  };
 
   return (
     <div
@@ -94,10 +116,10 @@ const TileRadio = ({
     >
       <RadioGroupPrimitive.Item
         ref={ref}
-        aria-label={ariaLabel}
         checked={isChecked}
         className="absolute inset-0 opacity-0"
         id={id}
+        {...ariaProps}
         {...props}
         {...disabledProps}
       />
@@ -116,8 +138,12 @@ const TileRadio = ({
           ) : null}
         </div>
         <div className="pointer-events-none space-y-1">
-          {label && typeof label === 'string' ? <div className="font-medium">{label}</div> : label}
-          {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+          {renderLabel()}
+          {description ? (
+            <p className="text-sm text-muted-foreground" id={descriptionId}>
+              {description}
+            </p>
+          ) : null}
         </div>
       </div>
     </div>
@@ -136,6 +162,28 @@ const ButtonRadio = ({
   ...props
 }: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
   const disabledProps = useAriaDisabled({ isDisabled });
+  const labelId = React.useId();
+  const descriptionId = React.useId();
+
+  // Use aria-labelledby/aria-describedby when no explicit aria-label is provided
+  const ariaProps = ariaLabel
+    ? { 'aria-label': ariaLabel }
+    : {
+        ...(label && { 'aria-labelledby': labelId }),
+        ...(description && { 'aria-describedby': descriptionId }),
+      };
+
+  const renderLabel = () => {
+    if (!label) return null;
+    if (typeof label === 'string') {
+      return (
+        <span className="font-medium" id={labelId}>
+          {label}
+        </span>
+      );
+    }
+    return <span id={labelId}>{label}</span>;
+  };
 
   return (
     <div
@@ -150,16 +198,20 @@ const ButtonRadio = ({
     >
       <RadioGroupPrimitive.Item
         ref={ref}
-        aria-label={ariaLabel}
         checked={isChecked}
         className="absolute inset-0 opacity-0"
         id={id}
+        {...ariaProps}
         {...props}
         {...disabledProps}
       />
       <div className="flex items-center gap-2">
-        {label ? <span className="font-medium">{label}</span> : null}
-        {description ? <span className="text-sm text-muted-foreground">{description}</span> : null}
+        {renderLabel()}
+        {description ? (
+          <span className="text-sm text-muted-foreground" id={descriptionId}>
+            {description}
+          </span>
+        ) : null}
       </div>
     </div>
   );

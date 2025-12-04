@@ -1,6 +1,6 @@
 import { buttonVariants } from '@/components/Button/constants';
 import { Label } from '@/components/Label';
-import { useAriaDisabled } from '@/hooks';
+import { useAriaDisabled, useRadioAria } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
@@ -80,16 +80,11 @@ const TileRadio = ({
   ...props
 }: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
   const disabledProps = useAriaDisabled({ isDisabled });
-  const labelId = React.useId();
-  const descriptionId = React.useId();
-
-  // Use aria-labelledby/aria-describedby when no explicit aria-label is provided
-  const ariaProps = ariaLabel
-    ? { 'aria-label': ariaLabel }
-    : {
-        ...(label && { 'aria-labelledby': labelId }),
-        ...(description && { 'aria-describedby': descriptionId }),
-      };
+  const { ariaProps, labelId, descriptionId } = useRadioAria({
+    label,
+    description,
+    'aria-label': ariaLabel,
+  });
 
   const renderLabel = () => {
     if (!label) return null;
@@ -162,16 +157,11 @@ const ButtonRadio = ({
   ...props
 }: RadioProps & { ref: React.Ref<HTMLButtonElement> }) => {
   const disabledProps = useAriaDisabled({ isDisabled });
-  const labelId = React.useId();
-  const descriptionId = React.useId();
-
-  // Use aria-labelledby/aria-describedby when no explicit aria-label is provided
-  const ariaProps = ariaLabel
-    ? { 'aria-label': ariaLabel }
-    : {
-        ...(label && { 'aria-labelledby': labelId }),
-        ...(description && { 'aria-describedby': descriptionId }),
-      };
+  const { ariaProps, labelId, descriptionId } = useRadioAria({
+    label,
+    description,
+    'aria-label': ariaLabel,
+  });
 
   const renderLabel = () => {
     if (!label) return null;

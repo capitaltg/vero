@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
+import { getStorybookUrl } from '../lib/storybook';
 
 const meta: Meta = {
   title: 'Getting Started/Introduction',
@@ -28,7 +29,7 @@ export const Welcome: Story = {
           </p>
           <div className="flex justify-center gap-4">
             <Button asChild size="lg" variant="primary">
-              <a href="/?path=/docs/overlays-feedback-alert--docs">Get Started</a>
+              <a href={getStorybookUrl('?path=/story/overlays-feedback')}>Get Started</a>
             </Button>
             <Button asChild size="lg">
               <a href="https://github.com/capitaltg/vero" rel="noopener noreferrer" target="_blank">
@@ -113,7 +114,7 @@ export const Welcome: Story = {
                 <Button asChild className="px-0" size="sm" variant="link">
                   <a
                     aria-label="View Inputs and Forms Components"
-                    href="/?path=/story/inputs-forms"
+                    href={getStorybookUrl('?path=/story/inputs-forms')}
                   >
                     View Components →
                   </a>
@@ -133,7 +134,7 @@ export const Welcome: Story = {
                 <Button asChild className="px-0" size="sm" variant="link">
                   <a
                     aria-label="View Actions and Navigation Components"
-                    href="/?path=/story/actions-navigation"
+                    href={getStorybookUrl('?path=/story/actions-navigation')}
                   >
                     View Components →
                   </a>
@@ -152,7 +153,7 @@ export const Welcome: Story = {
                 <Button asChild className="px-0" size="sm" variant="link">
                   <a
                     aria-label="View Overlays and Feedback Components"
-                    href="/?path=/story/overlays-feedback"
+                    href={getStorybookUrl('?path=/story/overlays-feedback')}
                   >
                     View Components →
                   </a>
@@ -172,7 +173,7 @@ export const Welcome: Story = {
                 <Button asChild className="px-0" size="sm" variant="link">
                   <a
                     aria-label="View Data and Display Components"
-                    href="/?path=/story/data-display"
+                    href={getStorybookUrl('?path=/story/data-display')}
                   >
                     View Components →
                   </a>

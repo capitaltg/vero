@@ -1,4 +1,4 @@
-import { Label } from '@/components/Label';
+import { DefaultFormControlLabel } from '@/components/shared/DefaultFormControlLabel';
 import { useAriaDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
@@ -9,12 +9,6 @@ import { CheckboxProps } from '../types';
 
 export const checkboxClasses =
   'peer h-5 w-5 shrink-0 rounded-sm border-2 border-gray-500 ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary-400 data-[state=checked]:bg-primary-400 data-[state=checked]:text-white';
-
-const DefaultCheckboxLabel = ({ id, label }: Pick<CheckboxProps, 'id' | 'label'>) => {
-  if (!label) return null;
-  if (typeof label === 'string') return <Label htmlFor={id}>{label}</Label>;
-  return label;
-};
 
 export const CheckboxDefault = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -49,7 +43,7 @@ export const CheckboxDefault = React.forwardRef<
           <Check className="h-4 w-4" strokeWidth={3} />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
-      <DefaultCheckboxLabel id={id} label={label} />
+      <DefaultFormControlLabel id={id} label={label} />
     </div>
   );
 });

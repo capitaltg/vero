@@ -1,4 +1,4 @@
-import { Label } from '@/components/Label';
+import { DefaultFormControlLabel } from '@/components/shared/DefaultFormControlLabel';
 import { useAriaDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
@@ -9,12 +9,6 @@ import { RadioProps } from '../types';
 
 export const radioCircleClasses =
   'aspect-square h-5 w-5 rounded-full border-2 border-gray-500 text-primary-400 ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 data-[state=checked]:border-primary-400 ';
-
-const DefaultRadioLabel = ({ id, label }: Pick<RadioProps, 'id' | 'label'>) => {
-  if (!label) return null;
-  if (typeof label === 'string') return <Label htmlFor={id}>{label}</Label>;
-  return label;
-};
 
 export const RadioDefault = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
@@ -47,7 +41,7 @@ export const RadioDefault = React.forwardRef<
           <Circle className="h-3 w-3 fill-current text-current" />
         </RadioGroupPrimitive.Indicator>
       </RadioGroupPrimitive.Item>
-      <DefaultRadioLabel id={id} label={label} />
+      <DefaultFormControlLabel id={id} label={label} />
     </div>
   );
 });

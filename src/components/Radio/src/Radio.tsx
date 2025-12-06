@@ -1,18 +1,10 @@
+import { validateFormControlProps } from '@/lib/form-controls';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import * as React from 'react';
 import { RadioProps } from '../types';
 import { RadioButton } from './RadioButton';
 import { RadioDefault } from './RadioDefault';
 import { RadioTile } from './RadioTile';
-
-const validateProps = (label?: React.ReactNode, ariaLabel?: string) => {
-  if (!label && !ariaLabel) {
-    throw new Error('Radio must have either a label prop or an aria-label attribute');
-  }
-  if (label && ariaLabel) {
-    throw new Error('Radio must have either a label prop or an aria-label attribute, but not both');
-  }
-};
 
 const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>, RadioProps>(
   (
@@ -29,42 +21,17 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
     },
     ref,
   ) => {
-    validateProps(label, ariaLabel);
+    validateFormControlProps('Radio', label, ariaLabel);
 
+    let Component = RadioDefault;
     if (variant === 'button') {
-      return (
-        <RadioButton
-          ref={ref}
-          aria-label={ariaLabel}
-          className={className}
-          description={description}
-          id={id}
-          isChecked={isChecked}
-          isDisabled={isDisabled}
-          label={label}
-          {...props}
-        />
-      );
-    }
-
-    if (variant === 'tile') {
-      return (
-        <RadioTile
-          ref={ref}
-          aria-label={ariaLabel}
-          className={className}
-          description={description}
-          id={id}
-          isChecked={isChecked}
-          isDisabled={isDisabled}
-          label={label}
-          {...props}
-        />
-      );
+      Component = RadioButton;
+    } else if (variant === 'tile') {
+      Component = RadioTile;
     }
 
     return (
-      <RadioDefault
+      <Component
         ref={ref}
         aria-label={ariaLabel}
         className={className}

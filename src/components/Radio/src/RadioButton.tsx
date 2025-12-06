@@ -1,5 +1,5 @@
 import { buttonVariants } from '@/components/Button/constants';
-import { useAriaDisabled, useRadioAria } from '@/hooks';
+import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
@@ -15,7 +15,7 @@ export const RadioButton = React.forwardRef<
     ref,
   ) => {
     const disabledProps = useAriaDisabled({ isDisabled });
-    const { ariaProps, labelId, descriptionId } = useRadioAria({
+    const { ariaProps, labelId, descriptionId } = useAriaLabelled({
       label,
       description,
       'aria-label': ariaLabel,

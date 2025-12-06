@@ -1,12 +1,12 @@
 import { useId } from 'react';
 
-export type UseRadioAriaOptions = {
+export type UseAriaLabelledOptions = {
   label?: React.ReactNode;
   description?: string;
   'aria-label'?: string;
 };
 
-export type UseRadioAriaReturn = {
+export type UseAriaLabelledReturn = {
   ariaProps: {
     'aria-label'?: string;
     'aria-labelledby'?: string;
@@ -17,20 +17,23 @@ export type UseRadioAriaReturn = {
 };
 
 /**
- * Hook for managing ARIA attributes for radio buttons with external labels.
+ * Hook for managing ARIA attributes for form controls with external labels.
  *
  * When no explicit aria-label is provided, this hook generates IDs for the label
  * and description elements and creates appropriate aria-labelledby and aria-describedby
- * attributes to ensure screen readers can properly announce the radio button.
+ * attributes to ensure screen readers can properly announce the form control.
+ *
+ * This hook can be used with checkboxes, radio buttons, and other form controls
+ * that have labels positioned outside the control element.
  *
  * @param options - Configuration options
  * @returns ARIA props and generated IDs for label and description elements
  */
-export function useRadioAria({
+export function useAriaLabelled({
   label,
   description,
   'aria-label': ariaLabel,
-}: UseRadioAriaOptions = {}): UseRadioAriaReturn {
+}: UseAriaLabelledOptions = {}): UseAriaLabelledReturn {
   const labelId = useId();
   const descriptionId = useId();
 

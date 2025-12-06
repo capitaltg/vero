@@ -1,5 +1,5 @@
 import { buttonVariants } from '@/components/Button/constants';
-import { useAriaDisabled } from '@/hooks';
+import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
@@ -15,7 +15,7 @@ export const CheckboxButton = React.forwardRef<
     ref,
   ) => {
     const disabledProps = useAriaDisabled({ isDisabled });
-    const { ariaProps, labelId, descriptionId } = useCheckboxAria({
+    const { ariaProps, labelId, descriptionId } = useAriaLabelled({
       label,
       description,
       'aria-label': ariaLabel,

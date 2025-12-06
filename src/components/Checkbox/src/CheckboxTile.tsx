@@ -1,4 +1,4 @@
-import { useAriaDisabled, useCheckboxAria } from '@/hooks';
+import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { cn } from '@/lib/utils';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Check } from 'lucide-react';
@@ -15,7 +15,7 @@ export const CheckboxTile = React.forwardRef<
     ref,
   ) => {
     const disabledProps = useAriaDisabled({ isDisabled });
-    const { ariaProps, labelId, descriptionId } = useCheckboxAria({
+    const { ariaProps, labelId, descriptionId } = useAriaLabelled({
       label,
       description,
       'aria-label': ariaLabel,

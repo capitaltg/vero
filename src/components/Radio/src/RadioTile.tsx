@@ -1,4 +1,4 @@
-import { useAriaDisabled, useRadioAria } from '@/hooks';
+import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { cn } from '@/lib/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import { Circle } from 'lucide-react';
@@ -15,7 +15,7 @@ export const RadioTile = React.forwardRef<
     ref,
   ) => {
     const disabledProps = useAriaDisabled({ isDisabled });
-    const { ariaProps, labelId, descriptionId } = useRadioAria({
+    const { ariaProps, labelId, descriptionId } = useAriaLabelled({
       label,
       description,
       'aria-label': ariaLabel,

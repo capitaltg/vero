@@ -1,3 +1,2 @@
 export * from './useAriaDisabled';
-export * from './useCheckboxAria';
-export * from './useRadioAria';
+export * from './useAriaLabelled';

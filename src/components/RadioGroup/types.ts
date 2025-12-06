@@ -16,6 +16,7 @@ export interface RadioGroupProps
   value: string;
   onChange: (value: string) => void;
   className?: string;
+  columns?: 1 | 2 | 3 | 4;
   orientation?: 'horizontal' | 'vertical';
   variant?: 'default' | 'tile' | 'button';
 }

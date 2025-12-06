@@ -1,14 +1,14 @@
 import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { cn } from '@/lib/utils';
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
-import { Circle } from 'lucide-react';
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import { Check } from 'lucide-react';
 import * as React from 'react';
-import { RadioProps } from '../types';
-import { radioCircleClasses } from './RadioDefault';
+import { CheckboxProps } from '../types';
+import { checkboxClasses } from './CheckboxDefault';
 
-export const RadioTile = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  RadioProps
+export const CheckboxTile = React.forwardRef<
+  React.ElementRef<typeof CheckboxPrimitive.Root>,
+  CheckboxProps
 >(
   (
     { id, label, description, isChecked, isDisabled, className, 'aria-label': ariaLabel, ...props },
@@ -44,7 +44,7 @@ export const RadioTile = React.forwardRef<
           className,
         )}
       >
-        <RadioGroupPrimitive.Item
+        <CheckboxPrimitive.Root
           ref={ref}
           checked={isChecked}
           className="absolute inset-0 opacity-0"
@@ -56,14 +56,14 @@ export const RadioTile = React.forwardRef<
         <div className="flex items-start gap-3">
           <div
             className={cn(
-              radioCircleClasses,
+              checkboxClasses,
               'pointer-events-none mt-1',
-              isChecked && 'border-primary-400',
+              isChecked && 'border-primary-400 bg-primary-400',
             )}
           >
             {isChecked ? (
               <div className="flex h-full w-full items-center justify-center">
-                <Circle className="h-3 w-3 fill-current text-primary-400" />
+                <Check className="h-4 w-4 text-white" strokeWidth={3} />
               </div>
             ) : null}
           </div>
@@ -81,4 +81,4 @@ export const RadioTile = React.forwardRef<
   },
 );
 
-RadioTile.displayName = 'RadioTile';
+CheckboxTile.displayName = 'CheckboxTile';

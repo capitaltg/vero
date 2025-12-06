@@ -1,2 +1,2 @@
 export * from './useAriaDisabled';
-export * from './useRadioAria';
+export * from './useAriaLabelled';

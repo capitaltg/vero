@@ -1,20 +1,20 @@
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Radio } from '../src/Radio';
 import { RadioDefault } from '../demos/RadioDefault';
-import { RadioTile } from '../demos/RadioTile';
-import { RadioTileSelected } from '../demos/RadioTileSelected';
-import { RadioTileDisabled } from '../demos/RadioTileDisabled';
-import { RadioSelected } from '../demos/RadioSelected';
-import { RadioDisabled } from '../demos/RadioDisabled';
-import { RadioDisabledSelected } from '../demos/RadioDisabledSelected';
 import sourceCodeDefault from '../demos/RadioDefault.tsx?raw';
-import sourceCodeTile from '../demos/RadioTile.tsx?raw';
-import sourceCodeTileSelected from '../demos/RadioTileSelected.tsx?raw';
-import sourceCodeTileDisabled from '../demos/RadioTileDisabled.tsx?raw';
-import sourceCodeSelected from '../demos/RadioSelected.tsx?raw';
+import { RadioDisabled } from '../demos/RadioDisabled';
 import sourceCodeDisabled from '../demos/RadioDisabled.tsx?raw';
+import { RadioDisabledSelected } from '../demos/RadioDisabledSelected';
 import sourceCodeDisabledSelected from '../demos/RadioDisabledSelected.tsx?raw';
+import { RadioSelected } from '../demos/RadioSelected';
+import sourceCodeSelected from '../demos/RadioSelected.tsx?raw';
+import { RadioTile } from '../demos/RadioTile';
+import sourceCodeTile from '../demos/RadioTile.tsx?raw';
+import { RadioTileDisabled } from '../demos/RadioTileDisabled';
+import sourceCodeTileDisabled from '../demos/RadioTileDisabled.tsx?raw';
+import { RadioTileSelected } from '../demos/RadioTileSelected';
+import sourceCodeTileSelected from '../demos/RadioTileSelected.tsx?raw';
+import { Radio } from '../src/Radio';
 
 const meta = {
   title: 'Inputs & Forms/Radio',
@@ -74,6 +74,73 @@ export const Default: Story = {
     docs: {
       source: {
         code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Selected radio button.
+ * Shows how a standard radio button appears when selected.
+ */
+export const Selected: Story = {
+  render: () => <RadioSelected />,
+  args: {
+    label: 'Selected radio',
+    id: 'radio-2',
+    value: 'option-2',
+    isChecked: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeSelected,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Disabled radio button.
+ * Demonstrates how a standard radio button appears when disabled.
+ */
+export const Disabled: Story = {
+  render: () => <RadioDisabled />,
+  args: {
+    label: 'Disabled radio',
+    id: 'radio-3',
+    value: 'option-3',
+    isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabled,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Disabled and selected radio button.
+ * Shows a radio button that is both selected and not interactive.
+ */
+export const DisabledSelected: Story = {
+  render: () => <RadioDisabledSelected />,
+  args: {
+    label: 'Disabled selected radio',
+    id: 'radio-4',
+    value: 'option-4',
+    isChecked: true,
+    isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabledSelected,
         language: 'tsx',
       },
     },
@@ -145,73 +212,6 @@ export const TileDisabled: Story = {
     docs: {
       source: {
         code: sourceCodeTileDisabled,
-        language: 'tsx',
-      },
-    },
-  },
-};
-
-/**
- * Selected radio button.
- * Shows how a standard radio button appears when selected.
- */
-export const Selected: Story = {
-  render: () => <RadioSelected />,
-  args: {
-    label: 'Selected radio',
-    id: 'radio-2',
-    value: 'option-2',
-    isChecked: true,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: sourceCodeSelected,
-        language: 'tsx',
-      },
-    },
-  },
-};
-
-/**
- * Disabled radio button.
- * Demonstrates how a standard radio button appears when disabled.
- */
-export const Disabled: Story = {
-  render: () => <RadioDisabled />,
-  args: {
-    label: 'Disabled radio',
-    id: 'radio-3',
-    value: 'option-3',
-    isDisabled: true,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: sourceCodeDisabled,
-        language: 'tsx',
-      },
-    },
-  },
-};
-
-/**
- * Disabled and selected radio button.
- * Shows a radio button that is both selected and not interactive.
- */
-export const DisabledSelected: Story = {
-  render: () => <RadioDisabledSelected />,
-  args: {
-    label: 'Disabled selected radio',
-    id: 'radio-4',
-    value: 'option-4',
-    isChecked: true,
-    isDisabled: true,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: sourceCodeDisabledSelected,
         language: 'tsx',
       },
     },

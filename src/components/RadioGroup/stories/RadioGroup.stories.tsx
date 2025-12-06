@@ -1,23 +1,27 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { RadioGroup } from '../src/RadioGroup';
-import { RadioGroupDefault } from '../demos/RadioGroupDefault';
-import { RadioGroupWithSelection } from '../demos/RadioGroupWithSelection';
-import { RadioGroupHorizontal } from '../demos/RadioGroupHorizontal';
-import { RadioGroupVertical } from '../demos/RadioGroupVertical';
-import { RadioGroupTile } from '../demos/RadioGroupTile';
-import { RadioGroupTileWithSelection } from '../demos/RadioGroupTileWithSelection';
 import { RadioGroupButton } from '../demos/RadioGroupButton';
-import { RadioGroupButtonVertical } from '../demos/RadioGroupButtonVertical';
-import { RadioGroupButtonWithSelection } from '../demos/RadioGroupButtonWithSelection';
-import sourceCodeDefault from '../demos/RadioGroupDefault.tsx?raw';
-import sourceCodeWithSelection from '../demos/RadioGroupWithSelection.tsx?raw';
-import sourceCodeHorizontal from '../demos/RadioGroupHorizontal.tsx?raw';
-import sourceCodeVertical from '../demos/RadioGroupVertical.tsx?raw';
-import sourceCodeTile from '../demos/RadioGroupTile.tsx?raw';
-import sourceCodeTileWithSelection from '../demos/RadioGroupTileWithSelection.tsx?raw';
 import sourceCodeButton from '../demos/RadioGroupButton.tsx?raw';
+import { RadioGroupButtonVertical } from '../demos/RadioGroupButtonVertical';
 import sourceCodeButtonVertical from '../demos/RadioGroupButtonVertical.tsx?raw';
+import { RadioGroupButtonWithSelection } from '../demos/RadioGroupButtonWithSelection';
 import sourceCodeButtonWithSelection from '../demos/RadioGroupButtonWithSelection.tsx?raw';
+import { RadioGroupDefault } from '../demos/RadioGroupDefault';
+import sourceCodeDefault from '../demos/RadioGroupDefault.tsx?raw';
+import { RadioGroupHorizontal } from '../demos/RadioGroupHorizontal';
+import sourceCodeHorizontal from '../demos/RadioGroupHorizontal.tsx?raw';
+import { RadioGroupSingleColumn } from '../demos/RadioGroupSingleColumn';
+import sourceCodeSingleColumn from '../demos/RadioGroupSingleColumn.tsx?raw';
+import { RadioGroupThreeColumns } from '../demos/RadioGroupThreeColumns';
+import sourceCodeThreeColumns from '../demos/RadioGroupThreeColumns.tsx?raw';
+import { RadioGroupTile } from '../demos/RadioGroupTile';
+import sourceCodeTile from '../demos/RadioGroupTile.tsx?raw';
+import { RadioGroupTileWithSelection } from '../demos/RadioGroupTileWithSelection';
+import sourceCodeTileWithSelection from '../demos/RadioGroupTileWithSelection.tsx?raw';
+import { RadioGroupVertical } from '../demos/RadioGroupVertical';
+import sourceCodeVertical from '../demos/RadioGroupVertical.tsx?raw';
+import { RadioGroupWithSelection } from '../demos/RadioGroupWithSelection';
+import sourceCodeWithSelection from '../demos/RadioGroupWithSelection.tsx?raw';
+import { RadioGroup } from '../src/RadioGroup';
 
 const meta = {
   title: 'Inputs & Forms/RadioGroup',
@@ -61,6 +65,13 @@ const meta = {
           summary: 'default | tile | button',
         },
       },
+    },
+    columns: {
+      control: 'radio',
+      options: [1, 2, 3, 4],
+      description:
+        'Number of columns for default variant (only applies when orientation is vertical)',
+      type: { name: 'number', required: false },
     },
   },
   tags: ['autodocs'],
@@ -299,6 +310,50 @@ export const ButtonWithSelection: Story = {
     docs: {
       source: {
         code: sourceCodeButtonWithSelection,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * RadioGroup in a single column layout.
+ * Shows radio options stacked vertically in one column.
+ */
+export const SingleColumn: Story = {
+  render: () => <RadioGroupSingleColumn />,
+  args: {
+    options: defaultOptions,
+    columns: 1,
+    value: '',
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeSingleColumn,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * RadioGroup in a three-column layout.
+ * Demonstrates how radio options can be arranged in multiple columns.
+ */
+export const ThreeColumns: Story = {
+  render: () => <RadioGroupThreeColumns />,
+  args: {
+    options: defaultOptions,
+    columns: 3,
+    value: '',
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeThreeColumns,
         language: 'tsx',
       },
     },

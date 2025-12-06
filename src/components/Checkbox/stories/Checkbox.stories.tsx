@@ -4,10 +4,16 @@ import { CheckboxDefault } from '../demos/CheckboxDefault';
 import { CheckboxChecked } from '../demos/CheckboxChecked';
 import { CheckboxDisabled } from '../demos/CheckboxDisabled';
 import { CheckboxDisabledChecked } from '../demos/CheckboxDisabledChecked';
+import { CheckboxTile } from '../demos/CheckboxTile';
+import { CheckboxTileSelected } from '../demos/CheckboxTileSelected';
+import { CheckboxTileDisabled } from '../demos/CheckboxTileDisabled';
 import sourceCodeDefault from '../demos/CheckboxDefault.tsx?raw';
 import sourceCodeChecked from '../demos/CheckboxChecked.tsx?raw';
 import sourceCodeDisabled from '../demos/CheckboxDisabled.tsx?raw';
 import sourceCodeDisabledChecked from '../demos/CheckboxDisabledChecked.tsx?raw';
+import sourceCodeTile from '../demos/CheckboxTile.tsx?raw';
+import sourceCodeTileSelected from '../demos/CheckboxTileSelected.tsx?raw';
+import sourceCodeTileDisabled from '../demos/CheckboxTileDisabled.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/Checkbox',
@@ -19,6 +25,10 @@ const meta = {
     },
     isDisabled: {
       control: 'boolean',
+    },
+    variant: {
+      control: 'radio',
+      options: ['default', 'tile', 'button'],
     },
   },
   tags: ['autodocs'],
@@ -118,6 +128,74 @@ export const DisabledChecked: Story = {
     docs: {
       source: {
         code: sourceCodeDisabledChecked,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Checkbox with tile styling.
+ * Shows a larger checkbox option with a title and description.
+ */
+export const Tile: Story = {
+  render: () => <CheckboxTile />,
+  args: {
+    label: 'Tile Checkbox',
+    description: 'This is a description for the tile checkbox option',
+    id: 'checkbox-tile',
+    variant: 'tile',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeTile,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Selected tile checkbox.
+ * Demonstrates how a tile checkbox option appears when selected.
+ */
+export const TileSelected: Story = {
+  render: () => <CheckboxTileSelected />,
+  args: {
+    label: 'Selected Tile Checkbox',
+    description: 'This tile checkbox option is selected',
+    id: 'checkbox-tile-selected',
+    variant: 'tile',
+    isChecked: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeTileSelected,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Disabled tile checkbox.
+ * Shows how a tile checkbox option appears when it's not interactive.
+ */
+export const TileDisabled: Story = {
+  render: () => <CheckboxTileDisabled />,
+  args: {
+    label: 'Disabled Tile Checkbox',
+    description: 'This tile checkbox option is disabled',
+    id: 'checkbox-tile-disabled',
+    variant: 'tile',
+    isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeTileDisabled,
         language: 'tsx',
       },
     },

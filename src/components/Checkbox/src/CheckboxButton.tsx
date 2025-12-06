@@ -2,13 +2,13 @@ import { buttonVariants } from '@/components/Button/constants';
 import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import * as React from 'react';
-import { RadioProps } from '../types';
+import { CheckboxProps } from '../types';
 
-export const RadioButton = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  RadioProps
+export const CheckboxButton = React.forwardRef<
+  React.ElementRef<typeof CheckboxPrimitive.Root>,
+  CheckboxProps
 >(
   (
     { id, label, description, isChecked, isDisabled, className, 'aria-label': ariaLabel, ...props },
@@ -44,7 +44,7 @@ export const RadioButton = React.forwardRef<
           className,
         )}
       >
-        <RadioGroupPrimitive.Item
+        <CheckboxPrimitive.Root
           ref={ref}
           checked={isChecked}
           className="absolute inset-0 opacity-0"
@@ -66,4 +66,4 @@ export const RadioButton = React.forwardRef<
   },
 );
 
-RadioButton.displayName = 'RadioButton';
+CheckboxButton.displayName = 'CheckboxButton';

@@ -23,40 +23,15 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
   ) => {
     validateFormControlProps('Radio', label, ariaLabel);
 
+    let Component = RadioDefault;
     if (variant === 'button') {
-      return (
-        <RadioButton
-          ref={ref}
-          aria-label={ariaLabel}
-          className={className}
-          description={description}
-          id={id}
-          isChecked={isChecked}
-          isDisabled={isDisabled}
-          label={label}
-          {...props}
-        />
-      );
-    }
-
-    if (variant === 'tile') {
-      return (
-        <RadioTile
-          ref={ref}
-          aria-label={ariaLabel}
-          className={className}
-          description={description}
-          id={id}
-          isChecked={isChecked}
-          isDisabled={isDisabled}
-          label={label}
-          {...props}
-        />
-      );
+      Component = RadioButton;
+    } else if (variant === 'tile') {
+      Component = RadioTile;
     }
 
     return (
-      <RadioDefault
+      <Component
         ref={ref}
         aria-label={ariaLabel}
         className={className}

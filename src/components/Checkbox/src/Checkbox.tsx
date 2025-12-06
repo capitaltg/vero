@@ -23,40 +23,15 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
   ) => {
     validateFormControlProps('Checkbox', label, ariaLabel);
 
+    let Component = CheckboxDefault;
     if (variant === 'button') {
-      return (
-        <CheckboxButton
-          ref={ref}
-          aria-label={ariaLabel}
-          className={className}
-          description={description}
-          id={id}
-          isChecked={isChecked}
-          isDisabled={isDisabled}
-          label={label}
-          {...props}
-        />
-      );
-    }
-
-    if (variant === 'tile') {
-      return (
-        <CheckboxTile
-          ref={ref}
-          aria-label={ariaLabel}
-          className={className}
-          description={description}
-          id={id}
-          isChecked={isChecked}
-          isDisabled={isDisabled}
-          label={label}
-          {...props}
-        />
-      );
+      Component = CheckboxButton;
+    } else if (variant === 'tile') {
+      Component = CheckboxTile;
     }
 
     return (
-      <CheckboxDefault
+      <Component
         ref={ref}
         aria-label={ariaLabel}
         className={className}

@@ -6,4 +6,6 @@ export interface CheckboxProps
   label?: ReactNode;
   isChecked?: boolean;
   isDisabled?: boolean;
+  variant?: 'default' | 'tile' | 'button';
+  description?: string;
 }

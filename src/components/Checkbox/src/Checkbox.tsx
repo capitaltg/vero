@@ -1,20 +1,10 @@
+import { validateFormControlProps } from '@/lib/form-controls';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import * as React from 'react';
 import { CheckboxProps } from '../types';
 import { CheckboxButton } from './CheckboxButton';
 import { CheckboxDefault } from './CheckboxDefault';
 import { CheckboxTile } from './CheckboxTile';
-
-const validateProps = (label?: React.ReactNode, ariaLabel?: string) => {
-  if (!label && !ariaLabel) {
-    throw new Error('Checkbox must have either a label prop or an aria-label attribute');
-  }
-  if (label && ariaLabel) {
-    throw new Error(
-      'Checkbox must have either a label prop or an aria-label attribute, but not both',
-    );
-  }
-};
 
 const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(
   (
@@ -31,7 +21,7 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
     },
     ref,
   ) => {
-    validateProps(label, ariaLabel);
+    validateFormControlProps('Checkbox', label, ariaLabel);
 
     if (variant === 'button') {
       return (

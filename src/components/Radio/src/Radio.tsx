@@ -1,18 +1,10 @@
+import { validateFormControlProps } from '@/lib/form-controls';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import * as React from 'react';
 import { RadioProps } from '../types';
 import { RadioButton } from './RadioButton';
 import { RadioDefault } from './RadioDefault';
 import { RadioTile } from './RadioTile';
-
-const validateProps = (label?: React.ReactNode, ariaLabel?: string) => {
-  if (!label && !ariaLabel) {
-    throw new Error('Radio must have either a label prop or an aria-label attribute');
-  }
-  if (label && ariaLabel) {
-    throw new Error('Radio must have either a label prop or an aria-label attribute, but not both');
-  }
-};
 
 const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>, RadioProps>(
   (
@@ -29,7 +21,7 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
     },
     ref,
   ) => {
-    validateProps(label, ariaLabel);
+    validateFormControlProps('Radio', label, ariaLabel);
 
     if (variant === 'button') {
       return (

@@ -14,6 +14,7 @@ const RadioGroup = React.forwardRef<
       value,
       onChange,
       className,
+      columns = 2,
       orientation = 'vertical',
       variant = 'default',
       ...props
@@ -24,10 +25,13 @@ const RadioGroup = React.forwardRef<
       <RadioGroupPrimitive.Root
         ref={ref}
         className={cn(
-          'grid gap-3',
-          orientation === 'horizontal' && variant === 'default' && 'flex flex-row gap-5',
-          orientation === 'vertical' && variant === 'default' && 'flex flex-col gap-2 space-y-1',
-          variant === 'tile' && 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+          variant === 'default' && orientation === 'horizontal' && 'flex flex-row gap-5',
+          variant === 'default' && orientation === 'vertical' && 'grid gap-3',
+          variant === 'default' && orientation === 'vertical' && columns === 1 && 'grid-cols-1',
+          variant === 'default' && orientation === 'vertical' && columns === 2 && 'grid-cols-2',
+          variant === 'default' && orientation === 'vertical' && columns === 3 && 'grid-cols-3',
+          variant === 'default' && orientation === 'vertical' && columns === 4 && 'grid-cols-4',
+          variant === 'tile' && 'grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3',
           variant === 'button' &&
             orientation === 'horizontal' &&
             `flex flex-row gap-0 [&>*:first-child]:ml-0 [&>*:first-child]:rounded-l-sm

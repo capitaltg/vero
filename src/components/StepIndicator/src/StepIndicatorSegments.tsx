@@ -18,7 +18,10 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
   steps,
 }: StepIndicatorSegmentsProps<T>) {
   return (
-    <ol className={cn(stepIndicatorSegmentsVariants({ orientation: 'horizontal' }))}>
+    <ol
+      aria-label="Steps"
+      className={cn(stepIndicatorSegmentsVariants({ orientation: 'horizontal' }))}
+    >
       {steps.map((step, index) => {
         const isCurrent = step.id === currentStep;
         const isCompleted =

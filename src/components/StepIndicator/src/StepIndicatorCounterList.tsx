@@ -26,7 +26,7 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
   steps,
 }: StepIndicatorCounterListProps<T>) {
   return (
-    <ol className={cn(stepIndicatorVariants({ orientation }))}>
+    <ol aria-label="Steps" className={cn(stepIndicatorVariants({ orientation }))}>
       {steps.map((step, index) => {
         const isCurrent = step.id === currentStep;
         const isCompleted =

@@ -24,8 +24,9 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
   const totalSteps = steps.length;
 
   return (
-    <div
-      ref={ref as React.ForwardedRef<HTMLDivElement>}
+    <section
+      ref={ref}
+      aria-label="Step indicator"
       className={cn(
         stepIndicatorDefaultContainerVariants({ orientation: 'horizontal' }),
         className,
@@ -54,7 +55,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
         currentStepNumber={currentStepNumber}
         totalSteps={totalSteps}
       />
-    </div>
+    </section>
   );
 }
 
@@ -64,7 +65,7 @@ StepIndicatorBase.displayName = 'StepIndicator';
 const StepIndicator = StepIndicatorBase as unknown as <
   T extends readonly Step[] | Step[] = readonly Step[],
 >(
-  props: StepIndicatorProps<T> & { ref?: React.ForwardedRef<HTMLDivElement> },
+  props: StepIndicatorProps<T> & { ref?: React.ForwardedRef<HTMLElement> },
 ) => React.ReactElement;
 
 export { StepIndicator };

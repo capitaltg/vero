@@ -3,10 +3,10 @@ import { Check } from 'lucide-react';
 import {
   stepIndicatorCircleVariants,
   stepIndicatorConnectorVariants,
-  stepIndicatorTextVariants,
   stepIndicatorVariants,
 } from '../constants';
 import { Step } from '../types';
+import { StepIndicatorStepContent } from './StepIndicatorStepContent';
 
 type StepIndicatorStatus = 'default' | 'current' | 'completed';
 
@@ -75,31 +75,16 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
               </div>
 
               {/* Step text */}
-              <div
+              <StepIndicatorStepContent
                 className={cn(
                   'flex flex-col',
                   orientation === 'vertical' ? 'ml-4' : 'mt-2 text-center',
                 )}
-              >
-                <span
-                  className={cn(
-                    stepIndicatorTextVariants(),
-                    isCurrent || isCompleted ? 'text-foreground' : 'text-muted-foreground',
-                  )}
-                >
-                  {step.label}
-                </span>
-                {step.description ? (
-                  <span
-                    className={cn(
-                      'text-sm text-muted-foreground',
-                      orientation === 'horizontal' && 'text-center',
-                    )}
-                  >
-                    {step.description}
-                  </span>
-                ) : null}
-              </div>
+                description={step.description}
+                isCompleted={isCompleted}
+                isCurrent={isCurrent}
+                label={step.label}
+              />
             </div>
 
             {/* Connector line */}

@@ -1,10 +1,7 @@
 import { cn } from '@/lib/utils';
-import {
-  stepIndicatorSegmentVariants,
-  stepIndicatorSegmentsVariants,
-  stepIndicatorTextVariants,
-} from '../constants';
+import { stepIndicatorSegmentVariants, stepIndicatorSegmentsVariants } from '../constants';
 import { Step } from '../types';
+import { StepIndicatorStepContent } from './StepIndicatorStepContent';
 
 type StepIndicatorStatus = 'default' | 'current' | 'completed';
 
@@ -57,19 +54,13 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
                 })()}
               </span>
             </div>
-            <div className="mt-2 flex flex-col">
-              <span
-                className={cn(
-                  stepIndicatorTextVariants(),
-                  isCurrent || isCompleted ? 'text-foreground' : 'text-muted-foreground',
-                )}
-              >
-                {step.label}
-              </span>
-              {step.description ? (
-                <span className="text-sm text-muted-foreground">{step.description}</span>
-              ) : null}
-            </div>
+            <StepIndicatorStepContent
+              className="mt-2 flex flex-col"
+              description={step.description}
+              isCompleted={isCompleted}
+              isCurrent={isCurrent}
+              label={step.label}
+            />
           </li>
         );
       })}

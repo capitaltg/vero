@@ -33,15 +33,13 @@ export const stepIndicatorConnectorVariants = cva('absolute bg-muted', {
   variants: {
     orientation: {
       horizontal: 'left-[calc(50%_+_1.5rem)] top-4 h-[0.1875rem] w-[calc(100%_-_1.5rem)]',
-      vertical: 'left-4 top-[calc(100%-0.25rem)] h-[calc(100%-0.25rem)] w-[0.1875rem]',
+      vertical: 'left-4 top-[calc(100%)] h-[calc(100%-0.25rem)] w-[0.1875rem]',
     },
   },
   defaultVariants: {
     orientation: 'horizontal',
   },
 });
-
-export const stepIndicatorTextVariants = cva('text-base font-medium');
 
 // USWDS-style default variant constants
 export const stepIndicatorDefaultContainerVariants = cva('flex flex-col gap-8', {
@@ -73,8 +71,8 @@ export const stepIndicatorSegmentVariants = cva('relative', {
       completed: 'bg-primary-500',
     },
     orientation: {
-      horizontal: 'h-2 min-h-2 flex-1',
-      vertical: 'w-2 min-w-2 flex-1',
+      horizontal: 'h-2 max-h-2 min-h-2 flex-1',
+      vertical: 'w-2 min-w-2 max-w-2 flex-1',
     },
   },
   defaultVariants: {
@@ -82,3 +80,32 @@ export const stepIndicatorSegmentVariants = cva('relative', {
     orientation: 'horizontal',
   },
 });
+
+export const stepIndicatorStepContentLabelVariants = cva('text-base font-medium leading-tight', {
+  variants: {
+    status: {
+      default: 'text-muted-foreground',
+      completed: 'text-foreground',
+      current: 'font-bold text-primary-400',
+    },
+  },
+  defaultVariants: {
+    status: 'default',
+  },
+});
+
+export const stepIndicatorStepContentDescriptionVariants = cva(
+  'mt-0.5 text-sm text-muted-foreground',
+  {
+    variants: {
+      status: {
+        default: '',
+        completed: 'text-foreground',
+        current: 'font-medium text-primary-400',
+      },
+    },
+    defaultVariants: {
+      status: 'default',
+    },
+  },
+);

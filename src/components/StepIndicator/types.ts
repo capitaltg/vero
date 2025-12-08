@@ -13,8 +13,19 @@ export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonl
   steps: T;
   currentStep: StepId<T>;
   className?: string;
+  /**
+   * Layout orientation of the step indicator.
+   * Only available for the 'counter' variant.
+   * The 'default' variant is always horizontal.
+   */
   orientation?: 'horizontal' | 'vertical';
   size?: 'default' | 'sm' | 'lg';
+  /**
+   * Variant style of the step indicator.
+   * - 'default': USWDS-style with header showing "Step X of Y" and segments
+   * - 'counter': Counter style with numbered circles and connectors
+   */
+  variant?: 'default' | 'counter';
   /**
    * If true, the current step will be shown as completed instead of current.
    * Useful for showing the final step as completed when the process is finished.

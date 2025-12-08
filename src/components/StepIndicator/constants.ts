@@ -102,3 +102,69 @@ export const stepIndicatorTextVariants = cva('font-medium', {
     size: 'default',
   },
 });
+
+// USWDS-style default variant constants
+export const stepIndicatorDefaultContainerVariants = cva('', {
+  variants: {
+    orientation: {
+      horizontal: '',
+      vertical: '',
+    },
+  },
+});
+
+export const stepIndicatorSegmentsVariants = cva('flex', {
+  variants: {
+    orientation: {
+      horizontal: 'flex-row',
+      vertical: 'flex-col',
+    },
+  },
+  defaultVariants: {
+    orientation: 'horizontal',
+  },
+});
+
+export const stepIndicatorSegmentVariants = cva('relative', {
+  variants: {
+    status: {
+      default: 'bg-muted',
+      current: 'bg-primary-400',
+      completed: 'bg-primary-500',
+    },
+    orientation: {
+      horizontal: 'h-2.5 flex-1',
+      vertical: 'w-2.5 flex-1',
+    },
+  },
+  defaultVariants: {
+    status: 'default',
+    orientation: 'horizontal',
+  },
+});
+
+export const stepIndicatorHeaderVariants = cva('mt-4', {
+  variants: {
+    size: {
+      sm: 'text-sm',
+      default: 'text-base',
+      lg: 'text-lg',
+    },
+  },
+  defaultVariants: {
+    size: 'default',
+  },
+});
+
+export const stepIndicatorHeaderCounterVariants = cva('font-bold', {
+  variants: {
+    size: {
+      sm: 'text-sm',
+      default: 'text-base',
+      lg: 'text-lg',
+    },
+  },
+  defaultVariants: {
+    size: 'default',
+  },
+});

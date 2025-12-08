@@ -23,34 +23,6 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
   const currentStepNumber = currentStepIndex + 1;
   const totalSteps = steps.length;
 
-  // Render USWDS-style default variant (always horizontal)
-  if (variant === 'default') {
-    return (
-      <div
-        ref={ref as React.ForwardedRef<HTMLDivElement>}
-        className={cn(
-          stepIndicatorDefaultContainerVariants({ orientation: 'horizontal' }),
-          className,
-        )}
-        {...props}
-      >
-        <StepIndicatorSegments
-          currentStep={currentStep}
-          currentStepIndex={currentStepIndex}
-          showCurrentAsCompleted={showCurrentAsCompleted}
-          steps={steps}
-        />
-
-        <StepIndicatorHeader
-          currentStepLabel={currentStepData?.label}
-          currentStepNumber={currentStepNumber}
-          totalSteps={totalSteps}
-        />
-      </div>
-    );
-  }
-
-  // Render counter variant (original implementation)
   return (
     <div
       ref={ref as React.ForwardedRef<HTMLDivElement>}
@@ -60,13 +32,22 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
       )}
       {...props}
     >
-      <StepIndicatorCounterList
-        currentStep={currentStep}
-        currentStepIndex={currentStepIndex}
-        orientation={orientation}
-        showCurrentAsCompleted={showCurrentAsCompleted}
-        steps={steps}
-      />
+      {variant === 'counter' ? (
+        <StepIndicatorCounterList
+          currentStep={currentStep}
+          currentStepIndex={currentStepIndex}
+          orientation={orientation}
+          showCurrentAsCompleted={showCurrentAsCompleted}
+          steps={steps}
+        />
+      ) : (
+        <StepIndicatorSegments
+          currentStep={currentStep}
+          currentStepIndex={currentStepIndex}
+          showCurrentAsCompleted={showCurrentAsCompleted}
+          steps={steps}
+        />
+      )}
 
       <StepIndicatorHeader
         currentStepLabel={currentStepData?.label}

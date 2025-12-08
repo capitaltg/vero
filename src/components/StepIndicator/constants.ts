@@ -73,8 +73,8 @@ export const stepIndicatorSegmentVariants = cva('relative', {
       completed: 'bg-primary-500',
     },
     orientation: {
-      horizontal: 'h-2 flex-1',
-      vertical: 'w-2 flex-1',
+      horizontal: 'h-2 min-h-2 flex-1',
+      vertical: 'w-2 min-w-2 flex-1',
     },
   },
   defaultVariants: {

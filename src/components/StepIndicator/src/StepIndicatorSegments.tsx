@@ -1,5 +1,9 @@
 import { cn } from '@/lib/utils';
-import { stepIndicatorSegmentVariants, stepIndicatorSegmentsVariants } from '../constants';
+import {
+  stepIndicatorSegmentVariants,
+  stepIndicatorSegmentsVariants,
+  stepIndicatorTextVariants,
+} from '../constants';
 import { Step } from '../types';
 
 type StepIndicatorStatus = 'default' | 'current' | 'completed';
@@ -38,17 +42,34 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
         return (
           <li
             key={step.id}
-            className={cn(stepIndicatorSegmentVariants({ status, orientation: 'horizontal' }))}
+            className="flex flex-1 flex-col"
             {...(isCurrent && { 'aria-current': 'step' })}
           >
-            <span className="sr-only">
-              {step.label}
-              {(() => {
-                if (isCompleted) return ' completed';
-                if (isCurrent) return '';
-                return ' not completed';
-              })()}
-            </span>
+            <div
+              className={cn(stepIndicatorSegmentVariants({ status, orientation: 'horizontal' }))}
+            >
+              <span className="sr-only">
+                {step.label}
+                {(() => {
+                  if (isCompleted) return ' completed';
+                  if (isCurrent) return '';
+                  return ' not completed';
+                })()}
+              </span>
+            </div>
+            <div className="mt-2 flex flex-col">
+              <span
+                className={cn(
+                  stepIndicatorTextVariants(),
+                  isCurrent || isCompleted ? 'text-foreground' : 'text-muted-foreground',
+                )}
+              >
+                {step.label}
+              </span>
+              {step.description ? (
+                <span className="text-sm text-muted-foreground">{step.description}</span>
+              ) : null}
+            </div>
           </li>
         );
       })}

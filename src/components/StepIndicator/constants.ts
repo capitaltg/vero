@@ -1,10 +1,10 @@
 import { cva } from 'class-variance-authority';
 
-export const stepIndicatorVariants = cva('flex gap-6', {
+export const stepIndicatorVariants = cva('flex', {
   variants: {
     orientation: {
-      horizontal: 'flex-row',
-      vertical: 'flex-col',
+      horizontal: 'flex-row gap-6',
+      vertical: 'flex-col gap-10',
     },
   },
   defaultVariants: {
@@ -13,8 +13,8 @@ export const stepIndicatorVariants = cva('flex gap-6', {
 });
 
 export const stepIndicatorCircleVariants = cva(
-  `relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-[3px] bg-white text-sm
-  font-bold`,
+  `text-md relative z-10 flex h-9 w-9 items-center justify-center rounded-full border-[0.1875rem]
+  bg-white font-bold`,
   {
     variants: {
       status: {
@@ -32,9 +32,8 @@ export const stepIndicatorCircleVariants = cva(
 export const stepIndicatorConnectorVariants = cva('absolute bg-muted', {
   variants: {
     orientation: {
-      horizontal:
-        'left-[calc(50%_+_1.5rem)] top-[calc(1rem_-_1px)] h-[3px] w-[calc(100%_-_1.5rem)]',
-      vertical: 'left-[0.9375rem] top-[1.75rem] h-full w-[3px]',
+      horizontal: 'left-[calc(50%_+_1.5rem)] top-4 h-[0.1875rem] w-[calc(100%_-_1.5rem)]',
+      vertical: 'left-4 top-[calc(100%-0.25rem)] h-[calc(100%-0.25rem)] w-[0.1875rem]',
     },
   },
   defaultVariants: {
@@ -54,7 +53,7 @@ export const stepIndicatorDefaultContainerVariants = cva('', {
   },
 });
 
-export const stepIndicatorSegmentsVariants = cva('flex', {
+export const stepIndicatorSegmentsVariants = cva('flex gap-1', {
   variants: {
     orientation: {
       horizontal: 'flex-row',
@@ -74,8 +73,8 @@ export const stepIndicatorSegmentVariants = cva('relative', {
       completed: 'bg-primary-500',
     },
     orientation: {
-      horizontal: 'h-2.5 flex-1',
-      vertical: 'w-2.5 flex-1',
+      horizontal: 'h-2 flex-1',
+      vertical: 'w-2 flex-1',
     },
   },
   defaultVariants: {

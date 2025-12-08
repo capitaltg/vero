@@ -45,7 +45,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
         {...props}
       >
         {/* Segments */}
-        <ol className={cn(stepIndicatorSegmentsVariants({ orientation: 'horizontal' }), 'gap-1')}>
+        <ol className={cn(stepIndicatorSegmentsVariants({ orientation: 'horizontal' }))}>
           {steps.map((step, index) => {
             const isCurrent = step.id === currentStep;
             const isCompleted =
@@ -62,10 +62,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
             return (
               <li
                 key={step.id}
-                className={cn(
-                  stepIndicatorSegmentVariants({ status, orientation: 'horizontal' }),
-                  'first:rounded-l-md last:rounded-r-md',
-                )}
+                className={cn(stepIndicatorSegmentVariants({ status, orientation: 'horizontal' }))}
                 {...(isCurrent && { 'aria-current': 'step' })}
               >
                 <span className="sr-only">

@@ -44,7 +44,7 @@ export const stepIndicatorConnectorVariants = cva('absolute bg-muted', {
 export const stepIndicatorTextVariants = cva('text-base font-medium');
 
 // USWDS-style default variant constants
-export const stepIndicatorDefaultContainerVariants = cva('', {
+export const stepIndicatorDefaultContainerVariants = cva('flex flex-col gap-8', {
   variants: {
     orientation: {
       horizontal: '',
@@ -82,7 +82,3 @@ export const stepIndicatorSegmentVariants = cva('relative', {
     orientation: 'horizontal',
   },
 });
-
-export const stepIndicatorHeaderVariants = cva('mt-4 text-base');
-
-export const stepIndicatorHeaderCounterVariants = cva('text-base font-bold');

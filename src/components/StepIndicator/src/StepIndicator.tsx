@@ -8,12 +8,13 @@ import { StepIndicatorSegments } from './StepIndicatorSegments';
 
 function StepIndicatorInner<T extends readonly Step[] | Step[]>(
   {
-    steps,
-    currentStep,
-    orientation = 'horizontal',
     className,
-    variant = 'default',
+    currentStep,
+    headingLevel = 'h4',
+    orientation = 'horizontal',
     showCurrentAsCompleted = false,
+    variant = 'default',
+    steps,
     ...props
   }: StepIndicatorProps<T>,
   ref: React.ForwardedRef<HTMLElement>,
@@ -53,6 +54,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
       <StepIndicatorHeader
         currentStepLabel={currentStepData?.label}
         currentStepNumber={currentStepNumber}
+        headingLevel={headingLevel}
         totalSteps={totalSteps}
       />
     </section>

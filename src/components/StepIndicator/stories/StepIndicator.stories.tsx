@@ -32,11 +32,12 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   args: {
-    steps,
     currentStep: 'profile',
-    variant: 'default',
+    headingLevel: 'h4',
     orientation: 'horizontal',
     showCurrentAsCompleted: false,
+    steps,
+    variant: 'default',
   },
   argTypes: {
     variant: {
@@ -93,6 +94,20 @@ const meta = {
         },
       },
     },
+    headingLevel: {
+      control: 'select',
+      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      description: 'The heading level for the step indicator header. Defaults to h4.',
+      type: { name: 'string', required: false },
+      table: {
+        defaultValue: {
+          summary: 'h4',
+        },
+        type: {
+          summary: 'h1 | h2 | h3 | h4 | h5 | h6',
+        },
+      },
+    },
   },
 } satisfies Meta<typeof StepIndicator>;
 
@@ -103,7 +118,10 @@ type Story = StoryObj<typeof meta>;
  * Playground - Use the controls below to customize the StepIndicator.
  * All props can be adjusted to see how the component responds.
  */
-export const Playground: Story = {};
+export const Playground: Story = {
+  // Removes this story from auto-generated documentation
+  tags: ['!autodocs'],
+};
 
 /**
  * Interactive demo of the StepIndicator component.

@@ -30,6 +30,11 @@ export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonl
    * Useful for showing the final step as completed when the process is finished.
    */
   showCurrentAsCompleted?: boolean;
+  /**
+   * The heading level for the step indicator header.
+   * Defaults to 'h4'.
+   */
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
 /**

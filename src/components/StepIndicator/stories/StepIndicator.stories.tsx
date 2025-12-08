@@ -36,7 +36,6 @@ const meta = {
     currentStep: 'profile',
     variant: 'default',
     orientation: 'horizontal',
-    size: 'default',
     showCurrentAsCompleted: false,
   },
   argTypes: {
@@ -66,20 +65,6 @@ const meta = {
         },
         type: {
           summary: 'horizontal | vertical',
-        },
-      },
-    },
-    size: {
-      control: 'radio',
-      options: ['sm', 'default', 'lg'],
-      description: 'Size of the step indicator',
-      type: { name: 'string', required: false },
-      table: {
-        defaultValue: {
-          summary: 'default',
-        },
-        type: {
-          summary: 'sm | default | lg',
         },
       },
     },
@@ -160,28 +145,6 @@ export const Counter: Story = {
     steps,
     currentStep: 'profile',
     variant: 'counter',
-  },
-};
-
-/**
- * Small size variant of the StepIndicator.
- */
-export const Small: Story = {
-  args: {
-    steps,
-    currentStep: 'profile',
-    size: 'sm',
-  },
-};
-
-/**
- * Large size variant of the StepIndicator.
- */
-export const Large: Story = {
-  args: {
-    steps,
-    currentStep: 'profile',
-    size: 'lg',
   },
 };
 

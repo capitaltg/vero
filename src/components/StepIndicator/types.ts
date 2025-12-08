@@ -19,7 +19,6 @@ export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonl
    * The 'default' variant is always horizontal.
    */
   orientation?: 'horizontal' | 'vertical';
-  size?: 'default' | 'sm' | 'lg';
   /**
    * Variant style of the step indicator.
    * - 'default': USWDS-style with header showing "Step X of Y" and segments

@@ -21,7 +21,6 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
     steps,
     currentStep,
     orientation = 'horizontal',
-    size = 'default',
     className,
     variant = 'default',
     showCurrentAsCompleted = false,
@@ -83,9 +82,9 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
         </ol>
 
         {/* Header */}
-        <div className={cn(stepIndicatorHeaderVariants({ size }))}>
+        <div className={cn(stepIndicatorHeaderVariants())}>
           <h4 className="flex items-center gap-2">
-            <span className={cn(stepIndicatorHeaderCounterVariants({ size }))}>
+            <span className={cn(stepIndicatorHeaderCounterVariants())}>
               <span className="sr-only">Step</span>
               <span>{currentStepNumber}</span>
               <span> of {totalSteps}</span>
@@ -99,11 +98,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
 
   // Render counter variant (original implementation)
   return (
-    <div
-      ref={ref}
-      className={cn(stepIndicatorVariants({ orientation, size }), className)}
-      {...props}
-    >
+    <div ref={ref} className={cn(stepIndicatorVariants({ orientation }), className)} {...props}>
       {steps.map((step, index) => {
         const isCurrent = step.id === currentStep;
         const isCompleted =
@@ -134,7 +129,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
               )}
             >
               {/* Step circle */}
-              <div className={cn(stepIndicatorCircleVariants({ size, status }))}>
+              <div className={cn(stepIndicatorCircleVariants({ status }))}>
                 {isCompleted ? (
                   <Check className="h-4 w-4" strokeWidth={3} />
                 ) : (
@@ -151,7 +146,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
               >
                 <span
                   className={cn(
-                    stepIndicatorTextVariants({ size }),
+                    stepIndicatorTextVariants(),
                     isCurrent || isCompleted ? 'text-foreground' : 'text-muted-foreground',
                   )}
                 >
@@ -174,7 +169,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
             {index < steps.length - 1 ? (
               <div
                 className={cn(
-                  stepIndicatorConnectorVariants({ size, orientation }),
+                  stepIndicatorConnectorVariants({ orientation }),
                   isCompleted && 'bg-primary-400',
                 )}
               />

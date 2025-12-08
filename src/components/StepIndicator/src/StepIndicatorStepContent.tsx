@@ -3,31 +3,21 @@ import {
   stepIndicatorStepContentDescriptionVariants,
   stepIndicatorStepContentLabelVariants,
 } from '../constants';
+import type { StepIndicatorStatus } from './utils';
 
 export interface StepIndicatorStepContentProps {
   readonly className?: string;
   readonly description?: string;
-  readonly isCompleted: boolean;
-  readonly isCurrent: boolean;
   readonly label: string;
+  readonly status: StepIndicatorStatus;
 }
 
 export function StepIndicatorStepContent({
   className,
   description,
-  isCompleted,
-  isCurrent,
   label,
+  status,
 }: StepIndicatorStepContentProps) {
-  let status: 'default' | 'current' | 'completed';
-  if (isCompleted) {
-    status = 'completed';
-  } else if (isCurrent) {
-    status = 'current';
-  } else {
-    status = 'default';
-  }
-
   return (
     <div className={className}>
       <span className={cn(stepIndicatorStepContentLabelVariants({ status }))}>{label}</span>

@@ -13,8 +13,8 @@ export const stepIndicatorVariants = cva('flex', {
 });
 
 export const stepIndicatorCircleVariants = cva(
-  `text-md relative z-10 flex h-9 w-9 items-center justify-center rounded-full border-[0.1875rem]
-  bg-white font-bold`,
+  `text-md relative z-10 flex h-9 w-9 items-center justify-center rounded-full border-4 bg-white
+  font-bold`,
   {
     variants: {
       status: {
@@ -29,14 +29,20 @@ export const stepIndicatorCircleVariants = cva(
   },
 );
 
-export const stepIndicatorConnectorVariants = cva('absolute bg-muted', {
+export const stepIndicatorConnectorVariants = cva('absolute', {
   variants: {
+    status: {
+      default: 'bg-muted',
+      current: 'bg-muted',
+      completed: 'bg-primary-400',
+    },
     orientation: {
-      horizontal: 'left-[calc(50%_+_1.5rem)] top-4 h-[0.1875rem] w-[calc(100%_-_1.5rem)]',
-      vertical: 'left-4 top-[calc(100%)] h-[calc(100%-0.25rem)] w-[0.1875rem]',
+      horizontal: 'left-[calc(50%_+_1.5rem)] top-4 h-1 w-[calc(100%_-_1.5rem)]',
+      vertical: 'left-4 top-[calc(100%_-_0.125rem)] h-[calc(100%_-_0.25rem)] w-1',
     },
   },
   defaultVariants: {
+    status: 'default',
     orientation: 'horizontal',
   },
 });

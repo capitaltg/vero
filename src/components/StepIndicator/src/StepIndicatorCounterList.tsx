@@ -7,8 +7,7 @@ import {
 } from '../constants';
 import { Step } from '../types';
 import { StepIndicatorStepContent } from './StepIndicatorStepContent';
-
-type StepIndicatorStatus = 'default' | 'current' | 'completed';
+import { calculateStepStatus, getStepStatusSuffix } from './utils';
 
 export interface StepIndicatorCounterListProps<T extends readonly Step[] | Step[]> {
   readonly currentStep: string;
@@ -33,13 +32,7 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
           currentStepIndex !== -1 &&
           (index < currentStepIndex || (showCurrentAsCompleted && isCurrent));
 
-        // Determine the status of the step indicator
-        let status: StepIndicatorStatus = 'default';
-        if (isCompleted) {
-          status = 'completed';
-        } else if (isCurrent) {
-          status = 'current';
-        }
+        const status = calculateStepStatus(isCurrent, isCompleted);
 
         return (
           <li
@@ -52,11 +45,7 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
           >
             <span className="sr-only">
               {step.label}
-              {(() => {
-                if (isCompleted) return ' completed';
-                if (isCurrent) return '';
-                return ' not completed';
-              })()}
+              {getStepStatusSuffix(status)}
             </span>
             {/* Step item */}
             <div
@@ -67,7 +56,7 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
             >
               {/* Step circle */}
               <div className={cn(stepIndicatorCircleVariants({ status }))}>
-                {isCompleted ? (
+                {status === 'completed' ? (
                   <Check className="h-4 w-4" strokeWidth={3} />
                 ) : (
                   <span>{(index + 1).toString()}</span>
@@ -81,20 +70,14 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
                   orientation === 'vertical' ? 'ml-4' : 'mt-2 text-center',
                 )}
                 description={step.description}
-                isCompleted={isCompleted}
-                isCurrent={isCurrent}
                 label={step.label}
+                status={status}
               />
             </div>
 
             {/* Connector line */}
             {index < steps.length - 1 ? (
-              <div
-                className={cn(
-                  stepIndicatorConnectorVariants({ orientation }),
-                  isCompleted && 'bg-primary-400',
-                )}
-              />
+              <div className={cn(stepIndicatorConnectorVariants({ orientation, status }))} />
             ) : null}
           </li>
         );

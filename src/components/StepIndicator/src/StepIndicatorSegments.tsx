@@ -2,8 +2,7 @@ import { cn } from '@/lib/utils';
 import { stepIndicatorSegmentVariants, stepIndicatorSegmentsVariants } from '../constants';
 import { Step } from '../types';
 import { StepIndicatorStepContent } from './StepIndicatorStepContent';
-
-type StepIndicatorStatus = 'default' | 'current' | 'completed';
+import { calculateStepStatus, getStepStatusSuffix } from './utils';
 
 export interface StepIndicatorSegmentsProps<T extends readonly Step[] | Step[]> {
   readonly currentStep: string;
@@ -29,12 +28,7 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
           currentStepIndex !== -1 &&
           (index < currentStepIndex || (showCurrentAsCompleted && isCurrent));
 
-        let status: StepIndicatorStatus = 'default';
-        if (isCompleted) {
-          status = 'completed';
-        } else if (isCurrent) {
-          status = 'current';
-        }
+        const status = calculateStepStatus(isCurrent, isCompleted);
 
         return (
           <li
@@ -47,19 +41,14 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
             >
               <span className="sr-only">
                 {step.label}
-                {(() => {
-                  if (isCompleted) return ' completed';
-                  if (isCurrent) return '';
-                  return ' not completed';
-                })()}
+                {getStepStatusSuffix(status)}
               </span>
             </div>
             <StepIndicatorStepContent
               className="mt-2 flex flex-col"
               description={step.description}
-              isCompleted={isCompleted}
-              isCurrent={isCurrent}
               label={step.label}
+              status={status}
             />
           </li>
         );

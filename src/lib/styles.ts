@@ -12,8 +12,8 @@ focus-within:ring-offset-[3px] focus-within:ring-offset-background`;
 const focusRingWithinSm = tw`focus-within:ring-offset-[2px]`;
 
 const input = tw`flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm
-ring-offset-background disabled:cursor-not-allowed disabled:opacity-50
-aria-disabled:cursor-not-allowed aria-disabled:opacity-50`;
+ring-offset-background placeholder:text-muted-foreground disabled:cursor-not-allowed
+disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50`;
 
 const button = tw`inline-flex cursor-pointer items-center justify-center whitespace-nowrap
 rounded-sm bg-transparent text-sm font-bold ring-offset-background transition-colors

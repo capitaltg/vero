@@ -4,10 +4,12 @@ import { SelectDefault } from '../demos/SelectDefault';
 import { SelectWithValue } from '../demos/SelectWithValue';
 import { SelectCustomPlaceholder } from '../demos/SelectCustomPlaceholder';
 import { SelectWithManyOptions } from '../demos/SelectWithManyOptions';
+import { SelectWithLongLabel } from '../demos/SelectWithLongLabel';
 import sourceCodeDefault from '../demos/SelectDefault.tsx?raw';
 import sourceCodeWithValue from '../demos/SelectWithValue.tsx?raw';
 import sourceCodeCustomPlaceholder from '../demos/SelectCustomPlaceholder.tsx?raw';
 import sourceCodeWithManyOptions from '../demos/SelectWithManyOptions.tsx?raw';
+import sourceCodeWithLongLabel from '../demos/SelectWithLongLabel.tsx?raw';
 
 const meta = {
   title: 'Inputs & Forms/Select',
@@ -153,6 +155,42 @@ export const WithManyOptions: Story = {
     docs: {
       source: {
         code: sourceCodeWithManyOptions,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Select with very long option labels.
+ * Demonstrates how the component handles text truncation when a long label is selected.
+ * The selected value will be truncated with an ellipsis to prevent overflow.
+ */
+export const WithLongLabel: Story = {
+  render: () => <SelectWithLongLabel />,
+  args: {
+    options: [
+      { value: 'short', label: 'Short option' },
+      { value: 'medium', label: 'This is a medium length option label' },
+      {
+        value: 'very-long',
+        label:
+          'This is an extremely long option label that should demonstrate text truncation when selected in the Select component trigger button',
+      },
+      {
+        value: 'super-long',
+        label:
+          'This is a super extremely long option label that contains multiple sentences and should definitely demonstrate text truncation with ellipsis when selected in the Select component trigger button. The text should be cut off with an ellipsis to prevent overflow.',
+      },
+    ],
+    value: '',
+    onChange: () => {},
+    placeholder: 'Select an option with a long label...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithLongLabel,
         language: 'tsx',
       },
     },

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { StepIndicator } from '../src/StepIndicator';
 import { StepIndicatorInteractive } from '../demos/StepIndicatorInteractive';
 import sourceCode from '../demos/StepIndicatorInteractive.tsx?raw';
+import { StepIndicator } from '../src/StepIndicator';
 
 const steps = [
   {
@@ -31,10 +31,97 @@ const meta = {
   component: StepIndicator,
   parameters: {},
   tags: ['autodocs'],
+  args: {
+    currentStep: 'profile',
+    headingLevel: 'h4',
+    // orientation: 'horizontal',
+    showCurrentAsCompleted: false,
+    steps,
+    variant: 'default',
+  },
+  argTypes: {
+    variant: {
+      control: 'radio',
+      options: ['default', 'counter'],
+      description: 'Visual variant of the step indicator',
+      type: { name: 'string', required: false },
+      table: {
+        defaultValue: {
+          summary: 'default',
+        },
+        type: {
+          summary: 'default | counter',
+        },
+      },
+    },
+    // orientation: {
+    //   control: 'radio',
+    //   options: ['horizontal', 'vertical'],
+    //   description:
+    //     'Layout orientation of the step indicator. Only available for the "counter" variant. The "default" variant is always horizontal.',
+    //   type: { name: 'string', required: false },
+    //   table: {
+    //     defaultValue: {
+    //       summary: 'horizontal',
+    //     },
+    //     type: {
+    //       summary: 'horizontal | vertical',
+    //     },
+    //   },
+    // },
+    currentStep: {
+      control: 'select',
+      options: steps.map(s => s.id),
+      description: 'ID of the current step',
+      type: { name: 'string', required: true },
+    },
+    steps: {
+      control: 'object',
+      description: 'Array of step objects',
+      type: { name: 'array', value: { name: 'object', value: {} }, required: true },
+    },
+    showCurrentAsCompleted: {
+      control: 'boolean',
+      description:
+        'If true, the current step will be shown as completed instead of current. Useful for showing the final step as completed when the process is finished.',
+      type: { name: 'boolean', required: false },
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    headingLevel: {
+      control: 'select',
+      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      description: 'The heading level for the step indicator header. Defaults to h4.',
+      type: { name: 'string', required: false },
+      table: {
+        defaultValue: {
+          summary: 'h4',
+        },
+        type: {
+          summary: 'h1 | h2 | h3 | h4 | h5 | h6',
+        },
+      },
+    },
+  },
 } satisfies Meta<typeof StepIndicator>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Playground - Use the controls below to customize the StepIndicator.
+ * All props can be adjusted to see how the component responds.
+ */
+export const Playground: Story = {
+  // Removes this story from auto-generated documentation
+  tags: ['!autodocs'],
+};
 
 /**
  * Interactive demo of the StepIndicator component.
@@ -57,47 +144,39 @@ export const Interactive: Story = {
 };
 
 /**
- * The default horizontal layout of the StepIndicator.
+ * The USWDS-style default variant with header and segments.
+ * Shows "Step X of Y" with the current step label.
  */
 export const Default: Story = {
   args: {
     steps,
     currentStep: 'profile',
+    variant: 'default',
   },
 };
 
 /**
- * Small size variant of the StepIndicator.
+ * The counter variant with numbered circles and connectors.
  */
-export const Small: Story = {
+export const Counter: Story = {
   args: {
     steps,
     currentStep: 'profile',
-    size: 'sm',
+    variant: 'counter',
   },
 };
 
 /**
- * Large size variant of the StepIndicator.
+ * Vertical layout of the StepIndicator (counter variant only).
  */
-export const Large: Story = {
-  args: {
-    steps,
-    currentStep: 'profile',
-    size: 'lg',
-  },
-};
-
-/**
- * Vertical layout of the StepIndicator.
- */
-export const Vertical: Story = {
-  args: {
-    steps,
-    currentStep: 'review',
-    orientation: 'vertical',
-  },
-};
+// export const Vertical: Story = {
+//   args: {
+//     steps,
+//     currentStep: 'review',
+//     variant: 'counter',
+//     orientation: 'vertical',
+//   },
+// };
 
 /**
  * StepIndicator with all steps completed.

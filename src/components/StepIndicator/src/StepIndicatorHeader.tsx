@@ -14,7 +14,7 @@ export function StepIndicatorHeader({
   const HeadingTag = headingLevel;
 
   return (
-    <HeadingTag className="flex items-center gap-3 text-xl">
+    <HeadingTag className="mb-0 mt-0 flex items-center gap-3 text-xl">
       <span className="inline-flex items-center gap-1">
         <span className="sr-only">Step</span>
         <span

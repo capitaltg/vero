@@ -36,6 +36,7 @@ const meta = {
     headingLevel: 'h4',
     // orientation: 'horizontal',
     showCurrentAsCompleted: false,
+    showLabels: true,
     steps,
     variant: 'default',
   },
@@ -105,6 +106,20 @@ const meta = {
         },
         type: {
           summary: 'h1 | h2 | h3 | h4 | h5 | h6',
+        },
+      },
+    },
+    showLabels: {
+      control: 'boolean',
+      description:
+        'If false, labels will not be shown below the segments or counter list. Defaults to true.',
+      type: { name: 'boolean', required: false },
+      table: {
+        defaultValue: {
+          summary: 'true',
+        },
+        type: {
+          summary: 'boolean',
         },
       },
     },
@@ -201,5 +216,18 @@ export const SimpleSteps: Story = {
       { id: 'payment', label: 'Payment' },
     ] as const,
     currentStep: 'delivery',
+  },
+};
+
+/**
+ * StepIndicator without labels below the segments.
+ * Labels are hidden but still available to screen readers.
+ */
+export const WithoutLabels: Story = {
+  args: {
+    steps,
+    currentStep: 'profile',
+    variant: 'default',
+    showLabels: false,
   },
 };

@@ -14,6 +14,7 @@ export interface StepIndicatorCounterListProps<T extends readonly Step[] | Step[
   readonly currentStepIndex: number;
   readonly orientation: 'horizontal' | 'vertical';
   readonly showCurrentAsCompleted: boolean;
+  readonly showLabels: boolean;
   readonly steps: T;
 }
 
@@ -22,6 +23,7 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
   currentStepIndex,
   orientation,
   showCurrentAsCompleted,
+  showLabels,
   steps,
 }: StepIndicatorCounterListProps<T>) {
   return (
@@ -64,15 +66,17 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
               </div>
 
               {/* Step text */}
-              <StepIndicatorStepContent
-                className={cn(
-                  'flex flex-col',
-                  orientation === 'vertical' ? 'ml-4' : 'mt-2 text-center',
-                )}
-                description={step.description}
-                label={step.label}
-                status={status}
-              />
+              {showLabels ? (
+                <StepIndicatorStepContent
+                  className={cn(
+                    'flex flex-col',
+                    orientation === 'vertical' ? 'ml-4' : 'mt-2 text-center',
+                  )}
+                  description={step.description}
+                  label={step.label}
+                  status={status}
+                />
+              ) : null}
             </div>
 
             {/* Connector line */}

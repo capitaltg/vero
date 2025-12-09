@@ -8,6 +8,7 @@ export interface StepIndicatorSegmentsProps<T extends readonly Step[] | Step[]> 
   readonly currentStep: string;
   readonly currentStepIndex: number;
   readonly showCurrentAsCompleted: boolean;
+  readonly showLabels: boolean;
   readonly steps: T;
 }
 
@@ -15,6 +16,7 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
   currentStep,
   currentStepIndex,
   showCurrentAsCompleted,
+  showLabels,
   steps,
 }: StepIndicatorSegmentsProps<T>) {
   return (
@@ -44,12 +46,14 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
                 {getStepStatusSuffix(status)}
               </span>
             </div>
-            <StepIndicatorStepContent
-              className="mt-2 flex flex-col"
-              description={step.description}
-              label={step.label}
-              status={status}
-            />
+            {showLabels ? (
+              <StepIndicatorStepContent
+                className="mt-2 flex flex-col"
+                description={step.description}
+                label={step.label}
+                status={status}
+              />
+            ) : null}
           </li>
         );
       })}

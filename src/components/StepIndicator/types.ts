@@ -35,6 +35,11 @@ export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonl
    * Defaults to 'h4'.
    */
   headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  /**
+   * If false, labels will not be shown below the segments or counter list.
+   * Defaults to true.
+   */
+  showLabels?: boolean;
 }
 
 /**

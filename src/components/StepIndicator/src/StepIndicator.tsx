@@ -11,7 +11,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
     className,
     currentStep,
     headingLevel = 'h4',
-    orientation = 'horizontal',
+    // orientation = 'horizontal',
     showCurrentAsCompleted = false,
     variant = 'default',
     steps,
@@ -38,7 +38,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
         <StepIndicatorCounterList
           currentStep={currentStep}
           currentStepIndex={currentStepIndex}
-          orientation={orientation}
+          orientation="horizontal"
           showCurrentAsCompleted={showCurrentAsCompleted}
           steps={steps}
         />

@@ -34,7 +34,7 @@ const meta = {
   args: {
     currentStep: 'profile',
     headingLevel: 'h4',
-    orientation: 'horizontal',
+    // orientation: 'horizontal',
     showCurrentAsCompleted: false,
     steps,
     variant: 'default',
@@ -54,21 +54,21 @@ const meta = {
         },
       },
     },
-    orientation: {
-      control: 'radio',
-      options: ['horizontal', 'vertical'],
-      description:
-        'Layout orientation of the step indicator. Only available for the "counter" variant. The "default" variant is always horizontal.',
-      type: { name: 'string', required: false },
-      table: {
-        defaultValue: {
-          summary: 'horizontal',
-        },
-        type: {
-          summary: 'horizontal | vertical',
-        },
-      },
-    },
+    // orientation: {
+    //   control: 'radio',
+    //   options: ['horizontal', 'vertical'],
+    //   description:
+    //     'Layout orientation of the step indicator. Only available for the "counter" variant. The "default" variant is always horizontal.',
+    //   type: { name: 'string', required: false },
+    //   table: {
+    //     defaultValue: {
+    //       summary: 'horizontal',
+    //     },
+    //     type: {
+    //       summary: 'horizontal | vertical',
+    //     },
+    //   },
+    // },
     currentStep: {
       control: 'select',
       options: steps.map(s => s.id),
@@ -169,14 +169,14 @@ export const Counter: Story = {
 /**
  * Vertical layout of the StepIndicator (counter variant only).
  */
-export const Vertical: Story = {
-  args: {
-    steps,
-    currentStep: 'review',
-    variant: 'counter',
-    orientation: 'vertical',
-  },
-};
+// export const Vertical: Story = {
+//   args: {
+//     steps,
+//     currentStep: 'review',
+//     variant: 'counter',
+//     orientation: 'vertical',
+//   },
+// };
 
 /**
  * StepIndicator with all steps completed.

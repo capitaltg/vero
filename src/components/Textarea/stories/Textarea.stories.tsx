@@ -6,6 +6,66 @@ const meta = {
   component: Textarea,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text for the textarea',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    value: {
+      control: 'text',
+      description: 'The value of the textarea',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    isDisabled: {
+      control: 'boolean',
+      description: 'Whether the textarea is disabled',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    isGrowable: {
+      control: 'boolean',
+      description: 'Whether the textarea should grow automatically as content is added',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    readOnly: {
+      control: 'boolean',
+      description: 'Whether the textarea is read-only',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    rows: {
+      control: 'number',
+      description: 'Number of visible text lines',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the textarea',
+    },
+  },
 } satisfies Meta<typeof Textarea>;
 
 export default meta;

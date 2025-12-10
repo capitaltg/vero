@@ -1,12 +1,11 @@
-import { ButtonHTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 
 export interface MultiSelectOption {
   value: string;
   label: string;
 }
 
-export interface MultiSelectProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'> {
+export interface MultiSelectProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   options: MultiSelectOption[];
   value: string[];
   onChange: (value: string[]) => void;

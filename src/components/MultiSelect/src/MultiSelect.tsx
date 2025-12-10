@@ -1,8 +1,10 @@
+import { useAriaDisabled } from '@/hooks';
+import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React, { useState } from 'react';
-import { Button } from '../../Button';
+import { buttonVariants } from '../../Button/constants';
 import {
   Command,
   CommandEmpty,
@@ -14,7 +16,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '../../Popover';
 import { MultiSelectProps } from '../types';
 
-const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
+const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
   (
     {
       options,
@@ -34,6 +36,7 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
     const [open, setOpen] = useState(false);
     const resolvedZIndex = getZIndex('dropdown', zIndex);
     const selectedLabels = value.map(v => options.find(opt => opt.value === v)?.label || v);
+    const disabledProps = useAriaDisabled({ isDisabled });
 
     const renderTriggerContent = () => {
       if (value.length === 0) {
@@ -49,40 +52,84 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
                 text-secondary-foreground"
             >
               {label}
-              <X
+              <button
                 aria-label={`Remove ${label}`}
-                className="h-3 w-3 cursor-pointer opacity-50 hover:opacity-100"
-                role="button"
-                strokeWidth={3}
+                className="ml-0.5 rounded-full opacity-50 transition-opacity hover:opacity-100
+                  focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary-400
+                  focus:ring-offset-1"
+                type="button"
                 onClick={evt => {
                   evt.stopPropagation();
                   onChange(value.filter((_, i) => i !== index));
                 }}
-              />
+                onKeyDown={evt => {
+                  if (evt.key === 'Enter' || evt.key === ' ') {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    onChange(value.filter((_, i) => i !== index));
+                  }
+                }}
+              >
+                <X className="h-3 w-3" strokeWidth={3} />
+              </button>
             </div>
           ))}
         </div>
       );
     };
 
+    const handleTriggerKeyDown = (evt: React.KeyboardEvent<HTMLDivElement>) => {
+      if (isDisabled) {
+        if (evt.key === 'Tab') {
+          return;
+        }
+        if (evt.key === 'Escape') {
+          return;
+        }
+        evt.preventDefault();
+        evt.stopPropagation();
+        return;
+      }
+
+      if (evt.key === 'Enter' || evt.key === ' ') {
+        evt.preventDefault();
+        setOpen(!open);
+      } else if (evt.key === 'Escape' && open) {
+        evt.preventDefault();
+        setOpen(false);
+      }
+    };
+
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
+          {/* Using div instead of button to avoid invalid button nesting (remove buttons are inside) */}
+          <div
             ref={ref}
             aria-expanded={open}
+            aria-haspopup="listbox"
             className={cn(
+              styles.button,
+              buttonVariants({ variant: 'input' }),
+              styles.focusRing,
               'flex h-auto min-h-[2.5rem] w-full items-stretch justify-between px-3 py-1.5',
               className,
             )}
-            isDisabled={isDisabled}
-            role="combobox"
-            variant="input"
+            role="button"
+            tabIndex={0}
+            onClick={evt => {
+              evt.stopPropagation();
+              if (!isDisabled) {
+                setOpen(!open);
+              }
+            }}
+            onKeyDown={handleTriggerKeyDown}
+            {...disabledProps}
             {...props}
           >
             <div className="flex flex-1 text-left">{renderTriggerContent()}</div>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 self-center opacity-50" />
-          </Button>
+          </div>
         </PopoverTrigger>
         <PopoverContent
           align="start"

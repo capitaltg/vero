@@ -6,6 +6,59 @@ const meta = {
   component: Input,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    type: {
+      control: 'select',
+      options: ['text', 'email', 'password', 'number', 'tel', 'url', 'search'],
+      description: 'The input type attribute',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text for the input',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    value: {
+      control: 'text',
+      description: 'The value of the input',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    transform: {
+      control: 'select',
+      options: ['uppercase', 'lowercase', 'trim', 'none'],
+      description: 'Text transformation to apply to the input value',
+      table: {
+        type: {
+          summary: 'TextTransform | TextTransform[]',
+        },
+      },
+    },
+    isDisabled: {
+      control: 'boolean',
+      description: 'Whether the input is disabled',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the input',
+    },
+  },
 } satisfies Meta<typeof Input>;
 
 export default meta;

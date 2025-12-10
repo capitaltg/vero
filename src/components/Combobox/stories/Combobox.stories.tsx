@@ -12,6 +12,70 @@ const meta = {
   component: Combobox,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    value: {
+      control: 'text',
+      description: 'The selected value',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text for the combobox',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    searchPlaceholder: {
+      control: 'text',
+      description: 'Placeholder text for the search input',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    emptyMessage: {
+      control: 'text',
+      description: 'Message to display when no options are found',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    zIndex: {
+      control: 'number',
+      description: 'Z-index for the popover',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    isDisabled: {
+      control: 'boolean',
+      description: 'Whether the component is disabled',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the component',
+    },
+    listClassName: {
+      type: 'string',
+      description: 'Additional class names to apply to the options list',
+    },
+  },
 } satisfies Meta<typeof Combobox>;
 
 export default meta;
@@ -45,7 +109,7 @@ export const Playground: Story = {
  * Shows a searchable dropdown with framework options.
  */
 export const Default: Story = {
-  render: () => <ComboboxDefault />,
+  render: args => <ComboboxDefault {...args} />,
   args: {
     options,
     value: '',
@@ -67,7 +131,7 @@ export const Default: Story = {
  * Demonstrates how the component appears with an initial selection.
  */
 export const WithValue: Story = {
-  render: () => <ComboboxWithValue />,
+  render: args => <ComboboxWithValue {...args} />,
   args: {
     options,
     value: 'react',
@@ -89,7 +153,7 @@ export const WithValue: Story = {
  * Shows how to customize the placeholder and search text.
  */
 export const CustomPlaceholders: Story = {
-  render: () => <ComboboxCustomPlaceholders />,
+  render: args => <ComboboxCustomPlaceholders {...args} />,
   args: {
     options,
     value: '',

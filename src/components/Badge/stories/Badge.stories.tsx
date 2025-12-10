@@ -6,6 +6,37 @@ const meta = {
   component: Badge,
   parameters: {},
   tags: ['autodocs'],
+  args: {
+    variant: 'default',
+  },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'primary', 'success', 'danger', 'warning', 'outline'],
+      description: 'The visual style variant of the badge',
+      table: {
+        defaultValue: {
+          summary: 'default',
+        },
+        type: {
+          summary: 'default | primary | success | danger | warning | outline',
+        },
+      },
+    },
+    children: {
+      control: 'text',
+      description: 'The content of the badge',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the badge',
+    },
+  },
 } satisfies Meta<typeof Badge>;
 
 export default meta;

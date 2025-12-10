@@ -22,7 +22,7 @@ describe('Tooltip', () => {
     it('renders tooltip content when hovered', async () => {
       const user = userEvent.setup();
       render(
-        <TooltipProvider>
+        <TooltipProvider delayDuration={0}>
           <Tooltip content="Tooltip content">
             <button>Hover me</button>
           </Tooltip>
@@ -32,13 +32,14 @@ describe('Tooltip', () => {
       const trigger = screen.getByText('Hover me');
       await user.hover(trigger);
 
-      // Tooltip content exists in DOM but may be visually hidden initially
-      // Wait a bit for tooltip to appear
+      // Wait for tooltip content to appear in the DOM
+      // The tooltip may be in a visually hidden span for accessibility, so we check for any instance
       await waitFor(
         () => {
-          // Tooltip may be in DOM but not visible, which is fine for testing structure
           expect(trigger).toBeInTheDocument();
-          expect(screen.queryByText('Tooltip content')).toBeInTheDocument();
+          // Use getAllByText since tooltip content appears in both visible and hidden spans
+          const tooltipElements = screen.getAllByText('Tooltip content');
+          expect(tooltipElements.length).toBeGreaterThan(0);
         },
         { timeout: 2000 },
       );

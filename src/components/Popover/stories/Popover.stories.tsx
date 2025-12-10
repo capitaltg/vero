@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Popover, PopoverContent } from '../src/Popover';
 import { PopoverCustomPosition } from '../demos/PopoverCustomPosition';
 import sourceCodeCustomPosition from '../demos/PopoverCustomPosition.tsx?raw';
 import { PopoverWithArrow } from '../demos/PopoverWithArrow';
 import sourceCodeWithArrow from '../demos/PopoverWithArrow.tsx?raw';
 import { PopoverWithoutArrow } from '../demos/PopoverWithoutArrow';
 import sourceCodeWithoutArrow from '../demos/PopoverWithoutArrow.tsx?raw';
+import { PopoverContent } from '../src/Popover';
 
 const meta = {
   title: 'Overlays & Feedback/Popover',
@@ -74,7 +74,7 @@ const meta = {
       description: 'Additional class names to apply to the popover content',
     },
   },
-} satisfies Meta<typeof Popover>;
+} satisfies Meta<typeof PopoverContent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

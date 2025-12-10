@@ -1,12 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@/components/Button';
-import { TooltipAlignment } from '../demos/TooltipAlignment';
+import type { Meta, StoryObj } from '@storybook/react';
 import sourceCodeAlignment from '../demos/TooltipAlignment.tsx?raw';
-import { TooltipDefault } from '../demos/TooltipDefault';
 import sourceCodeDefault from '../demos/TooltipDefault.tsx?raw';
-import { TooltipPosition } from '../demos/TooltipPosition';
 import sourceCodePosition from '../demos/TooltipPosition.tsx?raw';
-import { TooltipWithoutArrow } from '../demos/TooltipWithoutArrow';
 import sourceCodeWithoutArrow from '../demos/TooltipWithoutArrow.tsx?raw';
 import { Tooltip, TooltipProvider } from '../src/Tooltip';
 
@@ -22,6 +18,71 @@ const meta = {
       </TooltipProvider>
     ),
   ],
+  argTypes: {
+    content: {
+      control: 'text',
+      description: 'The tooltip content',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    side: {
+      control: 'select',
+      options: ['top', 'bottom', 'left', 'right'],
+      description: 'The side of the trigger element where the tooltip appears',
+      table: {
+        type: {
+          summary: 'top | bottom | left | right',
+        },
+      },
+    },
+    align: {
+      control: 'select',
+      options: ['start', 'center', 'end'],
+      description: 'The alignment of the tooltip relative to the trigger',
+      table: {
+        type: {
+          summary: 'start | center | end',
+        },
+      },
+    },
+    offset: {
+      control: 'number',
+      description: 'The distance in pixels between the tooltip and the trigger',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    hasArrow: {
+      control: 'boolean',
+      description: 'Whether to show an arrow pointing to the trigger',
+      table: {
+        defaultValue: {
+          summary: 'true',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    zIndex: {
+      control: 'number',
+      description: 'Z-index for the tooltip',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the tooltip',
+    },
+  },
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
@@ -36,7 +97,11 @@ export const Default: Story = {
     content: 'This is a tooltip',
     children: <Button variant="primary">Hover me</Button>,
   },
-  render: () => <TooltipDefault />,
+  render: args => (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip {...args} />
+    </TooltipProvider>
+  ),
   parameters: {
     docs: {
       source: {
@@ -57,7 +122,11 @@ export const Position: Story = {
     offset: 8,
     children: <Button variant="primary">Hover me</Button>,
   },
-  render: () => <TooltipPosition />,
+  render: args => (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip {...args} />
+    </TooltipProvider>
+  ),
   parameters: {
     docs: {
       source: {
@@ -77,7 +146,11 @@ export const Alignment: Story = {
     align: 'start',
     children: <Button variant="primary">Hover me</Button>,
   },
-  render: () => <TooltipAlignment />,
+  render: args => (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip {...args} />
+    </TooltipProvider>
+  ),
   parameters: {
     docs: {
       source: {
@@ -98,7 +171,11 @@ export const WithoutArrow: Story = {
     hasArrow: false,
     children: <Button variant="primary">Hover me</Button>,
   },
-  render: () => <TooltipWithoutArrow />,
+  render: args => (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip {...args} />
+    </TooltipProvider>
+  ),
   parameters: {
     docs: {
       source: {

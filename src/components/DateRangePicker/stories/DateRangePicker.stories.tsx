@@ -13,6 +13,39 @@ const meta = {
   component: DateRangePicker,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    placeholder: {
+      control: 'object',
+      description: 'Placeholder text for the start and end date inputs',
+      table: {
+        type: {
+          summary: '{ from?: string, to?: string }',
+        },
+      },
+    },
+    zIndex: {
+      control: 'number',
+      description: 'Z-index for the popover',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    isDisabled: {
+      control: 'boolean',
+      description: 'Whether the component is disabled',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the component',
+    },
+  },
 } satisfies Meta<typeof DateRangePicker>;
 
 export default meta;
@@ -40,7 +73,7 @@ export const Playground: Story = {
  * Shows the basic date range picker with no pre-selected dates.
  */
 export const Default: Story = {
-  render: () => <DateRangePickerDefault />,
+  render: args => <DateRangePickerDefault {...args} />,
   args: {
     value: {},
     onChange: () => {},

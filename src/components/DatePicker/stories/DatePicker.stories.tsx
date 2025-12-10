@@ -14,6 +14,39 @@ const meta = {
   component: DatePicker,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text for the date picker',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    zIndex: {
+      control: 'number',
+      description: 'Z-index for the popover',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    isDisabled: {
+      control: 'boolean',
+      description: 'Whether the component is disabled',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the component',
+    },
+  },
 } satisfies Meta<typeof DatePicker>;
 
 export default meta;
@@ -38,7 +71,7 @@ export const Playground: Story = {
  * Shows the basic date picker with no pre-selected date.
  */
 export const Default: Story = {
-  render: () => <DatePickerDefault />,
+  render: args => <DatePickerDefault {...args} />,
   args: {
     value: undefined,
     onChange: () => {},

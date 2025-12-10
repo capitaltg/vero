@@ -11,6 +11,106 @@ const meta = {
   component: Autocomplete,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    value: {
+      control: 'text',
+      description: 'The selected value',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text for the input',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    emptyMessage: {
+      control: 'text',
+      description: 'Message to display when no options are found',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    loadingMessage: {
+      control: 'text',
+      description: 'Message to display while loading options',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    errorMessage: {
+      control: 'text',
+      description: 'Message to display when async fetch fails',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    maxSuggestions: {
+      control: 'number',
+      description: 'Maximum number of suggestions to display',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    debounceMs: {
+      control: 'number',
+      description: 'Debounce delay for async searches (in milliseconds)',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    minSearch: {
+      control: 'number',
+      description: 'Minimum characters before triggering async search',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    zIndex: {
+      control: 'number',
+      description: 'Z-index for the popover',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    isDisabled: {
+      control: 'boolean',
+      description: 'Whether the component is disabled',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the component',
+    },
+    listClassName: {
+      type: 'string',
+      description: 'Additional class names to apply to the options list',
+    },
+  },
 } satisfies Meta<typeof Autocomplete>;
 
 export default meta;

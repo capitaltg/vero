@@ -7,6 +7,30 @@ const meta = {
   component: Breadcrumbs,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    items: {
+      control: 'object',
+      description: 'Array of breadcrumb items with label and optional href',
+      table: {
+        type: {
+          summary: 'BreadcrumbItem[]',
+        },
+      },
+    },
+    separator: {
+      control: 'text',
+      description: 'Custom separator between breadcrumb items',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the breadcrumbs',
+    },
+  },
 } satisfies Meta<typeof Breadcrumbs>;
 
 export default meta;

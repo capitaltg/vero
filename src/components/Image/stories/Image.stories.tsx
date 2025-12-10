@@ -6,6 +6,79 @@ const meta = {
   component: Image,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    src: {
+      control: 'text',
+      description: 'The source URL of the image',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    alt: {
+      control: 'text',
+      description: 'Alternative text for the image',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    fallback: {
+      control: 'text',
+      description: 'Fallback image URL to display if the main image fails to load',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    isLazy: {
+      control: 'boolean',
+      description: 'Whether to enable lazy loading (defaults to true)',
+      table: {
+        defaultValue: {
+          summary: 'true',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    shape: {
+      control: 'select',
+      options: ['square', 'rounded', 'circle'],
+      description: 'The shape of the image',
+      table: {
+        type: {
+          summary: 'square | rounded | circle',
+        },
+      },
+    },
+    width: {
+      control: 'number',
+      description: 'Width of the image in pixels',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    height: {
+      control: 'number',
+      description: 'Height of the image in pixels',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the image',
+    },
+  },
 } satisfies Meta<typeof Image>;
 
 export default meta;

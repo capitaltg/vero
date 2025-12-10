@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Popover } from '../src/Popover';
+import { Popover, PopoverContent } from '../src/Popover';
 import { PopoverCustomPosition } from '../demos/PopoverCustomPosition';
 import sourceCodeCustomPosition from '../demos/PopoverCustomPosition.tsx?raw';
 import { PopoverWithArrow } from '../demos/PopoverWithArrow';
@@ -9,7 +9,7 @@ import sourceCodeWithoutArrow from '../demos/PopoverWithoutArrow.tsx?raw';
 
 const meta = {
   title: 'Overlays & Feedback/Popover',
-  component: Popover,
+  component: PopoverContent,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {

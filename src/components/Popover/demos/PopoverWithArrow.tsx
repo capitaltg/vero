@@ -1,12 +1,17 @@
 import { Button } from '@/components/Button';
 import { Popover, PopoverContent, PopoverTrigger } from '../src/Popover';
+import { PopoverContentProps } from '../types';
 
-export const PopoverWithArrow = () => (
+export const PopoverWithArrow = ({
+  hasArrow = true,
+  className = 'w-80',
+  ...args
+}: Partial<PopoverContentProps>) => (
   <Popover>
     <PopoverTrigger asChild>
       <Button variant="input">Open Popover</Button>
     </PopoverTrigger>
-    <PopoverContent hasArrow className="w-80">
+    <PopoverContent className={className} hasArrow={hasArrow} {...args}>
       <div className="grid gap-4">
         <div className="space-y-2">
           <h4 className="font-medium leading-none">Dimensions</h4>

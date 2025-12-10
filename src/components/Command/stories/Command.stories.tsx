@@ -10,6 +10,41 @@ const meta = {
   component: Command,
   parameters: {},
   tags: ['!dev'], // This story will be hidden from the sidebar
+  argTypes: {
+    label: {
+      control: 'text',
+      description: 'The label of the command menu',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    shouldFilter: {
+      control: 'boolean',
+      description: 'Whether to filter results based on search',
+      table: {
+        defaultValue: {
+          summary: 'true',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    loop: {
+      control: 'boolean',
+      description: 'Whether to loop through items when navigating',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+  },
 } satisfies Meta<typeof Command>;
 
 export default meta;

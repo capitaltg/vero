@@ -1,19 +1,15 @@
 import { useState } from 'react';
 import { DateRangePicker } from '../src/DateRangePicker';
-import type { DateRange } from '../types';
+import type { DateRange, DateRangePickerProps } from '../types';
 
-export const DateRangePickerDefault = () => {
-  const [value, setValue] = useState<DateRange>({});
+export const DateRangePickerDefault = ({
+  placeholder = { from: 'Start date', to: 'End date' },
+  ...args
+}: Partial<DateRangePickerProps>) => {
+  const [value, setValue] = useState<DateRange>(args.value || {});
   return (
     <div className="space-y-4">
-      <DateRangePicker
-        placeholder={{
-          from: 'Start date',
-          to: 'End date',
-        }}
-        value={value}
-        onChange={setValue}
-      />
+      <DateRangePicker placeholder={placeholder} value={value} onChange={setValue} {...args} />
       <p className="text-sm text-muted-foreground">
         Selected range:{' '}
         {value.from ? (

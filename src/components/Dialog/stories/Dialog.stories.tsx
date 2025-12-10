@@ -10,6 +10,38 @@ const meta = {
   component: Dialog,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    open: {
+      control: 'boolean',
+      description: 'The controlled open state of the dialog',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    defaultOpen: {
+      control: 'boolean',
+      description: 'The default open state of the dialog',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    modal: {
+      control: 'boolean',
+      description: 'Whether the dialog is modal (blocks interaction with other elements)',
+      table: {
+        defaultValue: {
+          summary: 'true',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+  },
 } satisfies Meta<typeof Dialog>;
 
 export default meta;

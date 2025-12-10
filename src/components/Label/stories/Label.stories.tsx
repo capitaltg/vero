@@ -6,6 +6,30 @@ const meta = {
   component: Label,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    htmlFor: {
+      control: 'text',
+      description: 'The ID of the form element this label is associated with',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    children: {
+      control: 'text',
+      description: 'The label text',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the label',
+    },
+  },
 } satisfies Meta<typeof Label>;
 
 export default meta;

@@ -14,6 +14,61 @@ const meta = {
   component: MultiSelect,
   parameters: {},
   tags: ['autodocs'],
+  argTypes: {
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text for the multiselect',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    searchPlaceholder: {
+      control: 'text',
+      description: 'Placeholder text for the search input',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    emptyMessage: {
+      control: 'text',
+      description: 'Message to display when no options are found',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    zIndex: {
+      control: 'number',
+      description: 'Z-index for the popover',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    isDisabled: {
+      control: 'boolean',
+      description: 'Whether the component is disabled',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    className: {
+      type: 'string',
+      description: 'Additional class names to apply to the component',
+    },
+    listClassName: {
+      type: 'string',
+      description: 'Additional class names to apply to the options list',
+    },
+  },
 } satisfies Meta<typeof MultiSelect>;
 
 export default meta;
@@ -47,7 +102,7 @@ export const Playground: Story = {
  * Shows a searchable dropdown that allows multiple selections from a list of frameworks.
  */
 export const Default: Story = {
-  render: () => <MultiSelectDefault />,
+  render: args => <MultiSelectDefault {...args} />,
   args: {
     options,
     value: [],
@@ -69,7 +124,7 @@ export const Default: Story = {
  * Demonstrates how the component appears with multiple items already selected.
  */
 export const WithSelection: Story = {
-  render: () => <MultiSelectWithSelection />,
+  render: args => <MultiSelectWithSelection {...args} />,
   args: {
     options,
     value: ['react', 'vue'],
@@ -91,7 +146,7 @@ export const WithSelection: Story = {
  * Shows how to customize the placeholder and search text for better user guidance.
  */
 export const CustomPlaceholders: Story = {
-  render: () => <MultiSelectCustomPlaceholders />,
+  render: args => <MultiSelectCustomPlaceholders {...args} />,
   args: {
     options,
     value: [],
@@ -115,7 +170,7 @@ export const CustomPlaceholders: Story = {
  * Demonstrates how the component handles a larger set of choices with scrolling.
  */
 export const WithManyOptions: Story = {
-  render: () => <MultiSelectWithManyOptions />,
+  render: args => <MultiSelectWithManyOptions {...args} />,
   args: {
     options: [
       ...options,

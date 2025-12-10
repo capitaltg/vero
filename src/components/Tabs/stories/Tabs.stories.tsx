@@ -12,6 +12,44 @@ const meta = {
   component: Tabs,
   parameters: {},
   tags: ['autodocs'],
+  args: {
+    activationMode: 'manual',
+  },
+  argTypes: {
+    value: {
+      control: 'text',
+      description:
+        'The controlled value of the active tab. When provided, the component becomes a controlled component.',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    defaultValue: {
+      control: 'text',
+      description: 'The default value of the active tab when the component is uncontrolled.',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    activationMode: {
+      control: 'radio',
+      options: ['automatic', 'manual'],
+      description:
+        'How tabs are activated. When set to "automatic", tabs are activated when receiving focus. When set to "manual", tabs are activated when clicked.',
+      table: {
+        defaultValue: {
+          summary: 'manual',
+        },
+        type: {
+          summary: 'automatic | manual',
+        },
+      },
+    },
+  },
 } satisfies Meta<typeof Tabs>;
 
 export default meta;
@@ -22,7 +60,11 @@ type Story = StoryObj<typeof meta>;
  * Shows a basic tab interface with multiple panels.
  */
 export const Default: Story = {
-  render: () => <TabsDefault />,
+  args: {
+    defaultValue: 'account',
+    activationMode: 'manual',
+  },
+  render: args => <TabsDefault {...args} />,
   parameters: {
     docs: {
       source: {
@@ -37,7 +79,11 @@ export const Default: Story = {
  * Shows how tabs appear when certain options are not available.
  */
 export const WithDisabledTab: Story = {
-  render: () => <TabsWithDisabledTab />,
+  args: {
+    defaultValue: 'active',
+    activationMode: 'manual',
+  },
+  render: args => <TabsWithDisabledTab {...args} />,
   parameters: {
     docs: {
       source: {
@@ -52,7 +98,11 @@ export const WithDisabledTab: Story = {
  * Demonstrates how to customize the appearance of tabs.
  */
 export const CustomStyling: Story = {
-  render: () => <TabsCustomStyling />,
+  args: {
+    defaultValue: 'tab1',
+    activationMode: 'manual',
+  },
+  render: args => <TabsCustomStyling {...args} />,
   parameters: {
     docs: {
       source: {

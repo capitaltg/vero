@@ -18,7 +18,8 @@ const meta = {
   argTypes: {
     value: {
       control: 'text',
-      description: 'The controlled value of the active tab',
+      description:
+        'The controlled value of the active tab. When provided, the component becomes a controlled component.',
       table: {
         type: {
           summary: 'string',
@@ -27,7 +28,7 @@ const meta = {
     },
     defaultValue: {
       control: 'text',
-      description: 'The default value of the active tab',
+      description: 'The default value of the active tab when the component is uncontrolled.',
       table: {
         type: {
           summary: 'string',
@@ -37,7 +38,8 @@ const meta = {
     activationMode: {
       control: 'radio',
       options: ['automatic', 'manual'],
-      description: 'How tabs are activated',
+      description:
+        'How tabs are activated. When set to "automatic", tabs are activated when receiving focus. When set to "manual", tabs are activated when clicked.',
       table: {
         defaultValue: {
           summary: 'manual',

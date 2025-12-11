@@ -1,19 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
 import { TabsProps } from '../types';
 
-export const TabsDefault = ({
-  defaultValue = 'account',
-  value,
-  activationMode,
-  ...args
-}: Partial<TabsProps>) => (
-  <Tabs
-    activationMode={activationMode}
-    className="w-md"
-    defaultValue={defaultValue}
-    value={value}
-    {...args}
-  >
+export const TabsDefault = ({ defaultValue = 'account', value, ...args }: Partial<TabsProps>) => (
+  <Tabs className="w-md" defaultValue={defaultValue} value={value} {...args}>
     <TabsList>
       <TabsTrigger value="account">Account</TabsTrigger>
       <TabsTrigger value="password">Password</TabsTrigger>

@@ -4,16 +4,9 @@ import { TabsProps } from '../types';
 export const TabsWithDisabledTab = ({
   defaultValue = 'active',
   value,
-  activationMode,
   ...args
 }: Partial<TabsProps>) => (
-  <Tabs
-    activationMode={activationMode}
-    className="w-md"
-    defaultValue={defaultValue}
-    value={value}
-    {...args}
-  >
+  <Tabs className="w-md" defaultValue={defaultValue} value={value} {...args}>
     <TabsList>
       <TabsTrigger value="active">Active Tab</TabsTrigger>
       <TabsTrigger disabled value="disabled">

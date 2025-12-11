@@ -4,16 +4,9 @@ import { TabsProps } from '../types';
 export const TabsCustomStyling = ({
   defaultValue = 'tab1',
   value,
-  activationMode,
   ...args
 }: Partial<TabsProps>) => (
-  <Tabs
-    activationMode={activationMode}
-    className="w-md"
-    defaultValue={defaultValue}
-    value={value}
-    {...args}
-  >
+  <Tabs className="w-md" defaultValue={defaultValue} value={value} {...args}>
     <TabsList className="grid w-full grid-cols-3 border-none bg-base-200 text-black">
       <TabsTrigger
         className="hover:bg-white hover:text-primary disabled:pointer-events-none

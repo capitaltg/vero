@@ -1,20 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tabs } from '../src/Tabs';
 import { TabsCustomStyling } from '../demos/TabsCustomStyling';
 import sourceCodeCustomStyling from '../demos/TabsCustomStyling.tsx?raw';
 import { TabsDefault } from '../demos/TabsDefault';
 import sourceCodeDefault from '../demos/TabsDefault.tsx?raw';
 import { TabsWithDisabledTab } from '../demos/TabsWithDisabledTab';
 import sourceCodeWithDisabledTab from '../demos/TabsWithDisabledTab.tsx?raw';
+import { Tabs } from '../src/Tabs';
 
 const meta = {
   title: 'Actions & Navigation/Tabs',
   component: Tabs,
   parameters: {},
   tags: ['autodocs'],
-  args: {
-    activationMode: 'manual',
-  },
   argTypes: {
     value: {
       control: 'text',
@@ -35,20 +32,6 @@ const meta = {
         },
       },
     },
-    activationMode: {
-      control: 'radio',
-      options: ['automatic', 'manual'],
-      description:
-        'How tabs are activated. When set to "automatic", tabs are activated when receiving focus. When set to "manual", tabs are activated when clicked.',
-      table: {
-        defaultValue: {
-          summary: 'manual',
-        },
-        type: {
-          summary: 'automatic | manual',
-        },
-      },
-    },
   },
 } satisfies Meta<typeof Tabs>;
 
@@ -62,7 +45,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     defaultValue: 'account',
-    activationMode: 'manual',
   },
   render: args => <TabsDefault {...args} />,
   parameters: {
@@ -81,7 +63,6 @@ export const Default: Story = {
 export const WithDisabledTab: Story = {
   args: {
     defaultValue: 'active',
-    activationMode: 'manual',
   },
   render: args => <TabsWithDisabledTab {...args} />,
   parameters: {
@@ -100,7 +81,6 @@ export const WithDisabledTab: Story = {
 export const CustomStyling: Story = {
   args: {
     defaultValue: 'tab1',
-    activationMode: 'manual',
   },
   render: args => <TabsCustomStyling {...args} />,
   parameters: {

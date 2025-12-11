@@ -5,9 +5,7 @@ import * as React from 'react';
 import { TabsContentProps, TabsListProps, TabsProps, TabsTriggerProps } from '../types';
 
 const Tabs = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Root>, TabsProps>(
-  ({ activationMode = 'manual', ...props }, ref) => (
-    <TabsPrimitive.Root ref={ref} activationMode={activationMode} {...props} />
-  ),
+  ({ ...props }, ref) => <TabsPrimitive.Root ref={ref} activationMode="manual" {...props} />,
 );
 Tabs.displayName = TabsPrimitive.Root.displayName;
 

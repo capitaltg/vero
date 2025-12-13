@@ -38,26 +38,26 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
         {...props}
         data-error={errorText ? 'true' : undefined}
       >
-        <div className="space-y-1">
-          {label ? (
+        {label ? (
+          <div>
             <div className="flex items-center">
               {typeof label === 'string' ? (
-                <Label className="font-bold" htmlFor={childId} id={labelId}>
+                <Label className="font-bold leading-5" htmlFor={childId} id={labelId}>
                   {label}
                   {isRequired ? <span className="ml-0.5 text-destructive">*</span> : null}
                 </Label>
               ) : (
                 label
               )}
-              {labelSlot ? <div className="ml-2">{labelSlot}</div> : null}
+              {labelSlot ? <div className="ml-2 inline-flex">{labelSlot}</div> : null}
             </div>
-          ) : null}
-          {hintText ? (
-            <p className={styles.text.hint} id={hintId}>
-              {hintText}
-            </p>
-          ) : null}
-        </div>
+            {hintText ? (
+              <p className={styles.text.hint} id={hintId}>
+                {hintText}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
         {children}
         {errorText ? (
           <p className={styles.text.error} id={errorId}>

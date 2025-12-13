@@ -14,6 +14,9 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       delimiterChars,
       isDisabled = false,
       onChange,
+      name,
+      required,
+      autoFocus,
       ...props
     },
     ref,
@@ -131,6 +134,13 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       tagsRef.current = tagsRef.current.slice(0, value.length);
     }, [value.length]);
 
+    // Handle autoFocus
+    useEffect(() => {
+      if (autoFocus && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, [autoFocus]);
+
     const placeholderText = useMemo(() => {
       if (!delimiterChars?.length) return placeholder;
       const delims = Array.isArray(delimiterChars) ? delimiterChars : [delimiterChars];
@@ -187,7 +197,9 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
           className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground
             disabled:cursor-not-allowed"
           disabled={isDisabled || (maxTags !== undefined && value.length >= maxTags)}
+          name={name}
           placeholder={value.length === 0 ? placeholderText : ''}
+          required={required}
           type="text"
           value={inputValue}
           onChange={handleInputChange}

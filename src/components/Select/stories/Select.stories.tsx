@@ -58,6 +58,11 @@ const meta = {
         },
       },
     },
+    autoFocus: {
+      table: {
+        disable: true,
+      },
+    },
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof Select>;

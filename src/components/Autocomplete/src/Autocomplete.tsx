@@ -33,6 +33,9 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
       minSearch = 2,
       zIndex,
       isDisabled = false,
+      name,
+      required,
+      autoFocus,
       ...props
     },
     ref,
@@ -146,79 +149,85 @@ const Autocomplete = React.forwardRef<HTMLButtonElement, AutocompleteProps>(
     }, [onChange]);
 
     return (
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            ref={ref}
-            aria-expanded={open}
-            className={cn(
-              'w-full justify-between px-3',
-              !selectedOption && !value && 'text-muted-foreground',
-              className,
-            )}
-            isDisabled={isDisabled}
-            role="combobox"
-            variant="input"
-            {...props}
+      <>
+        {name || required ? (
+          <input name={name} required={required} type="hidden" value={value} />
+        ) : null}
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              ref={ref}
+              aria-expanded={open}
+              autoFocus={autoFocus}
+              className={cn(
+                'w-full justify-between px-3',
+                !selectedOption && !value && 'text-muted-foreground',
+                className,
+              )}
+              isDisabled={isDisabled}
+              role="combobox"
+              variant="input"
+              {...props}
+            >
+              <span className="truncate">
+                {selectedOption ? selectedOption.label : value || placeholder}
+              </span>
+              <div className="flex items-center gap-1">
+                {value || inputValue ? (
+                  <X
+                    className="h-4 w-4 opacity-50 hover:opacity-100"
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleClear();
+                    }}
+                  />
+                ) : null}
+                <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+              </div>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            align="start"
+            className="w-[--radix-popover-trigger-width] px-0 py-0"
+            zIndex={resolvedZIndex}
           >
-            <span className="truncate">
-              {selectedOption ? selectedOption.label : value || placeholder}
-            </span>
-            <div className="flex items-center gap-1">
-              {value || inputValue ? (
-                <X
-                  className="h-4 w-4 opacity-50 hover:opacity-100"
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleClear();
-                  }}
-                />
+            <Command shouldFilter={false}>
+              <CommandInput
+                placeholder={placeholder}
+                value={inputValue}
+                onValueChange={handleInputChange}
+              />
+              {loading ? <CommandLoading>{loadingMessage}</CommandLoading> : null}
+              {!loading && error ? <CommandForceEmpty>{errorMessage}</CommandForceEmpty> : null}
+              {!loading && !error && hasSearched && displayOptions.length === 0 ? (
+                <CommandForceEmpty>{emptyMessage}</CommandForceEmpty>
               ) : null}
-              <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-            </div>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          align="start"
-          className="w-[--radix-popover-trigger-width] px-0 py-0"
-          zIndex={resolvedZIndex}
-        >
-          <Command shouldFilter={false}>
-            <CommandInput
-              placeholder={placeholder}
-              value={inputValue}
-              onValueChange={handleInputChange}
-            />
-            {loading ? <CommandLoading>{loadingMessage}</CommandLoading> : null}
-            {!loading && error ? <CommandForceEmpty>{errorMessage}</CommandForceEmpty> : null}
-            {!loading && !error && hasSearched && displayOptions.length === 0 ? (
-              <CommandForceEmpty>{emptyMessage}</CommandForceEmpty>
-            ) : null}
-            {!loading && !error && displayOptions.length > 0 ? (
-              <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
-                <CommandGroup>
-                  {displayOptions.map(option => (
-                    <CommandItem
-                      key={option.value}
-                      className="cursor-pointer"
-                      value={option.value}
-                      onSelect={handleSelect}
-                    >
-                      <Check
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          option.value === value ? 'opacity-100' : 'opacity-0',
-                        )}
-                      />
-                      {option.label}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            ) : null}
-          </Command>
-        </PopoverContent>
-      </Popover>
+              {!loading && !error && displayOptions.length > 0 ? (
+                <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
+                  <CommandGroup>
+                    {displayOptions.map(option => (
+                      <CommandItem
+                        key={option.value}
+                        className="cursor-pointer"
+                        value={option.value}
+                        onSelect={handleSelect}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            option.value === value ? 'opacity-100' : 'opacity-0',
+                          )}
+                        />
+                        {option.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              ) : null}
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </>
     );
   },
 );

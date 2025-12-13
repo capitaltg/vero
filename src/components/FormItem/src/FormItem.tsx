@@ -39,7 +39,7 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
         data-error={errorText ? 'true' : undefined}
       >
         {label ? (
-          <div className="mb-1">
+          <div>
             <div className="flex items-center">
               {typeof label === 'string' ? (
                 <Label className="font-bold leading-5" htmlFor={childId} id={labelId}>

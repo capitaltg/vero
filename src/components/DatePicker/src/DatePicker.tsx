@@ -19,6 +19,9 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
       className,
       zIndex,
       isDisabled = false,
+      name,
+      required,
+      autoFocus,
       ...props
     },
     ref,
@@ -32,35 +35,46 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
     };
 
     return (
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            ref={ref}
-            className={cn(
-              'w-full justify-start px-3 text-left font-normal',
-              !value && 'text-muted-foreground',
-              className,
-            )}
-            isDisabled={isDisabled}
-            variant="input"
-            {...props}
-            data-component="date-picker"
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {value ? format(value, 'LLLL dd, y') : <span>{placeholder}</span>}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent align="start" className="w-auto px-0 py-0" zIndex={resolvedZIndex}>
-          <Calendar
-            autoFocus
-            endMonth={endMonth}
-            mode="single"
-            selected={value}
-            startMonth={startMonth}
-            onSelect={handleDateSelect}
+      <>
+        {name || required ? (
+          <input
+            name={name}
+            required={required}
+            type="hidden"
+            value={value ? value.toISOString().split('T')[0] : ''}
           />
-        </PopoverContent>
-      </Popover>
+        ) : null}
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              ref={ref}
+              autoFocus={autoFocus}
+              className={cn(
+                'w-full justify-start px-3 text-left font-normal',
+                !value && 'text-muted-foreground',
+                className,
+              )}
+              data-component="date-picker"
+              isDisabled={isDisabled}
+              variant="input"
+              {...props}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {value ? format(value, 'LLLL dd, y') : <span>{placeholder}</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-auto px-0 py-0" zIndex={resolvedZIndex}>
+            <Calendar
+              autoFocus
+              endMonth={endMonth}
+              mode="single"
+              selected={value}
+              startMonth={startMonth}
+              onSelect={handleDateSelect}
+            />
+          </PopoverContent>
+        </Popover>
+      </>
     );
   },
 );

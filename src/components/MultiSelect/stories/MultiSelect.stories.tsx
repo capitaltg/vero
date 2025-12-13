@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MultiSelect } from '../src/MultiSelect';
-import { MultiSelectDefault } from '../demos/MultiSelectDefault';
-import { MultiSelectWithSelection } from '../demos/MultiSelectWithSelection';
 import { MultiSelectCustomPlaceholders } from '../demos/MultiSelectCustomPlaceholders';
-import { MultiSelectWithManyOptions } from '../demos/MultiSelectWithManyOptions';
-import sourceCodeDefault from '../demos/MultiSelectDefault.tsx?raw';
-import sourceCodeWithSelection from '../demos/MultiSelectWithSelection.tsx?raw';
 import sourceCodeCustomPlaceholders from '../demos/MultiSelectCustomPlaceholders.tsx?raw';
+import { MultiSelectDefault } from '../demos/MultiSelectDefault';
+import sourceCodeDefault from '../demos/MultiSelectDefault.tsx?raw';
+import { MultiSelectWithManyOptions } from '../demos/MultiSelectWithManyOptions';
 import sourceCodeWithManyOptions from '../demos/MultiSelectWithManyOptions.tsx?raw';
+import { MultiSelectWithSelection } from '../demos/MultiSelectWithSelection';
+import sourceCodeWithSelection from '../demos/MultiSelectWithSelection.tsx?raw';
+import { MultiSelect } from '../src/MultiSelect';
 
 const meta = {
   title: 'Inputs & Forms/MultiSelect',
@@ -102,7 +102,8 @@ export const Playground: Story = {
  * Shows a searchable dropdown that allows multiple selections from a list of frameworks.
  */
 export const Default: Story = {
-  render: args => <MultiSelectDefault {...args} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  render: ({ onChange, ...args }) => <MultiSelectDefault {...args} />,
   args: {
     options,
     value: [],
@@ -124,7 +125,8 @@ export const Default: Story = {
  * Demonstrates how the component appears with multiple items already selected.
  */
 export const WithSelection: Story = {
-  render: args => <MultiSelectWithSelection {...args} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  render: ({ onChange, ...args }) => <MultiSelectWithSelection {...args} />,
   args: {
     options,
     value: ['react', 'vue'],
@@ -146,7 +148,8 @@ export const WithSelection: Story = {
  * Shows how to customize the placeholder and search text for better user guidance.
  */
 export const CustomPlaceholders: Story = {
-  render: args => <MultiSelectCustomPlaceholders {...args} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  render: ({ onChange, ...args }) => <MultiSelectCustomPlaceholders {...args} />,
   args: {
     options,
     value: [],
@@ -170,7 +173,8 @@ export const CustomPlaceholders: Story = {
  * Demonstrates how the component handles a larger set of choices with scrolling.
  */
 export const WithManyOptions: Story = {
-  render: args => <MultiSelectWithManyOptions {...args} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  render: ({ onChange, ...args }) => <MultiSelectWithManyOptions {...args} />,
   args: {
     options: [
       ...options,

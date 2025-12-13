@@ -75,11 +75,6 @@ const meta = {
       type: 'string',
       description: 'Additional class names to apply to the options list',
     },
-    onChange: {
-      table: {
-        disable: true,
-      },
-    },
   },
 } satisfies Meta<typeof Combobox>;
 

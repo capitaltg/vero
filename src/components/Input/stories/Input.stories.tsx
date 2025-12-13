@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { InputWithKeyboardEvents } from '../demos/InputWithKeyboardEvents';
+import sourceCodeWithKeyboardEvents from '../demos/InputWithKeyboardEvents.tsx?raw';
 import { Input } from '../src/Input';
 
 const meta = {
@@ -148,5 +150,26 @@ export const WithMultipleTransforms: Story = {
   args: {
     transform: ['trim', 'uppercase'],
     placeholder: 'Text will be trimmed and uppercase',
+  },
+};
+
+/**
+ * Input with onKeyDown and onKeyUp event handlers.
+ * Demonstrates that keyboard events are properly handled.
+ * Press any key to see the events logged in the console.
+ */
+export const WithKeyboardEvents: Story = {
+  args: {
+    transform: 'uppercase',
+  },
+
+  render: () => <InputWithKeyboardEvents />,
+
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithKeyboardEvents,
+      },
+    },
   },
 };

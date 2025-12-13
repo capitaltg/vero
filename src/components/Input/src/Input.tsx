@@ -9,8 +9,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const disabledProps = useAriaDisabled({ isDisabled });
 
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-      if (!onChange) return;
-
       let value = evt.target.value;
       const transforms = Array.isArray(transform) ? transform : [transform];
 
@@ -32,6 +30,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
       // Update the input value directly for immediate feedback
       evt.target.value = value;
+
+      // Call the onChange callback if it exists
+      if (!onChange) return;
       onChange(evt);
     };
 

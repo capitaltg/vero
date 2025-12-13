@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Combobox } from '../src/Combobox';
-import { ComboboxDefault } from '../demos/ComboboxDefault';
-import { ComboboxWithValue } from '../demos/ComboboxWithValue';
 import { ComboboxCustomPlaceholders } from '../demos/ComboboxCustomPlaceholders';
-import sourceCodeDefault from '../demos/ComboboxDefault.tsx?raw';
-import sourceCodeWithValue from '../demos/ComboboxWithValue.tsx?raw';
 import sourceCodeCustomPlaceholders from '../demos/ComboboxCustomPlaceholders.tsx?raw';
+import { ComboboxDefault } from '../demos/ComboboxDefault';
+import sourceCodeDefault from '../demos/ComboboxDefault.tsx?raw';
+import { ComboboxWithValue } from '../demos/ComboboxWithValue';
+import sourceCodeWithValue from '../demos/ComboboxWithValue.tsx?raw';
+import { Combobox } from '../src/Combobox';
 
 const meta = {
   title: 'Inputs & Forms/Combobox',
@@ -75,6 +75,11 @@ const meta = {
       type: 'string',
       description: 'Additional class names to apply to the options list',
     },
+    onChange: {
+      table: {
+        disable: true,
+      },
+    },
   },
 } satisfies Meta<typeof Combobox>;
 
@@ -97,8 +102,8 @@ export const Playground: Story = {
   args: {
     options,
     value: '',
-    onChange: () => {},
     placeholder: 'Select framework...',
+    onChange: () => {},
   },
   // Removes this story from auto-generated documentation
   tags: ['!autodocs'],
@@ -109,12 +114,13 @@ export const Playground: Story = {
  * Shows a searchable dropdown with framework options.
  */
 export const Default: Story = {
-  render: args => <ComboboxDefault {...args} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  render: ({ onChange, ...args }) => <ComboboxDefault {...args} />,
   args: {
     options,
     value: '',
-    onChange: () => {},
     placeholder: 'Select framework...',
+    onChange: () => {},
   },
   parameters: {
     docs: {
@@ -131,12 +137,13 @@ export const Default: Story = {
  * Demonstrates how the component appears with an initial selection.
  */
 export const WithValue: Story = {
-  render: args => <ComboboxWithValue {...args} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  render: ({ onChange, ...args }) => <ComboboxWithValue {...args} />,
   args: {
     options,
     value: 'react',
-    onChange: () => {},
     placeholder: 'Select framework...',
+    onChange: () => {},
   },
   parameters: {
     docs: {
@@ -153,14 +160,15 @@ export const WithValue: Story = {
  * Shows how to customize the placeholder and search text.
  */
 export const CustomPlaceholders: Story = {
-  render: args => <ComboboxCustomPlaceholders {...args} />,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  render: ({ onChange, ...args }) => <ComboboxCustomPlaceholders {...args} />,
   args: {
     options,
     value: '',
-    onChange: () => {},
     placeholder: 'Choose your framework',
     searchPlaceholder: 'Search frameworks...',
     emptyMessage: 'No frameworks found',
+    onChange: () => {},
   },
   parameters: {
     docs: {

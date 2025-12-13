@@ -102,8 +102,7 @@ export const Playground: Story = {
  * Shows a searchable dropdown that allows multiple selections from a list of frameworks.
  */
 export const Default: Story = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: ({ onChange, ...args }) => <MultiSelectDefault {...args} />,
+  render: args => <MultiSelectDefault {...args} />,
   args: {
     options,
     value: [],
@@ -125,8 +124,7 @@ export const Default: Story = {
  * Demonstrates how the component appears with multiple items already selected.
  */
 export const WithSelection: Story = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: ({ onChange, ...args }) => <MultiSelectWithSelection {...args} />,
+  render: args => <MultiSelectWithSelection {...args} />,
   args: {
     options,
     value: ['react', 'vue'],
@@ -148,8 +146,7 @@ export const WithSelection: Story = {
  * Shows how to customize the placeholder and search text for better user guidance.
  */
 export const CustomPlaceholders: Story = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: ({ onChange, ...args }) => <MultiSelectCustomPlaceholders {...args} />,
+  render: args => <MultiSelectCustomPlaceholders {...args} />,
   args: {
     options,
     value: [],
@@ -173,8 +170,7 @@ export const CustomPlaceholders: Story = {
  * Demonstrates how the component handles a larger set of choices with scrolling.
  */
 export const WithManyOptions: Story = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: ({ onChange, ...args }) => <MultiSelectWithManyOptions {...args} />,
+  render: args => <MultiSelectWithManyOptions {...args} />,
   args: {
     options: [
       ...options,

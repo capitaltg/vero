@@ -18,13 +18,13 @@ export const ComboboxCustomPlaceholders = ({
   return (
     <div className="space-y-4">
       <Combobox
+        {...args}
         emptyMessage="No frameworks found"
         options={options}
         placeholder="Choose your framework"
         searchPlaceholder="Search frameworks..."
         value={value}
         onChange={setValue}
-        {...args}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

@@ -109,8 +109,7 @@ export const Playground: Story = {
  * Shows a searchable dropdown with framework options.
  */
 export const Default: Story = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: ({ onChange, ...args }) => <ComboboxDefault {...args} />,
+  render: args => <ComboboxDefault {...args} />,
   args: {
     options,
     value: '',
@@ -132,8 +131,7 @@ export const Default: Story = {
  * Demonstrates how the component appears with an initial selection.
  */
 export const WithValue: Story = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: ({ onChange, ...args }) => <ComboboxWithValue {...args} />,
+  render: args => <ComboboxWithValue {...args} />,
   args: {
     options,
     value: 'react',
@@ -155,8 +153,7 @@ export const WithValue: Story = {
  * Shows how to customize the placeholder and search text.
  */
 export const CustomPlaceholders: Story = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render: ({ onChange, ...args }) => <ComboboxCustomPlaceholders {...args} />,
+  render: args => <ComboboxCustomPlaceholders {...args} />,
   args: {
     options,
     value: '',

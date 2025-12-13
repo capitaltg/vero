@@ -18,11 +18,11 @@ export const MultiSelectDefault = ({
   return (
     <div className="space-y-4">
       <MultiSelect
+        {...args}
         options={options}
         placeholder="Select frameworks..."
         value={value}
         onChange={setValue}
-        {...args}
       />
       <p className="text-sm text-muted-foreground">
         Selected values: {value.length > 0 ? value.join(', ') : 'none'}

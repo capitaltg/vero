@@ -1,18 +1,32 @@
 import { useState, type KeyboardEvent } from 'react';
 import { Input } from '../src/Input';
 
+type LogEntry = {
+  timestamp: number;
+  key: string;
+  type: 'KeyDown' | 'KeyUp';
+};
+
 export const InputWithKeyboardEvents = () => {
-  const [keyDownLog, setKeyDownLog] = useState<string[]>([]);
-  const [keyUpLog, setKeyUpLog] = useState<string[]>([]);
+  const [keyDownLog, setKeyDownLog] = useState<LogEntry[]>([]);
+  const [keyUpLog, setKeyUpLog] = useState<LogEntry[]>([]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const logEntry = `KeyDown: ${e.key}`;
+    const logEntry: LogEntry = {
+      timestamp: Date.now(),
+      key: e.key,
+      type: 'KeyDown',
+    };
     setKeyDownLog(prev => [logEntry, ...prev].slice(0, 10));
     console.log('onKeyDown:', e);
   };
 
   const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
-    const logEntry = `KeyUp: ${e.key}`;
+    const logEntry: LogEntry = {
+      timestamp: Date.now(),
+      key: e.key,
+      type: 'KeyUp',
+    };
     setKeyUpLog(prev => [logEntry, ...prev].slice(0, 10));
     console.log('onKeyUp:', e);
   };
@@ -36,9 +50,9 @@ export const InputWithKeyboardEvents = () => {
             {keyDownLog.length === 0 ? (
               <div className="text-muted-foreground">No events yet...</div>
             ) : (
-              keyDownLog.map(log => (
-                <div key={log} className="text-xs">
-                  {log}
+              keyDownLog.map((log, idx) => (
+                <div key={`${log.timestamp}-${log.type}-${idx}`} className="text-xs">
+                  {log.type}: {log.key}
                 </div>
               ))
             )}
@@ -53,9 +67,9 @@ export const InputWithKeyboardEvents = () => {
             {keyUpLog.length === 0 ? (
               <div className="text-muted-foreground">No events yet...</div>
             ) : (
-              keyUpLog.map(log => (
-                <div key={log} className="text-xs">
-                  {log}
+              keyUpLog.map((log, idx) => (
+                <div key={`${log.timestamp}-${log.type}-${idx}`} className="text-xs">
+                  {log.type}: {log.key}
                 </div>
               ))
             )}

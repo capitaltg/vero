@@ -44,7 +44,7 @@ export const InputWithKeyboardEvents = () => {
         <div>
           <h3 className="mb-2 text-sm font-semibold">onKeyDown Events (last 10):</h3>
           <div
-            className="max-h-48 space-y-1 overflow-y-auto rounded-md bg-base-200 p-3 font-mono
+            className="max-h-56 space-y-1 overflow-y-auto rounded-md bg-base-200 p-3 font-mono
               text-xs"
           >
             {keyDownLog.length === 0 ? (
@@ -61,7 +61,7 @@ export const InputWithKeyboardEvents = () => {
         <div>
           <h3 className="mb-2 text-sm font-semibold">onKeyUp Events (last 10):</h3>
           <div
-            className="max-h-48 space-y-1 overflow-y-auto rounded-md bg-base-200 p-3 font-mono
+            className="max-h-56 space-y-1 overflow-y-auto rounded-md bg-base-200 p-3 font-mono
               text-xs"
           >
             {keyUpLog.length === 0 ? (

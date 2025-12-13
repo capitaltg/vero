@@ -21,6 +21,9 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
       className,
       zIndex,
       isDisabled,
+      required,
+      name,
+      autoFocus,
       ...props
     },
     ref,
@@ -28,9 +31,10 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
     const resolvedZIndex = getZIndex('dropdown', zIndex);
 
     return (
-      <SelectRoot value={value} onValueChange={onChange}>
+      <SelectRoot name={name} required={required} value={value} onValueChange={onChange}>
         <SelectTrigger
           ref={ref}
+          autoFocus={autoFocus}
           className={cn('w-full justify-between', !value && 'text-muted-foreground', className)}
           isDisabled={isDisabled}
           {...props}

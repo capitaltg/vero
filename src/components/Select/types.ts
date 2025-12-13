@@ -6,8 +6,15 @@ export interface SelectOption {
   label: string;
 }
 
+// Pick form-related attributes from SelectHTMLAttributes that we want to support
+type SelectFormAttributes = Pick<
+  React.SelectHTMLAttributes<HTMLSelectElement>,
+  'name' | 'required' | 'autoFocus'
+>;
+
 export interface SelectProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'> {
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'>,
+    SelectFormAttributes {
   options: SelectOption[];
   value: string;
   onChange: (value: string) => void;
@@ -15,6 +22,20 @@ export interface SelectProps
   className?: string;
   zIndex?: number;
   isDisabled?: boolean;
+  /**
+   * The name attribute for form submission.
+   * This is required for the select value to be included in form data.
+   */
+  name?: string;
+  /**
+   * Whether the select is required for form validation.
+   * When true, the form cannot be submitted without a selection.
+   */
+  required?: boolean;
+  /**
+   * Automatically focuses the select when the page loads.
+   */
+  autoFocus?: boolean;
 }
 
 // TODO: Remove when removing SingleSelect component

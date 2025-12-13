@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Select } from '../src/Select';
-import { SelectDefault } from '../demos/SelectDefault';
-import { SelectWithValue } from '../demos/SelectWithValue';
 import { SelectCustomPlaceholder } from '../demos/SelectCustomPlaceholder';
-import { SelectWithManyOptions } from '../demos/SelectWithManyOptions';
-import { SelectWithLongLabel } from '../demos/SelectWithLongLabel';
-import sourceCodeDefault from '../demos/SelectDefault.tsx?raw';
-import sourceCodeWithValue from '../demos/SelectWithValue.tsx?raw';
 import sourceCodeCustomPlaceholder from '../demos/SelectCustomPlaceholder.tsx?raw';
-import sourceCodeWithManyOptions from '../demos/SelectWithManyOptions.tsx?raw';
+import { SelectDefault } from '../demos/SelectDefault';
+import sourceCodeDefault from '../demos/SelectDefault.tsx?raw';
+import { SelectWithLongLabel } from '../demos/SelectWithLongLabel';
 import sourceCodeWithLongLabel from '../demos/SelectWithLongLabel.tsx?raw';
+import { SelectWithManyOptions } from '../demos/SelectWithManyOptions';
+import sourceCodeWithManyOptions from '../demos/SelectWithManyOptions.tsx?raw';
+import { SelectWithValue } from '../demos/SelectWithValue';
+import sourceCodeWithValue from '../demos/SelectWithValue.tsx?raw';
+import { Select } from '../src/Select';
 
 const meta = {
   title: 'Inputs & Forms/Select',
@@ -35,6 +35,28 @@ const meta = {
       control: 'text',
       description: 'Placeholder text when no value is selected',
       type: { name: 'string', required: false },
+    },
+    name: {
+      control: 'text',
+      description:
+        'The name attribute for form submission. This is required for the select value to be included in form data.',
+      type: { name: 'string', required: false },
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    required: {
+      control: 'boolean',
+      description:
+        'Whether the select is required for form validation. When true, the form cannot be submitted without a selection.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
     },
   },
   tags: ['autodocs'],

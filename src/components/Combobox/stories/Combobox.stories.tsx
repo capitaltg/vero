@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Combobox } from '../src/Combobox';
-import { ComboboxDefault } from '../demos/ComboboxDefault';
-import { ComboboxWithValue } from '../demos/ComboboxWithValue';
 import { ComboboxCustomPlaceholders } from '../demos/ComboboxCustomPlaceholders';
-import sourceCodeDefault from '../demos/ComboboxDefault.tsx?raw';
-import sourceCodeWithValue from '../demos/ComboboxWithValue.tsx?raw';
 import sourceCodeCustomPlaceholders from '../demos/ComboboxCustomPlaceholders.tsx?raw';
+import { ComboboxDefault } from '../demos/ComboboxDefault';
+import sourceCodeDefault from '../demos/ComboboxDefault.tsx?raw';
+import { ComboboxWithValue } from '../demos/ComboboxWithValue';
+import sourceCodeWithValue from '../demos/ComboboxWithValue.tsx?raw';
+import { Combobox } from '../src/Combobox';
 
 const meta = {
   title: 'Inputs & Forms/Combobox',
@@ -97,8 +97,8 @@ export const Playground: Story = {
   args: {
     options,
     value: '',
-    onChange: () => {},
     placeholder: 'Select framework...',
+    onChange: () => {},
   },
   // Removes this story from auto-generated documentation
   tags: ['!autodocs'],
@@ -113,8 +113,8 @@ export const Default: Story = {
   args: {
     options,
     value: '',
-    onChange: () => {},
     placeholder: 'Select framework...',
+    onChange: () => {},
   },
   parameters: {
     docs: {
@@ -135,8 +135,8 @@ export const WithValue: Story = {
   args: {
     options,
     value: 'react',
-    onChange: () => {},
     placeholder: 'Select framework...',
+    onChange: () => {},
   },
   parameters: {
     docs: {
@@ -157,10 +157,10 @@ export const CustomPlaceholders: Story = {
   args: {
     options,
     value: '',
-    onChange: () => {},
     placeholder: 'Choose your framework',
     searchPlaceholder: 'Search frameworks...',
     emptyMessage: 'No frameworks found',
+    onChange: () => {},
   },
   parameters: {
     docs: {

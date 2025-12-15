@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MultiSelect } from '../src/MultiSelect';
-import { MultiSelectDefault } from '../demos/MultiSelectDefault';
-import { MultiSelectWithSelection } from '../demos/MultiSelectWithSelection';
 import { MultiSelectCustomPlaceholders } from '../demos/MultiSelectCustomPlaceholders';
-import { MultiSelectWithManyOptions } from '../demos/MultiSelectWithManyOptions';
-import sourceCodeDefault from '../demos/MultiSelectDefault.tsx?raw';
-import sourceCodeWithSelection from '../demos/MultiSelectWithSelection.tsx?raw';
 import sourceCodeCustomPlaceholders from '../demos/MultiSelectCustomPlaceholders.tsx?raw';
+import { MultiSelectDefault } from '../demos/MultiSelectDefault';
+import sourceCodeDefault from '../demos/MultiSelectDefault.tsx?raw';
+import { MultiSelectWithManyOptions } from '../demos/MultiSelectWithManyOptions';
 import sourceCodeWithManyOptions from '../demos/MultiSelectWithManyOptions.tsx?raw';
+import { MultiSelectWithSelection } from '../demos/MultiSelectWithSelection';
+import sourceCodeWithSelection from '../demos/MultiSelectWithSelection.tsx?raw';
+import { MultiSelect } from '../src/MultiSelect';
 
 const meta = {
   title: 'Inputs & Forms/MultiSelect',

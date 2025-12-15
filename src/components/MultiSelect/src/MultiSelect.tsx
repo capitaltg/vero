@@ -3,7 +3,7 @@ import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { buttonVariants } from '../../Button/constants';
 import {
   Command,
@@ -29,6 +29,9 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
       listClassName,
       zIndex,
       isDisabled = false,
+      name,
+      required,
+      autoFocus,
       ...props
     },
     ref,
@@ -37,6 +40,14 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
     const resolvedZIndex = getZIndex('dropdown', zIndex);
     const selectedLabels = value.map(v => options.find(opt => opt.value === v)?.label || v);
     const disabledProps = useAriaDisabled({ isDisabled });
+    const triggerRef = useRef<HTMLDivElement>(null);
+
+    // Handle autoFocus
+    useEffect(() => {
+      if (autoFocus && triggerRef.current) {
+        triggerRef.current.focus();
+      }
+    }, [autoFocus]);
 
     const renderTriggerContent = () => {
       if (value.length === 0) {
@@ -101,79 +112,95 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
     };
 
     return (
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          {/* Using div instead of button to avoid invalid button nesting (remove buttons are inside) */}
-          <div
-            ref={ref}
-            aria-expanded={open}
-            aria-haspopup="listbox"
-            className={cn(
-              styles.button,
-              buttonVariants({ variant: 'input' }),
-              styles.focusRing,
-              'flex h-auto min-h-[2.5rem] w-full items-stretch justify-between px-3 py-1.5',
-              className,
-            )}
-            role="button"
-            tabIndex={0}
-            onClick={evt => {
-              evt.stopPropagation();
-              if (!isDisabled) {
-                setOpen(!open);
-              }
-            }}
-            onKeyDown={handleTriggerKeyDown}
-            {...disabledProps}
-            {...props}
+      <>
+        {name || required ? (
+          <input name={name} required={required} type="hidden" value={value.join(',')} />
+        ) : null}
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            {/* Using div instead of button to avoid invalid button nesting (remove buttons are inside) */}
+            <div
+              ref={el => {
+                triggerRef.current = el;
+                // Handle both refs
+                if (typeof ref === 'function') {
+                  ref(el);
+                } else if (ref) {
+                  // @ts-expect-error - ref.current assignment works at runtime, same pattern as Textarea
+                  ref.current = el;
+                }
+              }}
+              aria-expanded={open}
+              aria-haspopup="listbox"
+              className={cn(
+                styles.button,
+                buttonVariants({ variant: 'input' }),
+                styles.focusRing,
+                'flex h-auto min-h-[2.5rem] w-full items-stretch justify-between px-3 py-1.5',
+                className,
+              )}
+              role="button"
+              tabIndex={0}
+              onClick={evt => {
+                evt.stopPropagation();
+                if (!isDisabled) {
+                  setOpen(!open);
+                }
+              }}
+              onKeyDown={handleTriggerKeyDown}
+              {...disabledProps}
+              {...props}
+            >
+              <div className="flex flex-1 text-left">{renderTriggerContent()}</div>
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 self-center opacity-50" />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent
+            align="start"
+            className="w-[--radix-popover-trigger-width] px-0 py-0"
+            zIndex={resolvedZIndex}
           >
-            <div className="flex flex-1 text-left">{renderTriggerContent()}</div>
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 self-center opacity-50" />
-          </div>
-        </PopoverTrigger>
-        <PopoverContent
-          align="start"
-          className="w-[--radix-popover-trigger-width] px-0 py-0"
-          zIndex={resolvedZIndex}
-        >
-          <Command>
-            <CommandInput placeholder={searchPlaceholder} />
-            <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
-              <CommandEmpty>{emptyMessage}</CommandEmpty>
-              <CommandGroup>
-                {options.map(option => (
-                  <CommandItem
-                    key={option.value}
-                    value={option.value}
-                    onSelect={() => {
-                      onChange(
-                        value.includes(option.value)
-                          ? value.filter(v => v !== option.value)
-                          : [...value, option.value],
-                      );
-                    }}
-                  >
-                    <div className="flex items-center">
-                      <div
-                        className={cn(
-                          `mr-2 flex h-4 w-4 items-center justify-center rounded-sm border
-                          border-primary-400`,
-                          value.includes(option.value) ? 'bg-primary-400 text-white' : 'opacity-50',
-                        )}
-                      >
-                        {value.includes(option.value) ? (
-                          <Check className="h-3 w-3" strokeWidth={3} />
-                        ) : null}
+            <Command>
+              <CommandInput placeholder={searchPlaceholder} />
+              <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
+                <CommandEmpty>{emptyMessage}</CommandEmpty>
+                <CommandGroup>
+                  {options.map(option => (
+                    <CommandItem
+                      key={option.value}
+                      value={option.value}
+                      onSelect={() => {
+                        onChange(
+                          value.includes(option.value)
+                            ? value.filter(v => v !== option.value)
+                            : [...value, option.value],
+                        );
+                      }}
+                    >
+                      <div className="flex items-center">
+                        <div
+                          className={cn(
+                            `mr-2 flex h-4 w-4 items-center justify-center rounded-sm border
+                            border-primary-400`,
+                            value.includes(option.value)
+                              ? 'bg-primary-400 text-white'
+                              : 'opacity-50',
+                          )}
+                        >
+                          {value.includes(option.value) ? (
+                            <Check className="h-3 w-3" strokeWidth={3} />
+                          ) : null}
+                        </div>
+                        {option.label}
                       </div>
-                      {option.label}
-                    </div>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </>
     );
   },
 );

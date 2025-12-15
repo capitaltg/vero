@@ -18,11 +18,11 @@ export const ComboboxWithValue = ({
   return (
     <div className="space-y-4">
       <Combobox
+        {...args}
         options={options}
         placeholder="Select framework..."
         value={value}
         onChange={setValue}
-        {...args}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

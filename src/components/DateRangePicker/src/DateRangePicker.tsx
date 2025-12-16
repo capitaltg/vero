@@ -20,6 +20,9 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       className,
       zIndex,
       isDisabled = false,
+      name,
+      required,
+      autoFocus,
       ...props
     },
     ref,
@@ -45,21 +48,32 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       if (day.getTime() === from.getTime()) return onChange({ from: undefined, to: undefined });
     };
 
+    // Format date range for form submission (ISO date format)
+    const formatDateRange = (range: { from?: Date; to?: Date }): string => {
+      if (!range.from) return '';
+      if (!range.to) return range.from.toISOString().split('T')[0];
+      return `${range.from.toISOString().split('T')[0]},${range.to.toISOString().split('T')[0]}`;
+    };
+
     return (
       <div className={cn('grid gap-2', className)}>
+        {name || required ? (
+          <input name={name} required={required} type="hidden" value={formatDateRange(value)} />
+        ) : null}
         <Popover>
           <PopoverTrigger asChild>
             <Button
               ref={ref}
+              autoFocus={autoFocus}
               className={cn(
                 'w-full justify-start px-3 text-left font-normal',
                 !value.from && !value.to && 'text-muted-foreground',
               )}
+              data-component="date-range-picker"
               id="date"
               isDisabled={isDisabled}
               variant="input"
               {...props}
-              data-component="date-range-picker"
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
               {(() => {

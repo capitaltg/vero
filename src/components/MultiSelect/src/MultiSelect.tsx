@@ -40,7 +40,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
     const resolvedZIndex = getZIndex('dropdown', zIndex);
     const selectedLabels = value.map(v => options.find(opt => opt.value === v)?.label || v);
     const disabledProps = useAriaDisabled({ isDisabled });
-    const triggerRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLDivElement | null>(null);
 
     // Handle autoFocus
     useEffect(() => {
@@ -121,14 +121,13 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
             {/* Using div instead of button to avoid invalid button nesting (remove buttons are inside) */}
             <div
               ref={el => {
-                triggerRef.current = el;
                 // Handle both refs
                 if (typeof ref === 'function') {
                   ref(el);
                 } else if (ref) {
-                  // @ts-expect-error - ref.current assignment works at runtime, same pattern as Textarea
                   ref.current = el;
                 }
+                triggerRef.current = el;
               }}
               aria-expanded={open}
               aria-haspopup="listbox"

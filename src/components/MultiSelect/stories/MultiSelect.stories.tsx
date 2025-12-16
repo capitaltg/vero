@@ -68,6 +68,38 @@ const meta = {
       type: 'string',
       description: 'Additional class names to apply to the options list',
     },
+    name: {
+      control: 'text',
+      description:
+        'The name attribute for form submission. This is required for the multi-select value to be included in form data.',
+      type: { name: 'string', required: false },
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    required: {
+      control: 'boolean',
+      description:
+        'Whether the multi-select is required for form validation. When true, the form cannot be submitted without at least one selection.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    autoFocus: {
+      control: 'boolean',
+      description: 'Automatically focuses the multi-select when the page loads.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
   },
 } satisfies Meta<typeof MultiSelect>;
 

@@ -31,6 +31,38 @@ const meta = {
     isDisabled: {
       control: 'boolean',
     },
+    name: {
+      control: 'text',
+      description:
+        'The name attribute for form submission. This is required for the tag input value to be included in form data.',
+      type: { name: 'string', required: false },
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    required: {
+      control: 'boolean',
+      description:
+        'Whether the tag input is required for form validation. When true, the form cannot be submitted without at least one tag.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    autoFocus: {
+      control: 'boolean',
+      description: 'Automatically focuses the tag input when the page loads.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
   },
   tags: ['!dev'], // This story will be hidden from the sidebar
 } satisfies Meta<typeof TagInput>;

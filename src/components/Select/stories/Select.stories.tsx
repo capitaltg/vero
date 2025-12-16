@@ -58,6 +58,16 @@ const meta = {
         },
       },
     },
+    autoFocus: {
+      control: 'boolean',
+      description: 'Automatically focuses the select when the page loads.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof Select>;

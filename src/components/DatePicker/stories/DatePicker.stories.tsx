@@ -46,6 +46,38 @@ const meta = {
       type: 'string',
       description: 'Additional class names to apply to the component',
     },
+    name: {
+      control: 'text',
+      description:
+        'The name attribute for form submission. This is required for the date picker value to be included in form data.',
+      type: { name: 'string', required: false },
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    required: {
+      control: 'boolean',
+      description:
+        'Whether the date picker is required for form validation. When true, the form cannot be submitted without a date selection.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    autoFocus: {
+      control: 'boolean',
+      description: 'Automatically focuses the date picker when the page loads.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
   },
 } satisfies Meta<typeof DatePicker>;
 

@@ -1,2 +1,7 @@
 export { Input } from './src/Input';
-export type { InputProps } from './types';
+export type {
+  InputProps,
+  TextTransform,
+  TextTransformFunction,
+  TextTransformPreset,
+} from './types';

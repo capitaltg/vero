@@ -3,6 +3,8 @@ import { InputWithKeyboardEvents } from '../demos/InputWithKeyboardEvents';
 import sourceCodeWithKeyboardEvents from '../demos/InputWithKeyboardEvents.tsx?raw';
 import { InputWithMask } from '../demos/InputWithMask';
 import sourceCodeWithMask from '../demos/InputWithMask.tsx?raw';
+import { InputWithRawValue } from '../demos/InputWithRawValue';
+import sourceCodeWithRawValue from '../demos/InputWithRawValue.tsx?raw';
 import { Input } from '../src/Input';
 
 const meta = {
@@ -231,6 +233,25 @@ export const WithMask: Story = {
     docs: {
       source: {
         code: sourceCodeWithMask,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Input with raw value extraction.
+ * Demonstrates how to access both the masked (formatted) value and the raw value
+ * (without mask literals) from the onChange event. The rawValue property is useful
+ * when you need to store or process the unformatted data while displaying the
+ * formatted value to users.
+ */
+export const WithRawValue: Story = {
+  render: () => <InputWithRawValue />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithRawValue,
         language: 'tsx',
       },
     },

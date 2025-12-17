@@ -3,8 +3,8 @@ import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as React from 'react';
 import { useRef } from 'react';
-import { InputProps } from '../types';
-import { applyMask, getMaskPattern, getRawLength } from '../utils/mask';
+import { InputChangeEvent, InputProps } from '../types';
+import { applyMask, getMaskPattern, getRawLength, removeMask } from '../utils/mask';
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, transform = 'none', mask, isDisabled = false, onChange, ...props }, ref) => {
@@ -13,7 +13,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Track the previous raw value length to detect deletion
     const prevRawLengthRef = useRef<number>(0);
 
-    const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
       let value = evt.target.value;
 
       // Apply mask if provided
@@ -46,9 +46,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       // Update the input value directly for immediate feedback
       evt.target.value = value;
 
+      // Extract raw value (without mask literals) if mask is provided
+      const rawValue = maskPattern ? removeMask(value, maskPattern) : value;
+
+      // Create extended event with rawValue property
+      const extendedEvt = evt as InputChangeEvent;
+      Object.defineProperty(extendedEvt, 'rawValue', {
+        value: rawValue,
+        writable: false,
+        enumerable: true,
+        configurable: false,
+      });
+
       // Call the onChange callback if it exists
       if (!onChange) return;
-      onChange(evt);
+      onChange(extendedEvt);
     };
 
     return (

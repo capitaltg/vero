@@ -1,15 +1,24 @@
-import { useState, type ChangeEvent } from 'react';
+import { useState } from 'react';
 import { Input } from '../src/Input';
+import type { InputChangeEvent } from '../types';
 
 export const InputWithMask = () => {
   const [phone, setPhone] = useState('');
+  const [phoneRaw, setPhoneRaw] = useState('');
   const [ssn, setSsn] = useState('');
+  const [ssnRaw, setSsnRaw] = useState('');
   const [creditCard, setCreditCard] = useState('');
+  const [creditCardRaw, setCreditCardRaw] = useState('');
   const [date, setDate] = useState('');
+  const [dateRaw, setDateRaw] = useState('');
   const [zipCode, setZipCode] = useState('');
+  const [zipCodeRaw, setZipCodeRaw] = useState('');
   const [time, setTime] = useState('');
+  const [timeRaw, setTimeRaw] = useState('');
   const [postalCa, setPostalCa] = useState('');
+  const [postalCaRaw, setPostalCaRaw] = useState('');
   const [custom, setCustom] = useState('');
+  const [customRaw, setCustomRaw] = useState('');
 
   return (
     <div className="space-y-4">
@@ -22,9 +31,14 @@ export const InputWithMask = () => {
           mask="phone"
           placeholder="(555) 123-4567"
           value={phone}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
+          onChange={(e: InputChangeEvent) => {
+            setPhone(e.target.value);
+            setPhoneRaw(e.rawValue);
+          }}
         />
-        <p className="mt-1 text-xs text-muted-foreground">Value: {phone || '(empty)'}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Value: {phone || '(empty)'} — Raw: {phoneRaw || '(empty)'}
+        </p>
       </div>
 
       <div>
@@ -36,9 +50,14 @@ export const InputWithMask = () => {
           mask="ssn"
           placeholder="123-45-6789"
           value={ssn}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setSsn(e.target.value)}
+          onChange={(e: InputChangeEvent) => {
+            setSsn(e.target.value);
+            setSsnRaw(e.rawValue);
+          }}
         />
-        <p className="mt-1 text-xs text-muted-foreground">Value: {ssn || '(empty)'}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Value: {ssn || '(empty)'} — Raw: {ssnRaw || '(empty)'}
+        </p>
       </div>
 
       <div>
@@ -50,9 +69,14 @@ export const InputWithMask = () => {
           mask="credit-card"
           placeholder="1234 5678 9012 3456"
           value={creditCard}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setCreditCard(e.target.value)}
+          onChange={(e: InputChangeEvent) => {
+            setCreditCard(e.target.value);
+            setCreditCardRaw(e.rawValue);
+          }}
         />
-        <p className="mt-1 text-xs text-muted-foreground">Value: {creditCard || '(empty)'}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Value: {creditCard || '(empty)'} — Raw: {creditCardRaw || '(empty)'}
+        </p>
       </div>
 
       <div>
@@ -64,9 +88,14 @@ export const InputWithMask = () => {
           mask="date-us"
           placeholder="MM/DD/YYYY"
           value={date}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setDate(e.target.value)}
+          onChange={(e: InputChangeEvent) => {
+            setDate(e.target.value);
+            setDateRaw(e.rawValue);
+          }}
         />
-        <p className="mt-1 text-xs text-muted-foreground">Value: {date || '(empty)'}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Value: {date || '(empty)'} — Raw: {dateRaw || '(empty)'}
+        </p>
       </div>
 
       <div>
@@ -78,9 +107,14 @@ export const InputWithMask = () => {
           mask="zip-code-us"
           placeholder="12345-6789"
           value={zipCode}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setZipCode(e.target.value)}
+          onChange={(e: InputChangeEvent) => {
+            setZipCode(e.target.value);
+            setZipCodeRaw(e.rawValue);
+          }}
         />
-        <p className="mt-1 text-xs text-muted-foreground">Value: {zipCode || '(empty)'}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Value: {zipCode || '(empty)'} — Raw: {zipCodeRaw || '(empty)'}
+        </p>
       </div>
 
       <div>
@@ -92,9 +126,14 @@ export const InputWithMask = () => {
           mask="time-24"
           placeholder="23:59"
           value={time}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setTime(e.target.value)}
+          onChange={(e: InputChangeEvent) => {
+            setTime(e.target.value);
+            setTimeRaw(e.rawValue);
+          }}
         />
-        <p className="mt-1 text-xs text-muted-foreground">Value: {time || '(empty)'}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Value: {time || '(empty)'} — Raw: {timeRaw || '(empty)'}
+        </p>
       </div>
 
       <div>
@@ -106,9 +145,14 @@ export const InputWithMask = () => {
           mask="postal-ca"
           placeholder="A1A 1A1"
           value={postalCa}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setPostalCa(e.target.value)}
+          onChange={(e: InputChangeEvent) => {
+            setPostalCa(e.target.value);
+            setPostalCaRaw(e.rawValue);
+          }}
         />
-        <p className="mt-1 text-xs text-muted-foreground">Value: {postalCa || '(empty)'}</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Value: {postalCa || '(empty)'} — Raw: {postalCaRaw || '(empty)'}
+        </p>
       </div>
 
       <div>
@@ -120,10 +164,14 @@ export const InputWithMask = () => {
           mask="(999) aaa-****"
           placeholder="(123) abc-1234"
           value={custom}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setCustom(e.target.value)}
+          onChange={(e: InputChangeEvent) => {
+            setCustom(e.target.value);
+            setCustomRaw(e.rawValue);
+          }}
         />
         <p className="mt-1 text-xs text-muted-foreground">
-          Value: {custom || '(empty)'} (9=digit, a=letter, *=alphanumeric)
+          Value: {custom || '(empty)'} — Raw: {customRaw || '(empty)'} (9=digit, a=letter,
+          *=alphanumeric)
         </p>
       </div>
     </div>

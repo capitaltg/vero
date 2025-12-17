@@ -50,6 +50,20 @@ export type MaskPattern =
  */
 export type InputMask = MaskPattern | string;
 
+/**
+ * Extended change event that includes the raw value (without mask literals)
+ * when a mask is applied to the input.
+ */
+export interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement> {
+  /**
+   * The raw value with mask literals stripped out.
+   * Only present when a mask is applied; otherwise same as evt.target.value.
+   * Example: For mask "(999) 999-9999" and input "(555) 123-4567",
+   * rawValue would be "5551234567".
+   */
+  rawValue: string;
+}
+
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'disabled'> {
   transform?: TextTransform | TextTransform[];
@@ -61,5 +75,11 @@ export interface InputProps
    */
   mask?: InputMask;
   isDisabled?: boolean;
-  onChange?: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  /**
+   * Callback fired when the input value changes.
+   * The event includes a `rawValue` property containing the value without mask literals
+   * when a mask is applied.
+   * @param evt - The change event with an additional `rawValue` property
+   */
+  onChange?: (evt: InputChangeEvent) => void;
 }

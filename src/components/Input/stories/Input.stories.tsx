@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { InputWithKeyboardEvents } from '../demos/InputWithKeyboardEvents';
 import sourceCodeWithKeyboardEvents from '../demos/InputWithKeyboardEvents.tsx?raw';
+import { InputWithMask } from '../demos/InputWithMask';
+import sourceCodeWithMask from '../demos/InputWithMask.tsx?raw';
 import { Input } from '../src/Input';
 
 const meta = {
@@ -44,6 +46,50 @@ const meta = {
       table: {
         type: {
           summary: 'TextTransform | TextTransform[]',
+        },
+      },
+    },
+    mask: {
+      control: 'select',
+      options: [
+        // Phone
+        'phone',
+        'phone-us',
+        'phone-uk',
+        'phone-ca',
+        'phone-us-ext',
+        'phone-international',
+        // Identification
+        'ssn',
+        'tax-id',
+        'passport',
+        'license',
+        'a-number',
+        'z-number',
+        // Financial
+        'credit-card',
+        'credit-card-amex',
+        'routing-number',
+        'currency',
+        // Dates & Time
+        'date',
+        'date-us',
+        'date-iso',
+        'date-eu',
+        'time',
+        'time-24',
+        'datetime',
+        // Address
+        'zip-code',
+        'zip-code-us',
+        'postal-ca',
+        'postal-uk',
+      ],
+      description:
+        'Input mask pattern for formatting user input. Can be a predefined pattern or a custom pattern string. Custom patterns: "9" = digit, "a" = letter, "*" = alphanumeric, other chars = literal.',
+      table: {
+        type: {
+          summary: 'InputMask',
         },
       },
     },
@@ -169,6 +215,23 @@ export const WithKeyboardEvents: Story = {
     docs: {
       source: {
         code: sourceCodeWithKeyboardEvents,
+      },
+    },
+  },
+};
+
+/**
+ * Input with various mask patterns.
+ * Demonstrates how input masks format user input in real-time.
+ * Examples include phone numbers, SSN, credit cards, dates, and custom patterns.
+ */
+export const WithMask: Story = {
+  render: () => <InputWithMask />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithMask,
+        language: 'tsx',
       },
     },
   },

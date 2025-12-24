@@ -48,7 +48,6 @@ export const AutocompleteWithCustomRender = ({
         ]}
         placeholder="Select a framework..."
         renderOption={(option, isSelected) => {
-          const opt = option as AutocompleteOption;
           return (
             <div className="flex w-full items-center justify-between">
               <div className="flex flex-1 items-start gap-1">
@@ -60,13 +59,13 @@ export const AutocompleteWithCustomRender = ({
                 />
                 <div className="flex flex-1 flex-col">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">{opt.label}</span>
-                    {opt.featured ? (
+                    <span className="font-medium">{option.label}</span>
+                    {option.featured ? (
                       <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
                     ) : null}
                   </div>
-                  {opt.description ? (
-                    <span className="text-xs text-muted-foreground">{opt.description}</span>
+                  {option.description ? (
+                    <span className="text-xs text-muted-foreground">{option.description}</span>
                   ) : null}
                 </div>
               </div>

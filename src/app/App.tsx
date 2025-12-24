@@ -293,10 +293,12 @@ export const App: React.FC = () => {
           >
             <Autocomplete
               debounceMs={500}
+              labelKey="label"
               loadOptions={mockSearchLibraries}
               minSearch={1}
               placeholder="Search libraries..."
               value={searchQuery}
+              valueKey="value"
               onChange={setSearchQuery}
             />
           </FormItem>

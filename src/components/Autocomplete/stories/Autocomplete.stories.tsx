@@ -3,8 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Autocomplete } from '../src/Autocomplete';
 import { AutocompleteDefault } from '../demos/AutocompleteDefault';
 import { AutocompleteWithStaticOptions } from '../demos/AutocompleteWithStaticOptions';
+import { AutocompleteWithCustomRender } from '../demos/AutocompleteWithCustomRender';
 import sourceCodeDefault from '../demos/AutocompleteDefault.tsx?raw';
 import sourceCodeWithStaticOptions from '../demos/AutocompleteWithStaticOptions.tsx?raw';
+import sourceCodeWithCustomRender from '../demos/AutocompleteWithCustomRender.tsx?raw';
 
 const meta = {
   title: 'Data & Display/Autocomplete',
@@ -206,6 +208,54 @@ export const WithStaticOptions: Story = {
     docs: {
       source: {
         code: sourceCodeWithStaticOptions,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * An example of the Autocomplete component with a custom renderOption function.
+ * This demonstrates how to customize the appearance of each option, including showing
+ * additional information like descriptions and featured badges.
+ */
+export const WithCustomRender: Story = {
+  render: args => <AutocompleteWithCustomRender {...args} />,
+  args: {
+    options: [
+      {
+        value: 'react',
+        label: 'React',
+        description: 'A JavaScript library for building user interfaces',
+        featured: true,
+      },
+      {
+        value: 'vue',
+        label: 'Vue.js',
+        description: 'The Progressive JavaScript Framework',
+        featured: true,
+      },
+      {
+        value: 'angular',
+        label: 'Angular',
+        description: 'A platform for building mobile and desktop web applications',
+      },
+      {
+        value: 'svelte',
+        label: 'Svelte',
+        description: 'Cybernetically enhanced web apps',
+        featured: true,
+      },
+      { value: 'next', label: 'Next.js', description: 'The React Framework for Production' },
+    ],
+    value: '',
+    onChange: () => {},
+    placeholder: 'Select a framework...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithCustomRender,
         language: 'tsx',
       },
     },

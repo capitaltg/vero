@@ -157,10 +157,11 @@ type Story = StoryObj<typeof meta>;
 export const Playground: Story = {
   args: {
     loadOptions: mockSearchLibraries,
+    valueKey: 'value',
     value: '',
     onChange: () => {},
     placeholder: 'Search...',
-  },
+  } as unknown as Story['args'],
   // Removes this story from auto-generated documentation
   tags: ['!autodocs'],
 };
@@ -171,11 +172,11 @@ export const Playground: Story = {
  * Search for "React" to see results.
  */
 export const Default: Story = {
-  render: () => <AutocompleteDefault value="" onChange={() => {}} />,
-  args: {
-    value: '',
-    onChange: () => {},
-  },
+  render: () => (
+    <AutocompleteDefault labelKey="label" value="" valueKey="value" onChange={() => {}} />
+  ),
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
   parameters: {
     docs: {
       source: {
@@ -191,11 +192,11 @@ export const Default: Story = {
  * This shows how the component behaves with a predefined list of options.
  */
 export const WithStaticOptions: Story = {
-  render: () => <AutocompleteWithStaticOptions value="" onChange={() => {}} />,
-  args: {
-    value: '',
-    onChange: () => {},
-  },
+  render: () => (
+    <AutocompleteWithStaticOptions labelKey="label" value="" valueKey="value" onChange={() => {}} />
+  ),
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
   parameters: {
     docs: {
       source: {
@@ -212,11 +213,11 @@ export const WithStaticOptions: Story = {
  * additional information like descriptions and featured badges.
  */
 export const WithCustomRender: Story = {
-  render: () => <AutocompleteWithCustomRender value="" onChange={() => {}} />,
-  args: {
-    value: '',
-    onChange: () => {},
-  },
+  render: () => (
+    <AutocompleteWithCustomRender labelKey="label" value="" valueKey="value" onChange={() => {}} />
+  ),
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
   parameters: {
     docs: {
       source: {

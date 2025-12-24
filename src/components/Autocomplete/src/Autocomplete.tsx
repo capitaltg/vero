@@ -16,7 +16,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AutocompleteProps } from '../types';
 import { extractOptionFields } from './utils';
 
-function AutocompleteInner<T>(
+function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
   {
     loadOptions,
     options = [],
@@ -37,8 +37,10 @@ function AutocompleteInner<T>(
     required,
     autoFocus,
     renderOption,
+    valueKey,
+    labelKey,
     ...props
-  }: AutocompleteProps<T>,
+  }: AutocompleteProps<T, K, L>,
   ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   const [open, setOpen] = useState(false);
@@ -93,30 +95,52 @@ function AutocompleteInner<T>(
     return options
       .filter(option => {
         const opt = option as Record<string, unknown>;
+        const valueKeyStr = String(valueKey);
+        const labelKeyStr = String(labelKey);
         return (
-          (typeof opt.label === 'string' && opt.label.toLowerCase().includes(normalizedInput)) ||
-          (typeof opt.value === 'string' && opt.value.toLowerCase().includes(normalizedInput))
+          (typeof opt[labelKeyStr] === 'string' &&
+            String(opt[labelKeyStr]).toLowerCase().includes(normalizedInput)) ||
+          (typeof opt[valueKeyStr] === 'string' &&
+            String(opt[valueKeyStr]).toLowerCase().includes(normalizedInput))
         );
       })
       .slice(0, maxSuggestions);
-  }, [loadOptions, options, inputValue, maxSuggestions]);
+  }, [loadOptions, options, inputValue, maxSuggestions, valueKey, labelKey]);
 
   // Combined options for rendering
   const displayOptions = loadOptions ? asyncOptions : filteredStaticOptions;
 
+  // Convert value to string for comparison
+  const valueAsString = useMemo(() => {
+    if (value === '') return '';
+    return String(value);
+  }, [value]);
+
+  const valueKeyStr = String(valueKey);
+
   const selectedOption = useMemo(
-    () => displayOptions.find(option => (option as Record<string, unknown>).value === value),
-    [displayOptions, value],
+    () =>
+      displayOptions.find(
+        option => String((option as Record<string, unknown>)[valueKeyStr]) === valueAsString,
+      ),
+    [displayOptions, valueAsString, valueKeyStr],
   );
 
   const handleSelect = useCallback(
     (selectedValue: string) => {
-      onChange(selectedValue);
+      // Find the option and extract the typed value
+      const option = displayOptions.find(
+        opt => String((opt as Record<string, unknown>)[valueKeyStr]) === selectedValue,
+      );
+      if (option) {
+        const typedValue = (option as Record<string, unknown>)[valueKeyStr] as T[K];
+        onChange(typedValue);
+      }
       setOpen(false);
       setInputValue('');
       setHasSearched(false);
     },
-    [onChange],
+    [onChange, displayOptions, valueKeyStr],
   );
 
   const handleInputChange = useCallback(
@@ -145,7 +169,7 @@ function AutocompleteInner<T>(
   );
 
   const handleClear = useCallback(() => {
-    onChange('');
+    onChange('' as T[K]);
     setInputValue('');
     setAsyncOptions([]);
     setHasSearched(false);
@@ -154,7 +178,12 @@ function AutocompleteInner<T>(
   return (
     <>
       {name || required ? (
-        <input name={name} required={required} type="hidden" value={value} />
+        <input
+          name={name}
+          required={required}
+          type="hidden"
+          value={value === '' ? '' : String(value)}
+        />
       ) : null}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -173,15 +202,19 @@ function AutocompleteInner<T>(
             {...props}
           >
             <span className="truncate">
-              {selectedOption
-                ? (() => {
-                    const label = (selectedOption as Record<string, unknown>).label;
-                    return typeof label === 'string' ? label : value || placeholder;
-                  })()
-                : value || placeholder}
+              {(() => {
+                if (selectedOption) {
+                  const label = (selectedOption as Record<string, unknown>)[String(labelKey)];
+                  if (typeof label === 'string') {
+                    return label;
+                  }
+                  return value ? String(value) : placeholder;
+                }
+                return value ? String(value) : placeholder;
+              })()}
             </span>
             <div className="flex items-center gap-1">
-              {value || inputValue ? (
+              {(value !== '' && value) || inputValue ? (
                 <X
                   className="h-4 w-4 opacity-50 hover:opacity-100"
                   onClick={e => {
@@ -214,8 +247,14 @@ function AutocompleteInner<T>(
               <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
                 <CommandGroup>
                   {displayOptions.map(option => {
-                    const { value: optValue, label: optLabel } = extractOptionFields(option);
-                    const isSelected = Boolean(optValue && value && optValue === value);
+                    const { value: optValue, label: optLabel } = extractOptionFields(
+                      option,
+                      valueKey,
+                      labelKey,
+                    );
+                    const isSelected = Boolean(
+                      optValue && value !== '' && optValue === valueAsString,
+                    );
 
                     return (
                       <CommandItem
@@ -253,8 +292,8 @@ function AutocompleteInner<T>(
 const AutocompleteBase = React.forwardRef(AutocompleteInner);
 AutocompleteBase.displayName = 'Autocomplete';
 
-const Autocomplete = AutocompleteBase as unknown as <T>(
-  props: AutocompleteProps<T> & { ref?: React.ForwardedRef<HTMLButtonElement> },
+const Autocomplete = AutocompleteBase as unknown as <T, K extends keyof T, L extends keyof T>(
+  props: AutocompleteProps<T, K, L> & { ref?: React.ForwardedRef<HTMLButtonElement> },
 ) => React.ReactElement;
 
 export { Autocomplete };

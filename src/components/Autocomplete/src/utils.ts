@@ -1,21 +1,13 @@
 /**
  * Extracts the value and label from an option object, converting them to strings.
  */
-export function extractOptionFields<T>(option: T): { value: string; label: string } {
-  const opt = option as Record<string, unknown>;
-  const optionValue = opt.value;
-  const label = opt.label;
-
-  let optValue = '';
-  if (typeof optionValue === 'string') {
-    optValue = optionValue;
-  } else if (
-    typeof optionValue === 'number' ||
-    typeof optionValue === 'boolean' ||
-    typeof optionValue === 'bigint'
-  ) {
-    optValue = String(optionValue);
-  }
+export function extractOptionFields<T, K extends keyof T, L extends keyof T>(
+  option: T,
+  valueKey: K,
+  labelKey: L,
+): { value: string; label: string } {
+  const optionValue = option[valueKey];
+  const label = option[labelKey];
 
   let optLabel = '';
   if (typeof label === 'string') {
@@ -24,5 +16,8 @@ export function extractOptionFields<T>(option: T): { value: string; label: strin
     optLabel = String(label);
   }
 
-  return { value: optValue, label: optLabel };
+  return {
+    value: String(optionValue ?? ''),
+    label: optLabel,
+  };
 }

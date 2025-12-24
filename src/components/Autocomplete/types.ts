@@ -46,4 +46,10 @@ export interface AutocompleteProps<T>
    * Automatically focuses the autocomplete when the page loads.
    */
   autoFocus?: boolean;
+  /**
+   * Custom render function for each option.
+   * Receives the option of type T and returns a React node.
+   * If not provided, defaults to rendering a Check icon and the option label.
+   */
+  renderOption?: (option: T, isSelected: boolean) => React.ReactNode;
 }

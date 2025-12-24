@@ -14,6 +14,7 @@ import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AutocompleteProps } from '../types';
+import { extractOptionFields } from './utils';
 
 function AutocompleteInner<T>(
   {
@@ -35,6 +36,7 @@ function AutocompleteInner<T>(
     name,
     required,
     autoFocus,
+    renderOption,
     ...props
   }: AutocompleteProps<T>,
   ref: React.ForwardedRef<HTMLButtonElement>,
@@ -212,29 +214,9 @@ function AutocompleteInner<T>(
               <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
                 <CommandGroup>
                   {displayOptions.map(option => {
-                    const opt = option as Record<string, unknown>;
-                    const optionValue = opt.value;
-                    const label = opt.label;
-                    let optValue = '';
-                    if (typeof optionValue === 'string') {
-                      optValue = optionValue;
-                    } else if (
-                      typeof optionValue === 'number' ||
-                      typeof optionValue === 'boolean' ||
-                      typeof optionValue === 'bigint'
-                    ) {
-                      optValue = String(optionValue);
-                    }
-                    let optLabel = '';
-                    if (typeof label === 'string') {
-                      optLabel = label;
-                    } else if (
-                      typeof label === 'number' ||
-                      typeof label === 'boolean' ||
-                      typeof label === 'bigint'
-                    ) {
-                      optLabel = String(label);
-                    }
+                    const { value: optValue, label: optLabel } = extractOptionFields(option);
+                    const isSelected = Boolean(optValue && value && optValue === value);
+
                     return (
                       <CommandItem
                         key={optValue}
@@ -242,13 +224,19 @@ function AutocompleteInner<T>(
                         value={optValue}
                         onSelect={handleSelect}
                       >
-                        <Check
-                          className={cn(
-                            'mr-2 h-4 w-4',
-                            optValue && value && optValue === value ? 'opacity-100' : 'opacity-0',
-                          )}
-                        />
-                        {optLabel}
+                        {renderOption ? (
+                          renderOption(option, isSelected)
+                        ) : (
+                          <>
+                            <Check
+                              className={cn(
+                                'mr-2 h-4 w-4',
+                                isSelected ? 'opacity-100' : 'opacity-0',
+                              )}
+                            />
+                            {optLabel}
+                          </>
+                        )}
                       </CommandItem>
                     );
                   })}

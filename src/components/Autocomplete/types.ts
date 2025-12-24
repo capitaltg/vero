@@ -1,25 +1,30 @@
 import { ButtonHTMLAttributes } from 'react';
 
-export interface AutocompleteOption {
-  value: string;
-  label: string;
-}
-
 // Pick form-related attributes from SelectHTMLAttributes that we want to support
 type AutocompleteFormAttributes = Pick<
   React.SelectHTMLAttributes<HTMLSelectElement>,
   'name' | 'required' | 'autoFocus'
 >;
 
-export interface AutocompleteProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'>,
+export interface AutocompleteProps<T, K extends keyof T, L extends keyof T>
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled' | 'value'>,
     AutocompleteFormAttributes {
   // Async function to fetch options
-  loadOptions?: (inputValue: string) => Promise<AutocompleteOption[]>;
+  loadOptions?: (inputValue: string) => Promise<T[]>;
   // Static options (used if loadOptions is not provided)
-  options?: AutocompleteOption[];
-  value: string;
-  onChange: (value: string) => void;
+  options?: T[];
+  value: T[K] | '';
+  /**
+   * The key to use for the value property in option objects.
+   * Must be a key of T.
+   */
+  valueKey: K;
+  /**
+   * The key to use for the label property in option objects.
+   * Must be a key of T.
+   */
+  labelKey: L;
+  onChange: (value: T[K]) => void;
   placeholder?: string;
   emptyMessage?: string;
   className?: string;
@@ -37,6 +42,12 @@ export interface AutocompleteProps
   zIndex?: number;
   // Whether the component is disabled
   isDisabled?: boolean;
+  /**
+   * Custom render function for each option.
+   * Receives the option of type T and returns a React node.
+   * If not provided, defaults to rendering a Check icon and the option label.
+   */
+  renderOption?: (option: T, isSelected: boolean) => React.ReactNode;
   /**
    * The name attribute for form submission.
    * This is required for the autocomplete value to be included in form data.

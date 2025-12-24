@@ -1,23 +1,18 @@
 import { ButtonHTMLAttributes } from 'react';
 
-export interface AutocompleteOption {
-  value: string;
-  label: string;
-}
-
 // Pick form-related attributes from SelectHTMLAttributes that we want to support
 type AutocompleteFormAttributes = Pick<
   React.SelectHTMLAttributes<HTMLSelectElement>,
   'name' | 'required' | 'autoFocus'
 >;
 
-export interface AutocompleteProps
+export interface AutocompleteProps<T>
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'>,
     AutocompleteFormAttributes {
   // Async function to fetch options
-  loadOptions?: (inputValue: string) => Promise<AutocompleteOption[]>;
+  loadOptions?: (inputValue: string) => Promise<T[]>;
   // Static options (used if loadOptions is not provided)
-  options?: AutocompleteOption[];
+  options?: T[];
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;

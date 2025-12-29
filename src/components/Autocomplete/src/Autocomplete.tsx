@@ -134,7 +134,7 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
       );
       if (option) {
         const typedValue = (option as Record<string, unknown>)[valueKeyStr] as T[K];
-        onChange(typedValue);
+        onChange(typedValue, option);
       }
       setOpen(false);
       setInputValue('');
@@ -169,7 +169,7 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
   );
 
   const handleClear = useCallback(() => {
-    onChange('' as T[K]);
+    onChange('' as T[K], undefined);
     setInputValue('');
     setAsyncOptions([]);
     setHasSearched(false);

@@ -4,6 +4,8 @@ import { AutocompleteDefault } from '../demos/AutocompleteDefault';
 import sourceCodeDefault from '../demos/AutocompleteDefault.tsx?raw';
 import { AutocompleteWithCustomRender } from '../demos/AutocompleteWithCustomRender';
 import sourceCodeWithCustomRender from '../demos/AutocompleteWithCustomRender.tsx?raw';
+import { AutocompleteWithItemCallback } from '../demos/AutocompleteWithItemCallback';
+import sourceCodeWithItemCallback from '../demos/AutocompleteWithItemCallback.tsx?raw';
 import { AutocompleteWithStaticOptions } from '../demos/AutocompleteWithStaticOptions';
 import sourceCodeWithStaticOptions from '../demos/AutocompleteWithStaticOptions.tsx?raw';
 import { Autocomplete } from '../src/Autocomplete';
@@ -222,6 +224,27 @@ export const WithCustomRender: Story = {
     docs: {
       source: {
         code: sourceCodeWithCustomRender,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * An example of the Autocomplete component using the full item object from the onChange callback.
+ * This demonstrates how to access the complete option object (not just the value) when a selection
+ * is made, which is useful for displaying additional information or performing actions with the full data.
+ */
+export const WithItemCallback: Story = {
+  render: () => (
+    <AutocompleteWithItemCallback labelKey="name" value="" valueKey="id" onChange={() => {}} />
+  ),
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithItemCallback,
         language: 'tsx',
       },
     },

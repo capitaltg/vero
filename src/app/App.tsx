@@ -299,7 +299,7 @@ export const App: React.FC = () => {
               placeholder="Search libraries..."
               value={searchQuery}
               valueKey="value"
-              onChange={setSearchQuery}
+              onChange={newValue => setSearchQuery(newValue)}
             />
           </FormItem>
 

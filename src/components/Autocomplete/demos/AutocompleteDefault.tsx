@@ -22,7 +22,7 @@ export const AutocompleteDefault = ({
         placeholder="Search..."
         value={value}
         valueKey="value"
-        onChange={setValue}
+        onChange={newValue => setValue(newValue)}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
     </div>

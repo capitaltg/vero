@@ -1,16 +1,13 @@
 name: CI
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
-    branches:
-      - main
+    branches-ignore:
+      - gh-pages
 
 jobs:
-  lint:
-    name: Lint
+  ci_pipeline:
+    name: Run lint, tests, and build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,40 +25,11 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-  type-check:
-    name: Type Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: Run TypeScript type check
         run: npm run type-check
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - name: Run tests
+        run: npm run test
 
       - name: Build project
         run: npm run build
@@ -69,21 +37,3 @@ jobs:
       - name: Check bundle size
         run: npm run size
 
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm run test

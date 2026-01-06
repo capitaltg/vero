@@ -19,6 +19,8 @@ import { RadioGroupTileWithSelection } from '../demos/RadioGroupTileWithSelectio
 import sourceCodeTileWithSelection from '../demos/RadioGroupTileWithSelection.tsx?raw';
 import { RadioGroupVertical } from '../demos/RadioGroupVertical';
 import sourceCodeVertical from '../demos/RadioGroupVertical.tsx?raw';
+import { RadioGroupWithDescription } from '../demos/RadioGroupWithDescription';
+import sourceCodeWithDescription from '../demos/RadioGroupWithDescription.tsx?raw';
 import { RadioGroupWithSelection } from '../demos/RadioGroupWithSelection';
 import sourceCodeWithSelection from '../demos/RadioGroupWithSelection.tsx?raw';
 import { RadioGroup } from '../src/RadioGroup';
@@ -354,6 +356,43 @@ export const ThreeColumns: Story = {
     docs: {
       source: {
         code: sourceCodeThreeColumns,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * RadioGroup with descriptions in default variant.
+ * Shows radio options with descriptions below each label.
+ */
+export const WithDescription: Story = {
+  render: () => <RadioGroupWithDescription />,
+  args: {
+    options: [
+      {
+        value: 'option1',
+        label: 'Option 1',
+        description: 'This is a description for option 1 that provides additional context.',
+      },
+      {
+        value: 'option2',
+        label: 'Option 2',
+        description: 'This is a description for option 2 that provides additional context.',
+      },
+      {
+        value: 'option3',
+        label: 'Option 3',
+        description: 'This is a description for option 3 that provides additional context.',
+      },
+    ],
+    value: '',
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithDescription,
         language: 'tsx',
       },
     },

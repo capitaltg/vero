@@ -1,27 +1,29 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CheckboxGroup } from '../src/CheckboxGroup';
-import { CheckboxGroupDefault } from '../demos/CheckboxGroupDefault';
-import { CheckboxGroupWithSelection } from '../demos/CheckboxGroupWithSelection';
-import { CheckboxGroupHorizontal } from '../demos/CheckboxGroupHorizontal';
-import { CheckboxGroupVertical } from '../demos/CheckboxGroupVertical';
-import { CheckboxGroupTile } from '../demos/CheckboxGroupTile';
-import { CheckboxGroupTileWithSelection } from '../demos/CheckboxGroupTileWithSelection';
 import { CheckboxGroupButton } from '../demos/CheckboxGroupButton';
-import { CheckboxGroupButtonVertical } from '../demos/CheckboxGroupButtonVertical';
-import { CheckboxGroupButtonWithSelection } from '../demos/CheckboxGroupButtonWithSelection';
-import { CheckboxGroupSingleColumn } from '../demos/CheckboxGroupSingleColumn';
-import { CheckboxGroupThreeColumns } from '../demos/CheckboxGroupThreeColumns';
-import sourceCodeDefault from '../demos/CheckboxGroupDefault.tsx?raw';
-import sourceCodeWithSelection from '../demos/CheckboxGroupWithSelection.tsx?raw';
-import sourceCodeHorizontal from '../demos/CheckboxGroupHorizontal.tsx?raw';
-import sourceCodeVertical from '../demos/CheckboxGroupVertical.tsx?raw';
-import sourceCodeTile from '../demos/CheckboxGroupTile.tsx?raw';
-import sourceCodeTileWithSelection from '../demos/CheckboxGroupTileWithSelection.tsx?raw';
 import sourceCodeButton from '../demos/CheckboxGroupButton.tsx?raw';
+import { CheckboxGroupButtonVertical } from '../demos/CheckboxGroupButtonVertical';
 import sourceCodeButtonVertical from '../demos/CheckboxGroupButtonVertical.tsx?raw';
+import { CheckboxGroupButtonWithSelection } from '../demos/CheckboxGroupButtonWithSelection';
 import sourceCodeButtonWithSelection from '../demos/CheckboxGroupButtonWithSelection.tsx?raw';
+import { CheckboxGroupDefault } from '../demos/CheckboxGroupDefault';
+import sourceCodeDefault from '../demos/CheckboxGroupDefault.tsx?raw';
+import { CheckboxGroupHorizontal } from '../demos/CheckboxGroupHorizontal';
+import sourceCodeHorizontal from '../demos/CheckboxGroupHorizontal.tsx?raw';
+import { CheckboxGroupSingleColumn } from '../demos/CheckboxGroupSingleColumn';
 import sourceCodeSingleColumn from '../demos/CheckboxGroupSingleColumn.tsx?raw';
+import { CheckboxGroupThreeColumns } from '../demos/CheckboxGroupThreeColumns';
 import sourceCodeThreeColumns from '../demos/CheckboxGroupThreeColumns.tsx?raw';
+import { CheckboxGroupTile } from '../demos/CheckboxGroupTile';
+import sourceCodeTile from '../demos/CheckboxGroupTile.tsx?raw';
+import { CheckboxGroupTileWithSelection } from '../demos/CheckboxGroupTileWithSelection';
+import sourceCodeTileWithSelection from '../demos/CheckboxGroupTileWithSelection.tsx?raw';
+import { CheckboxGroupVertical } from '../demos/CheckboxGroupVertical';
+import sourceCodeVertical from '../demos/CheckboxGroupVertical.tsx?raw';
+import { CheckboxGroupWithDescription } from '../demos/CheckboxGroupWithDescription';
+import sourceCodeWithDescription from '../demos/CheckboxGroupWithDescription.tsx?raw';
+import { CheckboxGroupWithSelection } from '../demos/CheckboxGroupWithSelection';
+import sourceCodeWithSelection from '../demos/CheckboxGroupWithSelection.tsx?raw';
+import { CheckboxGroup } from '../src/CheckboxGroup';
 
 const meta = {
   title: 'Inputs & Forms/CheckboxGroup',
@@ -354,6 +356,48 @@ export const ThreeColumns: Story = {
     docs: {
       source: {
         code: sourceCodeThreeColumns,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * CheckboxGroup with descriptions in default variant.
+ * Shows checkbox options with descriptions below each label.
+ */
+export const WithDescription: Story = {
+  render: () => <CheckboxGroupWithDescription />,
+  args: {
+    options: [
+      {
+        id: 'option1',
+        label: 'Option 1',
+        description: 'This is a description for option 1 that provides additional context.',
+      },
+      {
+        id: 'option2',
+        label: 'Option 2',
+        description: 'This is a description for option 2 that provides additional context.',
+      },
+      {
+        id: 'option3',
+        label: 'Option 3',
+        description: 'This is a description for option 3 that provides additional context.',
+      },
+      {
+        id: 'option4',
+        label: 'Option 4',
+        description: 'This is a description for option 4 that provides additional context.',
+      },
+    ],
+    value: [],
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithDescription,
         language: 'tsx',
       },
     },

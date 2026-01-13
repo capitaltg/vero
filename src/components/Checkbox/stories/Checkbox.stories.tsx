@@ -1,19 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Checkbox } from '../src/Checkbox';
-import { CheckboxDefault } from '../demos/CheckboxDefault';
 import { CheckboxChecked } from '../demos/CheckboxChecked';
-import { CheckboxDisabled } from '../demos/CheckboxDisabled';
-import { CheckboxDisabledChecked } from '../demos/CheckboxDisabledChecked';
-import { CheckboxTile } from '../demos/CheckboxTile';
-import { CheckboxTileSelected } from '../demos/CheckboxTileSelected';
-import { CheckboxTileDisabled } from '../demos/CheckboxTileDisabled';
-import sourceCodeDefault from '../demos/CheckboxDefault.tsx?raw';
 import sourceCodeChecked from '../demos/CheckboxChecked.tsx?raw';
+import { CheckboxDefault } from '../demos/CheckboxDefault';
+import sourceCodeDefault from '../demos/CheckboxDefault.tsx?raw';
+import { CheckboxDisabled } from '../demos/CheckboxDisabled';
 import sourceCodeDisabled from '../demos/CheckboxDisabled.tsx?raw';
+import { CheckboxDisabledChecked } from '../demos/CheckboxDisabledChecked';
 import sourceCodeDisabledChecked from '../demos/CheckboxDisabledChecked.tsx?raw';
+import { CheckboxTile } from '../demos/CheckboxTile';
 import sourceCodeTile from '../demos/CheckboxTile.tsx?raw';
-import sourceCodeTileSelected from '../demos/CheckboxTileSelected.tsx?raw';
+import { CheckboxTileDisabled } from '../demos/CheckboxTileDisabled';
 import sourceCodeTileDisabled from '../demos/CheckboxTileDisabled.tsx?raw';
+import { CheckboxTileSelected } from '../demos/CheckboxTileSelected';
+import sourceCodeTileSelected from '../demos/CheckboxTileSelected.tsx?raw';
+import { CheckboxWithDescription } from '../demos/CheckboxWithDescription';
+import sourceCodeWithDescription from '../demos/CheckboxWithDescription.tsx?raw';
+import { Checkbox } from '../src/Checkbox';
 
 const meta = {
   title: 'Inputs & Forms/Checkbox',
@@ -196,6 +198,28 @@ export const TileDisabled: Story = {
     docs: {
       source: {
         code: sourceCodeTileDisabled,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Checkbox with description in default variant.
+ * Shows a standard checkbox with a description below the label.
+ */
+export const WithDescription: Story = {
+  render: () => <CheckboxWithDescription />,
+  args: {
+    label: 'Checkbox with description',
+    description:
+      'This is a helpful description that provides additional context about this checkbox option.',
+    id: 'checkbox-with-description',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithDescription,
         language: 'tsx',
       },
     },

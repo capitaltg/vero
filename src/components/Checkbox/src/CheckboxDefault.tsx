@@ -1,5 +1,5 @@
-import { DefaultFormControlLabel } from '@/components/shared/DefaultFormControlLabel';
-import { useAriaDisabled } from '@/hooks';
+import { Label } from '@/components/Label';
+import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
@@ -13,39 +13,64 @@ export const checkboxClasses =
 export const CheckboxDefault = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps
->(({ id, label, isChecked, isDisabled, className, 'aria-label': ariaLabel, ...props }, ref) => {
-  const disabledProps = useAriaDisabled({ isDisabled });
+>(
+  (
+    { id, label, description, isChecked, isDisabled, className, 'aria-label': ariaLabel, ...props },
+    ref,
+  ) => {
+    const disabledProps = useAriaDisabled({ isDisabled });
+    const { ariaProps, labelId, descriptionId } = useAriaLabelled({
+      label,
+      description,
+      'aria-label': ariaLabel,
+    });
 
-  return (
-    <div
-      className={cn(
-        'flex items-center gap-2',
-        isDisabled && 'cursor-not-allowed opacity-50 [&>*]:cursor-not-allowed',
-      )}
-    >
-      <CheckboxPrimitive.Root
-        ref={ref}
-        aria-label={ariaLabel}
-        checked={isChecked}
+    return (
+      <div
         className={cn(
-          styles.focusRingVisible,
-          styles.focusRingVisibleSm,
-          checkboxClasses,
-          className,
+          'flex items-start gap-2',
+          isDisabled && 'cursor-not-allowed opacity-50 [&>*]:cursor-not-allowed',
         )}
-        id={id}
-        {...props}
-        {...disabledProps}
       >
-        <CheckboxPrimitive.Indicator
-          className={cn('flex items-center justify-center text-current')}
+        <CheckboxPrimitive.Root
+          ref={ref}
+          checked={isChecked}
+          className={cn(
+            styles.focusRingVisible,
+            styles.focusRingVisibleSm,
+            checkboxClasses,
+            className,
+          )}
+          id={id}
+          {...props}
+          {...disabledProps}
+          {...ariaProps}
         >
-          <Check className="h-4 w-4" strokeWidth={3} />
-        </CheckboxPrimitive.Indicator>
-      </CheckboxPrimitive.Root>
-      <DefaultFormControlLabel id={id} label={label} />
-    </div>
-  );
-});
+          <CheckboxPrimitive.Indicator
+            className={cn('flex items-center justify-center text-current')}
+          >
+            <Check className="h-4 w-4" strokeWidth={3} />
+          </CheckboxPrimitive.Indicator>
+        </CheckboxPrimitive.Root>
+        <div className="mt-[3px] flex flex-col gap-1">
+          {label ? (
+            typeof label === 'string' ? (
+              <Label htmlFor={id} id={labelId}>
+                {label}
+              </Label>
+            ) : (
+              <div id={labelId}>{label}</div>
+            )
+          ) : null}
+          {description ? (
+            <p className="text-sm text-muted-foreground" id={descriptionId}>
+              {description}
+            </p>
+          ) : null}
+        </div>
+      </div>
+    );
+  },
+);
 
 CheckboxDefault.displayName = 'CheckboxDefault';

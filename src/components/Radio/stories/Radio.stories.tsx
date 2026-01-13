@@ -14,6 +14,8 @@ import { RadioTileDisabled } from '../demos/RadioTileDisabled';
 import sourceCodeTileDisabled from '../demos/RadioTileDisabled.tsx?raw';
 import { RadioTileSelected } from '../demos/RadioTileSelected';
 import sourceCodeTileSelected from '../demos/RadioTileSelected.tsx?raw';
+import { RadioWithDescription } from '../demos/RadioWithDescription';
+import sourceCodeWithDescription from '../demos/RadioWithDescription.tsx?raw';
 import { Radio } from '../src/Radio';
 
 const meta = {
@@ -212,6 +214,29 @@ export const TileDisabled: Story = {
     docs: {
       source: {
         code: sourceCodeTileDisabled,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Radio with description in default variant.
+ * Shows a standard radio button with a description below the label.
+ */
+export const WithDescription: Story = {
+  render: () => <RadioWithDescription />,
+  args: {
+    label: 'Radio option with description',
+    description:
+      'This is a helpful description that provides additional context about this radio option.',
+    id: 'radio-with-description',
+    value: 'option-with-description',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithDescription,
         language: 'tsx',
       },
     },

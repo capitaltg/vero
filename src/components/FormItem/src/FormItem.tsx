@@ -52,7 +52,7 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
               {labelSlot ? <div className="ml-2 inline-flex">{labelSlot}</div> : null}
             </div>
             {hintText ? (
-              <p className={styles.text.hint} id={hintId}>
+              <p className={cn(styles.text.hint, 'mb-0 mt-0')} id={hintId}>
                 {hintText}
               </p>
             ) : null}
@@ -60,7 +60,7 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
         ) : null}
         {children}
         {errorText ? (
-          <p className={styles.text.error} id={errorId}>
+          <p className={cn(styles.text.error, 'mb-0 mt-0')} id={errorId}>
             {errorText}
           </p>
         ) : null}

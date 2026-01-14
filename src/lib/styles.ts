@@ -39,8 +39,8 @@ export const styles = {
   text: {
     title: tw`text-3xl font-bold`,
     subtitle: tw`mt-2 text-base-400`,
-    hint: tw`mb-0 mt-0 text-sm text-base-400`,
-    error: tw`mb-0 mt-0 text-sm font-medium text-destructive`,
+    hint: tw`text-sm text-base-400`,
+    error: tw`text-sm font-medium text-destructive`,
     label: tw`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 peer-aria-disabled:cursor-not-allowed peer-aria-disabled:opacity-70`,
   },
 

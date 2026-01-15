@@ -14,3 +14,28 @@
     @apply bg-gray-50 text-gray-900;
   }
 }
+
+/* Styling for anchor tags inside headings */
+/* Target Storybook docs container for higher specificity */
+.sbdocs {
+  h2 {
+    @apply mt-12;
+  }
+
+  h3 {
+    @apply mt-8;
+  }
+
+  h1 a,
+  h2 a {
+    @apply mt-3;
+  }
+
+  h3 a {
+    @apply mt-2;
+  }
+
+  h3 + p {
+    @apply mt-2;
+  }
+}

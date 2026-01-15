@@ -16,6 +16,8 @@ const preview: Preview = {
         method: 'alphabetical',
         order: [
           'Getting Started',
+          ['Introduction', 'Design Tokens'],
+          'Design Tokens',
           'Overlays & Feedback',
           'Actions & Navigation',
           'Data & Display',

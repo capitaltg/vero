@@ -1,0 +1,429 @@
+import { Meta } from '@storybook/blocks';
+import {
+  ColorCard,
+  ColorGrid,
+  BorderRadiusCard,
+  BorderRadiusGrid,
+  AnimationGrid,
+} from './components';
+
+<Meta title="Getting Started/Design Tokens" />
+
+# Design Tokens
+
+Complete reference for all design tokens in the Vero component library. These tokens power the visual design system and can be customized to match your brand.
+
+## What are Design Tokens?
+
+Design tokens are the foundational design decisions of the Vero component library. They define colors, spacing, typography, border radius, and animations that create a consistent visual language across all components.
+
+All tokens are available through Tailwind CSS classes and can be customized via CSS custom properties. This allows for easy theming and customization while maintaining design consistency.
+
+### Available Token Categories
+
+- **Colors** - Base colors, semantic colors, and color variants for all UI states
+- **Border Radius** - Consistent rounded corner values for components
+- **Animations** - Predefined animations and keyframes for component interactions
+
+## Colors
+
+Vero uses a semantic color system with base colors and semantic variants. All colors are available as Tailwind classes (e.g., `bg-primary-400`) and CSS custom properties.
+
+### Base Colors
+
+Neutral grayscale colors used for backgrounds, borders, and text.
+
+<ColorGrid>
+  {[
+    { name: 'base-100', value: '#f7f6f7', var: '--color-base-100' },
+    { name: 'base-200', value: '#f0f0f0', var: '--color-base-200' },
+    { name: 'base-300', value: '#9b9d9f', var: '--color-base-300' },
+    { name: 'base-400', value: '#6b6b6b', var: '--color-base-400' },
+    { name: 'base-500', value: '#565c65', var: '--color-base-500' },
+    { name: 'base-600', value: '#3d4551', var: '--color-base-600' },
+    { name: 'base-700', value: '#1b1b1b', var: '--color-base-700' },
+  ].map(color => (
+    <ColorCard
+      key={color.name}
+      name={`base-${color.name.split('-')[1]}`}
+      value={color.value}
+      var={color.var}
+      tailwindClass={`bg-base-${color.name.split('-')[1]}`}
+    />
+  ))}
+</ColorGrid>
+
+### Primary Colors
+
+Primary brand colors for buttons, links, and interactive elements.
+
+<ColorGrid>
+  {[
+    { name: 'primary-100', value: '#eff6fb', var: '--color-primary-100' },
+    { name: 'primary-200', value: '#d9e8f6', var: '--color-primary-200' },
+    { name: 'primary-300', value: '#24a1ff', var: '--color-primary-300' },
+    { name: 'primary-400', value: '#005ea2', var: '--color-primary-400' },
+    { name: 'primary-500', value: '#1a4480', var: '--color-primary-500' },
+    { name: 'primary-600', value: '#162e51', var: '--color-primary-600' },
+    { name: 'primary-700', value: '#252f3e', var: '--color-primary-700' },
+  ].map(color => (
+    <ColorCard
+      key={color.name}
+      name={color.name}
+      value={color.value}
+      var={color.var}
+      tailwindClass={`bg-${color.name}`}
+    />
+  ))}
+</ColorGrid>
+
+### Success Colors
+
+Colors for success states, confirmations, and positive feedback.
+
+<ColorGrid>
+  {[
+    { name: 'success-100', value: '#ecf3ec', var: '--color-success-100' },
+    { name: 'success-200', value: '#dbebde', var: '--color-success-200' },
+    { name: 'success-300', value: '#70e17b', var: '--color-success-300' },
+    { name: 'success-400', value: '#00a91c', var: '--color-success-400' },
+    { name: 'success-500', value: '#008817', var: '--color-success-500' },
+    { name: 'success-600', value: '#216e1f', var: '--color-success-600' },
+    { name: 'success-700', value: '#154c21', var: '--color-success-700' },
+  ].map(color => (
+    <ColorCard
+      key={color.name}
+      name={color.name}
+      value={color.value}
+      var={color.var}
+      tailwindClass={`bg-${color.name}`}
+    />
+  ))}
+</ColorGrid>
+
+### Danger Colors
+
+Colors for error states, destructive actions, and critical alerts.
+
+<ColorGrid>
+  {[
+    { name: 'danger-100', value: '#f8eff1', var: '--color-danger-100' },
+    { name: 'danger-200', value: '#ffd7d7', var: '--color-danger-200' },
+    { name: 'danger-300', value: '#f2938c', var: '--color-danger-300' },
+    { name: 'danger-400', value: '#d83933', var: '--color-danger-400' },
+    { name: 'danger-500', value: '#b50909', var: '--color-danger-500' },
+    { name: 'danger-600', value: '#8b0a03', var: '--color-danger-600' },
+    { name: 'danger-700', value: '#4f1c24', var: '--color-danger-700' },
+  ].map(color => (
+    <ColorCard
+      key={color.name}
+      name={color.name}
+      value={color.value}
+      var={color.var}
+      tailwindClass={`bg-${color.name}`}
+    />
+  ))}
+</ColorGrid>
+
+### Warning Colors
+
+Colors for warning states and cautionary messages.
+
+<ColorGrid>
+  {[
+    { name: 'warning-100', value: '#faf3d1', var: '--color-warning-100' },
+    { name: 'warning-200', value: '#fee685', var: '--color-warning-200' },
+    { name: 'warning-300', value: '#ffbe2e', var: '--color-warning-300' },
+    { name: 'warning-400', value: '#e5a000', var: '--color-warning-400' },
+    { name: 'warning-500', value: '#c2850c', var: '--color-warning-500' },
+    { name: 'warning-600', value: '#936f38', var: '--color-warning-600' },
+    { name: 'warning-700', value: '#7a591a', var: '--color-warning-700' },
+  ].map(color => (
+    <ColorCard
+      key={color.name}
+      name={color.name}
+      value={color.value}
+      var={color.var}
+      tailwindClass={`bg-${color.name}`}
+    />
+  ))}
+</ColorGrid>
+
+### Info Colors
+
+Colors for informational messages and neutral feedback.
+
+<ColorGrid>
+  {[
+    { name: 'info-100', value: '#e7f6f8', var: '--color-info-100' },
+    { name: 'info-200', value: '#def7ff', var: '--color-info-200' },
+    { name: 'info-300', value: '#99deea', var: '--color-info-300' },
+    { name: 'info-400', value: '#00bde3', var: '--color-info-400' },
+    { name: 'info-500', value: '#009ec1', var: '--color-info-500' },
+    { name: 'info-600', value: '#0081a1', var: '--color-info-600' },
+    { name: 'info-700', value: '#00687d', var: '--color-info-700' },
+  ].map(color => (
+    <ColorCard
+      key={color.name}
+      name={color.name}
+      value={color.value}
+      var={color.var}
+      tailwindClass={`bg-${color.name}`}
+    />
+  ))}
+</ColorGrid>
+
+### Semantic Colors
+
+High-level semantic colors used throughout components for backgrounds, text, and UI elements.
+
+<ColorGrid>
+  {[
+    {
+      name: 'background',
+      value: '--background',
+      default: '#ffffff',
+      description: 'Main background color',
+    },
+    {
+      name: 'foreground',
+      value: '--foreground',
+      default: '#1a1a1a',
+      description: 'Main text color',
+    },
+    {
+      name: 'primary',
+      value: '--primary',
+      default: '#006699',
+      description: 'Primary brand color',
+    },
+    {
+      name: 'primary-foreground',
+      value: '--primary-foreground',
+      default: '#ffffff',
+      description: 'Text on primary background',
+    },
+    {
+      name: 'secondary',
+      value: '--secondary',
+      default: '#e6e6e6',
+      description: 'Secondary background',
+    },
+    {
+      name: 'secondary-foreground',
+      value: '--secondary-foreground',
+      default: '#1a1a1a',
+      description: 'Text on secondary background',
+    },
+    {
+      name: 'muted',
+      value: '--muted',
+      default: '#e6e6e6',
+      description: 'Muted background',
+    },
+    {
+      name: 'muted-foreground',
+      value: '--muted-foreground',
+      default: '#6f6f6f',
+      description: 'Muted text color',
+    },
+    {
+      name: 'accent',
+      value: '--accent',
+      default: '#ccecff',
+      description: 'Accent background',
+    },
+    {
+      name: 'accent-foreground',
+      value: '--accent-foreground',
+      default: '#006699',
+      description: 'Text on accent background',
+    },
+    {
+      name: 'destructive',
+      value: '--destructive',
+      default: '#a60000',
+      description: 'Destructive action color',
+    },
+    {
+      name: 'destructive-foreground',
+      value: '--destructive-foreground',
+      default: '#ffffff',
+      description: 'Text on destructive background',
+    },
+    {
+      name: 'card',
+      value: '--card',
+      default: '#ffffff',
+      description: 'Card background',
+    },
+    {
+      name: 'card-foreground',
+      value: '--card-foreground',
+      default: '#1a1a1a',
+      description: 'Text on card background',
+    },
+    {
+      name: 'popover',
+      value: '--popover',
+      default: '#ffffff',
+      description: 'Popover background',
+    },
+    {
+      name: 'popover-foreground',
+      value: '--popover-foreground',
+      default: '#1a1a1a',
+      description: 'Text on popover background',
+    },
+    {
+      name: 'input',
+      value: '--input',
+      default: '#e6e6e6',
+      description: 'Input border color',
+    },
+    {
+      name: 'ring',
+      value: '--ring',
+      default: '#006699',
+      description: 'Focus ring color',
+    },
+  ].map(color => (
+    <ColorCard
+      key={color.name}
+      name={color.name}
+      value={color.default}
+      var={color.value}
+      tailwindClass={`bg-${color.name}`}
+      description={color.description}
+    />
+  ))}
+</ColorGrid>
+
+### Link Colors
+
+Colors for links in various states (default, visited, hover, active).
+
+<ColorGrid>
+  {[
+    {
+      name: 'link',
+      value: '--link',
+      default: '#005ea2',
+      description: 'Default link color',
+    },
+    {
+      name: 'link-visited',
+      value: '--link-visited',
+      default: '#54278f',
+      description: 'Visited link color',
+    },
+    {
+      name: 'link-hover',
+      value: '--link-hover',
+      default: '#1a4480',
+      description: 'Hover state color',
+    },
+    {
+      name: 'link-active',
+      value: '--link-active',
+      default: '#162e51',
+      description: 'Active state color',
+    },
+  ].map(color => (
+    <ColorCard
+      key={color.name}
+      name={color.name}
+      value={color.default}
+      var={color.value}
+      tailwindClass={`text-${color.name}`}
+      description={color.description}
+    />
+  ))}
+</ColorGrid>
+
+## Border Radius
+
+Border radius values for rounded corners. Matches Tailwind v4.x sizing.
+
+<BorderRadiusGrid>
+  {[
+    { name: 'xs', value: '0.125rem', pixels: '2px' },
+    { name: 'sm', value: '0.25rem', pixels: '4px' },
+    { name: 'md', value: '0.375rem', pixels: '6px' },
+    { name: 'lg', value: '0.5rem', pixels: '8px' },
+    { name: 'xl', value: '0.75rem', pixels: '12px' },
+    { name: '2xl', value: '1rem', pixels: '16px' },
+    { name: '3xl', value: '1.5rem', pixels: '24px' },
+    { name: '4xl', value: '2rem', pixels: '32px' },
+  ].map(radius => (
+    <BorderRadiusCard
+      key={radius.name}
+      name={radius.name}
+      value={radius.value}
+      pixels={radius.pixels}
+    />
+  ))}
+</BorderRadiusGrid>
+
+## Animations
+
+Predefined animations and keyframes for component interactions.
+
+### Accordion Animations
+
+<AnimationGrid>
+  {[
+    {
+      title: 'accordion-down',
+      description: 'Animation for expanding accordion content',
+      duration: '0.2s',
+      easing: 'ease-out',
+      keyframe: 'accordion-down',
+      tailwind: 'animate-accordion-down',
+    },
+    {
+      title: 'accordion-up',
+      description: 'Animation for collapsing accordion content',
+      duration: '0.2s',
+      easing: 'ease-out',
+      keyframe: 'accordion-up',
+      tailwind: 'animate-accordion-up',
+    },
+  ].map(anim => (
+    <div key={anim.title}>
+      <h3 className="mb-2 text-xl font-semibold">{anim.title}</h3>
+      <p className="mb-2 text-sm text-muted-foreground">{anim.description}</p>
+      <div className="mb-2 space-y-1 text-xs">
+        <div className="font-mono !text-xs text-muted-foreground">Duration: {anim.duration}</div>
+        <div className="font-mono !text-xs text-muted-foreground">Easing: {anim.easing}</div>
+        <div className="font-mono !text-xs text-muted-foreground">Keyframe: {anim.keyframe}</div>
+      </div>
+      <code className="rounded bg-muted px-1 py-0.5">{anim.tailwind}</code>
+    </div>
+  ))}
+</AnimationGrid>
+
+### Keyframes
+
+<AnimationGrid>
+  {[
+    {
+      title: 'accordion-down',
+      description: 'Keyframe animation from height 0 to content height',
+      code: `from: height: 0
+to: height: var(--radix-accordion-content-height)`,
+    },
+    {
+      title: 'accordion-up',
+      description: 'Keyframe animation from content height to 0',
+      code: `from: height: var(--radix-accordion-content-height)
+to: height: 0`,
+    },
+  ].map(keyframe => (
+    <div key={keyframe.title}>
+      <h3 className="mb-2 text-xl font-semibold">{keyframe.title}</h3>
+      <p className="mb-2 text-sm text-muted-foreground">{keyframe.description}</p>
+      <code>{keyframe.code}</code>
+    </div>
+  ))}
+</AnimationGrid>

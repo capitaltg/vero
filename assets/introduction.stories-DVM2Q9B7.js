@@ -202,4 +202,4 @@ import{j as e}from"./jsx-runtime-BO8uF4Og.js";import{B as s}from"./Button-Bwlrdo
       disable: true
     }
   }
-}`,...(c=(n=d.parameters)==null?void 0:n.docs)==null?void 0:c.source}}};const k=["Welcome"];export{d as Welcome,k as __namedExportsOrder,B as default};
+}`,...(c=(n=d.parameters)==null?void 0:n.docs)==null?void 0:c.source}}};const k=["Introduction"];export{d as Introduction,k as __namedExportsOrder,B as default};

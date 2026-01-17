@@ -4,6 +4,7 @@ import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 import { DropdownButtonProps } from '../types';
+import { DropdownMenuItem } from './DropdownMenuItem';
 
 const DropdownButton = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
@@ -52,20 +53,7 @@ const DropdownButton = React.forwardRef<
                 className="my-1 h-px bg-muted"
               />
             ) : (
-              <DropdownMenuPrimitive.Item
-                key={item.label}
-                className={cn(
-                  `relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5
-                    text-sm outline-none transition-colors focus:bg-accent
-                    focus:text-accent-foreground data-[disabled]:pointer-events-none
-                    data-[disabled]:opacity-50`,
-                  item.onClick && 'cursor-pointer',
-                )}
-                onClick={item.onClick}
-              >
-                {item.icon ? <span className="mr-2">{item.icon}</span> : null}
-                {item.label}
-              </DropdownMenuPrimitive.Item>
+              <DropdownMenuItem key={item.label} item={item} />
             ),
           )}
         </DropdownMenuPrimitive.Content>

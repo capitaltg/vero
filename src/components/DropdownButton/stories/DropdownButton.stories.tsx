@@ -112,16 +112,37 @@ export const WithSeparators: Story = {
 /**
  * A dropdown menu with some disabled items.
  * Shows how to indicate that certain options are not currently available.
+ *
+ * Disabled items:
+ * - Remain focusable for keyboard navigation (ARIA compliant)
+ * - Are announced as disabled by screen readers via `aria-disabled`
+ * - Prevent all interactions (mouse, touch, keyboard activation)
+ * - Display with reduced opacity and a not-allowed cursor
+ * - Even if they have an `onClick` handler, it will not fire when disabled
  */
 export const WithDisabledItems: Story = {
   args: {
     children: 'Options',
     items: [
-      { label: 'Active Option', onClick: () => console.log('Active clicked') },
-      'separator',
-      { label: 'Disabled Option', isDisabled: true },
+      {
+        label: 'Active Option',
+        icon: <User className="h-4 w-4" />,
+        onClick: () => console.log('Active clicked'),
+      },
+      {
+        label: 'Disabled Option (no onClick)',
+        icon: <Settings className="h-4 w-4" />,
+        isDisabled: true,
+      },
+      {
+        label: "Disabled Option (with onClick - won't fire)",
+        icon: <Mail className="h-4 w-4" />,
+        isDisabled: true,
+        onClick: () => console.log('This will never fire'),
+      },
       'separator',
       { label: 'Another Active', onClick: () => console.log('Another clicked') },
+      { label: 'Disabled Text Only', isDisabled: true },
     ],
   },
 };

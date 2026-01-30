@@ -70,7 +70,7 @@ export const CheckboxTile = React.forwardRef<
           <div className="pointer-events-none space-y-1">
             {renderLabel()}
             {description ? (
-              <p className="text-sm text-muted-foreground" id={descriptionId}>
+              <p className="mb-0 mt-0 text-sm text-muted-foreground" id={descriptionId}>
                 {description}
               </p>
             ) : null}

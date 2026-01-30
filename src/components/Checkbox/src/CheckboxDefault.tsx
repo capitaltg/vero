@@ -63,7 +63,7 @@ export const CheckboxDefault = React.forwardRef<
             )
           ) : null}
           {description ? (
-            <p className="text-sm text-muted-foreground" id={descriptionId}>
+            <p className="mb-0 mt-0 text-sm text-muted-foreground" id={descriptionId}>
               {description}
             </p>
           ) : null}

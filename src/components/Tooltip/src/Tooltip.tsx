@@ -18,6 +18,7 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Root>,
       hasArrow = true,
       className,
       zIndex,
+      onPointerDownOutside,
       ...props
     },
     ref,
@@ -25,7 +26,7 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Root>,
     const resolvedZIndex = getZIndex('tooltip', zIndex);
 
     return (
-      <TooltipPrimitive.Root>
+      <TooltipPrimitive.Root {...props}>
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           ref={ref}
@@ -34,7 +35,17 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Root>,
           side={side}
           sideOffset={offset}
           style={{ zIndex: resolvedZIndex, ...props.style }}
-          {...props}
+          onPointerDownOutside={e => {
+            // Prevent closing if clicking on the trigger element
+            // The trigger is a sibling of the content, so we check if the target
+            // is within the trigger by looking for the data-radix-tooltip-trigger attribute
+            const target = e.target as HTMLElement;
+            if (target.closest('[data-radix-tooltip-trigger]')) {
+              e.preventDefault();
+            }
+            // Call the caller's handler if provided
+            onPointerDownOutside?.(e);
+          }}
         >
           {content}
           {hasArrow ? (

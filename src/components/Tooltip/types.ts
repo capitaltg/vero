@@ -12,4 +12,7 @@ export interface TooltipProps
   className?: string;
   style?: React.CSSProperties;
   zIndex?: number;
+  onPointerDownOutside?: ComponentPropsWithoutRef<
+    typeof TooltipPrimitive.Content
+  >['onPointerDownOutside'];
 }

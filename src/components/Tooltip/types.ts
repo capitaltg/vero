@@ -9,10 +9,10 @@ export interface TooltipProps
   align?: ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>['align'];
   offset?: number;
   hasArrow?: boolean;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   className?: string;
   style?: React.CSSProperties;
   zIndex?: number;
-  onPointerDownOutside?: ComponentPropsWithoutRef<
-    typeof TooltipPrimitive.Content
-  >['onPointerDownOutside'];
 }

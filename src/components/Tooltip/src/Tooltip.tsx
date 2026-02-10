@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import * as React from 'react';
+import { useCallback, useState } from 'react';
 import { TooltipProps } from '../types';
 
 const TooltipProvider = TooltipPrimitive.Provider;
@@ -18,16 +19,51 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Root>,
       hasArrow = true,
       className,
       zIndex,
-      onPointerDownOutside,
+      open: openProp,
+      defaultOpen,
+      onOpenChange,
       ...props
     },
     ref,
   ) => {
     const resolvedZIndex = getZIndex('tooltip', zIndex);
+    const [open, setOpen] = useState(defaultOpen ?? false);
+    const [hoveringTrigger, setHoveringTrigger] = useState(false);
+    const [hoveringContent, setHoveringContent] = useState(false);
+
+    const isControlled = openProp !== undefined;
+    const isOpen = isControlled ? openProp : open;
+
+    // Intercept Radix's open/close requests. When Radix tries to close the
+    // tooltip (e.g. on trigger click) but the pointer is still over the
+    // trigger or content, keep it open instead of allowing the close.
+    const handleOpenChange = useCallback(
+      (next: boolean) => {
+        if (!next && (hoveringTrigger || hoveringContent)) {
+          if (!isControlled) setOpen(true);
+          onOpenChange?.(true);
+          return;
+        }
+        if (!isControlled) setOpen(next);
+        onOpenChange?.(next);
+      },
+      [isControlled, hoveringTrigger, hoveringContent, onOpenChange],
+    );
 
     return (
-      <TooltipPrimitive.Root {...props}>
-        <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
+      <TooltipPrimitive.Root
+        {...props}
+        defaultOpen={undefined}
+        open={isOpen}
+        onOpenChange={handleOpenChange}
+      >
+        <TooltipPrimitive.Trigger
+          asChild
+          onMouseEnter={() => setHoveringTrigger(true)}
+          onMouseLeave={() => setHoveringTrigger(false)}
+        >
+          {children}
+        </TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           ref={ref}
           align={align}
@@ -35,17 +71,8 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Root>,
           side={side}
           sideOffset={offset}
           style={{ zIndex: resolvedZIndex, ...props.style }}
-          onPointerDownOutside={e => {
-            // Prevent closing if clicking on the trigger element
-            // The trigger is a sibling of the content, so we check if the target
-            // is within the trigger by looking for the data-radix-tooltip-trigger attribute
-            const target = e.target as HTMLElement;
-            if (target.closest('[data-radix-tooltip-trigger]')) {
-              e.preventDefault();
-            }
-            // Call the caller's handler if provided
-            onPointerDownOutside?.(e);
-          }}
+          onMouseEnter={() => setHoveringContent(true)}
+          onMouseLeave={() => setHoveringContent(false)}
         >
           {content}
           {hasArrow ? (

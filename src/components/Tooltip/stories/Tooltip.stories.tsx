@@ -69,6 +69,35 @@ const meta = {
         },
       },
     },
+    open: {
+      control: 'boolean',
+      description: 'Controlled open state of the tooltip',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    defaultOpen: {
+      control: 'boolean',
+      description: 'The initial open state when uncontrolled',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    onOpenChange: {
+      description: 'Callback fired when the open state changes',
+      table: {
+        type: {
+          summary: '(open: boolean) => void',
+        },
+      },
+    },
     zIndex: {
       control: 'number',
       description: 'Z-index for the tooltip',

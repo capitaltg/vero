@@ -32,7 +32,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'When multiple RadioGroups appear on the same page with overlapping option values, give each group a unique `id` so input IDs stay unique (each radio input ID becomes `{id}-{option.value}`). You can override the input ID for a single option by passing an optional `id` on that option.',
+          'RadioGroup lets users choose a single option from a list. Use it for mutually exclusive choices (e.g. payment method, shipping speed). Options support labels and optional descriptions; layout can be default, tile, or button style, with configurable columns and orientation.\n\nWhen multiple RadioGroups appear on the same page with overlapping option values, give each group a unique `id` so input IDs stay unique (each radio input ID becomes `{id}-{option.value}`). You can override the input ID for a single option by passing an optional `id` on that option.',
       },
     },
   },

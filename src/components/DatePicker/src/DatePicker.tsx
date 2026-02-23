@@ -48,6 +48,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
           <PopoverTrigger asChild>
             <Button
               ref={ref}
+              aria-required={required}
               autoFocus={autoFocus}
               className={cn(
                 'w-full justify-start px-3 text-left font-normal',

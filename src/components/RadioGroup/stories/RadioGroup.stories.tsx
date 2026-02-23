@@ -28,8 +28,23 @@ import { RadioGroup } from '../src/RadioGroup';
 const meta = {
   title: 'Inputs & Forms/RadioGroup',
   component: RadioGroup,
-  parameters: {},
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'When multiple RadioGroups appear on the same page with overlapping option values, give each group a unique `id` so input IDs stay unique (each radio input ID becomes `{id}-{option.value}`). You can override the input ID for a single option by passing an optional `id` on that option.',
+      },
+    },
+  },
   argTypes: {
+    id: {
+      control: 'text',
+      description:
+        'Optional ID for the group. Used to derive unique input IDs for each option when multiple groups share option values (e.g. `payment-method` → inputs get `payment-method-credit-card`, etc.).',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
     value: {
       control: 'text',
       description: 'Currently selected value',
@@ -42,7 +57,8 @@ const meta = {
     },
     options: {
       control: 'object',
-      description: 'Array of radio options',
+      description:
+        'Array of radio options. Each option: `value`, `label`, optional `description`, optional `id` (overrides the generated input ID when you need a specific DOM id).',
       type: { name: 'array', value: { name: 'object', value: {} }, required: true },
     },
     orientation: {

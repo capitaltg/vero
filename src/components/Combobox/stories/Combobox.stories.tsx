@@ -229,9 +229,18 @@ export const CustomPlaceholders: Story = {
  * The stored value is always the option’s `value` (e.g. country code). Try searching by
  * label (“United”) or by value (“US”).
  */
+const filteringOptions = [
+  { value: 'US', label: 'United States' },
+  { value: 'CA', label: 'Canada' },
+  { value: 'GB', label: 'United Kingdom' },
+  { value: 'MX', label: 'Mexico' },
+  { value: 'AU', label: 'Australia' },
+];
+
 export const Filtering: Story = {
   render: args => <ComboboxFiltering {...args} />,
   args: {
+    options: filteringOptions,
     value: '',
     onChange: () => {},
   },
@@ -246,12 +255,22 @@ export const Filtering: Story = {
 };
 
 /**
- * Custom `filter` prop: only show options whose label starts with the search string.
- * Use when you need different matching behavior (e.g. prefix-only, exact match).
+ * Custom `filter` prop: only show the option when the search exactly matches its value.
+ * Type a full country code (e.g. US, CA, GB) to see that single option; leave search empty
+ * to see all. Contrast with the default filter, which matches substring anywhere in value or label.
  */
+const customFilterOptions = [
+  { value: 'US', label: 'United States' },
+  { value: 'CA', label: 'Canada' },
+  { value: 'GB', label: 'United Kingdom' },
+  { value: 'MX', label: 'Mexico' },
+  { value: 'AU', label: 'Australia' },
+];
+
 export const CustomFilter: Story = {
   render: args => <ComboboxCustomFilter {...args} />,
   args: {
+    options: customFilterOptions,
     value: '',
     onChange: () => {},
   },

@@ -1,9 +1,12 @@
 import { HTMLAttributes } from 'react';
 
 export interface CheckboxOption {
+  /** Option identifier (used in value array). Consider standardizing with RadioGroup, which uses "value" for the option key. */
   id: string;
   label: string;
   description?: string;
+  /** Optional explicit id for the checkbox input. Defaults to `${groupId}-${id}` when CheckboxGroup has an id. */
+  inputId?: string;
 }
 
 export interface CheckboxGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {

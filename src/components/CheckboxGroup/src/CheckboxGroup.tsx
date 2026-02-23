@@ -12,6 +12,7 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
       onChange,
       className,
       columns = 2,
+      id: groupId,
       orientation = 'vertical',
       variant = 'default',
       ...props
@@ -21,24 +22,27 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
     const layoutClasses = useFormGroupLayout({ variant, orientation, columns });
 
     return (
-      <div ref={ref} className={cn(layoutClasses, className)} {...props}>
-        {options.map(option => (
-          <Checkbox
-            key={option.id}
-            description={option.description}
-            id={option.id}
-            isChecked={value.includes(option.id)}
-            label={option.label}
-            variant={variant}
-            onCheckedChange={isChecked => {
-              if (isChecked) {
-                onChange([...value, option.id]);
-              } else {
-                onChange(value.filter(id => id !== option.id));
-              }
-            }}
-          />
-        ))}
+      <div ref={ref} className={cn(layoutClasses, className)} id={groupId} {...props}>
+        {options.map(option => {
+          const inputId = option.inputId ?? (groupId ? `${groupId}-${option.id}` : option.id);
+          return (
+            <Checkbox
+              key={option.id}
+              description={option.description}
+              id={inputId}
+              isChecked={value.includes(option.id)}
+              label={option.label}
+              variant={variant}
+              onCheckedChange={isChecked => {
+                if (isChecked) {
+                  onChange([...value, option.id]);
+                } else {
+                  onChange(value.filter(id => id !== option.id));
+                }
+              }}
+            />
+          );
+        })}
       </div>
     );
   },

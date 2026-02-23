@@ -5,6 +5,8 @@ export interface RadioOption {
   value: string;
   label: string;
   description?: string;
+  /** Optional explicit id for the radio input. Defaults to `${groupId}-${value}` when RadioGroup has an id. */
+  id?: string;
 }
 
 export interface RadioGroupProps

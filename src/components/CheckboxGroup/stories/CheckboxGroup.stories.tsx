@@ -28,8 +28,23 @@ import { CheckboxGroup } from '../src/CheckboxGroup';
 const meta = {
   title: 'Inputs & Forms/CheckboxGroup',
   component: CheckboxGroup,
-  parameters: {},
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'CheckboxGroup lets users select zero, one, or many options from a list. Use it for multi-select choices (e.g. interests, notification preferences). Options support labels and optional descriptions; layout can be default, tile, or button style, with configurable columns and orientation.\n\nWhen multiple CheckboxGroups appear on the same page with overlapping option IDs, give each group a unique `id` so input IDs stay unique (each checkbox input ID becomes `{id}-{option.id}`). You can override the input ID for a single option by passing an optional `inputId` on that option.',
+      },
+    },
+  },
   argTypes: {
+    id: {
+      control: 'text',
+      description:
+        'Optional ID for the group. Used to derive unique input IDs for each option when multiple groups share option ids (e.g. `interests` → inputs get `interests-hiking`, etc.).',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
     value: {
       control: 'object',
       description: 'Array of selected checkbox IDs',
@@ -42,7 +57,8 @@ const meta = {
     },
     options: {
       control: 'object',
-      description: 'Array of checkbox options',
+      description:
+        'Array of checkbox options. Each option: `id` (used in value array), `label`, optional `description`, optional `inputId` (overrides the generated input ID when you need a specific DOM id).',
       type: { name: 'array', value: { name: 'object', value: {} }, required: true },
     },
     orientation: {

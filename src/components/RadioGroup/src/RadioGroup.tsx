@@ -16,6 +16,7 @@ const RadioGroup = React.forwardRef<
       onChange,
       className,
       columns = 2,
+      id: groupId,
       orientation = 'vertical',
       variant = 'default',
       ...props
@@ -28,21 +29,25 @@ const RadioGroup = React.forwardRef<
       <RadioGroupPrimitive.Root
         ref={ref}
         className={cn(layoutClasses, className)}
+        id={groupId}
         value={value}
         onValueChange={onChange}
         {...props}
       >
-        {options.map(option => (
-          <Radio
-            key={option.value}
-            description={option.description}
-            id={option.value}
-            isChecked={value === option.value}
-            label={option.label}
-            value={option.value}
-            variant={variant}
-          />
-        ))}
+        {options.map(option => {
+          const inputId = option.id ?? (groupId ? `${groupId}-${option.value}` : option.value);
+          return (
+            <Radio
+              key={option.value}
+              description={option.description}
+              id={inputId}
+              isChecked={value === option.value}
+              label={option.label}
+              value={option.value}
+              variant={variant}
+            />
+          );
+        })}
       </RadioGroupPrimitive.Root>
     );
   },

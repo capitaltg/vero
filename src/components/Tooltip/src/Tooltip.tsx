@@ -6,7 +6,12 @@ import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { TooltipProps } from '../types';
 
-const TooltipProvider = TooltipPrimitive.Provider;
+function TooltipProvider({
+  delayDuration = 0,
+  ...props
+}: Readonly<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Provider>>) {
+  return <TooltipPrimitive.Provider delayDuration={delayDuration} {...props} />;
+}
 
 const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Root>, TooltipProps>(
   (

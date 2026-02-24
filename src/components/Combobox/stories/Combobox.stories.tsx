@@ -1,8 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { ComboboxCustomFilter } from '../demos/ComboboxCustomFilter';
+import sourceCodeCustomFilter from '../demos/ComboboxCustomFilter.tsx?raw';
 import { ComboboxCustomPlaceholders } from '../demos/ComboboxCustomPlaceholders';
 import sourceCodeCustomPlaceholders from '../demos/ComboboxCustomPlaceholders.tsx?raw';
 import { ComboboxDefault } from '../demos/ComboboxDefault';
 import sourceCodeDefault from '../demos/ComboboxDefault.tsx?raw';
+import { ComboboxFiltering } from '../demos/ComboboxFiltering';
+import sourceCodeFiltering from '../demos/ComboboxFiltering.tsx?raw';
 import { ComboboxWithValue } from '../demos/ComboboxWithValue';
 import sourceCodeWithValue from '../demos/ComboboxWithValue.tsx?raw';
 import { Combobox } from '../src/Combobox';
@@ -10,7 +14,14 @@ import { Combobox } from '../src/Combobox';
 const meta = {
   title: 'Inputs & Forms/Combobox',
   component: Combobox,
-  parameters: {},
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Combobox is a searchable single-select dropdown. Users pick one option from a list; the trigger shows the selected option’s label, and the stored value is always the option’s `value`. Search filters the list by both label and value (case-insensitive substring) by default; you can pass a custom `filter` for different matching behavior. Use it when the list is long enough that typing to narrow options is helpful, and when you need a stable programmatic value (e.g. codes or IDs) while showing friendly labels.',
+      },
+    },
+  },
   tags: ['autodocs'],
   argTypes: {
     value: {
@@ -107,6 +118,15 @@ const meta = {
         },
       },
     },
+    filter: {
+      description:
+        "Custom filter function for search. Receives the option's value and search string. Return 0 to hide, positive number to show. When not provided, default matches by both value and label (case-insensitive substring).",
+      table: {
+        type: {
+          summary: '(value: string, search: string) => number',
+        },
+      },
+    },
   },
 } satisfies Meta<typeof Combobox>;
 
@@ -198,6 +218,66 @@ export const CustomPlaceholders: Story = {
     docs: {
       source: {
         code: sourceCodeCustomPlaceholders,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Default filtering: search matches both the option label and value (case-insensitive substring).
+ * The stored value is always the option’s `value` (e.g. country code). Try searching by
+ * label (“United”) or by value (“US”).
+ */
+const filteringOptions = [
+  { value: 'US', label: 'United States' },
+  { value: 'CA', label: 'Canada' },
+  { value: 'GB', label: 'United Kingdom' },
+  { value: 'MX', label: 'Mexico' },
+  { value: 'AU', label: 'Australia' },
+];
+
+export const Filtering: Story = {
+  render: args => <ComboboxFiltering {...args} />,
+  args: {
+    options: filteringOptions,
+    value: '',
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeFiltering,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Custom `filter` prop: only show the option when the search exactly matches its value.
+ * Type a full country code (e.g. US, CA, GB) to see that single option; leave search empty
+ * to see all. Contrast with the default filter, which matches substring anywhere in value or label.
+ */
+const customFilterOptions = [
+  { value: 'US', label: 'United States' },
+  { value: 'CA', label: 'Canada' },
+  { value: 'GB', label: 'United Kingdom' },
+  { value: 'MX', label: 'Mexico' },
+  { value: 'AU', label: 'Australia' },
+];
+
+export const CustomFilter: Story = {
+  render: args => <ComboboxCustomFilter {...args} />,
+  args: {
+    options: customFilterOptions,
+    value: '',
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeCustomFilter,
         language: 'tsx',
       },
     },

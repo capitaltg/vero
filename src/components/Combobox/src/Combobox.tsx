@@ -14,6 +14,16 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import React, { useState } from 'react';
 import { ComboboxProps } from '../types';
 
+/** Default filter: case-insensitive substring match on label and value (like Autocomplete). */
+function defaultFilter(value: string, search: string, keywords?: string[]): number {
+  const s = search.toLowerCase().trim();
+  if (s.length === 0) return 1;
+  if (value.toLowerCase().includes(s)) return 1;
+  const kws = keywords ?? [];
+  if (kws.some(kw => String(kw).toLowerCase().includes(s))) return 1;
+  return 0;
+}
+
 const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
   (
     {
@@ -23,6 +33,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
       placeholder = 'Select an item...',
       searchPlaceholder = 'Search items...',
       emptyMessage = 'No items found',
+      filter,
       className,
       listClassName,
       zIndex,
@@ -67,7 +78,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
             className="w-[--radix-popover-trigger-width] px-0 py-0"
             zIndex={resolvedZIndex}
           >
-            <Command>
+            <Command filter={filter ?? defaultFilter}>
               <CommandInput placeholder={searchPlaceholder} />
               <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
                 <CommandEmpty>{emptyMessage}</CommandEmpty>
@@ -75,6 +86,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
                   {options.map(option => (
                     <CommandItem
                       key={option.value}
+                      keywords={[option.label]}
                       value={option.value}
                       onSelect={(currentValue: string) => {
                         onChange(currentValue === value ? '' : currentValue);

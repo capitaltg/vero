@@ -7,6 +7,8 @@ import { ComboboxDefault } from '../demos/ComboboxDefault';
 import sourceCodeDefault from '../demos/ComboboxDefault.tsx?raw';
 import { ComboboxFiltering } from '../demos/ComboboxFiltering';
 import sourceCodeFiltering from '../demos/ComboboxFiltering.tsx?raw';
+import { ComboboxMinWidthPopover } from '../demos/ComboboxMinWidthPopover';
+import sourceCodeMinWidthPopover from '../demos/ComboboxMinWidthPopover.tsx?raw';
 import { ComboboxWithValue } from '../demos/ComboboxWithValue';
 import sourceCodeWithValue from '../demos/ComboboxWithValue.tsx?raw';
 import { Combobox } from '../src/Combobox';
@@ -85,6 +87,11 @@ const meta = {
     listClassName: {
       type: 'string',
       description: 'Additional class names to apply to the options list',
+    },
+    popoverClassName: {
+      type: 'string',
+      description:
+        'Additional class names for the popover content (e.g. min-w-64 or w-80 to set width or min-width)',
     },
     name: {
       control: 'text',
@@ -246,6 +253,10 @@ export const Filtering: Story = {
   },
   parameters: {
     docs: {
+      description: {
+        story:
+          'Default filtering: search matches both the option label and value (case-insensitive substring). The stored value is always the option’s `value` (e.g. country code). Try searching by label (“United”) or by value (“US”).',
+      },
       source: {
         code: sourceCodeFiltering,
         language: 'tsx',
@@ -276,8 +287,38 @@ export const CustomFilter: Story = {
   },
   parameters: {
     docs: {
+      description: {
+        story:
+          'Custom `filter` prop: only show the option when the search exactly matches its value. Type a full country code (e.g. US, CA, GB) to see that single option; leave search empty to see all. Contrast with the default filter, which matches substring anywhere in value or label.',
+      },
       source: {
         code: sourceCodeCustomFilter,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Uses a fixed-width trigger (demonstrates ellipsis when the label is too long). Popover
+ * uses `min-w-[--radix-popover-trigger-width]` so it is at least as wide as the trigger
+ * but can grow when option labels are longer - the dropdown expands to fit the content.
+ */
+export const MinWidthPopover: Story = {
+  render: args => <ComboboxMinWidthPopover {...args} />,
+  args: {
+    options: [],
+    value: '',
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Uses a fixed-width trigger, which demonstrates ellipsis when the label content is too long. The popover content uses minimum width equal to the trigger width, so it can grow when options are wider. Open the dropdown to see it expand for long labels.',
+      },
+      source: {
+        code: sourceCodeMinWidthPopover,
         language: 'tsx',
       },
     },

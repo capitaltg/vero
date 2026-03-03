@@ -28,6 +28,8 @@ export interface ComboboxProps
   filter?: (value: string, search: string) => number;
   className?: string;
   listClassName?: string;
+  /** Additional class names for the popover content (e.g. to set min-width or width). */
+  popoverClassName?: string;
   zIndex?: number;
   isDisabled?: boolean;
   /**

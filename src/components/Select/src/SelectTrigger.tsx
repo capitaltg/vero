@@ -9,7 +9,7 @@ import { SelectTriggerProps } from '../types';
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   SelectTriggerProps
->(({ className, children, isDisabled = false, ...props }, ref) => {
+>(({ className, children, isDisabled = false, hasValue = true, ...props }, ref) => {
   const disabledProps = useAriaDisabled({ isDisabled });
 
   return (
@@ -19,7 +19,8 @@ const SelectTrigger = React.forwardRef<
         styles.input,
         styles.focusRing,
         `min-w-0 items-center justify-between text-left [&>span]:min-w-0 [&>span]:flex-1
-        [&>span]:truncate [&>span]:text-muted-foreground [&>svg]:flex-shrink-0`,
+        [&>span]:truncate [&>svg]:flex-shrink-0`,
+        !hasValue && '[&>span]:text-muted-foreground',
         className,
       )}
       {...props}

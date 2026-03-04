@@ -3,6 +3,8 @@ import { SelectCustomPlaceholder } from '../demos/SelectCustomPlaceholder';
 import sourceCodeCustomPlaceholder from '../demos/SelectCustomPlaceholder.tsx?raw';
 import { SelectDefault } from '../demos/SelectDefault';
 import sourceCodeDefault from '../demos/SelectDefault.tsx?raw';
+import { SelectDisabled } from '../demos/SelectDisabled';
+import sourceCodeDisabled from '../demos/SelectDisabled.tsx?raw';
 import { SelectWithLongLabel } from '../demos/SelectWithLongLabel';
 import sourceCodeWithLongLabel from '../demos/SelectWithLongLabel.tsx?raw';
 import { SelectWithManyOptions } from '../demos/SelectWithManyOptions';
@@ -68,6 +70,16 @@ const meta = {
         },
       },
     },
+    isDisabled: {
+      control: 'boolean',
+      description: 'When true, the select cannot be opened or changed.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof Select>;
@@ -114,6 +126,29 @@ export const Default: Story = {
     docs: {
       source: {
         code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Select in disabled state.
+ * Shows disabled with placeholder and disabled with a selected value. The trigger is not interactive.
+ */
+export const Disabled: Story = {
+  render: () => <SelectDisabled />,
+  args: {
+    options,
+    value: '',
+    onChange: () => {},
+    placeholder: 'Select a fruit...',
+    isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabled,
         language: 'tsx',
       },
     },

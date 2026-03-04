@@ -14,6 +14,10 @@ export type UseAriaDisabledActive = {
   onTouchStart: (evt: React.TouchEvent) => void;
   onTouchEnd: (evt: React.TouchEvent) => void;
 
+  // pointer events (capture so we run before e.g. Radix open handlers)
+  onPointerDown: (evt: React.PointerEvent) => void;
+  onPointerDownCapture: (evt: React.PointerEvent) => void;
+
   // keyboard events
   onKeyDown: (evt: React.KeyboardEvent) => void;
   onKeyUp: (evt: React.KeyboardEvent) => void;

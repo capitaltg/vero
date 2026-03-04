@@ -1,5 +1,5 @@
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 export interface RadioOption {
   value: string;
@@ -9,16 +9,28 @@ export interface RadioOption {
   id?: string;
 }
 
-export interface RadioGroupProps
-  extends Omit<
-    ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
-    'onValueChange' | 'onChange'
-  > {
-  options: RadioOption[];
-  value: string;
-  onChange: (value: string) => void;
+type RadioGroupBaseProps = Omit<
+  ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
+  'onValueChange' | 'onChange'
+> & {
+  value?: string;
+  onChange?: (value: string) => void;
   className?: string;
   columns?: 1 | 2 | 3 | 4;
   orientation?: 'horizontal' | 'vertical';
   variant?: 'default' | 'tile' | 'button';
+};
+
+/** Use with an `options` array; RadioGroup renders Radio items and applies layout. */
+export interface RadioGroupPropsWithOptions extends RadioGroupBaseProps {
+  options: RadioOption[];
+  children?: never;
 }
+
+/** Use with Radio components as children when you need custom layout or structure. */
+export interface RadioGroupPropsWithChildren extends RadioGroupBaseProps {
+  options?: never;
+  children: ReactNode;
+}
+
+export type RadioGroupProps = RadioGroupPropsWithOptions | RadioGroupPropsWithChildren;

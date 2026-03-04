@@ -12,6 +12,7 @@ const RadioGroup = React.forwardRef<
   (
     {
       options,
+      children,
       value,
       onChange,
       className,
@@ -34,20 +35,22 @@ const RadioGroup = React.forwardRef<
         onValueChange={onChange}
         {...props}
       >
-        {options.map(option => {
-          const inputId = option.id ?? (groupId ? `${groupId}-${option.value}` : option.value);
-          return (
-            <Radio
-              key={option.value}
-              description={option.description}
-              id={inputId}
-              isChecked={value === option.value}
-              label={option.label}
-              value={option.value}
-              variant={variant}
-            />
-          );
-        })}
+        {options
+          ? options.map(option => {
+              const inputId = option.id ?? (groupId ? `${groupId}-${option.value}` : option.value);
+              return (
+                <Radio
+                  key={option.value}
+                  description={option.description}
+                  id={inputId}
+                  isChecked={value === option.value}
+                  label={option.label}
+                  value={option.value}
+                  variant={variant}
+                />
+              );
+            })
+          : children}
       </RadioGroupPrimitive.Root>
     );
   },

@@ -16,7 +16,7 @@ type RadioGroupBaseProps = Omit<
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
-  /** Number of columns for default variant (vertical orientation). Defaults to 1. */
+  /** Number of columns for default and tile variants (vertical orientation). Defaults to 1. */
   columns?: 1 | 2 | 3 | 4;
   orientation?: 'horizontal' | 'vertical';
   variant?: 'default' | 'tile' | 'button';

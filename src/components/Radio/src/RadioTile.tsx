@@ -4,6 +4,7 @@ import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import { Circle } from 'lucide-react';
 import * as React from 'react';
 import { RadioProps } from '../types';
+import { getCheckedProp } from '../utils';
 import { radioCircleClasses } from './RadioDefault';
 
 export const RadioTile = React.forwardRef<
@@ -46,9 +47,9 @@ export const RadioTile = React.forwardRef<
       >
         <RadioGroupPrimitive.Item
           ref={ref}
-          {...(isChecked !== undefined && { checked: isChecked })}
           className="absolute inset-0 opacity-0"
           id={id}
+          {...getCheckedProp(isChecked)}
           {...ariaProps}
           {...props}
           {...disabledProps}

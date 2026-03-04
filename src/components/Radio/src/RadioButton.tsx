@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import * as React from 'react';
 import { RadioProps } from '../types';
+import { getCheckedProp } from '../utils';
 
 export const RadioButton = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
@@ -48,9 +49,9 @@ export const RadioButton = React.forwardRef<
       >
         <RadioGroupPrimitive.Item
           ref={ref}
-          {...(isChecked !== undefined && { checked: isChecked })}
           className="absolute inset-0 opacity-0"
           id={id}
+          {...getCheckedProp(isChecked)}
           {...ariaProps}
           {...props}
           {...disabledProps}

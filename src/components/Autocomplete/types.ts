@@ -86,6 +86,10 @@ export interface AutocompleteProps<T, K extends keyof T, L extends keyof T>
    */
   errorMessage?: string;
   /**
+   * Additional class names for the popover content (e.g. to set min-width or width).
+   */
+  popoverClassName?: string;
+  /**
    * Z-index value for the popover dropdown.
    * If not provided, uses the default z-index from the theme.
    */

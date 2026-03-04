@@ -28,6 +28,7 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
     errorMessage = 'Failed to load options',
     className,
     listClassName,
+    popoverClassName,
     maxSuggestions = 10,
     debounceMs = 300,
     minSearch = 2,
@@ -229,7 +230,7 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
         </PopoverTrigger>
         <PopoverContent
           align="start"
-          className="w-[--radix-popover-trigger-width] px-0 py-0"
+          className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
           zIndex={resolvedZIndex}
         >
           <Command shouldFilter={false}>

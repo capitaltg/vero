@@ -11,7 +11,7 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
       value,
       onChange,
       className,
-      columns = 2,
+      columns = 1,
       id: groupId,
       orientation = 'vertical',
       variant = 'default',

@@ -15,7 +15,7 @@ export const ComboboxMinWidthPopover = (args: Partial<ComboboxProps>) => {
     <div className="space-y-4">
       <Combobox
         {...args}
-        className="w-[15rem]"
+        className="w-72"
         options={options}
         placeholder="Select..."
         popoverClassName="min-w-[50rem]"

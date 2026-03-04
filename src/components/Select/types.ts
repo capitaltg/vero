@@ -44,6 +44,8 @@ export type SingleSelectProps = SelectProps;
 export interface SelectTriggerProps
   extends Omit<ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>, 'disabled'> {
   isDisabled?: boolean;
+  /** When false, the trigger value span is shown with muted styling (placeholder state). */
+  hasValue?: boolean;
 }
 export interface SelectContentProps
   extends ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {

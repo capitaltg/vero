@@ -37,6 +37,16 @@ export function useAriaDisabled({
     [isDisabled],
   );
 
+  const handlePointerEvent = useCallback(
+    (evt: React.PointerEvent) => {
+      if (isDisabled) {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }
+    },
+    [isDisabled],
+  );
+
   const handleKeyboardEvent = useCallback(
     (evt: React.KeyboardEvent) => {
       if (isDisabled) {
@@ -110,6 +120,10 @@ export function useAriaDisabled({
     onClick: handleMouseEvent,
     onTouchStart: handleTouchEvent,
     onTouchEnd: handleTouchEvent,
+
+    // pointer events (capture so we run before e.g. Radix open handlers)
+    onPointerDown: handlePointerEvent,
+    onPointerDownCapture: handlePointerEvent,
 
     // keyboard events
     onKeyDown: handleKeyboardEvent,

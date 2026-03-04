@@ -35,7 +35,8 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
         <SelectTrigger
           ref={ref}
           autoFocus={autoFocus}
-          className={cn('w-full justify-between', !value && 'text-muted-foreground', className)}
+          className={cn('w-full justify-between', className)}
+          hasValue={!!value}
           isDisabled={isDisabled}
           {...props}
         >

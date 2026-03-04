@@ -27,6 +27,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
       emptyMessage = 'No items found',
       className,
       listClassName,
+      popoverClassName,
       zIndex,
       isDisabled = false,
       name,
@@ -156,7 +157,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
           </PopoverTrigger>
           <PopoverContent
             align="start"
-            className="w-[--radix-popover-trigger-width] px-0 py-0"
+            className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
             zIndex={resolvedZIndex}
           >
             <Command>

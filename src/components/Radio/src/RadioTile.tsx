@@ -36,8 +36,8 @@ export const RadioTile = React.forwardRef<
     return (
       <div
         className={cn(
-          'relative rounded-lg border-2 border-muted bg-popover px-4 py-4',
-          isChecked && 'border-primary-400',
+          'group relative rounded-lg border-2 border-muted bg-popover px-4 py-4',
+          'has-[[data-state=checked]]:border-primary-400',
           isDisabled
             ? 'cursor-not-allowed opacity-50 [&_*]:cursor-not-allowed'
             : 'cursor-pointer hover:bg-accent hover:text-accent-foreground',
@@ -46,7 +46,7 @@ export const RadioTile = React.forwardRef<
       >
         <RadioGroupPrimitive.Item
           ref={ref}
-          checked={isChecked}
+          {...(isChecked !== undefined && { checked: isChecked })}
           className="absolute inset-0 opacity-0"
           id={id}
           {...ariaProps}
@@ -58,14 +58,17 @@ export const RadioTile = React.forwardRef<
             className={cn(
               radioCircleClasses,
               'pointer-events-none mt-1',
-              isChecked && 'border-primary-400',
+              'group-has-[[data-state=checked]]:border-primary-400',
             )}
           >
-            {isChecked ? (
-              <div className="flex h-full w-full items-center justify-center">
-                <Circle className="h-3 w-3 fill-current text-primary-400" />
-              </div>
-            ) : null}
+            <div
+              className={cn(
+                'flex h-full w-full items-center justify-center opacity-0',
+                'group-has-[[data-state=checked]]:opacity-100',
+              )}
+            >
+              <Circle className="h-3 w-3 fill-current text-primary-400" />
+            </div>
           </div>
           <div className="pointer-events-none space-y-1">
             {renderLabel()}

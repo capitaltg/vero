@@ -34,13 +34,8 @@ export const RadioDefault = React.forwardRef<
       >
         <RadioGroupPrimitive.Item
           ref={ref}
-          checked={isChecked}
-          className={cn(
-            styles.focusRingVisible,
-            styles.focusRingVisibleSm,
-            radioCircleClasses,
-            className,
-          )}
+          {...(isChecked !== undefined && { checked: isChecked })}
+          className={cn(styles.focusRing, styles.focusRingSm, radioCircleClasses, className)}
           id={id}
           {...props}
           {...disabledProps}

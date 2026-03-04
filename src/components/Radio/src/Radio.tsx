@@ -14,7 +14,7 @@ const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>
       description,
       id,
       'aria-label': ariaLabel,
-      isChecked = false,
+      isChecked,
       isDisabled = false,
       variant = 'default',
       ...props

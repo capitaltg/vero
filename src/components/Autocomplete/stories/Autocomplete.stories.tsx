@@ -6,6 +6,8 @@ import { AutocompleteWithCustomRender } from '../demos/AutocompleteWithCustomRen
 import sourceCodeWithCustomRender from '../demos/AutocompleteWithCustomRender.tsx?raw';
 import { AutocompleteWithItemCallback } from '../demos/AutocompleteWithItemCallback';
 import sourceCodeWithItemCallback from '../demos/AutocompleteWithItemCallback.tsx?raw';
+import { AutocompleteMinWidthPopover } from '../demos/AutocompleteMinWidthPopover';
+import sourceCodeMinWidthPopover from '../demos/AutocompleteMinWidthPopover.tsx?raw';
 import { AutocompleteWithStaticOptions } from '../demos/AutocompleteWithStaticOptions';
 import sourceCodeWithStaticOptions from '../demos/AutocompleteWithStaticOptions.tsx?raw';
 import { Autocomplete } from '../src/Autocomplete';
@@ -245,6 +247,31 @@ export const WithItemCallback: Story = {
     docs: {
       source: {
         code: sourceCodeWithItemCallback,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Uses a fixed-width trigger (demonstrates ellipsis when the label is too long). Popover
+ * uses `popoverClassName` so it can be wider than the trigger - the dropdown expands to
+ * fit long option labels.
+ */
+export const MinWidthPopover: Story = {
+  render: () => (
+    <AutocompleteMinWidthPopover labelKey="label" value="" valueKey="value" onChange={() => {}} />
+  ),
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Uses a fixed-width trigger, which demonstrates ellipsis when the label content is too long. The popover content uses popoverClassName to set a minimum width, so it can grow when options are wider. Open the dropdown to see it expand for long labels.',
+      },
+      source: {
+        code: sourceCodeMinWidthPopover,
         language: 'tsx',
       },
     },

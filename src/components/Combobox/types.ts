@@ -30,7 +30,16 @@ export interface ComboboxProps
   listClassName?: string;
   /** Additional class names for the popover content (e.g. to set min-width or width). */
   popoverClassName?: string;
+  /**
+   * Z-index value for the popover dropdown.
+   * If not provided, uses the default z-index from the theme.
+   */
   zIndex?: number;
+  /**
+   * Whether the component is disabled.
+   * When true, the combobox cannot be interacted with.
+   * @default false
+   */
   isDisabled?: boolean;
   /**
    * The name attribute for form submission.

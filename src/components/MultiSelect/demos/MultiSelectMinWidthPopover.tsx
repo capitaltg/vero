@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Combobox } from '../src/Combobox';
-import { ComboboxProps } from '../types';
+import { MultiSelect } from '../src/MultiSelect';
+import { MultiSelectProps } from '../types';
 
 const options = [
   { value: '1', label: 'Short' },
@@ -9,20 +9,22 @@ const options = [
   { value: '4', label: 'Medium length' },
 ];
 
-export const ComboboxMinWidthPopover = (args: Partial<ComboboxProps>) => {
-  const [value, setValue] = useState('');
+export const MultiSelectMinWidthPopover = (args: Partial<MultiSelectProps>) => {
+  const [value, setValue] = useState<string[]>([]);
   return (
     <div className="space-y-4">
-      <Combobox
+      <MultiSelect
         {...args}
-        className="w-72"
+        className="w-[30rem]"
         options={options}
         placeholder="Select..."
         popoverClassName="min-w-[50rem]"
         value={value}
         onChange={setValue}
       />
-      <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>
+      <p className="text-sm text-muted-foreground">
+        Selected values: {value.length > 0 ? value.join(', ') : 'none'}
+      </p>
     </div>
   );
 };

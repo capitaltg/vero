@@ -3,6 +3,8 @@ import { MultiSelectCustomPlaceholders } from '../demos/MultiSelectCustomPlaceho
 import sourceCodeCustomPlaceholders from '../demos/MultiSelectCustomPlaceholders.tsx?raw';
 import { MultiSelectDefault } from '../demos/MultiSelectDefault';
 import sourceCodeDefault from '../demos/MultiSelectDefault.tsx?raw';
+import { MultiSelectMinWidthPopover } from '../demos/MultiSelectMinWidthPopover';
+import sourceCodeMinWidthPopover from '../demos/MultiSelectMinWidthPopover.tsx?raw';
 import { MultiSelectWithManyOptions } from '../demos/MultiSelectWithManyOptions';
 import sourceCodeWithManyOptions from '../demos/MultiSelectWithManyOptions.tsx?raw';
 import { MultiSelectWithSelection } from '../demos/MultiSelectWithSelection';
@@ -220,6 +222,32 @@ export const WithManyOptions: Story = {
     docs: {
       source: {
         code: sourceCodeWithManyOptions,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Uses a fixed-width trigger (demonstrates ellipsis when the label is too long). Popover
+ * uses `popoverClassName` so it can be wider than the trigger - the dropdown expands to
+ * fit long option labels.
+ */
+export const MinWidthPopover: Story = {
+  render: args => <MultiSelectMinWidthPopover {...args} />,
+  args: {
+    options: [],
+    value: [],
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Uses a fixed-width trigger, which demonstrates ellipsis when the label content is too long. The popover content uses popoverClassName to set a minimum width, so it can grow when options are wider. Open the dropdown to see it expand for long labels.',
+      },
+      source: {
+        code: sourceCodeMinWidthPopover,
         language: 'tsx',
       },
     },

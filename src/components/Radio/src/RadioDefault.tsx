@@ -6,6 +6,7 @@ import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import { Circle } from 'lucide-react';
 import * as React from 'react';
 import { RadioProps } from '../types';
+import { getCheckedProp } from '../utils';
 
 export const radioCircleClasses =
   'aspect-square h-5 w-5 rounded-full border-2 border-gray-500 text-primary-400 ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 data-[state=checked]:border-primary-400 ';
@@ -34,14 +35,9 @@ export const RadioDefault = React.forwardRef<
       >
         <RadioGroupPrimitive.Item
           ref={ref}
-          checked={isChecked}
-          className={cn(
-            styles.focusRingVisible,
-            styles.focusRingVisibleSm,
-            radioCircleClasses,
-            className,
-          )}
+          className={cn(styles.focusRing, styles.focusRingSm, radioCircleClasses, className)}
           id={id}
+          {...getCheckedProp(isChecked)}
           {...props}
           {...disabledProps}
           {...ariaProps}

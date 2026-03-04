@@ -19,6 +19,10 @@ import { RadioGroupTileWithSelection } from '../demos/RadioGroupTileWithSelectio
 import sourceCodeTileWithSelection from '../demos/RadioGroupTileWithSelection.tsx?raw';
 import { RadioGroupVertical } from '../demos/RadioGroupVertical';
 import sourceCodeVertical from '../demos/RadioGroupVertical.tsx?raw';
+import { RadioGroupWithChildren } from '../demos/RadioGroupWithChildren';
+import sourceCodeWithChildren from '../demos/RadioGroupWithChildren.tsx?raw';
+import { RadioGroupWithChildrenRef } from '../demos/RadioGroupWithChildrenRef';
+import sourceCodeWithChildrenRef from '../demos/RadioGroupWithChildrenRef.tsx?raw';
 import { RadioGroupWithDescription } from '../demos/RadioGroupWithDescription';
 import sourceCodeWithDescription from '../demos/RadioGroupWithDescription.tsx?raw';
 import { RadioGroupWithSelection } from '../demos/RadioGroupWithSelection';
@@ -32,7 +36,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'RadioGroup lets users choose a single option from a list. Use it for mutually exclusive choices (e.g. payment method, shipping speed). Options support labels and optional descriptions; layout can be default, tile, or button style, with configurable columns and orientation.\n\nWhen multiple RadioGroups appear on the same page with overlapping option values, give each group a unique `id` so input IDs stay unique (each radio input ID becomes `{id}-{option.value}`). You can override the input ID for a single option by passing an optional `id` on that option.',
+          'RadioGroup lets users choose a single option from a list. Use it for mutually exclusive choices (e.g. payment method, shipping speed).\n\n**Two usage patterns:**\n- **Options:** Pass an `options` array; RadioGroup renders Radio items and applies layout (default, tile, or button variant, columns, orientation).\n- **Children:** Pass **Radio** components as `children` when you need custom layout or structure; wrap them in RadioGroup so they receive the correct context.\n\nWhen multiple RadioGroups appear on the same page with overlapping option values, give each group a unique `id` so input IDs stay unique (each radio input ID becomes `{id}-{option.value}`). You can override the input ID for a single option by passing an optional `id` on that option.',
       },
     },
   },
@@ -372,6 +376,48 @@ export const ThreeColumns: Story = {
     docs: {
       source: {
         code: sourceCodeThreeColumns,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * RadioGroup with Radio components as children.
+ * Use this pattern when you need custom layout or structure instead of the options array.
+ */
+export const WithChildren: Story = {
+  render: () => <RadioGroupWithChildren />,
+  args: {
+    value: 'yes',
+    onChange: () => {},
+    children: undefined, // Explicitly add children prop to satisfy required prop
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithChildren,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * RadioGroup with Radio as children and a ref on one radio for focus control.
+ * Demonstrates using a ref to programmatically focus a specific radio (e.g. for accessibility or after validation).
+ */
+export const WithChildrenAndRef: Story = {
+  render: () => <RadioGroupWithChildrenRef />,
+  args: {
+    value: 'yes',
+    onChange: () => {},
+    children: undefined,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithChildrenRef,
         language: 'tsx',
       },
     },

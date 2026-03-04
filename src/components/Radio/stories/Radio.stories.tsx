@@ -21,7 +21,14 @@ import { Radio } from '../src/Radio';
 const meta = {
   title: 'Inputs & Forms/Radio',
   component: Radio,
-  parameters: {},
+  parameters: {
+    docs: {
+      description: {
+        component:
+          '**Radio** must always be used inside a **RadioGroup**. It does not work on its own—the group provides the selection state and context. For most use cases, use the **RadioGroup** component with an `options` array; use individual **Radio** components only when you need custom layout or structure and wrap them in `RadioGroup`.',
+      },
+    },
+  },
   argTypes: {
     isChecked: {
       control: 'boolean',

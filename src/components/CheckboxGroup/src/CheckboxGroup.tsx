@@ -1,6 +1,7 @@
 import { useFormGroupLayout } from '@/hooks';
 import { cn } from '@/lib/utils';
 import * as React from 'react';
+import { useId } from 'react';
 import { Checkbox } from '../../Checkbox';
 import { CheckboxGroupProps } from '../types';
 
@@ -20,11 +21,13 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
     ref,
   ) => {
     const layoutClasses = useFormGroupLayout({ variant, orientation, columns });
+    const generatedId = useId();
+    const computedId = groupId ?? generatedId;
 
     return (
       <div ref={ref} className={cn(layoutClasses, className)} id={groupId} {...props}>
         {options.map(option => {
-          const inputId = option.inputId ?? (groupId ? `${groupId}-${option.id}` : option.id);
+          const inputId = option.inputId ?? `${computedId}-${option.id}`;
           return (
             <Checkbox
               key={option.id}

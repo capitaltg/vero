@@ -2,6 +2,7 @@ import { useFormGroupLayout } from '@/hooks';
 import { cn } from '@/lib/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import * as React from 'react';
+import { useId } from 'react';
 import { Radio } from '../../Radio';
 import { RadioGroupProps } from '../types';
 
@@ -25,6 +26,8 @@ const RadioGroup = React.forwardRef<
     ref,
   ) => {
     const layoutClasses = useFormGroupLayout({ variant, orientation, columns });
+    const generatedId = useId();
+    const computedId = groupId ?? generatedId;
 
     return (
       <RadioGroupPrimitive.Root
@@ -37,7 +40,7 @@ const RadioGroup = React.forwardRef<
       >
         {options
           ? options.map(option => {
-              const inputId = option.id ?? (groupId ? `${groupId}-${option.value}` : option.value);
+              const inputId = option.id ?? `${computedId}-${option.value}`;
               return (
                 <Radio
                   key={option.value}

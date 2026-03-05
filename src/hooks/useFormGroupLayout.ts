@@ -20,21 +20,32 @@ export function useFormGroupLayout({
   orientation = 'vertical',
   columns = 2,
 }: UseFormGroupLayoutOptions = {}): string {
-  return cn(
-    variant === 'default' && orientation === 'horizontal' && 'flex flex-row gap-5',
-    variant === 'default' && orientation === 'vertical' && 'grid gap-3',
-    variant === 'default' && orientation === 'vertical' && columns === 1 && 'grid-cols-1',
-    variant === 'default' && orientation === 'vertical' && columns === 2 && 'grid-cols-2',
-    variant === 'default' && orientation === 'vertical' && columns === 3 && 'grid-cols-3',
-    variant === 'default' && orientation === 'vertical' && columns === 4 && 'grid-cols-4',
-    variant === 'tile' && 'grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3',
-    variant === 'button' &&
+  const isGridVariant = variant === 'default' || variant === 'tile';
+  const isButtonVariant = variant === 'button';
+
+  if (isButtonVariant) {
+    return cn(
       orientation === 'horizontal' &&
-      `flex flex-row gap-0 [&>*:first-child]:ml-0 [&>*:first-child]:rounded-l-sm
-      [&>*:last-child]:rounded-r-sm [&>*]:-ml-[1px] [&>*]:rounded-none`,
-    variant === 'button' &&
+        `flex flex-row gap-0 [&>*:first-child]:ml-0 [&>*:first-child]:rounded-l-sm
+        [&>*:last-child]:rounded-r-sm [&>*]:-ml-[1px] [&>*]:rounded-none`,
       orientation === 'vertical' &&
-      `flex flex-col gap-0 [&>*:first-child]:mt-0 [&>*:first-child]:rounded-t-sm
-      [&>*:last-child]:rounded-b-sm [&>*]:-mt-[1px] [&>*]:rounded-none`,
-  );
+        `flex flex-col gap-0 [&>*:first-child]:mt-0 [&>*:first-child]:rounded-t-sm
+        [&>*:last-child]:rounded-b-sm [&>*]:-mt-[1px] [&>*]:rounded-none`,
+    );
+  }
+
+  if (isGridVariant) {
+    return cn(
+      orientation === 'horizontal' && 'flex flex-row gap-5',
+      orientation === 'vertical' && 'grid gap-3',
+      orientation === 'vertical' && columns === 1 && 'grid-cols-1',
+      orientation === 'vertical' && columns === 2 && 'grid-cols-1 md:grid-cols-2',
+      orientation === 'vertical' && columns === 3 && 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+      orientation === 'vertical' &&
+        columns === 4 &&
+        'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+    );
+  }
+
+  return '';
 }

@@ -88,7 +88,7 @@ const meta = {
       control: 'radio',
       options: [1, 2, 3, 4],
       description:
-        'Number of columns for default variant (only applies when orientation is vertical)',
+        'Number of columns for default and tile variants (only applies when orientation is vertical). Defaults to 1.',
       type: { name: 'number', required: false },
     },
   },

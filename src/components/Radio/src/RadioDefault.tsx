@@ -49,7 +49,10 @@ export const RadioDefault = React.forwardRef<
         <div className="mt-[3px] flex flex-col">
           {label ? (
             <Label
-              className={cn(!isDisabled && 'cursor-pointer', isDisabled && 'cursor-not-allowed')}
+              className={cn(
+                !isDisabled && 'cursor-pointer',
+                isDisabled && 'pointer-events-none cursor-not-allowed',
+              )}
               htmlFor={id}
               id={labelId}
             >
@@ -58,7 +61,10 @@ export const RadioDefault = React.forwardRef<
           ) : null}
           {description ? (
             <Label
-              className={cn(!isDisabled && 'cursor-pointer', isDisabled && 'cursor-not-allowed')}
+              className={cn(
+                !isDisabled && 'cursor-pointer',
+                isDisabled && 'pointer-events-none cursor-not-allowed',
+              )}
               htmlFor={id}
             >
               <span className="inline-block pt-1 text-sm text-muted-foreground" id={descriptionId}>

@@ -7,7 +7,7 @@ export const CheckboxDefault = () => {
   return (
     <div className="space-y-4">
       <Checkbox
-        id="terms2"
+        id="checkbox-default"
         isChecked={isChecked}
         label="Accept terms and conditions"
         onCheckedChange={() => setIsChecked(!isChecked)}

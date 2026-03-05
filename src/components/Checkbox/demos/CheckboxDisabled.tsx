@@ -7,7 +7,7 @@ export const CheckboxDisabled = () => {
   return (
     <div className="space-y-4">
       <Checkbox
-        id="disabled"
+        id="checkbox-disabled"
         isChecked={isChecked}
         isDisabled={true}
         label="Disabled checkbox"

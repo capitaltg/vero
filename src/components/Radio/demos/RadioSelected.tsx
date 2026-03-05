@@ -11,7 +11,7 @@ export const RadioSelected = () => {
   return (
     <div className="space-y-4">
       <Radio
-        id="radio-2"
+        id="radio-selected"
         isChecked={isChecked}
         label="Selected radio"
         value="option-2"

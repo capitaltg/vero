@@ -46,20 +46,18 @@ export const RadioDefault = React.forwardRef<
             <Circle className="h-3 w-3 fill-current text-current" />
           </RadioGroupPrimitive.Indicator>
         </RadioGroupPrimitive.Item>
-        <div className="mt-[3px] flex flex-col gap-1">
+        <div className="mt-[3px] flex flex-col">
           {label ? (
-            typeof label === 'string' ? (
-              <Label htmlFor={id} id={labelId}>
-                {label}
-              </Label>
-            ) : (
-              <div id={labelId}>{label}</div>
-            )
+            <Label className="cursor-pointer" htmlFor={id} id={labelId}>
+              {label}
+            </Label>
           ) : null}
           {description ? (
-            <p className="mb-0 mt-0 text-sm text-muted-foreground" id={descriptionId}>
-              {description}
-            </p>
+            <Label className="cursor-pointer" htmlFor={id}>
+              <span className="inline-block pt-1 text-sm text-muted-foreground" id={descriptionId}>
+                {description}
+              </span>
+            </Label>
           ) : null}
         </div>
       </div>

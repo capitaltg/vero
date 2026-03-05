@@ -46,7 +46,7 @@ type Story = StoryObj<typeof meta>;
 export const Playground: Story = {
   args: {
     label: 'Accept terms and conditions',
-    id: 'terms',
+    id: 'checkbox-playground',
   },
   // Removes this story from auto-generated documentation
   tags: ['!autodocs'],
@@ -60,7 +60,7 @@ export const Default: Story = {
   render: () => <CheckboxDefault />,
   args: {
     label: 'Accept terms and conditions',
-    id: 'terms2',
+    id: 'checkbox-default',
   },
   parameters: {
     docs: {
@@ -80,7 +80,7 @@ export const Checked: Story = {
   render: () => <CheckboxChecked />,
   args: {
     label: 'Checked checkbox',
-    id: 'checked',
+    id: 'checkbox-checked',
     isChecked: true,
   },
   parameters: {
@@ -101,7 +101,7 @@ export const Disabled: Story = {
   render: () => <CheckboxDisabled />,
   args: {
     label: 'Disabled checkbox',
-    id: 'disabled',
+    id: 'checkbox-disabled',
     isDisabled: true,
   },
   parameters: {
@@ -122,7 +122,7 @@ export const DisabledChecked: Story = {
   render: () => <CheckboxDisabledChecked />,
   args: {
     label: 'Disabled checked checkbox',
-    id: 'disabled-checked',
+    id: 'checkbox-disabled-checked',
     isChecked: true,
     isDisabled: true,
   },

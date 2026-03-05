@@ -76,7 +76,7 @@ export const Default: Story = {
   render: () => <RadioDefault />,
   args: {
     label: 'Radio option',
-    id: 'radio-1',
+    id: 'radio-default',
     value: 'option-1',
   },
   parameters: {
@@ -97,7 +97,7 @@ export const Selected: Story = {
   render: () => <RadioSelected />,
   args: {
     label: 'Selected radio',
-    id: 'radio-2',
+    id: 'radio-selected',
     value: 'option-2',
     isChecked: true,
   },
@@ -119,7 +119,7 @@ export const Disabled: Story = {
   render: () => <RadioDisabled />,
   args: {
     label: 'Disabled radio',
-    id: 'radio-3',
+    id: 'radio-disabled',
     value: 'option-3',
     isDisabled: true,
   },
@@ -141,7 +141,7 @@ export const DisabledSelected: Story = {
   render: () => <RadioDisabledSelected />,
   args: {
     label: 'Disabled selected radio',
-    id: 'radio-4',
+    id: 'radio-disabled-selected',
     value: 'option-4',
     isChecked: true,
     isDisabled: true,

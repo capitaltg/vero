@@ -54,12 +54,19 @@ export const CheckboxDefault = React.forwardRef<
         </CheckboxPrimitive.Root>
         <div className="mt-[3px] flex flex-col">
           {label ? (
-            <Label className="cursor-pointer" htmlFor={id} id={labelId}>
+            <Label
+              className={cn(!isDisabled && 'cursor-pointer', isDisabled && 'cursor-not-allowed')}
+              htmlFor={id}
+              id={labelId}
+            >
               {label}
             </Label>
           ) : null}
           {description ? (
-            <Label className="cursor-pointer" htmlFor={id}>
+            <Label
+              className={cn(!isDisabled && 'cursor-pointer', isDisabled && 'cursor-not-allowed')}
+              htmlFor={id}
+            >
               <span className="inline-block pt-1 text-sm text-muted-foreground" id={descriptionId}>
                 {description}
               </span>

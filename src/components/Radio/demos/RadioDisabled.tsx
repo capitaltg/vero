@@ -7,7 +7,7 @@ export const RadioDisabled = () => {
   return (
     <div className="space-y-4">
       <Radio
-        id="radio-3"
+        id="radio-disabled"
         isChecked={isChecked}
         isDisabled={true}
         label="Disabled radio"

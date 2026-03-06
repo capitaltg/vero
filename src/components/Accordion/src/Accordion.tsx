@@ -12,37 +12,52 @@ const AccordionItems = ({
   isBordered,
   triggerClassName,
   contentClassName,
+  headingLevel = 'h3',
 }: Pick<
   AccordionProps,
-  'items' | 'variant' | 'caretPosition' | 'isBordered' | 'triggerClassName' | 'contentClassName'
+  | 'items'
+  | 'variant'
+  | 'caretPosition'
+  | 'isBordered'
+  | 'triggerClassName'
+  | 'contentClassName'
+  | 'headingLevel'
 >) => (
   <>
-    {items.map(item => (
-      <AccordionPrimitive.Item key={item.id} value={item.id}>
-        <AccordionPrimitive.Header className="flex">
-          <AccordionPrimitive.Trigger
-            className={cn(accordionTriggerVariants({ variant, caretPosition }), triggerClassName)}
+    {items.map(item => {
+      const HeadingTag = headingLevel;
+      return (
+        <AccordionPrimitive.Item key={item.id} value={item.id}>
+          <AccordionPrimitive.Header asChild>
+            <HeadingTag className="mb-0 mt-0 flex">
+              <AccordionPrimitive.Trigger
+                className={cn(
+                  accordionTriggerVariants({ variant, caretPosition }),
+                  triggerClassName,
+                )}
+              >
+                {caretPosition === 'left' ? (
+                  <ChevronRight
+                    className="mr-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200"
+                  />
+                ) : null}
+                <span className="flex-1 text-left">{item.title}</span>
+                {caretPosition === 'right' ? (
+                  <ChevronDown
+                    className="ml-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200"
+                  />
+                ) : null}
+              </AccordionPrimitive.Trigger>
+            </HeadingTag>
+          </AccordionPrimitive.Header>
+          <AccordionPrimitive.Content
+            className={cn(accordionContentVariants({ variant, isBordered }), contentClassName)}
           >
-            {caretPosition === 'left' ? (
-              <ChevronRight
-                className="mr-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200"
-              />
-            ) : null}
-            <span className="flex-1 text-left">{item.title}</span>
-            {caretPosition === 'right' ? (
-              <ChevronDown
-                className="ml-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200"
-              />
-            ) : null}
-          </AccordionPrimitive.Trigger>
-        </AccordionPrimitive.Header>
-        <AccordionPrimitive.Content
-          className={cn(accordionContentVariants({ variant, isBordered }), contentClassName)}
-        >
-          <div className="py-4">{item.content}</div>
-        </AccordionPrimitive.Content>
-      </AccordionPrimitive.Item>
-    ))}
+            {item.content}
+          </AccordionPrimitive.Content>
+        </AccordionPrimitive.Item>
+      );
+    })}
   </>
 );
 
@@ -63,6 +78,7 @@ const Accordion = React.forwardRef<
       isBordered = false,
       isCollapsible = true,
       caretPosition = 'right',
+      headingLevel,
       onValueChange,
       ...props
     },
@@ -81,6 +97,7 @@ const Accordion = React.forwardRef<
       isBordered,
       triggerClassName,
       contentClassName,
+      headingLevel,
     };
 
     if (mode === 'multiple') {

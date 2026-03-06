@@ -31,15 +31,15 @@ export const TabsCustomStyling = ({
       </TabsTrigger>
     </TabsList>
     <TabsContent className="mt-2 min-h-40 rounded bg-base-200 p-4" value="tab1">
-      <h3 className="text-lg font-medium">Favorites Tab</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Favorites Tab</h3>
       <p className="text-sm text-muted-foreground">Content for the first tab.</p>
     </TabsContent>
     <TabsContent className="mt-2 min-h-40 rounded bg-base-200 p-4" value="tab2">
-      <h3 className="text-lg font-medium">Calls Tab</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Calls Tab</h3>
       <p className="text-sm text-muted-foreground">Content for the second tab.</p>
     </TabsContent>
     <TabsContent className="mt-2 min-h-40 rounded bg-base-200 p-4" value="tab3">
-      <h3 className="text-lg font-medium">Contacts Tab</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Contacts Tab</h3>
       <p className="text-sm text-muted-foreground">Content for the third tab.</p>
     </TabsContent>
   </Tabs>

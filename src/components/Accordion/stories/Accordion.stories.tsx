@@ -143,7 +143,7 @@ const longContentItems = [
     title: 'Terms and Conditions',
     content: (
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">1. Introduction</h3>
+        <h3 className="mb-0 mt-0 text-lg font-semibold">1. Introduction</h3>
         <p>
           These Website Standard Terms and Conditions written on this webpage shall manage your use
           of our website. Please read these terms carefully before using any part of the site.
@@ -153,7 +153,7 @@ const longContentItems = [
           Website, you agreed to accept all terms and conditions written in here. You must not use
           this Website if you disagree with any of these Website Standard Terms and Conditions.
         </p>
-        <h3 className="text-lg font-semibold">2. Intellectual Property Rights</h3>
+        <h3 className="mb-0 mt-0 text-lg font-semibold">2. Intellectual Property Rights</h3>
         <p>
           Other than the content you own, under these Terms, Vero and/or its licensors own all the
           intellectual property rights and materials contained in this Website.
@@ -162,7 +162,7 @@ const longContentItems = [
           You are granted limited license only for purposes of viewing the material contained on
           this Website.
         </p>
-        <h3 className="text-lg font-semibold">3. Restrictions</h3>
+        <h3 className="mb-0 mt-0 text-lg font-semibold">3. Restrictions</h3>
         <p>You are specifically restricted from all of the following:</p>
         <ul className="list-disc pl-6">
           <li>publishing any Website material in any other media</li>

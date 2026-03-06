@@ -29,7 +29,7 @@ export const accordionTriggerVariants = cva(
 );
 
 export const accordionContentVariants = cva(
-  `overflow-hidden px-4 text-sm data-[state=closed]:animate-accordion-up
+  `overflow-hidden px-4 py-4 text-sm data-[state=closed]:animate-accordion-up
   data-[state=open]:animate-accordion-down`,
   {
     variants: {

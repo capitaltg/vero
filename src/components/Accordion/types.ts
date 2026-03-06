@@ -16,6 +16,8 @@ type SharedProps = {
   contentClassName?: string;
   isBordered?: boolean;
   isCollapsible?: boolean;
+  /** Heading level for accordion item headers (h1–h6). Defaults to 1. */
+  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 };
 
 type SingleOrAccordionProps = {

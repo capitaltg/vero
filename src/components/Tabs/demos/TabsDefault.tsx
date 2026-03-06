@@ -8,13 +8,13 @@ export const TabsDefault = ({ defaultValue = 'account', value, ...args }: Partia
       <TabsTrigger value="password">Password</TabsTrigger>
     </TabsList>
     <TabsContent value="account">
-      <h3 className="text-lg font-medium">Account Settings</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Account Settings</h3>
       <p className="text-sm text-muted-foreground">
         Configure your account preferences and settings.
       </p>
     </TabsContent>
     <TabsContent value="password">
-      <h3 className="text-lg font-medium">Password Settings</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Password Settings</h3>
       <p className="text-sm text-muted-foreground">
         Change your password and security preferences.
       </p>

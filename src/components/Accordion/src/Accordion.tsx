@@ -53,7 +53,7 @@ const AccordionItems = ({
           <AccordionPrimitive.Content
             className={cn(accordionContentVariants({ variant, isBordered }), contentClassName)}
           >
-            {item.content}
+            <div>{item.content}</div>
           </AccordionPrimitive.Content>
         </AccordionPrimitive.Item>
       );

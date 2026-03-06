@@ -9,6 +9,7 @@ const meta = {
   args: {
     mode: 'single',
     variant: 'default',
+    headingLevel: 'h3',
   },
   argTypes: {
     mode: {
@@ -76,6 +77,20 @@ const meta = {
       table: {
         type: {
           summary: 'boolean',
+        },
+      },
+    },
+    headingLevel: {
+      control: 'select',
+      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      description:
+        'The HTML heading level for each accordion item header. Uses Radix Header with asChild so the trigger is wrapped in the specified heading element.',
+      table: {
+        defaultValue: {
+          summary: 'h3',
+        },
+        type: {
+          summary: 'h1 | h2 | h3 | h4 | h5 | h6',
         },
       },
     },

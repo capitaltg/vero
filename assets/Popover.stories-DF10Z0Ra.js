@@ -17,7 +17,7 @@ export const PopoverCustomPosition = ({
     </PopoverContent>
   </Popover>
 );
-`,T=({hasArrow:r=!0,className:o="w-80",...t})=>e.jsxs(m,{children:[e.jsx(l,{asChild:!0,children:e.jsx(p,{variant:"input",children:"Open Popover"})}),e.jsx(n,{className:o,hasArrow:r,...t,children:e.jsxs("div",{className:"grid gap-4",children:[e.jsxs("div",{className:"space-y-2",children:[e.jsx("h4",{className:"font-medium leading-none",children:"Dimensions"}),e.jsx("p",{className:"text-sm text-muted-foreground",children:"Set the dimensions for the layer."})]}),e.jsxs("div",{className:"grid gap-2",children:[e.jsxs("div",{className:"grid grid-cols-3 items-center gap-4",children:[e.jsx("label",{className:"text-sm",htmlFor:"width",children:"Width"}),e.jsx("input",{className:"col-span-2 h-8 rounded-sm border border-input bg-transparent px-3 text-sm",defaultValue:"100%",id:"width"})]}),e.jsxs("div",{className:"grid grid-cols-3 items-center gap-4",children:[e.jsx("label",{className:"text-sm",htmlFor:"height",children:"Height"}),e.jsx("input",{className:"col-span-2 h-8 rounded-sm border border-input bg-transparent px-3 text-sm",defaultValue:"25px",id:"height"})]})]})]})})]});T.__docgenInfo={description:"",methods:[],displayName:"PopoverWithArrow",props:{hasArrow:{defaultValue:{value:"true",computed:!1},required:!1},className:{defaultValue:{value:"'w-80'",computed:!1},required:!1}}};const O=`import { Button } from '@/components/Button';
+`,T=({hasArrow:r=!0,className:o="w-80",...t})=>e.jsxs(m,{children:[e.jsx(l,{asChild:!0,children:e.jsx(p,{variant:"input",children:"Open Popover"})}),e.jsx(n,{className:o,hasArrow:r,...t,children:e.jsxs("div",{className:"grid gap-4",children:[e.jsxs("div",{className:"space-y-2",children:[e.jsx("h4",{className:"mb-0 mt-0 font-medium leading-none",children:"Dimensions"}),e.jsx("p",{className:"text-sm text-muted-foreground",children:"Set the dimensions for the layer."})]}),e.jsxs("div",{className:"grid gap-2",children:[e.jsxs("div",{className:"grid grid-cols-3 items-center gap-4",children:[e.jsx("label",{className:"text-sm",htmlFor:"width",children:"Width"}),e.jsx("input",{className:"col-span-2 h-8 rounded-sm border border-input bg-transparent px-3 text-sm",defaultValue:"100%",id:"width"})]}),e.jsxs("div",{className:"grid grid-cols-3 items-center gap-4",children:[e.jsx("label",{className:"text-sm",htmlFor:"height",children:"Height"}),e.jsx("input",{className:"col-span-2 h-8 rounded-sm border border-input bg-transparent px-3 text-sm",defaultValue:"25px",id:"height"})]})]})]})})]});T.__docgenInfo={description:"",methods:[],displayName:"PopoverWithArrow",props:{hasArrow:{defaultValue:{value:"true",computed:!1},required:!1},className:{defaultValue:{value:"'w-80'",computed:!1},required:!1}}};const O=`import { Button } from '@/components/Button';
 import { Popover, PopoverContent, PopoverTrigger } from '../src/Popover';
 import { PopoverContentProps } from '../types';
 
@@ -33,7 +33,7 @@ export const PopoverWithArrow = ({
     <PopoverContent className={className} hasArrow={hasArrow} {...args}>
       <div className="grid gap-4">
         <div className="space-y-2">
-          <h4 className="font-medium leading-none">Dimensions</h4>
+          <h4 className="mb-0 mt-0 font-medium leading-none">Dimensions</h4>
           <p className="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
         </div>
         <div className="grid gap-2">

@@ -7,7 +7,7 @@ import{j as o}from"./jsx-runtime-BO8uF4Og.js";import{s as me}from"./styles-Bqt2y
       focus-visible:ring-ring focus-visible:ring-offset-2`,e),...t}));I.displayName=Oe.displayName;P.__docgenInfo={description:"",methods:[],props:{value:{required:!1,tsType:{name:"string"},description:"The controlled value of the active tab. When provided, the component becomes a controlled component."},defaultValue:{required:!1,tsType:{name:"string"},description:"The default value of the active tab when the component is uncontrolled."}},composes:["ComponentPropsWithoutRef"]};I.__docgenInfo={description:"",methods:[]};V.__docgenInfo={description:"",methods:[]};w.__docgenInfo={description:"",methods:[]};const Ve=({defaultValue:e="tab1",value:t,...a})=>o.jsxs(P,{className:"w-md",defaultValue:e,value:t,...a,children:[o.jsxs(V,{className:"grid w-full grid-cols-3 border-none bg-base-200 text-black",children:[o.jsx(w,{className:`hover:bg-white hover:text-primary disabled:pointer-events-none
           data-[state=active]:bg-white data-[state=active]:text-primary-400`,value:"tab1",children:"Favorites"}),o.jsx(w,{className:`hover:bg-white hover:text-primary disabled:pointer-events-none
           data-[state=active]:bg-white data-[state=active]:text-primary-400`,value:"tab2",children:"Calls"}),o.jsx(w,{className:`hover:bg-white hover:text-primary disabled:pointer-events-none
-          data-[state=active]:bg-white data-[state=active]:text-primary-400`,value:"tab3",children:"Contacts"})]}),o.jsxs(I,{className:"mt-2 min-h-40 rounded bg-base-200 p-4",value:"tab1",children:[o.jsx("h3",{className:"text-lg font-medium",children:"Favorites Tab"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Content for the first tab."})]}),o.jsxs(I,{className:"mt-2 min-h-40 rounded bg-base-200 p-4",value:"tab2",children:[o.jsx("h3",{className:"text-lg font-medium",children:"Calls Tab"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Content for the second tab."})]}),o.jsxs(I,{className:"mt-2 min-h-40 rounded bg-base-200 p-4",value:"tab3",children:[o.jsx("h3",{className:"text-lg font-medium",children:"Contacts Tab"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Content for the third tab."})]})]});Ve.__docgenInfo={description:"",methods:[],displayName:"TabsCustomStyling",props:{defaultValue:{defaultValue:{value:"'tab1'",computed:!1},required:!1}}};const gt=`import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
+          data-[state=active]:bg-white data-[state=active]:text-primary-400`,value:"tab3",children:"Contacts"})]}),o.jsxs(I,{className:"mt-2 min-h-40 rounded bg-base-200 p-4",value:"tab1",children:[o.jsx("h3",{className:"mb-0 mt-0 text-lg font-medium",children:"Favorites Tab"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Content for the first tab."})]}),o.jsxs(I,{className:"mt-2 min-h-40 rounded bg-base-200 p-4",value:"tab2",children:[o.jsx("h3",{className:"mb-0 mt-0 text-lg font-medium",children:"Calls Tab"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Content for the second tab."})]}),o.jsxs(I,{className:"mt-2 min-h-40 rounded bg-base-200 p-4",value:"tab3",children:[o.jsx("h3",{className:"mb-0 mt-0 text-lg font-medium",children:"Contacts Tab"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Content for the third tab."})]})]});Ve.__docgenInfo={description:"",methods:[],displayName:"TabsCustomStyling",props:{defaultValue:{defaultValue:{value:"'tab1'",computed:!1},required:!1}}};const gt=`import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
 import { TabsProps } from '../types';
 
 export const TabsCustomStyling = ({
@@ -40,20 +40,20 @@ export const TabsCustomStyling = ({
       </TabsTrigger>
     </TabsList>
     <TabsContent className="mt-2 min-h-40 rounded bg-base-200 p-4" value="tab1">
-      <h3 className="text-lg font-medium">Favorites Tab</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Favorites Tab</h3>
       <p className="text-sm text-muted-foreground">Content for the first tab.</p>
     </TabsContent>
     <TabsContent className="mt-2 min-h-40 rounded bg-base-200 p-4" value="tab2">
-      <h3 className="text-lg font-medium">Calls Tab</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Calls Tab</h3>
       <p className="text-sm text-muted-foreground">Content for the second tab.</p>
     </TabsContent>
     <TabsContent className="mt-2 min-h-40 rounded bg-base-200 p-4" value="tab3">
-      <h3 className="text-lg font-medium">Contacts Tab</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Contacts Tab</h3>
       <p className="text-sm text-muted-foreground">Content for the third tab.</p>
     </TabsContent>
   </Tabs>
 );
-`,Le=({defaultValue:e="account",value:t,...a})=>o.jsxs(P,{className:"w-md",defaultValue:e,value:t,...a,children:[o.jsxs(V,{children:[o.jsx(w,{value:"account",children:"Account"}),o.jsx(w,{value:"password",children:"Password"})]}),o.jsxs(I,{value:"account",children:[o.jsx("h3",{className:"text-lg font-medium",children:"Account Settings"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Configure your account preferences and settings."})]}),o.jsxs(I,{value:"password",children:[o.jsx("h3",{className:"text-lg font-medium",children:"Password Settings"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Change your password and security preferences."})]})]});Le.__docgenInfo={description:"",methods:[],displayName:"TabsDefault",props:{defaultValue:{defaultValue:{value:"'account'",computed:!1},required:!1}}};const vt=`import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
+`,Le=({defaultValue:e="account",value:t,...a})=>o.jsxs(P,{className:"w-md",defaultValue:e,value:t,...a,children:[o.jsxs(V,{children:[o.jsx(w,{value:"account",children:"Account"}),o.jsx(w,{value:"password",children:"Password"})]}),o.jsxs(I,{value:"account",children:[o.jsx("h3",{className:"mb-0 mt-0 text-lg font-medium",children:"Account Settings"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Configure your account preferences and settings."})]}),o.jsxs(I,{value:"password",children:[o.jsx("h3",{className:"mb-0 mt-0 text-lg font-medium",children:"Password Settings"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"Change your password and security preferences."})]})]});Le.__docgenInfo={description:"",methods:[],displayName:"TabsDefault",props:{defaultValue:{defaultValue:{value:"'account'",computed:!1},required:!1}}};const vt=`import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
 import { TabsProps } from '../types';
 
 export const TabsDefault = ({ defaultValue = 'account', value, ...args }: Partial<TabsProps>) => (
@@ -63,20 +63,20 @@ export const TabsDefault = ({ defaultValue = 'account', value, ...args }: Partia
       <TabsTrigger value="password">Password</TabsTrigger>
     </TabsList>
     <TabsContent value="account">
-      <h3 className="text-lg font-medium">Account Settings</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Account Settings</h3>
       <p className="text-sm text-muted-foreground">
         Configure your account preferences and settings.
       </p>
     </TabsContent>
     <TabsContent value="password">
-      <h3 className="text-lg font-medium">Password Settings</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Password Settings</h3>
       <p className="text-sm text-muted-foreground">
         Change your password and security preferences.
       </p>
     </TabsContent>
   </Tabs>
 );
-`,We=({defaultValue:e="active",value:t,...a})=>o.jsxs(P,{className:"w-md",defaultValue:e,value:t,...a,children:[o.jsxs(V,{children:[o.jsx(w,{value:"active",children:"Active Tab"}),o.jsx(w,{disabled:!0,value:"disabled",children:"Disabled Tab"})]}),o.jsxs(I,{value:"active",children:[o.jsx("h3",{className:"text-lg font-medium",children:"Active Content"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"This tab is currently active."})]}),o.jsxs(I,{value:"disabled",children:[o.jsx("h3",{className:"text-lg font-medium",children:"Disabled Content"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"This content is not accessible."})]})]});We.__docgenInfo={description:"",methods:[],displayName:"TabsWithDisabledTab",props:{defaultValue:{defaultValue:{value:"'active'",computed:!1},required:!1}}};const Tt=`import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
+`,We=({defaultValue:e="active",value:t,...a})=>o.jsxs(P,{className:"w-md",defaultValue:e,value:t,...a,children:[o.jsxs(V,{children:[o.jsx(w,{value:"active",children:"Active Tab"}),o.jsx(w,{disabled:!0,value:"disabled",children:"Disabled Tab"})]}),o.jsxs(I,{value:"active",children:[o.jsx("h3",{className:"mb-0 mt-0 text-lg font-medium",children:"Active Content"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"This tab is currently active."})]}),o.jsxs(I,{value:"disabled",children:[o.jsx("h3",{className:"mb-0 mt-0 text-lg font-medium",children:"Disabled Content"}),o.jsx("p",{className:"text-sm text-muted-foreground",children:"This content is not accessible."})]})]});We.__docgenInfo={description:"",methods:[],displayName:"TabsWithDisabledTab",props:{defaultValue:{defaultValue:{value:"'active'",computed:!1},required:!1}}};const Tt=`import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
 import { TabsProps } from '../types';
 
 export const TabsWithDisabledTab = ({
@@ -92,11 +92,11 @@ export const TabsWithDisabledTab = ({
       </TabsTrigger>
     </TabsList>
     <TabsContent value="active">
-      <h3 className="text-lg font-medium">Active Content</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Active Content</h3>
       <p className="text-sm text-muted-foreground">This tab is currently active.</p>
     </TabsContent>
     <TabsContent value="disabled">
-      <h3 className="text-lg font-medium">Disabled Content</h3>
+      <h3 className="mb-0 mt-0 text-lg font-medium">Disabled Content</h3>
       <p className="text-sm text-muted-foreground">This content is not accessible.</p>
     </TabsContent>
   </Tabs>

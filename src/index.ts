@@ -12,6 +12,7 @@ export * from './components/Calendar';
 export * from './components/Checkbox';
 export * from './components/CheckboxGroup';
 export * from './components/Combobox';
+export * from './components/DataTable';
 // export * from './components/Command';
 export * from './components/DatePicker';
 export * from './components/DateRangePicker';

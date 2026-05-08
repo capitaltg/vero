@@ -31,7 +31,7 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      styles.focusRingVisible,
+      styles.focusRing,
       `inline-flex items-center justify-center whitespace-nowrap rounded px-3 py-1.5 text-sm
       font-bold ring-offset-background transition-all hover:bg-primary-200 hover:text-primary
       disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50

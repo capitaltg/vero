@@ -43,7 +43,7 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
         <SwitchPrimitives.Root
           aria-label={ariaLabel}
           checked={isChecked}
-          className={cn(styles.focusRingVisible, switchClasses, className)}
+          className={cn(styles.focusRing, switchClasses, className)}
           {...props}
           {...disabledProps}
           ref={ref}

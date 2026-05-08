@@ -4,7 +4,13 @@ import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as SwitchPrimitives from '@radix-ui/react-switch';
 import * as React from 'react';
+import { useId } from 'react';
 import { SwitchProps } from '../types';
+
+export const switchClasses = `peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2
+  border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50
+  aria-disabled:cursor-not-allowed aria-disabled:opacity-50
+  data-[state=checked]:bg-primary-400 data-[state=unchecked]:bg-muted`;
 
 const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, SwitchProps>(
   (
@@ -20,6 +26,8 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
     ref,
   ) => {
     const disabledProps = useAriaDisabled({ isDisabled });
+    const generatedId = useId();
+    const computedId = id ?? generatedId;
 
     if (!label && !ariaLabel) {
       throw new Error('Switch must have either a label prop or an aria-label attribute');
@@ -35,17 +43,11 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
         <SwitchPrimitives.Root
           aria-label={ariaLabel}
           checked={isChecked}
-          className={cn(
-            styles.focusRingVisible,
-            `peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2
-            border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50
-            data-[state=checked]:bg-primary-400 data-[state=unchecked]:bg-muted`,
-            className,
-          )}
+          className={cn(styles.focusRingVisible, switchClasses, className)}
           {...props}
           {...disabledProps}
           ref={ref}
-          id={id}
+          id={computedId}
         >
           <SwitchPrimitives.Thumb
             className={cn(
@@ -55,7 +57,17 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
             )}
           />
         </SwitchPrimitives.Root>
-        {label ? typeof label === 'string' ? <Label htmlFor={id}>{label}</Label> : label : null}
+        {label ? (
+          <Label
+            className={cn(
+              !isDisabled && 'cursor-pointer',
+              isDisabled && 'pointer-events-none cursor-not-allowed',
+            )}
+            htmlFor={computedId}
+          >
+            {label}
+          </Label>
+        ) : null}
       </div>
     );
   },

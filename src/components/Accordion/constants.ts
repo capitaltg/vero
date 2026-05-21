@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority';
 
 export const accordionTriggerVariants = cva(
   cn(
-    styles.focusRingVisible,
+    styles.focusRing,
     'flex w-full flex-1 items-center px-4 py-[0.875rem] font-bold transition-all',
   ),
   {

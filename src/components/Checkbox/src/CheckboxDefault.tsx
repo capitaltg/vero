@@ -35,12 +35,7 @@ export const CheckboxDefault = React.forwardRef<
         <CheckboxPrimitive.Root
           ref={ref}
           checked={isChecked}
-          className={cn(
-            styles.focusRingVisible,
-            styles.focusRingVisibleSm,
-            checkboxClasses,
-            className,
-          )}
+          className={cn(styles.focusRing, styles.focusRingSm, checkboxClasses, className)}
           id={id}
           {...props}
           {...disabledProps}

@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Dialog } from '../src/Dialog';
 import { DialogDefault } from '../demos/DialogDefault';
 import sourceCodeDefault from '../demos/DialogDefault.tsx?raw';
+import { DialogInformationalOnly } from '../demos/DialogInformationalOnly';
+import sourceCodeInformationalOnly from '../demos/DialogInformationalOnly.tsx?raw';
 import { DialogWithDestructiveAction } from '../demos/DialogWithDestructiveAction';
 import sourceCodeWithDestructiveAction from '../demos/DialogWithDestructiveAction.tsx?raw';
 
@@ -72,6 +74,21 @@ export const WithDestructiveAction: Story = {
     docs: {
       source: {
         code: sourceCodeWithDestructiveAction,
+      },
+    },
+  },
+};
+
+/**
+ * An informational dialog with no focusable content other than the close button.
+ * When opened, focus moves to the close button since it is the only interactable element.
+ */
+export const InformationalOnly: Story = {
+  render: () => <DialogInformationalOnly />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeInformationalOnly,
       },
     },
   },

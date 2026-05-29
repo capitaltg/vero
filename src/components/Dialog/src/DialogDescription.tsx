@@ -8,7 +8,11 @@ const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   DialogDescriptionProps
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description ref={ref} className={cn(styles.text.hint, className)} {...props} />
+  <DialogPrimitive.Description
+    ref={ref}
+    className={cn(styles.text.hint, 'mr-8', className)}
+    {...props}
+  />
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 

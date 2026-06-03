@@ -19,6 +19,10 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
   const cellWidth = 'w-9 md:w-10 lg:w-11 px-0';
   const cellHeight = 'h-9 md:h-10 lg:h-11 py-0';
 
+  // Lightest grays meeting WCAG AA (4.5:1) on popover backgrounds (#fff / #1a1a1a)
+  const outsideDayText =
+    'text-[#767676] aria-selected:text-[#767676] dark:text-[#828282] dark:aria-selected:text-[#828282]';
+
   const Chevron = (props: ChevronProps) => {
     if (actionState === 'month' || actionState === 'year') return <></>;
 
@@ -159,10 +163,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         button_next: cn(buttonVariants({ variant: 'ghost' }), navHeight, navButton),
         month_grid: 'w-full border-collapse space-y-1',
         weekdays: 'mb-1 flex',
-        weekday: cn(
-          cellWidth,
-          'rounded-l-full rounded-r-full text-sm font-normal text-muted-foreground',
-        ),
+        weekday: cn(cellWidth, 'text-sm font-medium text-popover-foreground'),
         week: 'mt-1 flex w-full',
         day: cn(cellWidth, cellHeight),
         day_button: cn(
@@ -182,7 +183,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
           props?.mode !== 'range' ? '[&>button]:bg-primary [&>button]:text-primary-foreground' : '',
         today:
           '[&>button]:rounded-l-full [&>button]:rounded-r-full [&>button]:bg-accent [&>button]:text-accent-foreground',
-        outside: 'day-outside text-muted-foreground opacity-50',
+        outside: cn('day-outside', outsideDayText),
         disabled: 'text-muted-foreground opacity-50',
         range_middle:
           'first:rounded-l-md last:rounded-r-md aria-selected:bg-accent aria-selected:text-accent-foreground',

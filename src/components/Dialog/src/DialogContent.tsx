@@ -1,9 +1,11 @@
+import { focusFirstInteractable } from '@/lib/focus';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import * as React from 'react';
+import { useCallback } from 'react';
 import { DialogContentProps } from '../types';
 import { DialogPortal } from './Dialog';
 import { DialogOverlay } from './DialogOverlay';
@@ -11,8 +13,19 @@ import { DialogOverlay } from './DialogOverlay';
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, children, zIndex, ...props }, ref) => {
+>(({ className, children, zIndex, onOpenAutoFocus, ...props }, ref) => {
   const resolvedZIndex = getZIndex('dialog', zIndex);
+
+  const handleOpenAutoFocus = useCallback(
+    (event: Event) => {
+      onOpenAutoFocus?.(event);
+      if (event.defaultPrevented) return;
+
+      event.preventDefault();
+      focusFirstInteractable(event.currentTarget as HTMLElement);
+    },
+    [onOpenAutoFocus],
+  );
 
   return (
     <DialogPortal>
@@ -30,6 +43,7 @@ const DialogContent = React.forwardRef<
           className,
         )}
         style={{ zIndex: resolvedZIndex, ...props.style }}
+        onOpenAutoFocus={handleOpenAutoFocus}
         {...props}
       >
         {children}

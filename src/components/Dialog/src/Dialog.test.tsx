@@ -79,6 +79,7 @@ describe('Dialog', () => {
         <Dialog defaultOpen>
           <DialogContent>
             <DialogTitle>Menu</DialogTitle>
+            <DialogDescription>Choose a destination.</DialogDescription>
             <nav>
               <a href="#home">Home</a>
               <a href="#about">About</a>
@@ -100,6 +101,7 @@ describe('Dialog', () => {
         <Dialog defaultOpen>
           <DialogContent>
             <DialogTitle>Confirm</DialogTitle>
+            <DialogDescription>Choose an action.</DialogDescription>
             <Button isDisabled>Disabled action</Button>
             <Button>Enabled action</Button>
           </DialogContent>
@@ -122,6 +124,8 @@ describe('Dialog', () => {
             <Button variant="primary">Open</Button>
           </DialogTrigger>
           <DialogContent>
+            <DialogTitle>Actions</DialogTitle>
+            <DialogDescription>Select a primary action.</DialogDescription>
             <Button>Primary action</Button>
           </DialogContent>
         </Dialog>,

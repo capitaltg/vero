@@ -359,6 +359,21 @@ describe('MultiSelect', () => {
       expect(screen.getByRole('button', { name: 'Remove Vue' })).toBeInTheDocument();
     });
 
+    it('uses accessible contrast colors for highlighted dropdown options', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+
+      await user.click(getTrigger());
+
+      await waitFor(() => {
+        expect(screen.getByRole('option', { name: /React/ })).toBeInTheDocument();
+      });
+
+      const option = screen.getByRole('option', { name: /React/ });
+      expect(option.className).toContain('aria-selected:bg-accent');
+      expect(option.className).toContain('aria-selected:text-foreground');
+    });
+
     it('trigger has aria-expanded=false when closed', () => {
       render(<Fixture />);
       expect(getTrigger()).toHaveAttribute('aria-expanded', 'false');

@@ -22,9 +22,12 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
   const outsideDayText =
     'text-[#767676] aria-selected:text-[#767676] dark:text-[#828282] dark:aria-selected:text-[#828282]';
 
-  // This is needed to ensure that the selected day's cell has rounded corners
   const selectedDay =
     props.mode === 'range' ? '' : '[&>button]:bg-primary [&>button]:text-primary-foreground';
+
+  // Blue outer border with white inset gap (508-friendly focus on day cells)
+  const dayButtonFocus =
+    'focus:ring-inset focus:ring-0 focus:ring-offset-2 focus:shadow-[inset_0_0_0_0_#ffffff,0_0_0_2px_#005ea2]';
 
   const components = useMemo(() => {
     const Chevron = createCalendarChevron(actionState);
@@ -83,8 +86,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
           cellWidth,
           cellHeight,
           `relative rounded-l-full rounded-r-full text-center text-sm font-normal
-          focus-within:relative focus-within:z-20 focus:opacity-100 focus:ring-2
-          focus:ring-offset-0`,
+          focus-within:relative focus-within:z-20 focus:opacity-100`,
+          dayButtonFocus,
         ),
         range_start: `rounded-l-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground`,
         range_end: `rounded-r-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground`,

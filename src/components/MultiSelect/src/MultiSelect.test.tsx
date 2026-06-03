@@ -371,7 +371,7 @@ describe('MultiSelect', () => {
 
       const option = screen.getByRole('option', { name: /React/ });
       expect(option.className).toContain('aria-selected:bg-accent');
-      expect(option.className).toContain('aria-selected:text-foreground');
+      expect(option.className).toContain('aria-selected:text-accent-foreground');
     });
 
     it('trigger has aria-expanded=false when closed', () => {

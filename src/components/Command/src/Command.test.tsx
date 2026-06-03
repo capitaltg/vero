@@ -391,6 +391,22 @@ describe('Command', () => {
       expect(items).toHaveLength(2);
     });
 
+    it('keeps foreground text on highlight for WCAG AA contrast', () => {
+      render(
+        <Command>
+          <CommandList>
+            <CommandItem>Item 1</CommandItem>
+          </CommandList>
+        </Command>,
+      );
+
+      const item = screen.getByRole('option', { name: 'Item 1' });
+      expect(item.className).toContain('text-foreground');
+      expect(item.className).toContain('aria-selected:bg-accent');
+      expect(item.className).toContain('aria-selected:text-foreground');
+      expect(item.className).not.toContain('aria-selected:text-accent-foreground');
+    });
+
     it('is keyboard navigable', async () => {
       const user = userEvent.setup();
       render(

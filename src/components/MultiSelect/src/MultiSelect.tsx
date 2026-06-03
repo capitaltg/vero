@@ -3,7 +3,7 @@ import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { buttonVariants } from '../../Button/constants';
 import {
   Command,
@@ -42,6 +42,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
     const selectedLabels = value.map(v => options.find(opt => opt.value === v)?.label || v);
     const disabledProps = useAriaDisabled({ isDisabled });
     const triggerRef = useRef<HTMLDivElement | null>(null);
+    const removeButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
     // Handle autoFocus
     useEffect(() => {
@@ -49,6 +50,38 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
         triggerRef.current.focus();
       }
     }, [autoFocus]);
+
+    // Remove a chip and shift focus to adjacent chip or trigger
+    const handleRemove = useCallback(
+      (index: number) => {
+        const newValue = value.filter((_, i) => i !== index);
+        onChange(newValue);
+        // Defer focus until after React re-renders the chip list
+        requestAnimationFrame(() => {
+          if (newValue.length === 0) {
+            triggerRef.current?.focus();
+          } else if (index < newValue.length) {
+            // A chip still exists at the same position (next chip shifted here)
+            removeButtonRefs.current[index]?.focus();
+          } else {
+            // Removed the last chip; focus the new last chip
+            removeButtonRefs.current[newValue.length - 1]?.focus();
+          }
+        });
+      },
+      [value, onChange],
+    );
+
+    // Close popover on Escape or Tab while focus is inside the dropdown
+    const handleCommandKeyDown = useCallback((evt: React.KeyboardEvent<HTMLDivElement>) => {
+      if (evt.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus();
+      } else if (evt.key === 'Tab') {
+        // Close popover but allow Tab to move focus naturally
+        setOpen(false);
+      }
+    }, []);
 
     const renderTriggerContent = () => {
       if (value.length === 0) {
@@ -60,11 +93,16 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
           {selectedLabels.map((label, index) => (
             <div
               key={value[index]}
+              // hover:text-secondary-foreground prevents the parent trigger's
+              // hover:text-accent-foreground from changing chip text to blue (contrast fix)
               className="flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm
-                text-secondary-foreground"
+                text-secondary-foreground hover:text-secondary-foreground"
             >
               {label}
               <button
+                ref={el => {
+                  removeButtonRefs.current[index] = el;
+                }}
                 aria-label={`Remove ${label}`}
                 className="ml-0.5 rounded-full opacity-50 transition-opacity hover:opacity-100
                   focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary-400
@@ -72,13 +110,13 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
                 type="button"
                 onClick={evt => {
                   evt.stopPropagation();
-                  onChange(value.filter((_, i) => i !== index));
+                  handleRemove(index);
                 }}
                 onKeyDown={evt => {
                   if (evt.key === 'Enter' || evt.key === ' ') {
                     evt.preventDefault();
                     evt.stopPropagation();
-                    onChange(value.filter((_, i) => i !== index));
+                    handleRemove(index);
                   }
                 }}
               >
@@ -160,7 +198,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
             className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
             zIndex={resolvedZIndex}
           >
-            <Command>
+            <Command onKeyDown={handleCommandKeyDown}>
               <CommandInput placeholder={searchPlaceholder} />
               <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
                 <CommandEmpty>{emptyMessage}</CommandEmpty>

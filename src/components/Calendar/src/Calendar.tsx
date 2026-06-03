@@ -1,15 +1,14 @@
-import { Button } from '@/components/Button';
 import { buttonVariants } from '@/components/Button/constants';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { ChevronProps, DayPicker, MonthCaptionProps } from 'react-day-picker';
-import { CalendarProps } from '../types';
-import { CalendarMonthPicker } from './CalendarMonthPicker';
-import { CalendarYearPicker } from './CalendarYearPicker';
+import { useMemo, useRef, useState } from 'react';
+import { DayPicker } from 'react-day-picker';
+import { CalendarActionState, CalendarProps } from '../types';
+import { createCalendarChevron } from './CalendarChevron';
+import { createCalendarMonthCaption } from './CalendarMonthCaption';
+import { createCalendarMonthGrid } from './CalendarMonthGrid';
 
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
-  const [actionState, setActionState] = useState<'month' | 'year' | 'default'>('default');
+  const [actionState, setActionState] = useState<CalendarActionState>('default');
   const [activeMonth, setActiveMonth] = useState<Date | undefined>(undefined);
   const monthButtonRef = useRef<HTMLButtonElement>(null);
   const yearButtonRef = useRef<HTMLButtonElement>(null);
@@ -19,124 +18,44 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
   const cellWidth = 'w-9 md:w-10 lg:w-11 px-0';
   const cellHeight = 'h-9 md:h-10 lg:h-11 py-0';
 
-  const Chevron = (props: ChevronProps) => {
-    if (actionState === 'month' || actionState === 'year') return <></>;
+  // Lightest grays meeting WCAG AA (4.5:1) on popover backgrounds (#fff / #1a1a1a)
+  const outsideDayText =
+    'text-[#767676] aria-selected:text-[#767676] dark:text-[#828282] dark:aria-selected:text-[#828282]';
 
-    const { orientation } = props;
-    if (orientation === 'left') return <ChevronLeft {...props} />;
-    return <ChevronRight {...props} />;
-  };
+  const selectedDay =
+    props.mode === 'range' ? '' : '[&>button]:bg-primary [&>button]:text-primary-foreground';
 
-  const MonthCaption = (props: MonthCaptionProps) => {
-    const { calendarMonth } = props;
-    return (
-      <div
-        className={cn(
-          navHeight,
-          'relative mx-12 flex items-center justify-center text-sm font-medium',
-        )}
-      >
-        <Button
-          ref={monthButtonRef}
-          aria-label="Select calendar month"
-          className="px-1.5 focus:ring-2 focus:ring-offset-0"
-          size="sm"
-          variant="ghost"
-          onClick={() => {
-            // if the user clicks the month that's already selected, just go back to default view
-            if (actionState === 'month') {
-              setActionState('default');
+  // Blue outer border with white inset gap (508-friendly focus on day cells)
+  const dayButtonFocus =
+    'focus:ring-inset focus:ring-0 focus:ring-offset-2 focus:shadow-[inset_0_0_0_0_#ffffff,0_0_0_2px_#005ea2]';
 
-              // focus the month button after selection
-              setTimeout(() => {
-                monthButtonRef.current?.focus();
-              }, 0);
-              return;
-            }
+  const components = useMemo(() => {
+    const Chevron = createCalendarChevron(actionState);
+    const MonthCaption = createCalendarMonthCaption({
+      actionState,
+      setActionState,
+      monthButtonRef,
+      yearButtonRef,
+      navHeight,
+    });
 
-            setActionState('month');
-          }}
-        >
-          {calendarMonth.date.toLocaleString('default', { month: 'long' })}
-        </Button>
-        <Button
-          ref={yearButtonRef}
-          aria-label="Select calendar year"
-          className="px-1.5 focus:ring-2 focus:ring-offset-0"
-          size="sm"
-          variant="ghost"
-          onClick={() => {
-            // if the user clicks the year that's already selected, just go back to default view
-            if (actionState === 'year') {
-              setActionState('default');
-
-              // focus the year button after selection
-              setTimeout(() => {
-                yearButtonRef.current?.focus();
-              }, 0);
-              return;
-            }
-
-            setActionState('year');
-          }}
-        >
-          {calendarMonth.date.getFullYear()}
-        </Button>
-      </div>
-    );
-  };
-
-  const MonthGrid = () => {
-    if (actionState === 'month')
-      return (
-        <CalendarMonthPicker
-          onSelect={month => {
-            // set the active month to the selected month, keeping the current year if possible
-            const newMonth = activeMonth ? new Date(activeMonth) : new Date();
-            newMonth.setMonth(month);
-            setActiveMonth(newMonth);
-            setActionState('default');
-            // focus the month button after selection
-            setTimeout(() => {
-              monthButtonRef.current?.focus();
-            }, 0);
-          }}
-        />
-      );
-    if (actionState === 'year')
-      return (
-        <CalendarYearPicker
-          endMonth={props.endMonth}
-          startMonth={props.startMonth}
-          onSelect={year => {
-            // set the active month to the selected year, keeping the current month if possible
-            const newYear = activeMonth ? new Date(activeMonth) : new Date();
-            newYear.setFullYear(year);
-            setActiveMonth(newYear);
-            setActionState('default');
-            // focus the month button after selection
-            setTimeout(() => {
-              yearButtonRef.current?.focus();
-            }, 0);
-          }}
-        />
-      );
-
-    // default view showing normal month grid; handled by 'getComponents' function
-    return <></>;
-  };
-
-  const getComponents = () => {
     if (actionState === 'default') {
       return { Chevron, MonthCaption };
     }
 
-    return {
-      Chevron,
-      MonthCaption,
-      MonthGrid,
-    };
-  };
+    const MonthGrid = createCalendarMonthGrid({
+      actionState,
+      setActionState,
+      activeMonth,
+      setActiveMonth,
+      monthButtonRef,
+      yearButtonRef,
+      startMonth: props.startMonth,
+      endMonth: props.endMonth,
+    });
+
+    return { Chevron, MonthCaption, MonthGrid };
+  }, [actionState, activeMonth, props.endMonth, props.startMonth]);
 
   const defaultMonth =
     props.defaultMonth ??
@@ -159,10 +78,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         button_next: cn(buttonVariants({ variant: 'ghost' }), navHeight, navButton),
         month_grid: 'w-full border-collapse space-y-1',
         weekdays: 'mb-1 flex',
-        weekday: cn(
-          cellWidth,
-          'rounded-l-full rounded-r-full text-sm font-normal text-muted-foreground',
-        ),
+        weekday: cn(cellWidth, 'text-sm font-medium text-popover-foreground'),
         week: 'mt-1 flex w-full',
         day: cn(cellWidth, cellHeight),
         day_button: cn(
@@ -170,26 +86,20 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
           cellWidth,
           cellHeight,
           `relative rounded-l-full rounded-r-full text-center text-sm font-normal
-          focus-within:relative focus-within:z-20 focus:opacity-100 focus:ring-2
-          focus:ring-offset-0`,
+          focus-within:relative focus-within:z-20 focus:opacity-100`,
+          dayButtonFocus,
         ),
-        range_start:
-          'rounded-l-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground',
-        range_end:
-          'rounded-r-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground',
-        /* This is needed to ensure that the selected day's cell has rounded corners */
-        selected:
-          props?.mode !== 'range' ? '[&>button]:bg-primary [&>button]:text-primary-foreground' : '',
-        today:
-          '[&>button]:rounded-l-full [&>button]:rounded-r-full [&>button]:bg-accent [&>button]:text-accent-foreground',
-        outside: 'day-outside text-muted-foreground opacity-50',
+        range_start: `rounded-l-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground`,
+        range_end: `rounded-r-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground`,
+        selected: selectedDay,
+        today: `[&>button]:rounded-l-full [&>button]:rounded-r-full [&>button]:bg-accent [&>button]:text-accent-foreground`,
+        outside: cn('day-outside', outsideDayText),
         disabled: 'text-muted-foreground opacity-50',
-        range_middle:
-          'first:rounded-l-md last:rounded-r-md aria-selected:bg-accent aria-selected:text-accent-foreground',
+        range_middle: `first:rounded-l-md last:rounded-r-md aria-selected:bg-accent aria-selected:text-accent-foreground`,
         hidden: 'invisible',
         ...classNames,
       }}
-      components={getComponents()}
+      components={components}
       defaultMonth={defaultMonth}
       month={activeMonth}
       showOutsideDays={showOutsideDays}

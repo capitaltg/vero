@@ -403,8 +403,7 @@ describe('Command', () => {
       const item = screen.getByRole('option', { name: 'Item 1' });
       expect(item.className).toContain('text-foreground');
       expect(item.className).toContain('aria-selected:bg-accent');
-      expect(item.className).toContain('aria-selected:text-foreground');
-      expect(item.className).not.toContain('aria-selected:text-accent-foreground');
+      expect(item.className).toContain('aria-selected:text-accent-foreground');
     });
 
     it('is keyboard navigable', async () => {

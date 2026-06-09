@@ -38,7 +38,7 @@ export interface SelectProps
   autoFocus?: boolean;
 }
 
-// TODO: Remove when removing SingleSelect component
+/** @deprecated Use `SelectProps` instead. */
 export type SingleSelectProps = SelectProps;
 
 export interface SelectTriggerProps

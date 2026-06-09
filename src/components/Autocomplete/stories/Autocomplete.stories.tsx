@@ -163,7 +163,8 @@ type Story = StoryObj<typeof meta>;
 export const Playground: Story = {
   args: {
     loadOptions: mockSearchLibraries,
-    valueKey: 'value',
+    getOptionValue: (o: { value: string }) => o.value,
+    getOptionLabel: (o: { label: string }) => o.label,
     value: '',
     onChange: () => {},
     placeholder: 'Search...',

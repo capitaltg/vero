@@ -16,7 +16,8 @@ export const AutocompleteWithStaticOptions = ({
     <div className="space-y-4">
       <Autocomplete<AutocompleteOption>
         {...args}
-        labelKey="label"
+        getOptionLabel={o => o.label}
+        getOptionValue={o => o.value}
         options={[
           { value: '1', label: 'Option 1' },
           { value: '2', label: 'Option 2' },
@@ -24,7 +25,6 @@ export const AutocompleteWithStaticOptions = ({
         ]}
         placeholder="Select an option..."
         value={value}
-        valueKey="value"
         onChange={newValue => setValue(newValue)}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>

@@ -38,9 +38,8 @@ function AutocompleteInner<T>(
     autoFocus,
     renderOption,
     renderValue,
-    valueKey,
-    labelKey,
     getOptionValue,
+    getOptionLabel,
     ...props
   }: AutocompleteProps<T>,
   ref: React.ForwardedRef<HTMLButtonElement>,
@@ -60,9 +59,7 @@ function AutocompleteInner<T>(
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current);
-      }
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
     };
   }, []);
 
@@ -72,18 +69,13 @@ function AutocompleteInner<T>(
   }, [value]);
 
   const getOptionValueFn = useCallback(
-    (option: T): string => {
-      if (getOptionValue) return getOptionValue(option);
-      if (valueKey) return String((option as Record<string, unknown>)[String(valueKey)] ?? '');
-      return '';
-    },
-    [getOptionValue, valueKey],
+    (option: T): string => (getOptionValue ? getOptionValue(option) : ''),
+    [getOptionValue],
   );
 
   const fetchOptions = useCallback(
     async (search: string) => {
       if (!loadOptions) return;
-
       try {
         setLoading(true);
         setError(false);
@@ -104,20 +96,17 @@ function AutocompleteInner<T>(
   // Filter static options
   const filteredStaticOptions = useMemo(() => {
     if (loadOptions) return []; // Don't show static options in async mode
-
     const normalizedInput = inputValue.toLowerCase().trim();
     return options
       .filter(option => {
         if (normalizedInput.length === 0) return true;
-        if (labelKey) {
-          const label = (option as Record<string, unknown>)[String(labelKey)];
-          if (typeof label === 'string' && label.toLowerCase().includes(normalizedInput))
-            return true;
-        }
-        return getOptionValueFn(option).toLowerCase().includes(normalizedInput);
+        const searchTarget = getOptionLabel
+          ? getOptionLabel(option).toLowerCase()
+          : getOptionValueFn(option).toLowerCase();
+        return searchTarget.includes(normalizedInput);
       })
       .slice(0, maxSuggestions);
-  }, [loadOptions, options, inputValue, maxSuggestions, labelKey, getOptionValueFn]);
+  }, [loadOptions, options, inputValue, maxSuggestions, getOptionLabel, getOptionValueFn]);
 
   // Combined options for rendering
   const displayOptions = loadOptions ? asyncOptions : filteredStaticOptions;
@@ -155,15 +144,11 @@ function AutocompleteInner<T>(
       }
 
       // Clear existing timer
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current);
-      }
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
       // Handle async search
       if (loadOptions && input.length >= minSearch) {
-        debounceTimer.current = setTimeout(() => {
-          fetchOptions(input);
-        }, debounceMs);
+        debounceTimer.current = setTimeout(() => fetchOptions(input), debounceMs);
       } else if (loadOptions && input.length === 0) {
         setAsyncOptions([]);
       }
@@ -204,9 +189,7 @@ function AutocompleteInner<T>(
               {displayItem
                 ? renderValue
                   ? renderValue(displayItem)
-                  : labelKey
-                    ? String((displayItem as Record<string, unknown>)[String(labelKey)] ?? value)
-                    : value
+                  : (getOptionLabel?.(displayItem) ?? value)
                 : value || placeholder}
             </span>
             <div className="flex items-center gap-1">
@@ -263,11 +246,7 @@ function AutocompleteInner<T>(
                                 isSelected ? 'opacity-100' : 'opacity-0',
                               )}
                             />
-                            {labelKey
-                              ? String(
-                                  (option as Record<string, unknown>)[String(labelKey)] ?? optValue,
-                                )
-                              : optValue}
+                            {getOptionLabel?.(option) ?? optValue}
                           </>
                         )}
                       </CommandItem>

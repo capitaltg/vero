@@ -23,12 +23,12 @@ export const AutocompleteMinWidthPopover = (
       <Autocomplete<AutocompleteOption>
         {...args}
         className="w-72"
-        labelKey="label"
+        getOptionLabel={o => o.label}
+        getOptionValue={o => o.value}
         options={options}
         placeholder="Select..."
         popoverClassName="min-w-[50rem]"
         value={value}
-        valueKey="value"
         onChange={newValue => setValue(newValue)}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>

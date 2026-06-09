@@ -69,6 +69,7 @@ export const AutocompleteWithRenderValue = () => {
   return (
     <div className="space-y-4">
       <Autocomplete<TeamMember>
+        getOptionLabel={m => `${m.firstName} ${m.lastName}`}
         getOptionValue={m => m.id}
         options={members}
         placeholder="Select a team member..."

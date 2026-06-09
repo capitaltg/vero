@@ -28,8 +28,8 @@ export const AutocompleteWithItemCallback = ({
     <div className="space-y-4">
       <Autocomplete<User>
         {...args}
+        getOptionLabel={u => u.name}
         getOptionValue={u => String(u.id)}
-        labelKey="name"
         options={users}
         placeholder="Select a user..."
         value={value}

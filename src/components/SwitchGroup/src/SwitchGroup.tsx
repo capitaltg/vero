@@ -6,7 +6,16 @@ import { SwitchGroupProps } from '../types';
 
 const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
   (
-    { options, value, onChange, className, columns = 1, orientation = 'vertical', ...props },
+    {
+      options,
+      value,
+      onChange,
+      className,
+      columns = 1,
+      isDisabled,
+      orientation = 'vertical',
+      ...props
+    },
     ref,
   ) => {
     const layoutClasses = useFormGroupLayout({ orientation, columns });
@@ -32,7 +41,7 @@ const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
             key={option.id}
             id={option.id}
             isChecked={value.includes(option.id)}
-            isDisabled={option.isDisabled}
+            isDisabled={isDisabled || option.isDisabled}
             label={option.label}
             onCheckedChange={checked => handleSwitchChange(option.id, checked)}
           />

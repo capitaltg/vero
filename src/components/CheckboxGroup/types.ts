@@ -5,6 +5,7 @@ export interface CheckboxOption {
   id: string;
   label: string;
   description?: string;
+  isDisabled?: boolean;
   /** Optional explicit id for the checkbox input. Defaults to `${groupId}-${id}` when CheckboxGroup has an id. */
   inputId?: string;
 }
@@ -14,6 +15,7 @@ export interface CheckboxGroupProps extends Omit<HTMLAttributes<HTMLDivElement>,
   value: string[];
   onChange: (value: string[]) => void;
   className?: string;
+  isDisabled?: boolean;
   /** Number of columns for default and tile variants (vertical orientation). Defaults to 1. */
   columns?: 1 | 2 | 3 | 4;
   orientation?: 'horizontal' | 'vertical';

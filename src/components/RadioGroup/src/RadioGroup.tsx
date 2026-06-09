@@ -48,7 +48,7 @@ const RadioGroup = React.forwardRef<
                   description={option.description}
                   id={inputId}
                   isChecked={value === option.value}
-                  isDisabled={isDisabled}
+                  isDisabled={isDisabled || option.isDisabled}
                   label={option.label}
                   value={option.value}
                   variant={variant}

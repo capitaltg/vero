@@ -184,6 +184,13 @@ function AutocompleteInner<T>(
             role="combobox"
             variant="input"
             {...props}
+            onKeyDown={e => {
+              if ((e.key === 'Delete' || e.key === 'Backspace') && value && !open) {
+                e.preventDefault();
+                handleClear();
+              }
+              props.onKeyDown?.(e);
+            }}
           >
             <span className="truncate">
               {displayItem
@@ -192,7 +199,7 @@ function AutocompleteInner<T>(
                   : (getOptionLabel?.(displayItem) ?? value)
                 : value || placeholder}
             </span>
-            <div className="flex items-center gap-1">
+            <div aria-hidden="true" className="flex items-center gap-1">
               {value || inputValue ? (
                 <X
                   className="h-4 w-4 opacity-50 hover:opacity-100"

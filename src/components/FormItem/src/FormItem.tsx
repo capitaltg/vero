@@ -31,6 +31,22 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
     const hintId = `form-item-${childId}-hint`;
     const errorId = `form-item-${childId}-error`;
 
+    // Build aria-describedby from whichever hint/error IDs are active, merging with any
+    // existing aria-describedby on the child so we don't clobber consumer-supplied values.
+    const existingDescribedBy = (children.props as Record<string, unknown>)['aria-describedby'];
+    const describedByIds =
+      [
+        hintText ? hintId : null,
+        errorText ? errorId : null,
+        typeof existingDescribedBy === 'string' ? existingDescribedBy : null,
+      ]
+        .filter(Boolean)
+        .join(' ') || undefined;
+
+    const child = describedByIds
+      ? React.cloneElement(children, { 'aria-describedby': describedByIds })
+      : children;
+
     return (
       <div
         ref={ref}
@@ -58,7 +74,7 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
             ) : null}
           </div>
         ) : null}
-        {children}
+        {child}
         {errorText ? (
           <p className={cn(styles.text.error, 'mb-0 mt-0')} id={errorId}>
             {errorText}

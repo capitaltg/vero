@@ -128,7 +128,6 @@ export function useAriaDisabled({
     // keyboard events
     onKeyDown: handleKeyboardEvent,
     onKeyUp: handleKeyboardEvent,
-    onKeyPress: handleKeyboardEvent,
 
     // form events
     onInput: handleFormEvent,

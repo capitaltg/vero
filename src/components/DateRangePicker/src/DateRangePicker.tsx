@@ -70,7 +70,6 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
                 !value.from && !value.to && 'text-muted-foreground',
               )}
               data-component="date-range-picker"
-              id="date"
               isDisabled={isDisabled}
               variant="input"
               {...props}

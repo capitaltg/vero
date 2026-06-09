@@ -1,5 +1,6 @@
 import { Label } from '@/components/Label';
 import { useAriaDisabled } from '@/hooks';
+import { validateFormControlProps } from '@/lib/form-controls';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as SwitchPrimitives from '@radix-ui/react-switch';
@@ -29,14 +30,7 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
     const generatedId = useId();
     const computedId = id ?? generatedId;
 
-    if (!label && !ariaLabel) {
-      throw new Error('Switch must have either a label prop or an aria-label attribute');
-    }
-    if (label && ariaLabel) {
-      throw new Error(
-        'Switch must have either a label prop or an aria-label attribute, but not both',
-      );
-    }
+    validateFormControlProps('Switch', label, ariaLabel);
 
     return (
       <div className="flex items-center space-x-2">

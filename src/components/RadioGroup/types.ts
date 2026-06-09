@@ -5,14 +5,16 @@ export interface RadioOption {
   value: string;
   label: string;
   description?: string;
+  isDisabled?: boolean;
   /** Optional explicit id for the radio input. Defaults to `${groupId}-${value}` when RadioGroup has an id. */
   id?: string;
 }
 
 type RadioGroupBaseProps = Omit<
   ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
-  'onValueChange' | 'onChange'
+  'onValueChange' | 'onChange' | 'disabled'
 > & {
+  isDisabled?: boolean;
   value?: string;
   onChange?: (value: string) => void;
   className?: string;

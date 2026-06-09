@@ -1,10 +1,25 @@
+import { useFormGroupLayout } from '@/hooks';
 import { cn } from '@/lib/utils';
 import React, { useCallback } from 'react';
 import { Switch } from '../../Switch';
 import { SwitchGroupProps } from '../types';
 
 const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
-  ({ options, value, onChange, className, columns = 1, ...props }, ref) => {
+  (
+    {
+      options,
+      value,
+      onChange,
+      className,
+      columns = 1,
+      isDisabled,
+      orientation = 'vertical',
+      ...props
+    },
+    ref,
+  ) => {
+    const layoutClasses = useFormGroupLayout({ orientation, columns });
+
     const handleSwitchChange = useCallback(
       (id: string, isChecked: boolean) => {
         const addId = (id: string) => onChange([...value, id]);
@@ -20,19 +35,17 @@ const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
     );
 
     return (
-      <div ref={ref} className={cn('', className)} {...props}>
-        <div className={cn('grid gap-3', `grid-cols-${columns}`)}>
-          {options.map(option => (
-            <Switch
-              key={option.id}
-              id={option.id}
-              isChecked={value.includes(option.id)}
-              isDisabled={option.isDisabled}
-              label={option.label}
-              onCheckedChange={checked => handleSwitchChange(option.id, checked)}
-            />
-          ))}
-        </div>
+      <div ref={ref} className={cn(layoutClasses, className)} {...props}>
+        {options.map(option => (
+          <Switch
+            key={option.id}
+            id={option.id}
+            isChecked={value.includes(option.id)}
+            isDisabled={isDisabled || option.isDisabled}
+            label={option.label}
+            onCheckedChange={checked => handleSwitchChange(option.id, checked)}
+          />
+        ))}
       </div>
     );
   },

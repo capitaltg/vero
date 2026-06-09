@@ -1,3 +1,4 @@
+import { useAriaDisabled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
@@ -27,21 +28,24 @@ TabsList.displayName = TabsPrimitive.List.displayName;
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      styles.focusRing,
-      `inline-flex items-center justify-center whitespace-nowrap rounded px-3 py-1.5 text-sm
-      font-bold ring-offset-background transition-all hover:bg-primary-200 hover:text-primary
-      disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50
-      aria-disabled:cursor-not-allowed aria-disabled:opacity-50 data-[state=active]:bg-primary
-      data-[state=active]:text-white`,
-      className,
-    )}
-    {...props}
-  />
-));
+>(({ className, isDisabled, ...props }, ref) => {
+  const disabledProps = useAriaDisabled({ isDisabled });
+  return (
+    <TabsPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        styles.focusRing,
+        `inline-flex items-center justify-center whitespace-nowrap rounded px-3 py-1.5 text-sm
+        font-bold ring-offset-background transition-all hover:bg-primary-200 hover:text-primary
+        aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50
+        data-[state=active]:bg-primary data-[state=active]:text-white`,
+        className,
+      )}
+      {...props}
+      {...disabledProps}
+    />
+  );
+});
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
 const TabsContent = React.forwardRef<

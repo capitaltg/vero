@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SwitchGroup } from '../src/SwitchGroup';
 import { SwitchGroupDefault } from '../demos/SwitchGroupDefault';
+import { SwitchGroupHorizontal } from '../demos/SwitchGroupHorizontal';
+import { SwitchGroupVertical } from '../demos/SwitchGroupVertical';
 import { SwitchGroupWithSelection } from '../demos/SwitchGroupWithSelection';
 import { SwitchGroupSingleColumn } from '../demos/SwitchGroupSingleColumn';
 import { SwitchGroupThreeColumns } from '../demos/SwitchGroupThreeColumns';
 import { SwitchGroupWithManyOptions } from '../demos/SwitchGroupWithManyOptions';
 import sourceCodeDefault from '../demos/SwitchGroupDefault.tsx?raw';
+import sourceCodeHorizontal from '../demos/SwitchGroupHorizontal.tsx?raw';
+import sourceCodeVertical from '../demos/SwitchGroupVertical.tsx?raw';
 import sourceCodeWithSelection from '../demos/SwitchGroupWithSelection.tsx?raw';
 import sourceCodeSingleColumn from '../demos/SwitchGroupSingleColumn.tsx?raw';
 import sourceCodeThreeColumns from '../demos/SwitchGroupThreeColumns.tsx?raw';
@@ -37,10 +41,19 @@ const meta = {
       description: 'Array of switch options',
       type: { name: 'array', value: { name: 'object', value: {} }, required: true },
     },
+    orientation: {
+      control: 'radio',
+      options: ['horizontal', 'vertical'],
+      description: 'Layout orientation of the switch group',
+      type: { name: 'string', required: false },
+      table: {
+        type: { summary: 'horizontal | vertical' },
+      },
+    },
     columns: {
       control: 'radio',
       options: [1, 2, 3, 4],
-      description: 'Number of columns in the grid',
+      description: 'Number of columns in the grid (only applies when orientation is vertical)',
       type: { name: 'number', required: false },
     },
   },
@@ -80,6 +93,50 @@ export const Default: Story = {
     docs: {
       source: {
         code: sourceCodeDefault,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * SwitchGroup with horizontal layout.
+ * Shows switches arranged in a horizontal line.
+ */
+export const Horizontal: Story = {
+  render: () => <SwitchGroupHorizontal />,
+  args: {
+    options,
+    value: [],
+    onChange: () => {},
+    orientation: 'horizontal',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeHorizontal,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * SwitchGroup with vertical layout.
+ * Shows switches stacked vertically in one column.
+ */
+export const Vertical: Story = {
+  render: () => <SwitchGroupVertical />,
+  args: {
+    options,
+    value: [],
+    onChange: () => {},
+    orientation: 'vertical',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeVertical,
         language: 'tsx',
       },
     },

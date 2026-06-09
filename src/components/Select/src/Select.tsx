@@ -55,4 +55,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
 );
 Select.displayName = 'Select';
 
-export { Select, SelectGroup, SelectRoot, SelectValue, Select as SingleSelect };
+/** @deprecated Use `Select` instead. */
+const SingleSelect = Select;
+
+export { Select, SelectGroup, SelectRoot, SelectValue, SingleSelect };

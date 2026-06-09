@@ -14,6 +14,7 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
       className,
       columns = 1,
       id: groupId,
+      isDisabled,
       orientation = 'vertical',
       variant = 'default',
       ...props
@@ -34,6 +35,7 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
               description={option.description}
               id={inputId}
               isChecked={value.includes(option.id)}
+              isDisabled={isDisabled || option.isDisabled}
               label={option.label}
               variant={variant}
               onCheckedChange={isChecked => {

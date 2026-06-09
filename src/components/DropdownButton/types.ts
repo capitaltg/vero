@@ -20,4 +20,5 @@ export interface DropdownButtonProps
   className?: string;
   isDisabled?: boolean;
   align?: 'start' | 'center' | 'end';
+  zIndex?: number;
 }

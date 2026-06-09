@@ -13,5 +13,8 @@ export interface TabsProps extends ComponentPropsWithoutRef<typeof TabsPrimitive
 }
 
 export type TabsListProps = ComponentPropsWithoutRef<typeof TabsPrimitive.List>;
-export type TabsTriggerProps = ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>;
+export interface TabsTriggerProps
+  extends Omit<ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>, 'disabled'> {
+  isDisabled?: boolean;
+}
 export type TabsContentProps = ComponentPropsWithoutRef<typeof TabsPrimitive.Content>;

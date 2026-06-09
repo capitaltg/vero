@@ -9,7 +9,7 @@ export const TabsWithDisabledTab = ({
   <Tabs className="w-md" defaultValue={defaultValue} value={value} {...args}>
     <TabsList>
       <TabsTrigger value="active">Active Tab</TabsTrigger>
-      <TabsTrigger disabled value="disabled">
+      <TabsTrigger isDisabled value="disabled">
         Disabled Tab
       </TabsTrigger>
     </TabsList>

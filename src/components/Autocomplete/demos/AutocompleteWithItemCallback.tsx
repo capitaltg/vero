@@ -12,8 +12,8 @@ interface User {
 export const AutocompleteWithItemCallback = ({
   value: initialValue = '',
   ...args
-}: AutocompleteProps<User, 'id', 'name'>) => {
-  const [value, setValue] = useState<number | ''>(initialValue);
+}: AutocompleteProps<User>) => {
+  const [value, setValue] = useState<string>(initialValue);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const users: User[] = [
@@ -26,13 +26,13 @@ export const AutocompleteWithItemCallback = ({
 
   return (
     <div className="space-y-4">
-      <Autocomplete<User, 'id', 'name'>
+      <Autocomplete<User>
         {...args}
-        labelKey="name"
+        getOptionLabel={u => u.name}
+        getOptionValue={u => String(u.id)}
         options={users}
         placeholder="Select a user..."
         value={value}
-        valueKey="id"
         onChange={(newValue, item) => {
           setValue(newValue);
           setSelectedUser(item || null);

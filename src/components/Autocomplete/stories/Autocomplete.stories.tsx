@@ -4,6 +4,8 @@ import { AutocompleteDefault } from '../demos/AutocompleteDefault';
 import sourceCodeDefault from '../demos/AutocompleteDefault.tsx?raw';
 import { AutocompleteWithCustomRender } from '../demos/AutocompleteWithCustomRender';
 import sourceCodeWithCustomRender from '../demos/AutocompleteWithCustomRender.tsx?raw';
+import { AutocompleteWithRenderValue } from '../demos/AutocompleteWithRenderValue';
+import sourceCodeWithRenderValue from '../demos/AutocompleteWithRenderValue.tsx?raw';
 import { AutocompleteWithItemCallback } from '../demos/AutocompleteWithItemCallback';
 import sourceCodeWithItemCallback from '../demos/AutocompleteWithItemCallback.tsx?raw';
 import { AutocompleteMinWidthPopover } from '../demos/AutocompleteMinWidthPopover';
@@ -161,7 +163,8 @@ type Story = StoryObj<typeof meta>;
 export const Playground: Story = {
   args: {
     loadOptions: mockSearchLibraries,
-    valueKey: 'value',
+    getOptionValue: (o: { value: string }) => o.value,
+    getOptionLabel: (o: { label: string }) => o.label,
     value: '',
     onChange: () => {},
     placeholder: 'Search...',
@@ -176,9 +179,7 @@ export const Playground: Story = {
  * Search for "React" to see results.
  */
 export const Default: Story = {
-  render: () => (
-    <AutocompleteDefault labelKey="label" value="" valueKey="value" onChange={() => {}} />
-  ),
+  render: () => <AutocompleteDefault value="" onChange={() => {}} />,
   // @ts-expect-error - Storybook can't properly infer generic types
   args: {},
   parameters: {
@@ -196,9 +197,7 @@ export const Default: Story = {
  * This shows how the component behaves with a predefined list of options.
  */
 export const WithStaticOptions: Story = {
-  render: () => (
-    <AutocompleteWithStaticOptions labelKey="label" value="" valueKey="value" onChange={() => {}} />
-  ),
+  render: () => <AutocompleteWithStaticOptions value="" onChange={() => {}} />,
   // @ts-expect-error - Storybook can't properly infer generic types
   args: {},
   parameters: {
@@ -212,14 +211,31 @@ export const WithStaticOptions: Story = {
 };
 
 /**
+ * Uses `renderValue` and `renderOption` together with `getOptionValue` — no `labelKey` or
+ * `valueKey` needed. `renderValue` controls what appears in the trigger after a selection;
+ * `renderOption` controls each row in the dropdown.
+ */
+export const WithRenderValue: Story = {
+  render: () => <AutocompleteWithRenderValue />,
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithRenderValue,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
  * An example of the Autocomplete component with a custom renderOption function.
  * This demonstrates how to customize the appearance of each option, including showing
  * additional information like descriptions and featured badges.
  */
 export const WithCustomRender: Story = {
-  render: () => (
-    <AutocompleteWithCustomRender labelKey="label" value="" valueKey="value" onChange={() => {}} />
-  ),
+  render: () => <AutocompleteWithCustomRender value="" onChange={() => {}} />,
   // @ts-expect-error - Storybook can't properly infer generic types
   args: {},
   parameters: {
@@ -238,9 +254,7 @@ export const WithCustomRender: Story = {
  * is made, which is useful for displaying additional information or performing actions with the full data.
  */
 export const WithItemCallback: Story = {
-  render: () => (
-    <AutocompleteWithItemCallback labelKey="name" value="" valueKey="id" onChange={() => {}} />
-  ),
+  render: () => <AutocompleteWithItemCallback value="" onChange={() => {}} />,
   // @ts-expect-error - Storybook can't properly infer generic types
   args: {},
   parameters: {
@@ -259,9 +273,7 @@ export const WithItemCallback: Story = {
  * fit long option labels.
  */
 export const MinWidthPopover: Story = {
-  render: () => (
-    <AutocompleteMinWidthPopover labelKey="label" value="" valueKey="value" onChange={() => {}} />
-  ),
+  render: () => <AutocompleteMinWidthPopover value="" onChange={() => {}} />,
   // @ts-expect-error - Storybook can't properly infer generic types
   args: {},
   parameters: {

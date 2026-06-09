@@ -10,13 +10,14 @@ interface AutocompleteOption {
 export const AutocompleteWithStaticOptions = ({
   value: initialValue = '',
   ...args
-}: AutocompleteProps<AutocompleteOption, 'value', 'label'>) => {
+}: AutocompleteProps<AutocompleteOption>) => {
   const [value, setValue] = useState<string>(initialValue);
   return (
     <div className="space-y-4">
-      <Autocomplete<AutocompleteOption, 'value', 'label'>
+      <Autocomplete<AutocompleteOption>
         {...args}
-        labelKey="label"
+        getOptionLabel={o => o.label}
+        getOptionValue={o => o.value}
         options={[
           { value: '1', label: 'Option 1' },
           { value: '2', label: 'Option 2' },
@@ -24,7 +25,6 @@ export const AutocompleteWithStaticOptions = ({
         ]}
         placeholder="Select an option..."
         value={value}
-        valueKey="value"
         onChange={newValue => setValue(newValue)}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>

@@ -15,20 +15,20 @@ const options: AutocompleteOption[] = [
 ];
 
 export const AutocompleteMinWidthPopover = (
-  args: Partial<AutocompleteProps<AutocompleteOption, 'value', 'label'>>,
+  args: Partial<AutocompleteProps<AutocompleteOption>>,
 ) => {
   const [value, setValue] = useState<string>('');
   return (
     <div className="space-y-4">
-      <Autocomplete<AutocompleteOption, 'value', 'label'>
+      <Autocomplete<AutocompleteOption>
         {...args}
         className="w-72"
-        labelKey="label"
+        getOptionLabel={o => o.label}
+        getOptionValue={o => o.value}
         options={options}
         placeholder="Select..."
         popoverClassName="min-w-[50rem]"
         value={value}
-        valueKey="value"
         onChange={newValue => setValue(newValue)}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>

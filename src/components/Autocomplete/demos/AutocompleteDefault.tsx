@@ -11,17 +11,17 @@ interface AutocompleteOption {
 export const AutocompleteDefault = ({
   value: initialValue = '',
   ...args
-}: AutocompleteProps<AutocompleteOption, 'value', 'label'>) => {
+}: AutocompleteProps<AutocompleteOption>) => {
   const [value, setValue] = useState<string>(initialValue);
   return (
     <div className="space-y-4">
-      <Autocomplete<AutocompleteOption, 'value', 'label'>
+      <Autocomplete<AutocompleteOption>
         {...args}
-        labelKey="label"
+        getOptionLabel={o => o.label}
+        getOptionValue={o => o.value}
         loadOptions={mockSearchLibraries}
         placeholder="Search..."
         value={value}
-        valueKey="value"
         onChange={newValue => setValue(newValue)}
       />
       <p className="text-sm text-muted-foreground">Selected value: {value || 'none'}</p>

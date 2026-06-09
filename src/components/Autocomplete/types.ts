@@ -1,12 +1,11 @@
 import { ButtonHTMLAttributes } from 'react';
 
-// Pick form-related attributes from SelectHTMLAttributes that we want to support
 type AutocompleteFormAttributes = Pick<
   React.SelectHTMLAttributes<HTMLSelectElement>,
   'name' | 'required' | 'autoFocus'
 >;
 
-export interface AutocompleteProps<T, K extends keyof T, L extends keyof T>
+export interface AutocompleteProps<T>
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled' | 'value'>,
     AutocompleteFormAttributes {
   /**
@@ -21,26 +20,43 @@ export interface AutocompleteProps<T, K extends keyof T, L extends keyof T>
    */
   options?: T[];
   /**
-   * The currently selected value. Must match the value of one of the options using the valueKey.
+   * The currently selected value as a string.
    * Use an empty string ('') to represent no selection.
    */
-  value: T[K] | '';
+  value: string;
   /**
-   * The key to use for the value property in option objects.
-   * Must be a key of T.
+   * Derives the unique string value for an option, used for selection matching and onChange.
+   * Required unless all options are uniquely identifiable by another means.
    */
-  valueKey: K;
+  getOptionValue?: (option: T) => string;
   /**
-   * The key to use for the label property in option objects.
-   * Must be a key of T.
+   * Derives the display label for an option.
+   * Used as the default label in the dropdown and trigger, and as the field searched when
+   * filtering static options. If not provided, filtering falls back to the option value string.
    */
-  labelKey: L;
+  getOptionLabel?: (option: T) => string;
   /**
    * Callback function invoked when the selected value changes.
-   * @param value - The selected value from the option object.
+   * @param value - The selected option's value as a string, or empty string when clearing.
    * @param item - The full option object, or undefined when clearing the selection.
    */
-  onChange: (value: T[K], item?: T) => void;
+  onChange: (value: string, item?: T) => void;
+  /**
+   * Custom render function for the selected value shown in the trigger button.
+   * Receives the full selected option object. Falls back to getOptionLabel, then the raw value string.
+   * @param option - The currently selected option object.
+   * @returns A React node to render inside the trigger.
+   */
+
+  renderValue?: (option: T) => React.ReactNode;
+  /**
+   * Custom render function for each option in the dropdown.
+   * Receives the option object and whether it's currently selected.
+   * If not provided, defaults to rendering a Check icon and the getOptionLabel value.
+   * @param isSelected - Whether this option is currently selected.
+   * @returns A React node to render for this option.
+   */
+  renderOption?: (option: T, isSelected: boolean) => React.ReactNode;
   /**
    * Placeholder text displayed when no option is selected.
    * @default 'Select an option...'
@@ -66,7 +82,6 @@ export interface AutocompleteProps<T, K extends keyof T, L extends keyof T>
   maxSuggestions?: number;
   /**
    * Debounce delay for async searches in milliseconds.
-   * Prevents excessive API calls by waiting for the user to stop typing.
    * @default 300
    */
   debounceMs?: number;
@@ -96,27 +111,15 @@ export interface AutocompleteProps<T, K extends keyof T, L extends keyof T>
   zIndex?: number;
   /**
    * Whether the component is disabled.
-   * When true, the autocomplete cannot be interacted with.
    * @default false
    */
   isDisabled?: boolean;
   /**
-   * Custom render function for each option in the dropdown.
-   * Receives the option object and whether it's currently selected.
-   * If not provided, defaults to rendering a Check icon and the option label.
-   * @param option - The option object of type T.
-   * @param isSelected - Whether this option is currently selected.
-   * @returns A React node to render for this option.
-   */
-  renderOption?: (option: T, isSelected: boolean) => React.ReactNode;
-  /**
    * The name attribute for form submission.
-   * This is required for the autocomplete value to be included in form data.
    */
   name?: string;
   /**
    * Whether the autocomplete is required for form validation.
-   * When true, the form cannot be submitted without a selection.
    */
   required?: boolean;
   /**

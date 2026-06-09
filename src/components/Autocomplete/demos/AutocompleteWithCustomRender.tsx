@@ -14,11 +14,11 @@ interface AutocompleteOption {
 export const AutocompleteWithCustomRender = ({
   value: initialValue = '',
   ...args
-}: AutocompleteProps<AutocompleteOption, 'value', 'label'>) => {
+}: AutocompleteProps<AutocompleteOption>) => {
   const [value, setValue] = useState<string>(initialValue);
   return (
     <div className="space-y-4">
-      <Autocomplete<AutocompleteOption, 'value', 'label'>
+      <Autocomplete<AutocompleteOption>
         {...args}
         labelKey="label"
         options={[

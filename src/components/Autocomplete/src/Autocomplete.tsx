@@ -14,9 +14,8 @@ import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AutocompleteProps } from '../types';
-import { extractOptionFields } from './utils';
 
-function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
+function AutocompleteInner<T>(
   {
     loadOptions,
     options = [],
@@ -38,10 +37,12 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
     required,
     autoFocus,
     renderOption,
+    renderValue,
     valueKey,
     labelKey,
+    getOptionValue,
     ...props
-  }: AutocompleteProps<T, K, L>,
+  }: AutocompleteProps<T>,
   ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
   const [open, setOpen] = useState(false);
@@ -51,6 +52,7 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
   const [error, setError] = useState(false);
   const [asyncOptions, setAsyncOptions] = useState<T[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<T | undefined>(undefined);
 
   // Debounce timer reference
   const debounceTimer = useRef<NodeJS.Timeout>();
@@ -63,6 +65,20 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
       }
     };
   }, []);
+
+  // Clear selectedItem when value is externally cleared
+  useEffect(() => {
+    if (!value) setSelectedItem(undefined);
+  }, [value]);
+
+  const getOptionValueFn = useCallback(
+    (option: T): string => {
+      if (getOptionValue) return getOptionValue(option);
+      if (valueKey) return String((option as Record<string, unknown>)[String(valueKey)] ?? '');
+      return '';
+    },
+    [getOptionValue, valueKey],
+  );
 
   const fetchOptions = useCallback(
     async (search: string) => {
@@ -90,58 +106,42 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
     if (loadOptions) return []; // Don't show static options in async mode
 
     const normalizedInput = inputValue.toLowerCase().trim();
-    if (normalizedInput.length > 0) {
-      setHasSearched(true);
-    }
     return options
       .filter(option => {
-        const opt = option as Record<string, unknown>;
-        const valueKeyStr = String(valueKey);
-        const labelKeyStr = String(labelKey);
-        return (
-          (typeof opt[labelKeyStr] === 'string' &&
-            String(opt[labelKeyStr]).toLowerCase().includes(normalizedInput)) ||
-          (typeof opt[valueKeyStr] === 'string' &&
-            String(opt[valueKeyStr]).toLowerCase().includes(normalizedInput))
-        );
+        if (normalizedInput.length === 0) return true;
+        if (labelKey) {
+          const label = (option as Record<string, unknown>)[String(labelKey)];
+          if (typeof label === 'string' && label.toLowerCase().includes(normalizedInput))
+            return true;
+        }
+        return getOptionValueFn(option).toLowerCase().includes(normalizedInput);
       })
       .slice(0, maxSuggestions);
-  }, [loadOptions, options, inputValue, maxSuggestions, valueKey, labelKey]);
+  }, [loadOptions, options, inputValue, maxSuggestions, labelKey, getOptionValueFn]);
 
   // Combined options for rendering
   const displayOptions = loadOptions ? asyncOptions : filteredStaticOptions;
 
-  // Convert value to string for comparison
-  const valueAsString = useMemo(() => {
-    if (value === '') return '';
-    return String(value);
-  }, [value]);
-
-  const valueKeyStr = String(valueKey);
-
-  const selectedOption = useMemo(
-    () =>
-      displayOptions.find(
-        option => String((option as Record<string, unknown>)[valueKeyStr]) === valueAsString,
-      ),
-    [displayOptions, valueAsString, valueKeyStr],
-  );
+  // For externally-controlled values, look up the item from static options
+  const displayItem = useMemo(() => {
+    if (selectedItem) return selectedItem;
+    if (!value) return undefined;
+    if (!loadOptions) return options.find(o => getOptionValueFn(o) === value);
+    return undefined;
+  }, [selectedItem, value, loadOptions, options, getOptionValueFn]);
 
   const handleSelect = useCallback(
     (selectedValue: string) => {
-      // Find the option and extract the typed value
-      const option = displayOptions.find(
-        opt => String((opt as Record<string, unknown>)[valueKeyStr]) === selectedValue,
-      );
+      const option = displayOptions.find(opt => getOptionValueFn(opt) === selectedValue);
       if (option) {
-        const typedValue = (option as Record<string, unknown>)[valueKeyStr] as T[K];
-        onChange(typedValue, option);
+        setSelectedItem(option);
+        onChange(selectedValue, option);
       }
       setOpen(false);
       setInputValue('');
       setHasSearched(false);
     },
-    [onChange, displayOptions, valueKeyStr],
+    [onChange, displayOptions, getOptionValueFn],
   );
 
   const handleInputChange = useCallback(
@@ -150,6 +150,8 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
 
       if (input.length === 0) {
         setHasSearched(false);
+      } else if (!loadOptions) {
+        setHasSearched(true);
       }
 
       // Clear existing timer
@@ -170,7 +172,8 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
   );
 
   const handleClear = useCallback(() => {
-    onChange('' as T[K], undefined);
+    onChange('', undefined);
+    setSelectedItem(undefined);
     setInputValue('');
     setAsyncOptions([]);
     setHasSearched(false);
@@ -179,12 +182,7 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
   return (
     <>
       {name || required ? (
-        <input
-          name={name}
-          required={required}
-          type="hidden"
-          value={value === '' ? '' : String(value)}
-        />
+        <input name={name} required={required} type="hidden" value={value} />
       ) : null}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -194,7 +192,7 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
             autoFocus={autoFocus}
             className={cn(
               'w-full justify-between px-3',
-              !selectedOption && !value && 'text-muted-foreground',
+              !value && 'text-muted-foreground',
               className,
             )}
             isDisabled={isDisabled}
@@ -203,19 +201,16 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
             {...props}
           >
             <span className="truncate">
-              {(() => {
-                if (selectedOption) {
-                  const label = (selectedOption as Record<string, unknown>)[String(labelKey)];
-                  if (typeof label === 'string') {
-                    return label;
-                  }
-                  return value ? String(value) : placeholder;
-                }
-                return value ? String(value) : placeholder;
-              })()}
+              {displayItem
+                ? renderValue
+                  ? renderValue(displayItem)
+                  : labelKey
+                    ? String((displayItem as Record<string, unknown>)[String(labelKey)] ?? value)
+                    : value
+                : value || placeholder}
             </span>
             <div className="flex items-center gap-1">
-              {(value !== '' && value) || inputValue ? (
+              {value || inputValue ? (
                 <X
                   className="h-4 w-4 opacity-50 hover:opacity-100"
                   onClick={e => {
@@ -247,19 +242,13 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
             {!loading && !error && displayOptions.length > 0 ? (
               <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
                 <CommandGroup>
-                  {displayOptions.map(option => {
-                    const { value: optValue, label: optLabel } = extractOptionFields(
-                      option,
-                      valueKey,
-                      labelKey,
-                    );
-                    const isSelected = Boolean(
-                      optValue && value !== '' && optValue === valueAsString,
-                    );
+                  {displayOptions.map((option, index) => {
+                    const optValue = getOptionValueFn(option);
+                    const isSelected = Boolean(optValue && value && optValue === value);
 
                     return (
                       <CommandItem
-                        key={optValue}
+                        key={optValue || index}
                         className="cursor-pointer"
                         value={optValue}
                         onSelect={handleSelect}
@@ -274,7 +263,11 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
                                 isSelected ? 'opacity-100' : 'opacity-0',
                               )}
                             />
-                            {optLabel}
+                            {labelKey
+                              ? String(
+                                  (option as Record<string, unknown>)[String(labelKey)] ?? optValue,
+                                )
+                              : optValue}
                           </>
                         )}
                       </CommandItem>
@@ -293,8 +286,8 @@ function AutocompleteInner<T, K extends keyof T, L extends keyof T>(
 const AutocompleteBase = React.forwardRef(AutocompleteInner);
 AutocompleteBase.displayName = 'Autocomplete';
 
-const Autocomplete = AutocompleteBase as unknown as <T, K extends keyof T, L extends keyof T>(
-  props: AutocompleteProps<T, K, L> & { ref?: React.ForwardedRef<HTMLButtonElement> },
+const Autocomplete = AutocompleteBase as unknown as <T>(
+  props: AutocompleteProps<T> & { ref?: React.ForwardedRef<HTMLButtonElement> },
 ) => React.ReactElement;
 
 export { Autocomplete };

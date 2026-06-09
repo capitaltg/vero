@@ -15,12 +15,12 @@ const options: AutocompleteOption[] = [
 ];
 
 export const AutocompleteMinWidthPopover = (
-  args: Partial<AutocompleteProps<AutocompleteOption, 'value', 'label'>>,
+  args: Partial<AutocompleteProps<AutocompleteOption>>,
 ) => {
   const [value, setValue] = useState<string>('');
   return (
     <div className="space-y-4">
-      <Autocomplete<AutocompleteOption, 'value', 'label'>
+      <Autocomplete<AutocompleteOption>
         {...args}
         className="w-72"
         labelKey="label"

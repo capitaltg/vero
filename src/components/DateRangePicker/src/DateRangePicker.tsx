@@ -20,6 +20,8 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       className,
       zIndex,
       isDisabled = false,
+      startMonth,
+      endMonth,
       name,
       required,
       autoFocus,
@@ -94,6 +96,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
             <Calendar
               autoFocus
               defaultMonth={value.from}
+              endMonth={endMonth}
               mode="range"
               modifiers={{
                 today: () => false, // Disable the "today" modifier
@@ -104,6 +107,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
                 to: value.to,
               }}
               showOutsideDays={false}
+              startMonth={startMonth}
               onDayClick={handleDayClick}
               onSelect={range => {
                 if (range) onChange(range);

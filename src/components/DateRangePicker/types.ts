@@ -23,6 +23,8 @@ export interface DateRangePickerProps
   className?: string;
   zIndex?: number;
   isDisabled?: boolean;
+  startMonth?: Date;
+  endMonth?: Date;
   /**
    * The name attribute for form submission.
    * This is required for the date range picker value to be included in form data.

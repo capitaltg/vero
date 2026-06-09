@@ -11,5 +11,6 @@ export interface SwitchGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, '
   value: string[];
   className?: string;
   columns?: 1 | 2 | 3 | 4;
+  orientation?: 'horizontal' | 'vertical';
   onChange: (value: string[]) => void;
 }

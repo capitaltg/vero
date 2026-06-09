@@ -37,6 +37,7 @@ export * from './components/Textarea';
 export * from './components/Tooltip';
 
 // Export utilities
+export * from './lib/form-controls';
 export * from './lib/utils';
 export * from './lib/z-index';
 

@@ -16,7 +16,9 @@ const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
                   {item.label}
                 </a>
               ) : (
-                <span className="font-medium text-foreground">{item.label}</span>
+                <span aria-current="page" className="font-medium text-foreground">
+                  {item.label}
+                </span>
               )}
               {index < items.length - 1 ? (
                 <span className="text-muted-foreground">{separator}</span>

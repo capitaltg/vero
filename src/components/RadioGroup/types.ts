@@ -11,8 +11,9 @@ export interface RadioOption {
 
 type RadioGroupBaseProps = Omit<
   ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>,
-  'onValueChange' | 'onChange'
+  'onValueChange' | 'onChange' | 'disabled'
 > & {
+  isDisabled?: boolean;
   value?: string;
   onChange?: (value: string) => void;
   className?: string;

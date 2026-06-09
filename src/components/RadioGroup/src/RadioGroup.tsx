@@ -19,6 +19,7 @@ const RadioGroup = React.forwardRef<
       className,
       columns = 1,
       id: groupId,
+      isDisabled,
       orientation = 'vertical',
       variant = 'default',
       ...props
@@ -47,6 +48,7 @@ const RadioGroup = React.forwardRef<
                   description={option.description}
                   id={inputId}
                   isChecked={value === option.value}
+                  isDisabled={isDisabled}
                   label={option.label}
                   value={option.value}
                   variant={variant}

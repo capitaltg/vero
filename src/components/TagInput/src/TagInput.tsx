@@ -1,5 +1,6 @@
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
+import { useAriaDisabled } from '@/hooks/useAriaDisabled';
 import { X } from 'lucide-react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Tag, TagInputProps } from '../types';
@@ -25,6 +26,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
     const [focusedTagIndex, setFocusedTagIndex] = useState<number>(-1);
     const inputRef = useRef<HTMLInputElement>(null);
     const tagsRef = useRef<(HTMLButtonElement | null)[]>([]);
+    const tagDisabledProps = useAriaDisabled({ isDisabled });
 
     const delimiters = useMemo(() => {
       if (!delimiterChars) return [];
@@ -123,6 +125,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
     };
 
     const handleContainerClick = (evt: React.MouseEvent) => {
+      if (isDisabled) return;
       if (evt.target === evt.currentTarget) {
         inputRef.current?.focus();
         setFocusedTagIndex(-1);
@@ -152,6 +155,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
         ) : null}
         <div
           ref={ref}
+          aria-disabled={isDisabled || undefined}
           className={cn(
             styles.input,
             styles.focusRingWithin,
@@ -166,6 +170,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             <button
               key={tag.id}
               ref={el => (tagsRef.current[index] = el)}
+              aria-label={`Remove ${tag.text}`}
               className={cn(
                 `flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm
                 text-secondary-foreground transition-colors`,
@@ -174,33 +179,33 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                 styles.focusRing,
                 'focus:ring-2 focus:ring-offset-0',
               )}
-              disabled={isDisabled}
               type="button"
-              onClick={evt => evt.stopPropagation()}
+              onClick={evt => {
+                evt.stopPropagation();
+                if (!isDisabled) removeTag(tag.id);
+              }}
               onKeyDown={evt => handleTagKeyDown(evt, index)}
+              {...tagDisabledProps}
             >
               {tag.text}
-              {!isDisabled ? (
-                <X
-                  aria-label={`Remove ${tag.text}`}
-                  className="h-3 w-3 opacity-50 transition-opacity hover:opacity-100"
-                  role="button"
-                  strokeWidth={3}
-                  onClick={evt => {
-                    evt.stopPropagation();
-                    removeTag(tag.id);
-                  }}
-                />
-              ) : null}
+              <X
+                aria-hidden="true"
+                className={cn(
+                  'h-3 w-3 opacity-50 transition-opacity',
+                  !isDisabled && 'hover:opacity-100',
+                )}
+                strokeWidth={3}
+              />
             </button>
           ))}
           <input
             ref={inputRef}
+            aria-disabled={isDisabled || undefined}
             autoFocus={autoFocus}
             className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground
-              disabled:cursor-not-allowed"
-            disabled={isDisabled || (maxTags !== undefined && value.length >= maxTags)}
+              read-only:cursor-not-allowed"
             placeholder={value.length === 0 ? placeholderText : ''}
+            readOnly={isDisabled || (maxTags !== undefined && value.length >= maxTags)}
             type="text"
             value={inputValue}
             onChange={handleInputChange}

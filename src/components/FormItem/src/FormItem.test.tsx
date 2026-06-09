@@ -77,6 +77,26 @@ describe('FormItem', () => {
     expect(document.getElementById('form-item-test-input-error')).toHaveTextContent('Error text');
   });
 
+  it('hint element has a data-testid matching its id', () => {
+    render(
+      <FormItem elementId="test-input" hintText="Hint text" label="Label">
+        <input id="test-input" />
+      </FormItem>,
+    );
+    const hint = screen.getByTestId('form-item-test-input-hint');
+    expect(hint).toHaveTextContent('Hint text');
+  });
+
+  it('error element has a data-testid matching its id', () => {
+    render(
+      <FormItem elementId="test-input" errorText="Error text" label="Label">
+        <input id="test-input" />
+      </FormItem>,
+    );
+    const error = screen.getByTestId('form-item-test-input-error');
+    expect(error).toHaveTextContent('Error text');
+  });
+
   it('throws when neither elementId nor child id is provided', () => {
     expect(() =>
       render(

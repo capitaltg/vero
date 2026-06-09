@@ -2,6 +2,7 @@ import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import { AlertCircle, AlertTriangle, CheckCircle2, Info, X } from 'lucide-react';
 import * as React from 'react';
+import { useId } from 'react';
 import {
   alertContentVariants,
   alertHeadingVariants,
@@ -27,6 +28,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     ref,
   ) => {
     const HeadingTag = headingLevel;
+    const headingId = useId();
     const icons = {
       success: <CheckCircle2 />,
       warning: <AlertTriangle />,
@@ -35,15 +37,26 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     };
 
     return (
-      <div ref={ref} className={cn(alertVariants({ variant, size }), className)} {...props}>
+      <div
+        ref={ref}
+        aria-labelledby={heading ? headingId : undefined}
+        className={cn(alertVariants({ variant, size }), className)}
+        role="alert"
+        {...props}
+      >
         {hasIcon ? (
-          <span className={cn(alertIconVariants({ variant, size, hasHeading: !!heading }))}>
+          <span
+            aria-hidden="true"
+            className={cn(alertIconVariants({ variant, size, hasHeading: !!heading }))}
+          >
             {icons[variant]}
           </span>
         ) : null}
         <div className={cn(alertContentVariants({ size, hasIcon, hasHeading: !!heading }))}>
           {heading ? (
-            <HeadingTag className={cn(alertHeadingVariants({ size }))}>{heading}</HeadingTag>
+            <HeadingTag className={cn(alertHeadingVariants({ size }))} id={headingId}>
+              {heading}
+            </HeadingTag>
           ) : null}
           {children}
         </div>

@@ -13,7 +13,7 @@ function TooltipProvider({
   return <TooltipPrimitive.Provider delayDuration={delayDuration} {...props} />;
 }
 
-const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Root>, TooltipProps>(
+const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Content>, TooltipProps>(
   (
     {
       children,

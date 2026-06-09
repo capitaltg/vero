@@ -21,7 +21,6 @@ export type UseAriaDisabledActive = {
   // keyboard events
   onKeyDown: (evt: React.KeyboardEvent) => void;
   onKeyUp: (evt: React.KeyboardEvent) => void;
-  onKeyPress: (evt: React.KeyboardEvent) => void;
 
   // form events
   onInput: (evt: React.FormEvent) => void;

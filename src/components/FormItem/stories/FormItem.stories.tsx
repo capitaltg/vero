@@ -44,7 +44,8 @@ const meta = {
     },
     hintText: {
       control: 'text',
-      description: 'Hint text to display below the label and above the form element.',
+      description:
+        'Hint text to display below the label and above the form element. When provided, FormItem automatically injects `aria-describedby` pointing to the hint element into the child form control.',
       table: {
         type: {
           summary: 'string',
@@ -54,7 +55,7 @@ const meta = {
     errorText: {
       control: 'text',
       description:
-        'Error text to display below the form element. If provided, the form item will be styled to indicate an error.',
+        'Error text to display below the form element. When provided, FormItem automatically injects `aria-invalid="true"` and `aria-describedby` pointing to the error element into the child form control, so screen readers announce the error without any additional wiring.',
       table: {
         type: {
           summary: 'string',

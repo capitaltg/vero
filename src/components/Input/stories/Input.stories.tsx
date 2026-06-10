@@ -56,6 +56,14 @@ const meta = {
         },
       },
     },
+    required: {
+      control: 'boolean',
+      description:
+        'Marks the input as required for form validation. The form cannot be submitted without a value, and screen readers will announce the field as required.',
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
     className: {
       type: 'string',
       description: 'Additional class names to apply to the input',

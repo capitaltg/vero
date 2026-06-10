@@ -95,6 +95,14 @@ const meta = {
         'Number of columns for default and tile variants (only applies when orientation is vertical). Defaults to 1.',
       type: { name: 'number', required: false },
     },
+    required: {
+      control: 'boolean',
+      description:
+        'Marks the group as required for form validation. Sets `aria-required` on the group root and `required` on the underlying hidden inputs so screen readers announce it and the form cannot be submitted without a selection.',
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof RadioGroup>;

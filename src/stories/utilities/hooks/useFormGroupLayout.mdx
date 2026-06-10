@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Hooks/useFormGroupLayout" />
+
+# useFormGroupLayout
+
+Returns a `className` string for form group containers. Used internally by `CheckboxGroup`, `RadioGroup`, and `SwitchGroup` — available for consumers building custom group components.
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>variant</code>
+      </td>
+      <td>
+        <code>'default' | 'tile' | 'button'</code>
+      </td>
+      <td>
+        <code>'default'</code>
+      </td>
+      <td>
+        Controls the layout style. <code>default</code> and <code>tile</code> use a grid;{' '}
+        <code>button</code> produces a flush button group.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>orientation</code>
+      </td>
+      <td>
+        <code>'horizontal' | 'vertical'</code>
+      </td>
+      <td>
+        <code>'vertical'</code>
+      </td>
+      <td>
+        <code>horizontal</code> produces a flex row; <code>vertical</code> uses a responsive column
+        grid.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>columns</code>
+      </td>
+      <td>
+        <code>1 | 2 | 3 | 4</code>
+      </td>
+      <td>
+        <code>2</code>
+      </td>
+      <td>
+        Number of columns for vertical grid layouts. Ignored when <code>orientation</code> is{' '}
+        <code>'horizontal'</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+import { useFormGroupLayout } from '@capitaltg/vero';
+
+function MyOptionGroup({ orientation = 'vertical', columns = 1, children }) {
+  const layoutClasses = useFormGroupLayout({ orientation, columns });
+  return <div className={layoutClasses}>{children}</div>;
+}
+```

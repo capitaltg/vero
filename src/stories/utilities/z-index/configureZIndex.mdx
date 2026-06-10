@@ -1,0 +1,91 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Z-Index/configureZIndex" />
+
+# configureZIndex
+
+Sets global z-index defaults for any or all overlay types. Call this once during app initialization, before any components render.
+
+All overlay components in Vero (`Select`, `Combobox`, `Popover`, `Tooltip`, `Dialog`, `DropdownButton`) use a shared z-index system configured through these functions.
+
+```ts
+import { configureZIndex } from '@capitaltg/vero';
+```
+
+## Signature
+
+```ts
+configureZIndex(config: Partial<ZIndexConfig>): void
+```
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>config</code>
+      </td>
+      <td>
+        <code>Partial&lt;ZIndexConfig&gt;</code>
+      </td>
+      <td>
+        An object with any subset of the z-index keys (<code>popover</code>, <code>tooltip</code>,{' '}
+        <code>overlay</code>, <code>dialog</code>, <code>dropdown</code>) mapped to number values.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Default values
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>popover</code></td>
+      <td><code>50</code></td>
+    </tr>
+    <tr>
+      <td><code>tooltip</code></td>
+      <td><code>50</code></td>
+    </tr>
+    <tr>
+      <td><code>overlay</code></td>
+      <td><code>50</code></td>
+    </tr>
+    <tr>
+      <td><code>dialog</code></td>
+      <td><code>50</code></td>
+    </tr>
+    <tr>
+      <td><code>dropdown</code></td>
+      <td><code>50</code></td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```ts
+import { configureZIndex } from '@capitaltg/vero';
+
+configureZIndex({
+  popover: 1000,
+  tooltip: 2000,
+  dialog: 3000,
+  dropdown: 1500,
+});
+```

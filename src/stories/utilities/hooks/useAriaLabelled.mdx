@@ -1,0 +1,111 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Hooks/useAriaLabelled" />
+
+# useAriaLabelled
+
+Generates `aria-labelledby` and `aria-describedby` attributes for form controls that have labels positioned outside the control element (e.g. checkboxes, radios).
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>label</code>
+      </td>
+      <td>
+        <code>ReactNode</code>
+      </td>
+      <td>
+        Label content. Generates <code>aria-labelledby</code> pointing to the label element.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>description</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        Description or hint text. Generates <code>aria-describedby</code> pointing to the
+        description element.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>aria-label</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        Explicit label string. When provided, uses <code>aria-label</code> directly and ignores{' '}
+        <code>label</code> and <code>description</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Returns
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>ariaProps</code>
+      </td>
+      <td>
+        Spread onto the control element (<code>aria-label</code>, <code>aria-labelledby</code>, or{' '}
+        <code>aria-describedby</code>).
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>labelId</code>
+      </td>
+      <td>Stable generated ID to set on the label element.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>descriptionId</code>
+      </td>
+      <td>Stable generated ID to set on the description element.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+import { useAriaLabelled } from '@capitaltg/vero';
+
+function MyControl({ label, description, 'aria-label': ariaLabel }) {
+  const { ariaProps, labelId, descriptionId } = useAriaLabelled({
+    label,
+    description,
+    'aria-label': ariaLabel,
+  });
+  return (
+    <div>
+      {label && <span id={labelId}>{label}</span>}
+      <input type="checkbox" {...ariaProps} />
+      {description && <span id={descriptionId}>{description}</span>}
+    </div>
+  );
+}
+```

@@ -6,16 +6,6 @@ import { Meta } from '@storybook/blocks';
 
 Validates that a form control has either a `label` prop or an `aria-label` attribute — but not both. Throws a descriptive error at runtime if the constraint is violated. Use this in custom form controls to enforce the same accessible labeling pattern used across the library.
 
-```tsx
-import { validateFormControlProps } from '@capitaltg/vero';
-```
-
-## Signature
-
-```ts
-validateFormControlProps(componentName: string, label?: ReactNode, ariaLabel?: string): void
-```
-
 ## Parameters
 
 <table>

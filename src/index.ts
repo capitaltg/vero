@@ -12,6 +12,7 @@ export * from './components/Calendar';
 export * from './components/Checkbox';
 export * from './components/CheckboxGroup';
 export * from './components/Combobox';
+// Internal — not ready for public API. Hidden from Storybook via tags: ['!dev'].
 // export * from './components/Command';
 export * from './components/DatePicker';
 export * from './components/DateRangePicker';
@@ -30,11 +31,13 @@ export * from './components/StepIndicator';
 export * from './components/Switch';
 export * from './components/SwitchGroup';
 export * from './components/Tabs';
+// Internal — not ready for public API. Hidden from Storybook via tags: ['!dev'].
 // export * from './components/TagInput';
 export * from './components/Textarea';
 export * from './components/Tooltip';
 
 // Export utilities
+export * from './lib/form-controls';
 export * from './lib/utils';
 export * from './lib/z-index';
 

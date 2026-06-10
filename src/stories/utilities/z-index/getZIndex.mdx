@@ -1,0 +1,58 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Z-Index/getZIndex" />
+
+# getZIndex
+
+Returns the z-index value for a given overlay type, applying an optional per-instance override. Used internally by overlay components — available if you need the same value in custom components.
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>type</code>
+      </td>
+      <td>
+        <code>keyof ZIndexConfig</code>
+      </td>
+      <td>
+        The overlay type: <code>'popover'</code>, <code>'tooltip'</code>, <code>'overlay'</code>,{' '}
+        <code>'dialog'</code>, or <code>'dropdown'</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>override</code>
+      </td>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+        Optional. When provided, this value is returned directly instead of the configured default.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```ts
+import { getZIndex } from '@capitaltg/vero';
+
+// Returns the configured default for 'dropdown'
+const z = getZIndex('dropdown');
+
+// Returns 999 regardless of the configured default
+const z = getZIndex('dropdown', 999);
+```
+
+Per-component `zIndex` props on overlay components (e.g. `<Select zIndex={999} />`) call this internally, so you only need `getZIndex` directly when building custom overlays.

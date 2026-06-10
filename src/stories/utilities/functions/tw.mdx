@@ -1,0 +1,16 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Functions/tw" />
+
+# tw
+
+A tagged template literal that returns its contents unchanged as a string. Its purpose is to give Tailwind IntelliSense — class autocomplete and linting — in non-JSX contexts like `constants.ts` files.
+
+## Example
+
+```ts
+import { tw } from '@capitaltg/vero';
+
+// IntelliSense works here even though it's not JSX
+const baseStyles = tw`inline-flex items-center rounded px-3 py-1.5 text-sm font-bold`;
+```

@@ -1,0 +1,64 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Hooks/useAriaDisabled" />
+
+# useAriaDisabled
+
+Provides accessibility-friendly disabled behavior that keeps elements in the tab order while preventing interaction. Prefer this over the native `disabled` attribute so keyboard users can still focus and read the element.
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>isDisabled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the element is disabled.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Returns
+
+When `isDisabled` is `false`, returns an empty object. When `true`, returns `aria-disabled: true` plus event handlers that block interaction:
+
+- Mouse: `onClick`, `onMouseDown`, `onMouseUp`
+- Touch: `onTouchStart`, `onTouchEnd`
+- Pointer: `onPointerDown`, `onPointerDownCapture`
+- Keyboard: `onKeyDown`, `onKeyUp` — Tab and Escape are still allowed
+- Form: `onInput`, `onSubmit`, `onReset`
+- Clipboard: `onCopy`, `onCut`, `onPaste`
+- Drag: `onDrag`, `onDragStart`, `onDragEnd`, `onDrop`
+
+## Example
+
+```tsx
+import { useAriaDisabled } from '@capitaltg/vero';
+
+function MyButton({ isDisabled, children }) {
+  const disabledProps = useAriaDisabled({ isDisabled });
+  return (
+    <button
+      className="aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+      {...disabledProps}
+    >
+      {children}
+    </button>
+  );
+}
+```

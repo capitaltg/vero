@@ -1,0 +1,66 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Functions/validateFormControlProps" />
+
+# validateFormControlProps
+
+Validates that a form control has either a `label` prop or an `aria-label` attribute — but not both. Throws a descriptive error at runtime if the constraint is violated. Use this in custom form controls to enforce the same accessible labeling pattern used across the library.
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>componentName</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>Used in the thrown error message to identify the component.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>label</code>
+      </td>
+      <td>
+        <code>ReactNode</code>
+      </td>
+      <td>The label prop value from the component.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>ariaLabel</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        The <code>aria-label</code> prop value from the component.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Throws
+
+- If neither `label` nor `aria-label` is provided
+- If both `label` and `aria-label` are provided
+
+## Example
+
+```tsx
+import { validateFormControlProps } from '@capitaltg/vero';
+
+const MyInput = React.forwardRef(({ label, 'aria-label': ariaLabel, ...props }, ref) => {
+  validateFormControlProps('MyInput', label, ariaLabel);
+  // ...
+});
+```

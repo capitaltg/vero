@@ -1,0 +1,17 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Z-Index/resetZIndexConfig" />
+
+# resetZIndexConfig
+
+Resets all z-index values to their defaults. Useful in tests to isolate configuration between test cases.
+
+## Example
+
+```ts
+import { resetZIndexConfig } from '@capitaltg/vero';
+
+afterEach(() => {
+  resetZIndexConfig();
+});
+```

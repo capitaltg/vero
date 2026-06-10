@@ -1,0 +1,45 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Functions/cn" />
+
+# cn
+
+Merges Tailwind CSS class names, resolving conflicts via `tailwind-merge` and handling conditionals via `clsx`. Use this anywhere you need to combine or conditionally apply Tailwind classes.
+
+## Parameters
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>...inputs</code>
+      </td>
+      <td>
+        <code>ClassValue[]</code>
+      </td>
+      <td>
+        Any combination of strings, arrays, or objects accepted by <code>clsx</code>. Falsy values
+        are ignored.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+```tsx
+import { cn } from '@capitaltg/vero';
+
+// Merge static and conditional classes
+cn('px-4 py-2', isActive && 'bg-primary text-white', className)
+
+// Resolve conflicts — last value wins
+cn('text-red-500', 'text-blue-500') // → 'text-blue-500'
+```

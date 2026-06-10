@@ -1,0 +1,16 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Z-Index/getZIndexConfig" />
+
+# getZIndexConfig
+
+Returns a copy of the current z-index configuration.
+
+## Example
+
+```ts
+import { getZIndexConfig } from '@capitaltg/vero';
+
+const config = getZIndexConfig();
+// → { popover: 1000, tooltip: 2000, overlay: 50, dialog: 3000, dropdown: 1500 }
+```

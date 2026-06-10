@@ -1,0 +1,1 @@
+import{r as s}from"./index-B0WjJBI_.js";function d({label:i,description:o,"aria-label":a}={}){const r=s.useId(),e=s.useId();return{ariaProps:a?{"aria-label":a}:{...i&&{"aria-labelledby":r},...o&&{"aria-describedby":e}},labelId:r,descriptionId:e}}export{d as u};

@@ -1,0 +1,1 @@
+function o(r,t,a){if(!t&&!a)throw new Error(`${r} must have either a label prop or an aria-label attribute`);if(t&&a)throw new Error(`${r} must have either a label prop or an aria-label attribute, but not both`)}export{o as v};

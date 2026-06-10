@@ -36,6 +36,26 @@ describe('FormItem', () => {
     );
   });
 
+  it('sets aria-invalid on the child when errorText is provided', () => {
+    render(
+      <FormItem elementId="test-input" errorText="Error text" label="Label">
+        <input id="test-input" />
+      </FormItem>,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('does not set aria-invalid when errorText is not provided', () => {
+    render(
+      <FormItem elementId="test-input" hintText="Hint text" label="Label">
+        <input id="test-input" />
+      </FormItem>,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).not.toHaveAttribute('aria-invalid');
+  });
+
   it('does not set aria-describedby when neither hintText nor errorText is provided', () => {
     render(
       <FormItem elementId="test-input" label="Label">

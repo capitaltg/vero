@@ -43,9 +43,12 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
         .filter(Boolean)
         .join(' ') || undefined;
 
-    const child = describedByIds
-      ? React.cloneElement(children, { 'aria-describedby': describedByIds })
-      : children;
+    const childProps: Record<string, unknown> = {};
+    if (describedByIds) childProps['aria-describedby'] = describedByIds;
+    if (errorText) childProps['aria-invalid'] = true;
+
+    const child =
+      Object.keys(childProps).length > 0 ? React.cloneElement(children, childProps) : children;
 
     return (
       <div

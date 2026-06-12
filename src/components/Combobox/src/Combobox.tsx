@@ -66,7 +66,6 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
                 className,
               )}
               isDisabled={isDisabled}
-              role="combobox"
               variant="input"
               {...props}
             >

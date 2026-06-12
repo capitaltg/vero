@@ -181,7 +181,6 @@ function AutocompleteInner<T>(
               className,
             )}
             isDisabled={isDisabled}
-            role="combobox"
             variant="input"
             {...props}
             onKeyDown={e => {

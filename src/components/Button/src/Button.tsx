@@ -28,7 +28,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <Comp
           ref={ref}
-          className={cn(buttonVariants({ variant, size }), className)}
+          className={cn('vero-button', buttonVariants({ variant, size }), className)}
           {...props}
           {...disabledProps}
         >
@@ -41,15 +41,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         aria-busy={isLoading}
-        className={cn(buttonVariants({ variant, size }), 'relative', className)}
+        className={cn('vero-button', buttonVariants({ variant, size }), 'relative', className)}
         {...props}
         {...disabledProps}
       >
         {isLoading ? (
           <>
-            <span className="invisible">{children}</span>
-            <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center">
-              <Loader2 className="h-4 w-4 animate-spin" />
+            <span className={cn('vero-button-loading-label', 'invisible')}>{children}</span>
+            <span
+              aria-hidden="true"
+              className={cn(
+                'vero-button-spinner',
+                'absolute inset-0 flex items-center justify-center',
+              )}
+            >
+              <Loader2 className={cn('vero-button-spinner-icon', 'h-4 w-4 animate-spin')} />
             </span>
           </>
         ) : (

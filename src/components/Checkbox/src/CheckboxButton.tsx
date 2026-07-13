@@ -25,7 +25,7 @@ export const CheckboxButton = React.forwardRef<
       if (!label) return null;
       if (typeof label === 'string') {
         return (
-          <span className="font-medium" id={labelId}>
+          <span className={cn('vero-checkbox-label', 'font-medium')} id={labelId}>
             {label}
           </span>
         );
@@ -36,6 +36,7 @@ export const CheckboxButton = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-checkbox',
           'relative',
           isChecked
             ? cn(styles.button, buttonVariants({ variant: 'primary' }))
@@ -47,16 +48,19 @@ export const CheckboxButton = React.forwardRef<
         <CheckboxPrimitive.Root
           ref={ref}
           checked={isChecked}
-          className="absolute inset-0 opacity-0"
+          className={cn('vero-checkbox-control', 'absolute inset-0 opacity-0')}
           id={id}
           {...ariaProps}
           {...props}
           {...disabledProps}
         />
-        <div className="flex items-center gap-2">
+        <div className={cn('vero-checkbox-content', 'flex items-center gap-2')}>
           {renderLabel()}
           {description ? (
-            <span className="text-sm text-muted-foreground" id={descriptionId}>
+            <span
+              className={cn('vero-checkbox-description', 'text-sm text-muted-foreground')}
+              id={descriptionId}
+            >
               {description}
             </span>
           ) : null}

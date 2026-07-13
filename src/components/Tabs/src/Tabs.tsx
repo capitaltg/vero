@@ -6,7 +6,14 @@ import * as React from 'react';
 import { TabsContentProps, TabsListProps, TabsProps, TabsTriggerProps } from '../types';
 
 const Tabs = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Root>, TabsProps>(
-  ({ ...props }, ref) => <TabsPrimitive.Root ref={ref} activationMode="manual" {...props} />,
+  ({ ...props }, ref) => (
+    <TabsPrimitive.Root
+      ref={ref}
+      activationMode="manual"
+      {...props}
+      className={cn('vero-tabs', props.className)}
+    />
+  ),
 );
 Tabs.displayName = TabsPrimitive.Root.displayName;
 
@@ -15,6 +22,7 @@ const TabsList = React.forwardRef<React.ElementRef<typeof TabsPrimitive.List>, T
     <TabsPrimitive.List
       ref={ref}
       className={cn(
+        'vero-tabs-list',
         `inline-flex items-center justify-center gap-1 rounded border-[1px] border-base-300 bg-white
         p-1 text-muted-foreground`,
         className,
@@ -34,6 +42,7 @@ const TabsTrigger = React.forwardRef<
     <TabsPrimitive.Trigger
       ref={ref}
       className={cn(
+        'vero-tabs-trigger',
         styles.focusRing,
         `inline-flex items-center justify-center whitespace-nowrap rounded px-3 py-1.5 text-sm
         font-bold ring-offset-background transition-all hover:bg-primary-200 hover:text-primary
@@ -54,7 +63,7 @@ const TabsContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.Content
     ref={ref}
-    className={cn(styles.focusRingVisible, 'mt-2', className)}
+    className={cn('vero-tabs-content', styles.focusRingVisible, 'mt-2', className)}
     {...props}
   />
 ));

@@ -378,4 +378,31 @@ describe('Alert', () => {
       expect(ref).toHaveBeenCalledWith(container.firstChild);
     });
   });
+
+  describe('Namespacing', () => {
+    it('applies the vero-alert class to the root element', () => {
+      render(<Alert variant="info">Message</Alert>);
+      expect(screen.getByRole('alert')).toHaveClass('vero-alert');
+    });
+
+    it('keeps a consumer-provided className alongside the namespace class', () => {
+      render(
+        <Alert className="custom-class" variant="info">
+          Message
+        </Alert>,
+      );
+      const alert = screen.getByRole('alert');
+      expect(alert).toHaveClass('vero-alert');
+      expect(alert).toHaveClass('custom-class');
+    });
+
+    it('namespaces the heading sub-part', () => {
+      render(
+        <Alert heading="Heading" variant="info">
+          Content
+        </Alert>,
+      );
+      expect(screen.getByRole('heading', { name: 'Heading' })).toHaveClass('vero-alert-heading');
+    });
+  });
 });

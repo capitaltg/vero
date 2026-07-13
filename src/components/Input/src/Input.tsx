@@ -39,7 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         ref={ref}
-        className={cn(styles.input, className)}
+        className={cn('vero-input', styles.input, className)}
         type={type}
         onChange={handleChange}
         {...props}

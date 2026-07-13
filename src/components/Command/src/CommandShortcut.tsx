@@ -4,7 +4,11 @@ import { CommandShortcutProps } from '../types';
 const CommandShortcut = ({ className, ...props }: CommandShortcutProps) => {
   return (
     <span
-      className={cn('ml-auto text-xs tracking-widest text-muted-foreground', className)}
+      className={cn(
+        'vero-command-shortcut',
+        'ml-auto text-xs tracking-widest text-muted-foreground',
+        className,
+      )}
       {...props}
     />
   );

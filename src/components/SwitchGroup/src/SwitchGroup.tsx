@@ -35,7 +35,7 @@ const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
     );
 
     return (
-      <div ref={ref} className={cn(layoutClasses, className)} {...props}>
+      <div ref={ref} className={cn('vero-switch-group', layoutClasses, className)} {...props}>
         {options.map(option => (
           <Switch
             key={option.id}

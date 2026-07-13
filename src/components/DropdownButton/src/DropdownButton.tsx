@@ -30,7 +30,7 @@ const DropdownButton = React.forwardRef<
         <DropdownMenuPrimitive.Trigger asChild>
           <Button
             ref={ref}
-            className={cn('flex items-center gap-1', className)}
+            className={cn('vero-dropdown-button', 'flex items-center gap-1', className)}
             isDisabled={isDisabled}
             variant={variant}
             {...props}
@@ -42,13 +42,16 @@ const DropdownButton = React.forwardRef<
         <DropdownMenuPrimitive.Portal>
           <DropdownMenuPrimitive.Content
             align={align}
-            className="min-w-[8rem] overflow-hidden rounded-md border bg-popover px-1 py-1
+            className={cn(
+              'vero-dropdown-button-content',
+              `min-w-[8rem] overflow-hidden rounded-md border bg-popover px-1 py-1
               text-popover-foreground shadow-md data-[state=open]:animate-in
               data-[state=closed]:animate-out data-[state=closed]:fade-out-0
               data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95
               data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2
               data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2
-              data-[side=top]:slide-in-from-bottom-2"
+              data-[side=top]:slide-in-from-bottom-2`,
+            )}
             sideOffset={4}
             style={{ zIndex: resolvedZIndex }}
           >
@@ -56,7 +59,7 @@ const DropdownButton = React.forwardRef<
               item === 'separator' ? (
                 <DropdownMenuPrimitive.Separator
                   key={`separator-${index}`}
-                  className="my-1 h-px bg-muted"
+                  className={cn('vero-dropdown-button-separator', 'my-1 h-px bg-muted')}
                 />
               ) : (
                 <DropdownMenuItem key={item.label} item={item} />

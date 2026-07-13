@@ -33,6 +33,7 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
+          'vero-dialog-content',
           `fixed left-[50%] top-[50%] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]
           gap-4 border bg-background px-6 py-6 shadow-lg duration-200 data-[state=open]:animate-in
           data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0
@@ -49,6 +50,7 @@ const DialogContent = React.forwardRef<
         {children}
         <DialogPrimitive.Close
           className={cn(
+            'vero-dialog-close',
             styles.focusRing,
             styles.focusRingSm,
             `absolute right-4 top-4 shrink-0 rounded-full bg-transparent px-1.5 py-1.5 opacity-70
@@ -56,7 +58,7 @@ const DialogContent = React.forwardRef<
           )}
         >
           <X className="h-5 w-5" strokeWidth={3} />
-          <span className="sr-only">Close</span>
+          <span className={cn('vero-dialog-close-label', 'sr-only')}>Close</span>
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
     </DialogPortal>

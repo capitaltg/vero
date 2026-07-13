@@ -72,7 +72,7 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Conten
         <TooltipPrimitive.Content
           ref={ref}
           align={align}
-          className={cn(styles.tooltip, className)}
+          className={cn('vero-tooltip', styles.tooltip, className)}
           side={side}
           sideOffset={offset}
           style={{ zIndex: resolvedZIndex, ...props.style }}
@@ -82,7 +82,7 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Conten
           {content}
           {hasArrow ? (
             <TooltipPrimitive.Arrow
-              className="fill-base-700 stroke-base-700"
+              className={cn('vero-tooltip-arrow', 'fill-base-700 stroke-base-700')}
               height={5}
               width={11}
             />

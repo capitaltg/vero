@@ -11,6 +11,7 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
+        'vero-select-content',
         `relative min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground
         shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out
         data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95
@@ -28,6 +29,7 @@ const SelectContent = React.forwardRef<
     >
       <SelectPrimitive.Viewport
         className={cn(
+          'vero-select-viewport',
           'px-1 py-1',
           position === 'popper' &&
             `h-[var(--radix-select-trigger-height)] w-full

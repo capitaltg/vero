@@ -176,6 +176,7 @@ function AutocompleteInner<T>(
             aria-expanded={open}
             autoFocus={autoFocus}
             className={cn(
+              'vero-autocomplete',
               'w-full justify-between px-3',
               !value && 'text-muted-foreground',
               className,
@@ -191,30 +192,39 @@ function AutocompleteInner<T>(
               props.onKeyDown?.(e);
             }}
           >
-            <span className="truncate">
+            <span className={cn('vero-autocomplete-value', 'truncate')}>
               {displayItem
                 ? renderValue
                   ? renderValue(displayItem)
                   : (getOptionLabel?.(displayItem) ?? value)
                 : value || placeholder}
             </span>
-            <div aria-hidden="true" className="flex items-center gap-1">
+            <div
+              aria-hidden="true"
+              className={cn('vero-autocomplete-icons', 'flex items-center gap-1')}
+            >
               {value || inputValue ? (
                 <X
-                  className="h-4 w-4 opacity-50 hover:opacity-100"
+                  className={cn('vero-autocomplete-clear', 'h-4 w-4 opacity-50 hover:opacity-100')}
                   onClick={e => {
                     e.stopPropagation();
                     handleClear();
                   }}
                 />
               ) : null}
-              <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+              <ChevronsUpDown
+                className={cn('vero-autocomplete-chevron', 'h-4 w-4 shrink-0 opacity-50')}
+              />
             </div>
           </Button>
         </PopoverTrigger>
         <PopoverContent
           align="start"
-          className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
+          className={cn(
+            'vero-autocomplete-popover',
+            'min-w-[--radix-popover-trigger-width] px-0 py-0',
+            popoverClassName,
+          )}
           zIndex={resolvedZIndex}
         >
           <Command shouldFilter={false}>
@@ -229,7 +239,13 @@ function AutocompleteInner<T>(
               <CommandForceEmpty>{emptyMessage}</CommandForceEmpty>
             ) : null}
             {!loading && !error && displayOptions.length > 0 ? (
-              <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
+              <CommandList
+                className={cn(
+                  'vero-autocomplete-list',
+                  'max-h-[16.5rem] overflow-y-auto',
+                  listClassName,
+                )}
+              >
                 <CommandGroup>
                   {displayOptions.map((option, index) => {
                     const optValue = getOptionValueFn(option);
@@ -238,7 +254,7 @@ function AutocompleteInner<T>(
                     return (
                       <CommandItem
                         key={optValue || index}
-                        className="cursor-pointer"
+                        className={cn('vero-autocomplete-item', 'cursor-pointer')}
                         value={optValue}
                         onSelect={handleSelect}
                       >
@@ -248,6 +264,7 @@ function AutocompleteInner<T>(
                           <>
                             <Check
                               className={cn(
+                                'vero-autocomplete-check',
                                 'mr-2 h-4 w-4',
                                 isSelected ? 'opacity-100' : 'opacity-0',
                               )}

@@ -8,6 +8,7 @@ const Command = React.forwardRef<React.ElementRef<typeof CommandPrimitive>, Comm
     <CommandPrimitive
       ref={ref}
       className={cn(
+        'vero-command',
         'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
         className,
       )}

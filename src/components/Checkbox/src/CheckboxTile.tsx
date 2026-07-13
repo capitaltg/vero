@@ -25,7 +25,7 @@ export const CheckboxTile = React.forwardRef<
       if (!label) return null;
       if (typeof label === 'string') {
         return (
-          <div className="font-medium" id={labelId}>
+          <div className={cn('vero-checkbox-label', 'font-medium')} id={labelId}>
             {label}
           </div>
         );
@@ -36,6 +36,7 @@ export const CheckboxTile = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-checkbox',
           'relative rounded-lg border-2 border-muted bg-popover px-4 py-4',
           isChecked && 'border-primary-400',
           isDisabled
@@ -47,30 +48,42 @@ export const CheckboxTile = React.forwardRef<
         <CheckboxPrimitive.Root
           ref={ref}
           checked={isChecked}
-          className="absolute inset-0 opacity-0"
+          className={cn('vero-checkbox-control', 'absolute inset-0 opacity-0')}
           id={id}
           {...ariaProps}
           {...props}
           {...disabledProps}
         />
-        <div className="flex items-start gap-3">
+        <div className={cn('vero-checkbox-content', 'flex items-start gap-3')}>
           <div
             className={cn(
+              'vero-checkbox-box',
               checkboxClasses,
               'pointer-events-none mt-1',
               isChecked && 'border-primary-400 bg-primary-400',
             )}
           >
             {isChecked ? (
-              <div className="flex h-full w-full items-center justify-center">
-                <Check className="h-4 w-4 text-white" strokeWidth={3} />
+              <div
+                className={cn(
+                  'vero-checkbox-indicator',
+                  'flex h-full w-full items-center justify-center',
+                )}
+              >
+                <Check className={cn('vero-checkbox-icon', 'h-4 w-4 text-white')} strokeWidth={3} />
               </div>
             ) : null}
           </div>
-          <div className="pointer-events-none space-y-1">
+          <div className={cn('vero-checkbox-text', 'pointer-events-none space-y-1')}>
             {renderLabel()}
             {description ? (
-              <p className="mb-0 mt-0 text-sm text-muted-foreground" id={descriptionId}>
+              <p
+                className={cn(
+                  'vero-checkbox-description',
+                  'mb-0 mt-0 text-sm text-muted-foreground',
+                )}
+                id={descriptionId}
+              >
                 {description}
               </p>
             ) : null}

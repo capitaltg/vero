@@ -22,7 +22,10 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
   return (
     <ol
       aria-label="Steps"
-      className={cn(stepIndicatorSegmentsVariants({ orientation: 'horizontal' }))}
+      className={cn(
+        'vero-step-indicator-segments',
+        stepIndicatorSegmentsVariants({ orientation: 'horizontal' }),
+      )}
     >
       {steps.map((step, index) => {
         const isCurrent = step.id === currentStep;
@@ -35,11 +38,14 @@ export function StepIndicatorSegments<T extends readonly Step[] | Step[]>({
         return (
           <li
             key={step.id}
-            className="flex flex-1 flex-col"
+            className={cn('vero-step-indicator-segment', 'flex flex-1 flex-col')}
             {...(isCurrent && { 'aria-current': 'step' })}
           >
             <div
-              className={cn(stepIndicatorSegmentVariants({ status, orientation: 'horizontal' }))}
+              className={cn(
+                'vero-step-indicator-segment-bar',
+                stepIndicatorSegmentVariants({ status, orientation: 'horizontal' }),
+              )}
             >
               <span className="sr-only">
                 {step.label}

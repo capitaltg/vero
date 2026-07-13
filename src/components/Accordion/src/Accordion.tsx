@@ -29,29 +29,40 @@ const AccordionItems = ({
       return (
         <AccordionPrimitive.Item key={item.id} value={item.id}>
           <AccordionPrimitive.Header asChild>
-            <HeadingTag className="mb-0 mt-0 flex">
+            <HeadingTag className={cn('vero-accordion-header', 'mb-0 mt-0 flex')}>
               <AccordionPrimitive.Trigger
                 className={cn(
+                  'vero-accordion-trigger',
                   accordionTriggerVariants({ variant, caretPosition }),
                   triggerClassName,
                 )}
               >
                 {caretPosition === 'left' ? (
                   <ChevronRight
-                    className="mr-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200"
+                    className={cn(
+                      'vero-accordion-icon',
+                      'mr-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200',
+                    )}
                   />
                 ) : null}
-                <span className="flex-1 text-left">{item.title}</span>
+                <span className={cn('vero-accordion-title', 'flex-1 text-left')}>{item.title}</span>
                 {caretPosition === 'right' ? (
                   <ChevronDown
-                    className="ml-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200"
+                    className={cn(
+                      'vero-accordion-icon',
+                      'ml-2 h-5 w-5 shrink-0 text-inherit transition-transform duration-200',
+                    )}
                   />
                 ) : null}
               </AccordionPrimitive.Trigger>
             </HeadingTag>
           </AccordionPrimitive.Header>
           <AccordionPrimitive.Content
-            className={cn(accordionContentVariants({ variant, isBordered }), contentClassName)}
+            className={cn(
+              'vero-accordion-content',
+              accordionContentVariants({ variant, isBordered }),
+              contentClassName,
+            )}
           >
             <div>{item.content}</div>
           </AccordionPrimitive.Content>
@@ -86,7 +97,7 @@ const Accordion = React.forwardRef<
   ) => {
     const sharedProps = {
       ref,
-      className: cn('space-y-2', className),
+      className: cn('vero-accordion', 'space-y-2', className),
       ...props,
     };
 

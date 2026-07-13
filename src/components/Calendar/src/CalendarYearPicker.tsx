@@ -30,14 +30,18 @@ const CalendarYearPicker = (props: CalendarYearPickerProps) => {
 
   return (
     <div
-      className="-mx-1 -my-1 grid max-h-72 min-w-80 gap-1 overflow-y-auto px-1 py-1 md:grid-cols-3
-        lg:grid-cols-4"
+      className={cn(
+        'vero-calendar-year-picker',
+        `-mx-1 -my-1 grid max-h-72 min-w-80 gap-1 overflow-y-auto px-1 py-1 md:grid-cols-3
+        lg:grid-cols-4`,
+      )}
     >
       {getYears(startMonth, endMonth).map((year, idx) => (
         <Button
           key={year}
           ref={idx === 0 ? firstButtonRef : undefined}
           className={cn(
+            'vero-calendar-year-option',
             `relative min-h-10 w-full text-center text-sm font-normal focus-within:relative
             focus-within:z-20 focus:opacity-100 focus:ring-2 focus:ring-offset-0`,
           )}

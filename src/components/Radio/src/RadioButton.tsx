@@ -26,7 +26,7 @@ export const RadioButton = React.forwardRef<
       if (!label) return null;
       if (typeof label === 'string') {
         return (
-          <span className="font-medium" id={labelId}>
+          <span className={cn('vero-radio-label', 'font-medium')} id={labelId}>
             {label}
           </span>
         );
@@ -37,6 +37,7 @@ export const RadioButton = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-radio',
           'relative',
           styles.button,
           buttonVariants({ variant: 'input' }),
@@ -49,17 +50,20 @@ export const RadioButton = React.forwardRef<
       >
         <RadioGroupPrimitive.Item
           ref={ref}
-          className="absolute inset-0 opacity-0"
+          className={cn('vero-radio-control', 'absolute inset-0 opacity-0')}
           id={id}
           {...getCheckedProp(isChecked)}
           {...ariaProps}
           {...props}
           {...disabledProps}
         />
-        <div className="flex items-center gap-2">
+        <div className={cn('vero-radio-content', 'flex items-center gap-2')}>
           {renderLabel()}
           {description ? (
-            <span className="text-sm text-muted-foreground" id={descriptionId}>
+            <span
+              className={cn('vero-radio-description', 'text-sm text-muted-foreground')}
+              id={descriptionId}
+            >
               {description}
             </span>
           ) : null}

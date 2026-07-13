@@ -65,7 +65,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 
   return (
     <DayPicker
-      className={cn('min-w-80 px-3 py-3', className)}
+      className={cn('vero-calendar', 'min-w-80 px-3 py-3', className)}
       classNames={{
         months: 'flex flex-col gap-4 sm:flex-row',
         month: 'w-full space-y-4',

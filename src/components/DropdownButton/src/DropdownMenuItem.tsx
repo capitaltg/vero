@@ -27,6 +27,7 @@ const DropdownMenuItem = memo(({ item }: DropdownMenuItemProps) => {
     <DropdownMenuPrimitive.Item
       aria-disabled={isDisabled}
       className={cn(
+        'vero-dropdown-button-item',
         `relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm
         outline-none transition-colors focus:bg-accent focus:text-accent-foreground`,
         onClick && !isDisabled && 'cursor-pointer',
@@ -34,7 +35,7 @@ const DropdownMenuItem = memo(({ item }: DropdownMenuItemProps) => {
       )}
       onClick={handleClick}
     >
-      {icon ? <span className="mr-2">{icon}</span> : null}
+      {icon ? <span className={cn('vero-dropdown-button-item-icon', 'mr-2')}>{icon}</span> : null}
       {label}
     </DropdownMenuPrimitive.Item>
   );

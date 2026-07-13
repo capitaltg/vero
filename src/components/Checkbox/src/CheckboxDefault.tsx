@@ -28,6 +28,7 @@ export const CheckboxDefault = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-checkbox',
           'flex items-start gap-2',
           isDisabled && 'cursor-not-allowed opacity-50 [&>*]:cursor-not-allowed',
         )}
@@ -35,22 +36,32 @@ export const CheckboxDefault = React.forwardRef<
         <CheckboxPrimitive.Root
           ref={ref}
           checked={isChecked}
-          className={cn(styles.focusRing, styles.focusRingSm, checkboxClasses, className)}
+          className={cn(
+            'vero-checkbox-control',
+            styles.focusRing,
+            styles.focusRingSm,
+            checkboxClasses,
+            className,
+          )}
           id={id}
           {...props}
           {...disabledProps}
           {...ariaProps}
         >
           <CheckboxPrimitive.Indicator
-            className={cn('flex items-center justify-center text-current')}
+            className={cn(
+              'vero-checkbox-indicator',
+              'flex items-center justify-center text-current',
+            )}
           >
-            <Check className="h-4 w-4" strokeWidth={3} />
+            <Check className={cn('vero-checkbox-icon', 'h-4 w-4')} strokeWidth={3} />
           </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
-        <div className="mt-[3px] flex flex-col">
+        <div className={cn('vero-checkbox-content', 'mt-[3px] flex flex-col')}>
           {label ? (
             <Label
               className={cn(
+                'vero-checkbox-label',
                 !isDisabled && 'cursor-pointer',
                 isDisabled && 'pointer-events-none cursor-not-allowed',
               )}
@@ -63,12 +74,19 @@ export const CheckboxDefault = React.forwardRef<
           {description ? (
             <Label
               className={cn(
+                'vero-checkbox-description-label',
                 !isDisabled && 'cursor-pointer',
                 isDisabled && 'pointer-events-none cursor-not-allowed',
               )}
               htmlFor={id}
             >
-              <span className="inline-block pt-1 text-sm text-muted-foreground" id={descriptionId}>
+              <span
+                className={cn(
+                  'vero-checkbox-description',
+                  'inline-block pt-1 text-sm text-muted-foreground',
+                )}
+                id={descriptionId}
+              >
                 {description}
               </span>
             </Label>

@@ -11,6 +11,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
+      'vero-dialog-title',
       styles.text.title,
       'mr-8 text-lg font-bold leading-none tracking-tight text-base-700 dark:text-base-100',
       className,

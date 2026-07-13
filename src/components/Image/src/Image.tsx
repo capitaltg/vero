@@ -30,18 +30,18 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(
     };
 
     return (
-      <div className={cn('relative overflow-hidden', shapeStyles[shape], className)}>
+      <div className={cn('vero-image', 'relative overflow-hidden', shapeStyles[shape], className)}>
         {isLoading ? (
           <div
             aria-hidden="true"
-            className="absolute inset-0 animate-pulse bg-muted"
+            className={cn('vero-image-placeholder', 'absolute inset-0 animate-pulse bg-muted')}
             role="presentation"
           />
         ) : null}
         <img
           ref={ref}
           alt={alt}
-          className={cn('h-full w-full object-cover', isLoading && 'invisible')}
+          className={cn('vero-image-img', 'h-full w-full object-cover', isLoading && 'invisible')}
           loading={isLazy ? 'lazy' : 'eager'}
           src={hasError && fallback ? fallback : src}
           onError={handleError}

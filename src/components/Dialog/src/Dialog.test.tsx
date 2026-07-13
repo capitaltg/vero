@@ -141,4 +141,30 @@ describe('Dialog', () => {
       expect(screen.getByRole('button', { name: 'Close' })).not.toHaveFocus();
     });
   });
+
+  describe('Namespacing', () => {
+    it('applies vero-* namespace classes to sub-parts and preserves custom classNames', async () => {
+      render(
+        <Dialog defaultOpen>
+          <DialogContent className="custom-content">
+            <DialogHeader>
+              <DialogTitle>Title</DialogTitle>
+              <DialogDescription>Description</DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      const content = screen.getByRole('dialog');
+      expect(content).toHaveClass('vero-dialog-content');
+      // Consumer-provided className still applies alongside the namespace class.
+      expect(content).toHaveClass('custom-content');
+      expect(screen.getByText('Title')).toHaveClass('vero-dialog-title');
+      expect(screen.getByText('Description')).toHaveClass('vero-dialog-description');
+    });
+  });
 });

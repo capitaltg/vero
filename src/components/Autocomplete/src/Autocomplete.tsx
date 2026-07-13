@@ -176,6 +176,7 @@ function AutocompleteInner<T>(
             aria-expanded={open}
             autoFocus={autoFocus}
             className={cn(
+              'vero-autocomplete',
               'w-full justify-between px-3',
               !value && 'text-muted-foreground',
               className,

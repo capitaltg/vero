@@ -157,6 +157,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
           ref={ref}
           aria-disabled={isDisabled || undefined}
           className={cn(
+            'vero-tag-input',
             styles.input,
             styles.focusRingWithin,
             'flex h-auto min-h-[2.5rem] w-full cursor-text flex-wrap gap-1.5 py-1.5',

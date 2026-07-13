@@ -36,6 +36,7 @@ export const CheckboxTile = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-checkbox',
           'relative rounded-lg border-2 border-muted bg-popover px-4 py-4',
           isChecked && 'border-primary-400',
           isDisabled

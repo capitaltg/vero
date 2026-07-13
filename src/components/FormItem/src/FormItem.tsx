@@ -53,7 +53,7 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
     return (
       <div
         ref={ref}
-        className={cn('space-y-1', className)}
+        className={cn('vero-form-item', 'space-y-1', className)}
         {...props}
         data-error={errorText ? 'true' : undefined}
       >

@@ -72,7 +72,7 @@ const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Conten
         <TooltipPrimitive.Content
           ref={ref}
           align={align}
-          className={cn(styles.tooltip, className)}
+          className={cn('vero-tooltip', styles.tooltip, className)}
           side={side}
           sideOffset={offset}
           style={{ zIndex: resolvedZIndex, ...props.style }}

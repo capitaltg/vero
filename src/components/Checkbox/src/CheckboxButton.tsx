@@ -36,6 +36,7 @@ export const CheckboxButton = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-checkbox',
           'relative',
           isChecked
             ? cn(styles.button, buttonVariants({ variant: 'primary' }))

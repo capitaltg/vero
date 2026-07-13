@@ -20,7 +20,7 @@ const PopoverContent = React.forwardRef<
       <PopoverPrimitive.Content
         ref={ref}
         align={align}
-        className={cn(styles.popover, className)}
+        className={cn('vero-popover', styles.popover, className)}
         sideOffset={sideOffset}
         style={{ zIndex: resolvedZIndex, ...props.style }}
         {...props}

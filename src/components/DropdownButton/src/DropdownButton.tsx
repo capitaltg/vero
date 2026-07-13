@@ -30,7 +30,7 @@ const DropdownButton = React.forwardRef<
         <DropdownMenuPrimitive.Trigger asChild>
           <Button
             ref={ref}
-            className={cn('flex items-center gap-1', className)}
+            className={cn('vero-dropdown-button', 'flex items-center gap-1', className)}
             isDisabled={isDisabled}
             variant={variant}
             {...props}

@@ -26,7 +26,12 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
     const computedId = groupId ?? generatedId;
 
     return (
-      <div ref={ref} className={cn(layoutClasses, className)} id={groupId} {...props}>
+      <div
+        ref={ref}
+        className={cn('vero-checkbox-group', layoutClasses, className)}
+        id={groupId}
+        {...props}
+      >
         {options.map(option => {
           const inputId = option.inputId ?? `${computedId}-${option.id}`;
           return (

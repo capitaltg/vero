@@ -29,6 +29,7 @@ export const RadioDefault = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-radio',
           'flex items-start gap-2',
           isDisabled && 'cursor-not-allowed opacity-50 [&>*]:cursor-not-allowed',
         )}

@@ -16,6 +16,7 @@ const SelectTrigger = React.forwardRef<
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
+        'vero-select',
         styles.input,
         styles.focusRing,
         `min-w-0 items-center justify-between text-left [&>span]:min-w-0 [&>span]:flex-1

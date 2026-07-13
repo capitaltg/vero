@@ -6,7 +6,11 @@ import { LabelProps } from '../types';
 
 const Label = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
   ({ className, ...props }, ref) => (
-    <LabelPrimitive.Root ref={ref} className={cn(styles.text.label, className)} {...props} />
+    <LabelPrimitive.Root
+      ref={ref}
+      className={cn('vero-label', styles.text.label, className)}
+      {...props}
+    />
   ),
 );
 Label.displayName = LabelPrimitive.Root.displayName;

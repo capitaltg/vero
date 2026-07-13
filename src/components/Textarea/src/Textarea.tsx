@@ -41,6 +41,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           textareaRef.current = el;
         }}
         className={cn(
+          'vero-textarea',
           styles.input,
           'min-h-[5rem]',
           isGrowable && 'resize-none overflow-hidden',

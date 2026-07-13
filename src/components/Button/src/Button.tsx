@@ -28,7 +28,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <Comp
           ref={ref}
-          className={cn(buttonVariants({ variant, size }), className)}
+          className={cn('vero-button', buttonVariants({ variant, size }), className)}
           {...props}
           {...disabledProps}
         >
@@ -41,7 +41,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         aria-busy={isLoading}
-        className={cn(buttonVariants({ variant, size }), 'relative', className)}
+        className={cn('vero-button', buttonVariants({ variant, size }), 'relative', className)}
         {...props}
         {...disabledProps}
       >

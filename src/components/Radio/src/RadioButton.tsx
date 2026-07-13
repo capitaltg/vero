@@ -37,6 +37,7 @@ export const RadioButton = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-radio',
           'relative',
           styles.button,
           buttonVariants({ variant: 'input' }),

@@ -33,7 +33,7 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
     validateFormControlProps('Switch', label, ariaLabel);
 
     return (
-      <div className="flex items-center space-x-2">
+      <div className={cn('vero-switch', 'flex items-center space-x-2')}>
         <SwitchPrimitives.Root
           aria-label={ariaLabel}
           checked={isChecked}

@@ -61,6 +61,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
               aria-expanded={open}
               autoFocus={autoFocus}
               className={cn(
+                'vero-combobox',
                 'w-full justify-between px-3',
                 !value && 'text-muted-foreground',
                 className,

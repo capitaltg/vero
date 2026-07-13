@@ -86,7 +86,7 @@ const Accordion = React.forwardRef<
   ) => {
     const sharedProps = {
       ref,
-      className: cn('space-y-2', className),
+      className: cn('vero-accordion', 'space-y-2', className),
       ...props,
     };
 

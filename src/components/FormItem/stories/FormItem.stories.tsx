@@ -1,5 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+import { Autocomplete } from '../../Autocomplete';
+import { Combobox } from '../../Combobox';
+import { DatePicker } from '../../DatePicker';
+import { DateRangePicker } from '../../DateRangePicker';
 import { Input } from '../../Input';
+import { MultiSelect } from '../../MultiSelect';
+import { Select } from '../../Select';
+// import { TagInput } from '../../TagInput'; // TagInput is not officially deployed yet
+import { Textarea } from '../../Textarea';
 import { FormItemRequiredWithLabelSlot } from '../demos/FormItemRequiredWithLabelSlot';
 import sourceCodeRequiredWithLabelSlot from '../demos/FormItemRequiredWithLabelSlot.tsx?raw';
 import { FormItemWithLabelSlot } from '../demos/FormItemWithLabelSlot';
@@ -182,4 +191,142 @@ export const RequiredWithLabelSlot: Story = {
       },
     },
   },
+};
+
+/* ------------------------------------------------------------------ *
+ * Error-state gallery: pick a control and see how it renders inside a
+ * FormItem with `errorText`. When FormItem has an error, it stamps
+ * `data-error="true"` on its wrapper and the library CSS paints the
+ * control's border in the destructive color. This story exercises every
+ * control that supports that error border, so it also guards against a
+ * control silently losing the treatment.
+ * ------------------------------------------------------------------ */
+
+const errorOptions = [
+  { value: 'react', label: 'React' },
+  { value: 'vue', label: 'Vue' },
+  { value: 'svelte', label: 'Svelte' },
+];
+
+type ErrorControlName =
+  | 'input'
+  | 'textarea'
+  | 'select'
+  | 'autocomplete'
+  | 'combobox'
+  | 'multiSelect'
+  // | 'tagInput' // TagInput is not officially deployed yet
+  | 'datePicker'
+  | 'dateRangePicker';
+
+const ERROR_CONTROL_LABELS: Record<ErrorControlName, string> = {
+  input: 'Input',
+  textarea: 'Textarea',
+  select: 'Select',
+  autocomplete: 'Autocomplete',
+  combobox: 'Combobox',
+  multiSelect: 'MultiSelect',
+  // tagInput: 'TagInput', // TagInput is not officially deployed yet
+  datePicker: 'DatePicker',
+  dateRangePicker: 'DateRangePicker',
+};
+
+/** Renders the selected form control with its own local state. */
+const ErrorControl = ({ control }: { control: ErrorControlName }) => {
+  const [text, setText] = useState('');
+  const [single, setSingle] = useState('');
+  const [multi, setMulti] = useState<string[]>([]);
+  // const [tags, setTags] = useState<{ id: string; text: string }[]>([]); // TagInput is not officially deployed yet
+  const [date, setDate] = useState<Date | undefined>();
+  const [range, setRange] = useState<{ from?: Date; to?: Date }>({});
+
+  switch (control) {
+    case 'input':
+      return (
+        <Input placeholder="Enter a value" value={text} onChange={e => setText(e.target.value)} />
+      );
+    case 'textarea':
+      return (
+        <Textarea
+          placeholder="Enter a value"
+          value={text}
+          onChange={e => setText(e.target.value)}
+        />
+      );
+    case 'select':
+      return <Select options={errorOptions} value={single} onChange={setSingle} />;
+    case 'autocomplete':
+      return (
+        <Autocomplete
+          getOptionLabel={o => o.label}
+          getOptionValue={o => o.value}
+          options={errorOptions}
+          value={single}
+          onChange={setSingle}
+        />
+      );
+    case 'combobox':
+      return <Combobox options={errorOptions} value={single} onChange={setSingle} />;
+    case 'multiSelect':
+      return <MultiSelect options={errorOptions} value={multi} onChange={setMulti} />;
+    // TagInput is not officially deployed yet
+    // case 'tagInput':
+    //   return <TagInput value={tags} onChange={setTags} />;
+    case 'datePicker':
+      return <DatePicker value={date} onChange={setDate} />;
+    case 'dateRangePicker':
+      return <DateRangePicker value={range} onChange={setRange} />;
+  }
+};
+
+/**
+ * In-canvas playground: a Combobox picks the control, which then renders inside
+ * a FormItem with an error so you can eyeball its destructive-colored border.
+ */
+const ErrorStatePlayground = () => {
+  const [selected, setSelected] = useState<ErrorControlName>('autocomplete');
+
+  const componentOptions = (Object.keys(ERROR_CONTROL_LABELS) as ErrorControlName[]).map(key => ({
+    value: key,
+    label: ERROR_CONTROL_LABELS[key],
+  }));
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: 360 }}>
+      <FormItem
+        elementId="error-state-picker"
+        hintText="Choose a control to preview its error state"
+        label="Component"
+      >
+        <Combobox
+          options={componentOptions}
+          placeholder="Select a component..."
+          value={selected}
+          // Combobox clears when the current value is re-selected; keep the last
+          // valid selection so a control is always shown.
+          onChange={value => value && setSelected(value as ErrorControlName)}
+        />
+      </FormItem>
+
+      <FormItem
+        elementId={`error-state-${selected}`}
+        errorText="This field is required"
+        label={ERROR_CONTROL_LABELS[selected]}
+      >
+        <ErrorControl control={selected} />
+      </FormItem>
+    </div>
+  );
+};
+
+/**
+ * Pick a control from the in-canvas **Component** combobox to see how it looks
+ * inside a FormItem with an error. Every control here should show a
+ * destructive-colored border while the error is present.
+ */
+export const ErrorStateByControl: Story = {
+  name: 'Error State (by control)',
+  args: { children: <Input /> },
+  parameters: { controls: { disable: true } },
+  render: () => <ErrorStatePlayground />,
 };

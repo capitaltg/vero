@@ -1,3 +1,4 @@
+import { FormItem } from '@/components/FormItem';
 import { expectNoViolations } from '@/test/utils';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -33,6 +34,20 @@ const Fixture = ({ initialValue = [] }: FixtureProps) => {
 const getTrigger = () => document.querySelector('[aria-haspopup="listbox"]') as HTMLElement;
 
 describe('MultiSelect', () => {
+  // The error-border styling in components.css targets the trigger via
+  // `[data-component="multi-select"]`, so this attribute must remain present
+  // for the red border to show inside a FormItem with errorText.
+  it('renders a trigger with the data-component selector used for error styling', () => {
+    const { container } = render(
+      <FormItem elementId="frameworks" errorText="Required">
+        <Fixture />
+      </FormItem>,
+    );
+
+    expect(container.querySelector('[data-error="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-component="multi-select"]')).not.toBeNull();
+  });
+
   describe('Rendering', () => {
     it('renders the placeholder when no options are selected', () => {
       render(<Fixture />);

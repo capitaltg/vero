@@ -180,6 +180,7 @@ function AutocompleteInner<T>(
               !value && 'text-muted-foreground',
               className,
             )}
+            data-component="autocomplete"
             isDisabled={isDisabled}
             variant="input"
             {...props}

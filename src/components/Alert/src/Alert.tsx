@@ -40,7 +40,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
       <div
         ref={ref}
         aria-labelledby={heading ? headingId : undefined}
-        className={cn(alertVariants({ variant, size }), className)}
+        className={cn('vero-alert', alertVariants({ variant, size }), className)}
         role="alert"
         {...props}
       >

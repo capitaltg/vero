@@ -171,6 +171,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
               aria-expanded={open}
               aria-haspopup="listbox"
               className={cn(
+                'vero-multi-select',
                 styles.button,
                 buttonVariants({ variant: 'input' }),
                 styles.focusRing,

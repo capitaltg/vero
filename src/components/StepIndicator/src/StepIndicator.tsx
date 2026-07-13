@@ -30,6 +30,7 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
       ref={ref}
       aria-label="Step indicator"
       className={cn(
+        'vero-step-indicator',
         stepIndicatorDefaultContainerVariants({ orientation: 'horizontal' }),
         className,
       )}

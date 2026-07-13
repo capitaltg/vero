@@ -6,7 +6,14 @@ import * as React from 'react';
 import { TabsContentProps, TabsListProps, TabsProps, TabsTriggerProps } from '../types';
 
 const Tabs = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Root>, TabsProps>(
-  ({ ...props }, ref) => <TabsPrimitive.Root ref={ref} activationMode="manual" {...props} />,
+  ({ ...props }, ref) => (
+    <TabsPrimitive.Root
+      ref={ref}
+      activationMode="manual"
+      {...props}
+      className={cn('vero-tabs', props.className)}
+    />
+  ),
 );
 Tabs.displayName = TabsPrimitive.Root.displayName;
 

@@ -58,7 +58,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
     };
 
     return (
-      <div className={cn('grid gap-2', className)}>
+      <div className={cn('vero-date-range-picker', 'grid gap-2', className)}>
         {name || required ? (
           <input name={name} required={required} type="hidden" value={formatDateRange(value)} />
         ) : null}

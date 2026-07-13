@@ -51,6 +51,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
               aria-required={required}
               autoFocus={autoFocus}
               className={cn(
+                'vero-date-picker',
                 'w-full justify-start px-3 text-left font-normal',
                 !value && 'text-muted-foreground',
                 className,

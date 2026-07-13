@@ -37,6 +37,7 @@ export const RadioTile = React.forwardRef<
     return (
       <div
         className={cn(
+          'vero-radio',
           'group relative rounded-lg border-2 border-muted bg-popover px-4 py-4',
           'has-[[data-state=checked]]:border-primary-400',
           isDisabled

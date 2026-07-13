@@ -30,7 +30,7 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(
     };
 
     return (
-      <div className={cn('relative overflow-hidden', shapeStyles[shape], className)}>
+      <div className={cn('vero-image', 'relative overflow-hidden', shapeStyles[shape], className)}>
         {isLoading ? (
           <div
             aria-hidden="true"

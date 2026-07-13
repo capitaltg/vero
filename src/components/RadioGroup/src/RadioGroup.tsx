@@ -33,7 +33,7 @@ const RadioGroup = React.forwardRef<
     return (
       <RadioGroupPrimitive.Root
         ref={ref}
-        className={cn(layoutClasses, className)}
+        className={cn('vero-radio-group', layoutClasses, className)}
         id={groupId}
         value={value}
         onValueChange={onChange}

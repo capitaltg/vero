@@ -190,6 +190,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
                 'flex h-auto min-h-[2.5rem] w-full items-stretch justify-between px-3 py-1.5',
                 className,
               )}
+              data-component="multi-select"
               role="button"
               tabIndex={0}
               onClick={evt => {

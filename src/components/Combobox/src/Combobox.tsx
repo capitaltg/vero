@@ -66,6 +66,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
                 !value && 'text-muted-foreground',
                 className,
               )}
+              data-component="combobox"
               isDisabled={isDisabled}
               variant="input"
               {...props}

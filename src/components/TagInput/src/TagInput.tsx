@@ -164,6 +164,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             isDisabled && 'cursor-not-allowed',
             className,
           )}
+          data-component="tag-input"
           {...props}
           onClick={handleContainerClick}
         >

@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { useState } from 'react';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
-import { Autocomplete } from './Autocomplete';
+import { Combobox } from './Combobox';
 
 const options = [
   { value: 'react', label: 'React' },
@@ -15,9 +15,7 @@ const options = [
 const Fixture = ({ initialValue = '' }: { initialValue?: string }) => {
   const [value, setValue] = useState(initialValue);
   return (
-    <Autocomplete
-      getOptionLabel={o => o.label}
-      getOptionValue={o => o.value}
+    <Combobox
       options={options}
       placeholder="Select a framework..."
       value={value}
@@ -26,7 +24,7 @@ const Fixture = ({ initialValue = '' }: { initialValue?: string }) => {
   );
 };
 
-describe('Autocomplete', () => {
+describe('Combobox', () => {
   describe('Accessibility', () => {
     it('has no violations when empty', async () => {
       const { container } = render(<Fixture />);
@@ -42,7 +40,7 @@ describe('Autocomplete', () => {
   });
 
   // The error-border styling in components.css targets the trigger via
-  // `button[data-component="autocomplete"]`, so this attribute must remain
+  // `button[data-component="combobox"]`, so this attribute must remain
   // present for the red border to show inside a FormItem with errorText.
   it('renders a trigger with the data-component selector used for error styling', () => {
     const { container } = render(
@@ -52,6 +50,6 @@ describe('Autocomplete', () => {
     );
 
     expect(container.querySelector('[data-error="true"]')).not.toBeNull();
-    expect(container.querySelector('button[data-component="autocomplete"]')).not.toBeNull();
+    expect(container.querySelector('button[data-component="combobox"]')).not.toBeNull();
   });
 });

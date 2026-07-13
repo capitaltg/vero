@@ -1,11 +1,18 @@
 import { cn } from '@/lib/utils';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageProps } from '../types';
 
 const Image = React.forwardRef<HTMLImageElement, ImageProps>(
   ({ src, alt, fallback, isLazy = true, shape = 'square', className, onError, ...props }, ref) => {
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+
+    // Reset error/loading state when the src changes so a newly valid src is
+    // shown instead of continuing to display the fallback.
+    useEffect(() => {
+      setHasError(false);
+      setIsLoading(true);
+    }, [src]);
 
     const handleError = (evt: React.SyntheticEvent<HTMLImageElement, Event>) => {
       setHasError(true);

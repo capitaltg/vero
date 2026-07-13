@@ -7,6 +7,8 @@ import { CheckboxGroupButtonWithSelection } from '../demos/CheckboxGroupButtonWi
 import sourceCodeButtonWithSelection from '../demos/CheckboxGroupButtonWithSelection.tsx?raw';
 import { CheckboxGroupDefault } from '../demos/CheckboxGroupDefault';
 import sourceCodeDefault from '../demos/CheckboxGroupDefault.tsx?raw';
+import { CheckboxGroupDisabled } from '../demos/CheckboxGroupDisabled';
+import sourceCodeDisabled from '../demos/CheckboxGroupDisabled.tsx?raw';
 import { CheckboxGroupHorizontal } from '../demos/CheckboxGroupHorizontal';
 import sourceCodeHorizontal from '../demos/CheckboxGroupHorizontal.tsx?raw';
 import { CheckboxGroupSingleColumn } from '../demos/CheckboxGroupSingleColumn';
@@ -90,6 +92,16 @@ const meta = {
       description:
         'Number of columns for default and tile variants (only applies when orientation is vertical). Defaults to 1.',
       type: { name: 'number', required: false },
+    },
+    isDisabled: {
+      control: 'boolean',
+      description:
+        'Disables the entire group. Individual options can also be disabled via `option.isDisabled`.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
     },
   },
   tags: ['autodocs'],
@@ -372,6 +384,29 @@ export const ThreeColumns: Story = {
     docs: {
       source: {
         code: sourceCodeThreeColumns,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * CheckboxGroup with the entire group disabled.
+ * Set `isDisabled` on the group to disable every option at once; individual
+ * options can also be disabled via `option.isDisabled`.
+ */
+export const Disabled: Story = {
+  render: () => <CheckboxGroupDisabled />,
+  args: {
+    options: defaultOptions,
+    value: ['option2'],
+    onChange: () => {},
+    isDisabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabled,
         language: 'tsx',
       },
     },

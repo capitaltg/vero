@@ -47,14 +47,25 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         {hasIcon ? (
           <span
             aria-hidden="true"
-            className={cn(alertIconVariants({ variant, size, hasHeading: !!heading }))}
+            className={cn(
+              'vero-alert-icon',
+              alertIconVariants({ variant, size, hasHeading: !!heading }),
+            )}
           >
             {icons[variant]}
           </span>
         ) : null}
-        <div className={cn(alertContentVariants({ size, hasIcon, hasHeading: !!heading }))}>
+        <div
+          className={cn(
+            'vero-alert-content',
+            alertContentVariants({ size, hasIcon, hasHeading: !!heading }),
+          )}
+        >
           {heading ? (
-            <HeadingTag className={cn(alertHeadingVariants({ size }))} id={headingId}>
+            <HeadingTag
+              className={cn('vero-alert-heading', alertHeadingVariants({ size }))}
+              id={headingId}
+            >
               {heading}
             </HeadingTag>
           ) : null}
@@ -63,6 +74,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         {isClosable ? (
           <button
             className={cn(
+              'vero-alert-close',
               styles.focusRing,
               styles.focusRingSm,
               `-mt-0.5 shrink-0 rounded-full bg-transparent px-1.5 py-1.5 opacity-70 transition
@@ -71,8 +83,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             type="button"
             onClick={onClose}
           >
-            <X className="h-5 w-5" strokeWidth={3} />
-            <span className="sr-only">Close</span>
+            <X className={cn('vero-alert-close-icon', 'h-5 w-5')} strokeWidth={3} />
+            <span className={cn('vero-alert-close-label', 'sr-only')}>Close</span>
           </button>
         ) : null}
       </div>

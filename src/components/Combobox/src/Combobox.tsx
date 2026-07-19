@@ -71,20 +71,32 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
               variant="input"
               {...props}
             >
-              <span className="min-w-0 truncate">
+              <span className={cn('vero-combobox-value', 'min-w-0 truncate')}>
                 {value ? options.find(option => option.value === value)?.label : placeholder}
               </span>
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              <ChevronsUpDown
+                className={cn('vero-combobox-chevron', 'ml-2 h-4 w-4 shrink-0 opacity-50')}
+              />
             </Button>
           </PopoverTrigger>
           <PopoverContent
             align="start"
-            className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
+            className={cn(
+              'vero-combobox-popover',
+              'min-w-[--radix-popover-trigger-width] px-0 py-0',
+              popoverClassName,
+            )}
             zIndex={resolvedZIndex}
           >
             <Command filter={filter ?? defaultFilter}>
               <CommandInput placeholder={searchPlaceholder} />
-              <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
+              <CommandList
+                className={cn(
+                  'vero-combobox-list',
+                  'max-h-[16.5rem] overflow-y-auto',
+                  listClassName,
+                )}
+              >
                 <CommandEmpty>{emptyMessage}</CommandEmpty>
                 <CommandGroup>
                   {options.map(option => (
@@ -99,6 +111,7 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
                     >
                       <Check
                         className={cn(
+                          'vero-combobox-check',
                           'mr-2 h-4 w-4 shrink-0',
                           value === option.value ? 'opacity-100' : 'opacity-0',
                         )}

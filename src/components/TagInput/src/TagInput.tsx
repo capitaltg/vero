@@ -174,6 +174,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               ref={el => (tagsRef.current[index] = el)}
               aria-label={`Remove ${tag.text}`}
               className={cn(
+                'vero-tag-input-tag',
                 `flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm
                 text-secondary-foreground transition-colors`,
                 'hover:bg-secondary/80',
@@ -193,6 +194,7 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
               <X
                 aria-hidden="true"
                 className={cn(
+                  'vero-tag-input-tag-remove',
                   'h-3 w-3 opacity-50 transition-opacity',
                   !isDisabled && 'hover:opacity-100',
                 )}
@@ -204,8 +206,11 @@ const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
             ref={inputRef}
             aria-disabled={isDisabled || undefined}
             autoFocus={autoFocus}
-            className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground
-              read-only:cursor-not-allowed"
+            className={cn(
+              'vero-tag-input-input',
+              `flex-1 bg-transparent outline-none placeholder:text-muted-foreground
+              read-only:cursor-not-allowed`,
+            )}
             placeholder={value.length === 0 ? placeholderText : ''}
             readOnly={isDisabled || (maxTags !== undefined && value.length >= maxTags)}
             type="text"

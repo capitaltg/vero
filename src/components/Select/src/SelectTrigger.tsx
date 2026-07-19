@@ -16,7 +16,7 @@ const SelectTrigger = React.forwardRef<
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
-        'vero-select',
+        'vero-select-trigger',
         styles.input,
         styles.focusRing,
         `min-w-0 items-center justify-between text-left [&>span]:min-w-0 [&>span]:flex-1
@@ -29,7 +29,7 @@ const SelectTrigger = React.forwardRef<
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDown className="h-4 w-4 opacity-50" />
+        <ChevronDown className={cn('vero-select-trigger-icon', 'h-4 w-4 opacity-50')} />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );

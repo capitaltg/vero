@@ -9,7 +9,11 @@ const CommandList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.List
     ref={ref}
-    className={cn('max-h-[20rem] overflow-y-auto overflow-x-hidden', className)}
+    className={cn(
+      'vero-command-list',
+      'max-h-[20rem] overflow-y-auto overflow-x-hidden',
+      className,
+    )}
     {...props}
   />
 ));

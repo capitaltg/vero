@@ -36,18 +36,26 @@ export const RadioDefault = React.forwardRef<
       >
         <RadioGroupPrimitive.Item
           ref={ref}
-          className={cn(styles.focusRing, styles.focusRingSm, radioCircleClasses, className)}
+          className={cn(
+            'vero-radio-control',
+            styles.focusRing,
+            styles.focusRingSm,
+            radioCircleClasses,
+            className,
+          )}
           id={id}
           {...getCheckedProp(isChecked)}
           {...props}
           {...disabledProps}
           {...ariaProps}
         >
-          <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-            <Circle className="h-3 w-3 fill-current text-current" />
+          <RadioGroupPrimitive.Indicator
+            className={cn('vero-radio-indicator', 'flex items-center justify-center')}
+          >
+            <Circle className={cn('vero-radio-icon', 'h-3 w-3 fill-current text-current')} />
           </RadioGroupPrimitive.Indicator>
         </RadioGroupPrimitive.Item>
-        <div className="mt-[3px] flex flex-col">
+        <div className={cn('vero-radio-label-wrapper', 'mt-[3px] flex flex-col')}>
           {label ? (
             <Label
               className={cn(
@@ -68,7 +76,13 @@ export const RadioDefault = React.forwardRef<
               )}
               htmlFor={id}
             >
-              <span className="inline-block pt-1 text-sm text-muted-foreground" id={descriptionId}>
+              <span
+                className={cn(
+                  'vero-radio-description',
+                  'inline-block pt-1 text-sm text-muted-foreground',
+                )}
+                id={descriptionId}
+              >
                 {description}
               </span>
             </Label>

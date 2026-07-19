@@ -85,18 +85,27 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
 
     const renderTriggerContent = () => {
       if (value.length === 0) {
-        return <span className="self-center text-muted-foreground">{placeholder}</span>;
+        return (
+          <span
+            className={cn('vero-multi-select-placeholder', 'self-center text-muted-foreground')}
+          >
+            {placeholder}
+          </span>
+        );
       }
 
       return (
-        <div className="flex flex-1 flex-wrap gap-1">
+        <div className={cn('vero-multi-select-chip-list', 'flex flex-1 flex-wrap gap-1')}>
           {selectedLabels.map((label, index) => (
             <div
               key={value[index]}
               // hover:text-secondary-foreground prevents the parent trigger's
               // hover:text-accent-foreground from changing chip text to blue (contrast fix)
-              className="flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm
-                text-secondary-foreground hover:text-secondary-foreground"
+              className={cn(
+                'vero-multi-select-chip',
+                `flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-sm
+                text-secondary-foreground hover:text-secondary-foreground`,
+              )}
             >
               {label}
               <button
@@ -104,9 +113,12 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
                   removeButtonRefs.current[index] = el;
                 }}
                 aria-label={`Remove ${label}`}
-                className="ml-0.5 rounded-full opacity-50 transition-opacity hover:opacity-100
+                className={cn(
+                  'vero-multi-select-chip-remove',
+                  `ml-0.5 rounded-full opacity-50 transition-opacity hover:opacity-100
                   focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary-400
-                  focus:ring-offset-1"
+                  focus:ring-offset-1`,
+                )}
                 type="button"
                 onClick={evt => {
                   evt.stopPropagation();
@@ -191,18 +203,35 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
               {...disabledProps}
               {...props}
             >
-              <div className="flex flex-1 text-left">{renderTriggerContent()}</div>
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 self-center opacity-50" />
+              <div className={cn('vero-multi-select-value', 'flex flex-1 text-left')}>
+                {renderTriggerContent()}
+              </div>
+              <ChevronsUpDown
+                className={cn(
+                  'vero-multi-select-chevron',
+                  'ml-2 h-4 w-4 shrink-0 self-center opacity-50',
+                )}
+              />
             </div>
           </PopoverTrigger>
           <PopoverContent
             align="start"
-            className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
+            className={cn(
+              'vero-multi-select-popover',
+              'min-w-[--radix-popover-trigger-width] px-0 py-0',
+              popoverClassName,
+            )}
             zIndex={resolvedZIndex}
           >
             <Command onKeyDown={handleCommandKeyDown}>
               <CommandInput placeholder={searchPlaceholder} />
-              <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
+              <CommandList
+                className={cn(
+                  'vero-multi-select-list',
+                  'max-h-[16.5rem] overflow-y-auto',
+                  listClassName,
+                )}
+              >
                 <CommandEmpty>{emptyMessage}</CommandEmpty>
                 <CommandGroup>
                   {options.map(option => (
@@ -217,9 +246,10 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
                         );
                       }}
                     >
-                      <div className="flex items-center">
+                      <div className={cn('vero-multi-select-option', 'flex items-center')}>
                         <div
                           className={cn(
+                            'vero-multi-select-check',
                             `mr-2 flex h-4 w-4 items-center justify-center rounded-sm border
                             border-primary-400`,
                             value.includes(option.value)

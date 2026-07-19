@@ -61,11 +61,15 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
               variant="input"
               {...props}
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className={cn('vero-date-picker-icon', 'mr-2 h-4 w-4')} />
               {value ? format(value, 'LLLL dd, y') : <span>{placeholder}</span>}
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="start" className="w-auto px-0 py-0" zIndex={resolvedZIndex}>
+          <PopoverContent
+            align="start"
+            className={cn('vero-date-picker-popover', 'w-auto px-0 py-0')}
+            zIndex={resolvedZIndex}
+          >
             <Calendar
               autoFocus
               endMonth={endMonth}

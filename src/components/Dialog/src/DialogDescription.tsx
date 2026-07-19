@@ -10,7 +10,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn(styles.text.hint, 'mr-8', className)}
+    className={cn('vero-dialog-description', styles.text.hint, 'mr-8', className)}
     {...props}
   />
 ));

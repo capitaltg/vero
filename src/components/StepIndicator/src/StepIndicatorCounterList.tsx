@@ -27,7 +27,10 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
   steps,
 }: StepIndicatorCounterListProps<T>) {
   return (
-    <ol aria-label="Steps" className={cn(stepIndicatorVariants({ orientation }))}>
+    <ol
+      aria-label="Steps"
+      className={cn('vero-step-indicator-counter-list', stepIndicatorVariants({ orientation }))}
+    >
       {steps.map((step, index) => {
         const isCurrent = step.id === currentStep;
         const isCompleted =
@@ -40,6 +43,7 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
           <li
             key={step.id}
             className={cn(
+              'vero-step-indicator-counter-item',
               'relative flex items-start',
               orientation === 'horizontal' && 'flex-1 justify-center',
             )}
@@ -52,14 +56,23 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
             {/* Step item */}
             <div
               className={cn(
+                'vero-step-indicator-counter-step',
                 'relative flex',
                 orientation === 'vertical' ? 'flex-row items-start' : 'flex-col items-center',
               )}
             >
               {/* Step circle */}
-              <div className={cn(stepIndicatorCircleVariants({ status }))}>
+              <div
+                className={cn(
+                  'vero-step-indicator-counter-circle',
+                  stepIndicatorCircleVariants({ status }),
+                )}
+              >
                 {status === 'completed' ? (
-                  <Check className="h-4 w-4" strokeWidth={3} />
+                  <Check
+                    className={cn('vero-step-indicator-counter-icon', 'h-4 w-4')}
+                    strokeWidth={3}
+                  />
                 ) : (
                   <span>{(index + 1).toString()}</span>
                 )}
@@ -81,7 +94,12 @@ export function StepIndicatorCounterList<T extends readonly Step[] | Step[]>({
 
             {/* Connector line */}
             {index < steps.length - 1 ? (
-              <div className={cn(stepIndicatorConnectorVariants({ orientation, status }))} />
+              <div
+                className={cn(
+                  'vero-step-indicator-counter-connector',
+                  stepIndicatorConnectorVariants({ orientation, status }),
+                )}
+              />
             ) : null}
           </li>
         );

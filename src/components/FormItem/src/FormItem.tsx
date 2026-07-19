@@ -59,19 +59,35 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
       >
         {label ? (
           <div>
-            <div className="flex items-center">
+            <div className={cn('vero-form-item-label-row', 'flex items-center')}>
               {typeof label === 'string' ? (
-                <Label className="font-bold leading-5" htmlFor={childId} id={labelId}>
+                <Label
+                  className={cn('vero-form-item-label', 'font-bold leading-5')}
+                  htmlFor={childId}
+                  id={labelId}
+                >
                   {label}
-                  {isRequired ? <span className="ml-0.5 text-destructive">*</span> : null}
+                  {isRequired ? (
+                    <span className={cn('vero-form-item-required', 'ml-0.5 text-destructive')}>
+                      *
+                    </span>
+                  ) : null}
                 </Label>
               ) : (
                 label
               )}
-              {labelSlot ? <div className="ml-2 inline-flex">{labelSlot}</div> : null}
+              {labelSlot ? (
+                <div className={cn('vero-form-item-label-slot', 'ml-2 inline-flex')}>
+                  {labelSlot}
+                </div>
+              ) : null}
             </div>
             {hintText ? (
-              <p className={cn(styles.text.hint, 'mb-0 mt-0')} data-testid={hintId} id={hintId}>
+              <p
+                className={cn('vero-form-item-hint', styles.text.hint, 'mb-0 mt-0')}
+                data-testid={hintId}
+                id={hintId}
+              >
                 {hintText}
               </p>
             ) : null}
@@ -79,7 +95,11 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
         ) : null}
         {child}
         {errorText ? (
-          <p className={cn(styles.text.error, 'mb-0 mt-0')} data-testid={errorId} id={errorId}>
+          <p
+            className={cn('vero-form-item-error', styles.text.error, 'mb-0 mt-0')}
+            data-testid={errorId}
+            id={errorId}
+          >
             {errorText}
           </p>
         ) : null}

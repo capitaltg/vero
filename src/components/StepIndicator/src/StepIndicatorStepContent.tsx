@@ -19,11 +19,19 @@ export function StepIndicatorStepContent({
   status,
 }: StepIndicatorStepContentProps) {
   return (
-    <div className={className}>
-      <span className={cn(stepIndicatorStepContentLabelVariants({ status }))}>{label}</span>
+    <div className={cn('vero-step-indicator-step-content', className)}>
+      <span
+        className={cn(
+          'vero-step-indicator-step-content-label',
+          stepIndicatorStepContentLabelVariants({ status }),
+        )}
+      >
+        {label}
+      </span>
       {description ? (
         <span
           className={cn(
+            'vero-step-indicator-step-content-description',
             stepIndicatorStepContentDescriptionVariants({
               status,
             }),

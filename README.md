@@ -70,6 +70,35 @@ function App() {
 }
 ```
 
+## Styling / targeting components
+
+Every component renders stable, semantic `vero-*` CSS classes on its DOM
+elements so you can target them from your own stylesheets for minor tweaks —
+without depending on the internal Tailwind utility classes, which are an
+implementation detail and may change between releases.
+
+- The root element of each component carries `vero-<component>`, e.g.
+  `vero-alert`, `vero-button`, `vero-image`.
+- Sub-parts of compound components carry `vero-<component>-<part>`, e.g.
+  `vero-dialog-content`, `vero-dialog-overlay`, `vero-select-trigger`,
+  `vero-select-item`.
+
+```css
+/* Your app's CSS */
+.vero-alert {
+  border-radius: 0;
+}
+
+.vero-select-trigger {
+  min-width: 12rem;
+}
+```
+
+These classes are additive and always placed alongside the component's own
+styles, so anything you pass via the `className` prop continues to take
+precedence. Inspect a component in your browser's dev tools to discover the
+exact `vero-*` classes available on each part.
+
 ## Documentation
 
 Visit our [Storybook documentation](https://capitaltg.github.io/vero/) to explore all available components and their usage examples.

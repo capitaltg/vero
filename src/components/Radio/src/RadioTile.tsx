@@ -26,7 +26,7 @@ export const RadioTile = React.forwardRef<
       if (!label) return null;
       if (typeof label === 'string') {
         return (
-          <div className="font-medium" id={labelId}>
+          <div className={cn('vero-radio-label', 'font-medium')} id={labelId}>
             {label}
           </div>
         );
@@ -48,16 +48,17 @@ export const RadioTile = React.forwardRef<
       >
         <RadioGroupPrimitive.Item
           ref={ref}
-          className="absolute inset-0 opacity-0"
+          className={cn('vero-radio-control', 'absolute inset-0 opacity-0')}
           id={id}
           {...getCheckedProp(isChecked)}
           {...ariaProps}
           {...props}
           {...disabledProps}
         />
-        <div className="flex items-start gap-3">
+        <div className={cn('vero-radio-content', 'flex items-start gap-3')}>
           <div
             className={cn(
+              'vero-radio-circle',
               radioCircleClasses,
               'pointer-events-none mt-1',
               'group-has-[[data-state=checked]]:border-primary-400',
@@ -65,17 +66,21 @@ export const RadioTile = React.forwardRef<
           >
             <div
               className={cn(
+                'vero-radio-indicator',
                 'flex h-full w-full items-center justify-center opacity-0',
                 'group-has-[[data-state=checked]]:opacity-100',
               )}
             >
-              <Circle className="h-3 w-3 fill-current text-primary-400" />
+              <Circle className={cn('vero-radio-icon', 'h-3 w-3 fill-current text-primary-400')} />
             </div>
           </div>
-          <div className="pointer-events-none space-y-1">
+          <div className={cn('vero-radio-body', 'pointer-events-none space-y-1')}>
             {renderLabel()}
             {description ? (
-              <p className="mb-0 mt-0 text-sm text-muted-foreground" id={descriptionId}>
+              <p
+                className={cn('vero-radio-description', 'mb-0 mt-0 text-sm text-muted-foreground')}
+                id={descriptionId}
+              >
                 {description}
               </p>
             ) : null}

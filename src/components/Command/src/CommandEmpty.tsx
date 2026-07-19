@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { Primitive } from '@radix-ui/react-primitive';
 import { Command as CommandPrimitive } from 'cmdk';
 import * as React from 'react';
@@ -9,7 +10,13 @@ const emptyClassName = 'px-3 py-2.5 text-sm';
 const CommandEmpty = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Empty>,
   CommandEmptyProps
->((props, ref) => <CommandPrimitive.Empty ref={ref} className={emptyClassName} {...props} />);
+>((props, ref) => (
+  <CommandPrimitive.Empty
+    ref={ref}
+    className={cn('vero-command-empty', emptyClassName)}
+    {...props}
+  />
+));
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
 /**
@@ -21,7 +28,7 @@ const CommandForceEmpty = React.forwardRef<HTMLDivElement, CommandEmptyProps>(
     return (
       <PrimitiveDiv
         ref={forwardedRef}
-        className={emptyClassName}
+        className={cn('vero-command-force-empty', emptyClassName)}
         {...props}
         cmdk-empty=""
         role="presentation"

@@ -5,7 +5,15 @@ import * as React from 'react';
 import { BreadcrumbsProps } from '../types';
 
 const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
-  ({ items, separator = <ChevronRight className="h-4 w-4" />, className, ...props }, ref) => {
+  (
+    {
+      items,
+      separator = <ChevronRight className={cn('vero-breadcrumbs-separator-icon', 'h-4 w-4')} />,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <nav
         ref={ref}
@@ -13,20 +21,28 @@ const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
         className={cn('vero-breadcrumbs', 'flex', className)}
         {...props}
       >
-        <ol className="flex flex-wrap items-center gap-1 pl-0">
+        <ol className={cn('vero-breadcrumbs-list', 'flex flex-wrap items-center gap-1 pl-0')}>
           {items.map((item, index) => (
-            <li key={index} className="flex items-center gap-1">
+            <li key={index} className={cn('vero-breadcrumbs-item', 'flex items-center gap-1')}>
               {item.href ? (
-                <a className={cn(styles.link, styles.linkNoUnderline)} href={item.href}>
+                <a
+                  className={cn('vero-breadcrumbs-link', styles.link, styles.linkNoUnderline)}
+                  href={item.href}
+                >
                   {item.label}
                 </a>
               ) : (
-                <span aria-current="page" className="font-medium text-foreground">
+                <span
+                  aria-current="page"
+                  className={cn('vero-breadcrumbs-current', 'font-medium text-foreground')}
+                >
                   {item.label}
                 </span>
               )}
               {index < items.length - 1 ? (
-                <span className="text-muted-foreground">{separator}</span>
+                <span className={cn('vero-breadcrumbs-separator', 'text-muted-foreground')}>
+                  {separator}
+                </span>
               ) : null}
             </li>
           ))}

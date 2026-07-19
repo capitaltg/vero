@@ -37,7 +37,7 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
         <SwitchPrimitives.Root
           aria-label={ariaLabel}
           checked={isChecked}
-          className={cn(styles.focusRing, switchClasses, className)}
+          className={cn('vero-switch-control', styles.focusRing, switchClasses, className)}
           {...props}
           {...disabledProps}
           ref={ref}
@@ -45,6 +45,7 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
         >
           <SwitchPrimitives.Thumb
             className={cn(
+              'vero-switch-thumb',
               `pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0
               transition-transform data-[state=checked]:translate-x-5
               data-[state=unchecked]:translate-x-0`,

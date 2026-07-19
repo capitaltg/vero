@@ -77,6 +77,22 @@ describe('Image', () => {
     });
   });
 
+  describe('Namespacing', () => {
+    it('applies vero-image to the wrapper and vero-image-img to the img', () => {
+      const { container } = render(<Image alt="Example" src="https://example.com/image.jpg" />);
+      expect(container.firstChild).toHaveClass('vero-image');
+      expect(screen.getByRole('img', { name: 'Example' })).toHaveClass('vero-image-img');
+    });
+
+    it('keeps a consumer-provided className on the wrapper alongside the namespace class', () => {
+      const { container } = render(
+        <Image alt="Example" className="custom-class" src="https://example.com/image.jpg" />,
+      );
+      expect(container.firstChild).toHaveClass('vero-image');
+      expect(container.firstChild).toHaveClass('custom-class');
+    });
+  });
+
   describe('Callbacks', () => {
     it('calls onError when the image fails to load', () => {
       const handleError = vi.fn();

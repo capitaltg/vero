@@ -67,21 +67,39 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
     <DayPicker
       className={cn('vero-calendar', 'min-w-80 px-3 py-3', className)}
       classNames={{
-        months: 'flex flex-col gap-4 sm:flex-row',
-        month: 'w-full space-y-4',
+        months: cn('vero-calendar-months', 'flex flex-col gap-4 sm:flex-row'),
+        month: cn('vero-calendar-month', 'w-full space-y-4'),
+        // month_caption is fully rendered by the custom MonthCaption component,
+        // which already carries the `vero-calendar-month-caption` class, so we
+        // don't namespace the (superseded) default slot class here.
         month_caption: cn(
           navHeight,
           'relative flex items-center justify-center text-sm font-medium',
         ),
-        nav: 'absolute left-4 right-4 flex items-center justify-between',
-        button_previous: cn(buttonVariants({ variant: 'ghost' }), navHeight, navButton),
-        button_next: cn(buttonVariants({ variant: 'ghost' }), navHeight, navButton),
-        month_grid: 'w-full border-collapse space-y-1',
-        weekdays: 'mb-1 flex',
-        weekday: cn(cellWidth, 'text-sm font-medium text-popover-foreground'),
-        week: 'mt-1 flex w-full',
-        day: cn(cellWidth, cellHeight),
+        nav: cn('vero-calendar-nav', 'absolute left-4 right-4 flex items-center justify-between'),
+        button_previous: cn(
+          'vero-calendar-button-previous',
+          buttonVariants({ variant: 'ghost' }),
+          navHeight,
+          navButton,
+        ),
+        button_next: cn(
+          'vero-calendar-button-next',
+          buttonVariants({ variant: 'ghost' }),
+          navHeight,
+          navButton,
+        ),
+        month_grid: cn('vero-calendar-month-grid', 'w-full border-collapse space-y-1'),
+        weekdays: cn('vero-calendar-weekdays', 'mb-1 flex'),
+        weekday: cn(
+          'vero-calendar-weekday',
+          cellWidth,
+          'text-sm font-medium text-popover-foreground',
+        ),
+        week: cn('vero-calendar-week', 'mt-1 flex w-full'),
+        day: cn('vero-calendar-day', cellWidth, cellHeight),
         day_button: cn(
+          'vero-calendar-day-button',
           buttonVariants({ variant: 'ghost' }),
           cellWidth,
           cellHeight,
@@ -89,14 +107,30 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
           focus-within:relative focus-within:z-20 focus:opacity-100`,
           dayButtonFocus,
         ),
-        range_start: `rounded-l-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground`,
-        range_end: `rounded-r-full aria-selected:bg-accent [&>button]:bg-primary [&>button]:text-primary-foreground`,
-        selected: selectedDay,
-        today: `[&>button]:rounded-l-full [&>button]:rounded-r-full [&>button]:bg-accent [&>button]:text-accent-foreground`,
-        outside: cn('day-outside', outsideDayText),
-        disabled: 'text-muted-foreground opacity-50',
-        range_middle: `first:rounded-l-md last:rounded-r-md aria-selected:bg-accent aria-selected:text-accent-foreground`,
-        hidden: 'invisible',
+        range_start: cn(
+          'vero-calendar-range-start',
+          `rounded-l-full aria-selected:bg-accent [&>button]:bg-primary
+          [&>button]:text-primary-foreground`,
+        ),
+        range_end: cn(
+          'vero-calendar-range-end',
+          `rounded-r-full aria-selected:bg-accent [&>button]:bg-primary
+          [&>button]:text-primary-foreground`,
+        ),
+        selected: cn('vero-calendar-selected', selectedDay),
+        today: cn(
+          'vero-calendar-today',
+          `[&>button]:rounded-l-full [&>button]:rounded-r-full [&>button]:bg-accent
+          [&>button]:text-accent-foreground`,
+        ),
+        outside: cn('vero-calendar-outside', 'day-outside', outsideDayText),
+        disabled: cn('vero-calendar-disabled', 'text-muted-foreground opacity-50'),
+        range_middle: cn(
+          'vero-calendar-range-middle',
+          `first:rounded-l-md last:rounded-r-md aria-selected:bg-accent
+          aria-selected:text-accent-foreground`,
+        ),
+        hidden: cn('vero-calendar-hidden', 'invisible'),
         ...classNames,
       }}
       components={components}

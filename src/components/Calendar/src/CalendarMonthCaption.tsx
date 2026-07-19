@@ -13,6 +13,7 @@ function createCalendarMonthCaption(deps: CalendarMonthCaptionDeps) {
     return (
       <div
         className={cn(
+          'vero-calendar-month-caption',
           navHeight,
           'relative mx-12 flex items-center justify-center text-sm font-medium',
         )}
@@ -20,7 +21,7 @@ function createCalendarMonthCaption(deps: CalendarMonthCaptionDeps) {
         <Button
           ref={monthButtonRef}
           aria-label="Select calendar month"
-          className="px-1.5 focus:ring-2 focus:ring-offset-0"
+          className={cn('vero-calendar-month-button', 'px-1.5 focus:ring-2 focus:ring-offset-0')}
           size="sm"
           variant="ghost"
           onClick={() => {
@@ -38,7 +39,7 @@ function createCalendarMonthCaption(deps: CalendarMonthCaptionDeps) {
         <Button
           ref={yearButtonRef}
           aria-label="Select calendar year"
-          className="px-1.5 focus:ring-2 focus:ring-offset-0"
+          className={cn('vero-calendar-year-button', 'px-1.5 focus:ring-2 focus:ring-offset-0')}
           size="sm"
           variant="ghost"
           onClick={() => {

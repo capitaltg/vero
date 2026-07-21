@@ -1,6 +1,7 @@
 import { FormItem } from '@/components/FormItem';
 import { expectNoViolations } from '@/test/utils';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
@@ -53,5 +54,38 @@ describe('Autocomplete', () => {
 
     expect(container.querySelector('[data-error="true"]')).not.toBeNull();
     expect(container.querySelector('button[data-component="autocomplete"]')).not.toBeNull();
+  });
+
+  // 508: the clear control must be a standalone, focusable button with an
+  // accessible name — not an interactive element nested inside the trigger button
+  // (nested interactive controls are an accessibility violation).
+  describe('Clear button', () => {
+    it('is not rendered when there is no value', () => {
+      render(<Fixture />);
+      expect(screen.queryByRole('button', { name: 'Clear' })).toBeNull();
+    });
+
+    it('renders as a standalone button, not nested inside the trigger', () => {
+      const { container } = render(<Fixture initialValue="react" />);
+      const clear = screen.getByRole('button', { name: 'Clear' });
+      const trigger = container.querySelector('button[data-component="autocomplete"]');
+
+      expect(clear).not.toBeNull();
+      expect(trigger).not.toBeNull();
+      // The clear button must live outside the trigger's DOM subtree.
+      expect(trigger?.contains(clear)).toBe(false);
+    });
+
+    it('clears the selected value when clicked', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<Fixture initialValue="react" />);
+      const trigger = () => container.querySelector('button[data-component="autocomplete"]');
+
+      expect(trigger()).toHaveTextContent('React');
+      await user.click(screen.getByRole('button', { name: 'Clear' }));
+
+      expect(trigger()).toHaveTextContent('Select a framework...');
+      expect(screen.queryByRole('button', { name: 'Clear' })).toBeNull();
+    });
   });
 });

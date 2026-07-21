@@ -164,108 +164,116 @@ function AutocompleteInner<T>(
     setHasSearched(false);
   }, [onChange]);
 
+  const showClear = !isDisabled && Boolean(value || inputValue);
+
   return (
     <>
       {name || required ? (
         <input name={name} required={required} type="hidden" value={value} />
       ) : null}
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            ref={ref}
-            aria-expanded={open}
-            autoFocus={autoFocus}
-            className={cn(
-              'vero-autocomplete',
-              'w-full justify-between px-3',
-              !value && 'text-muted-foreground',
-              className,
-            )}
-            data-component="autocomplete"
-            isDisabled={isDisabled}
-            variant="input"
-            {...props}
-            onKeyDown={e => {
-              if ((e.key === 'Delete' || e.key === 'Backspace') && value && !open) {
-                e.preventDefault();
-                handleClear();
-              }
-              props.onKeyDown?.(e);
-            }}
+      <div className={cn('vero-autocomplete', 'relative w-full', className)}>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              ref={ref}
+              aria-expanded={open}
+              autoFocus={autoFocus}
+              className={cn(
+                'w-full justify-start px-3 text-left font-normal',
+                showClear ? 'pr-16' : 'pr-10',
+                !value && 'text-muted-foreground',
+              )}
+              data-component="autocomplete"
+              isDisabled={isDisabled}
+              variant="input"
+              {...props}
+              onKeyDown={e => {
+                if ((e.key === 'Delete' || e.key === 'Backspace') && value && !open) {
+                  e.preventDefault();
+                  handleClear();
+                }
+                props.onKeyDown?.(e);
+              }}
+            >
+              <span className="truncate">
+                {displayItem
+                  ? renderValue
+                    ? renderValue(displayItem)
+                    : (getOptionLabel?.(displayItem) ?? value)
+                  : value || placeholder}
+              </span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            align="start"
+            className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
+            zIndex={resolvedZIndex}
           >
-            <span className="truncate">
-              {displayItem
-                ? renderValue
-                  ? renderValue(displayItem)
-                  : (getOptionLabel?.(displayItem) ?? value)
-                : value || placeholder}
-            </span>
-            <div aria-hidden="true" className="flex items-center gap-1">
-              {value || inputValue ? (
-                <X
-                  className="h-4 w-4 opacity-50 hover:opacity-100"
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleClear();
-                  }}
-                />
+            <Command shouldFilter={false}>
+              <CommandInput
+                placeholder={placeholder}
+                value={inputValue}
+                onValueChange={handleInputChange}
+              />
+              {loading ? <CommandLoading>{loadingMessage}</CommandLoading> : null}
+              {!loading && error ? <CommandForceEmpty>{errorMessage}</CommandForceEmpty> : null}
+              {!loading && !error && hasSearched && displayOptions.length === 0 ? (
+                <CommandForceEmpty>{emptyMessage}</CommandForceEmpty>
               ) : null}
-              <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-            </div>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          align="start"
-          className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
-          zIndex={resolvedZIndex}
-        >
-          <Command shouldFilter={false}>
-            <CommandInput
-              placeholder={placeholder}
-              value={inputValue}
-              onValueChange={handleInputChange}
-            />
-            {loading ? <CommandLoading>{loadingMessage}</CommandLoading> : null}
-            {!loading && error ? <CommandForceEmpty>{errorMessage}</CommandForceEmpty> : null}
-            {!loading && !error && hasSearched && displayOptions.length === 0 ? (
-              <CommandForceEmpty>{emptyMessage}</CommandForceEmpty>
-            ) : null}
-            {!loading && !error && displayOptions.length > 0 ? (
-              <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
-                <CommandGroup>
-                  {displayOptions.map((option, index) => {
-                    const optValue = getOptionValueFn(option);
-                    const isSelected = Boolean(optValue && value && optValue === value);
+              {!loading && !error && displayOptions.length > 0 ? (
+                <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
+                  <CommandGroup>
+                    {displayOptions.map((option, index) => {
+                      const optValue = getOptionValueFn(option);
+                      const isSelected = Boolean(optValue && value && optValue === value);
 
-                    return (
-                      <CommandItem
-                        key={optValue || index}
-                        className="cursor-pointer"
-                        value={optValue}
-                        onSelect={handleSelect}
-                      >
-                        {renderOption ? (
-                          renderOption(option, isSelected)
-                        ) : (
-                          <>
-                            <Check
-                              className={cn(
-                                'mr-2 h-4 w-4',
-                                isSelected ? 'opacity-100' : 'opacity-0',
-                              )}
-                            />
-                            {getOptionLabel?.(option) ?? optValue}
-                          </>
-                        )}
-                      </CommandItem>
-                    );
-                  })}
-                </CommandGroup>
-              </CommandList>
-            ) : null}
-          </Command>
-        </PopoverContent>
-      </Popover>
+                      return (
+                        <CommandItem
+                          key={optValue || index}
+                          className="cursor-pointer"
+                          value={optValue}
+                          onSelect={handleSelect}
+                        >
+                          {renderOption ? (
+                            renderOption(option, isSelected)
+                          ) : (
+                            <>
+                              <Check
+                                className={cn(
+                                  'mr-2 h-4 w-4',
+                                  isSelected ? 'opacity-100' : 'opacity-0',
+                                )}
+                              />
+                              {getOptionLabel?.(option) ?? optValue}
+                            </>
+                          )}
+                        </CommandItem>
+                      );
+                    })}
+                  </CommandGroup>
+                </CommandList>
+              ) : null}
+            </Command>
+          </PopoverContent>
+        </Popover>
+        {showClear ? (
+          <button
+            aria-label="Clear"
+            className="absolute right-8 top-1/2 -translate-y-1/2 rounded p-0.5 opacity-50
+              hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none
+              focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+            type="button"
+            onClick={handleClear}
+          >
+            <X aria-hidden="true" className="h-4 w-4" />
+          </button>
+        ) : null}
+        <ChevronsUpDown
+          aria-hidden="true"
+          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 shrink-0 -translate-y-1/2
+            opacity-50"
+        />
+      </div>
     </>
   );
 }

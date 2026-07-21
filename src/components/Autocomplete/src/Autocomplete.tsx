@@ -9,10 +9,12 @@ import {
   CommandLoading,
 } from '@/components/Command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover';
+import { useComposedTriggerLabel } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AutocompleteProps } from '../types';
 
 function AutocompleteInner<T>(
@@ -166,6 +168,17 @@ function AutocompleteInner<T>(
 
   const showClear = !isDisabled && Boolean(value || inputValue);
 
+  // Compose the trigger's accessible name from its associated label (e.g. from FormItem)
+  // plus the displayed value, so screen readers read back the current selection instead
+  // of only the field label. See useComposedTriggerLabel for the full rationale.
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const composedRef = useComposedRefs(ref, triggerRef);
+  const valueId = useId();
+  const triggerLabelledBy = useComposedTriggerLabel(triggerRef, valueId, {
+    'aria-label': props['aria-label'],
+    'aria-labelledby': props['aria-labelledby'],
+  });
+
   return (
     <>
       {name || required ? (
@@ -175,7 +188,7 @@ function AutocompleteInner<T>(
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
-              ref={ref}
+              ref={composedRef}
               aria-expanded={open}
               autoFocus={autoFocus}
               className={cn(
@@ -187,6 +200,7 @@ function AutocompleteInner<T>(
               isDisabled={isDisabled}
               variant="input"
               {...props}
+              aria-labelledby={triggerLabelledBy}
               onKeyDown={e => {
                 if ((e.key === 'Delete' || e.key === 'Backspace') && value && !open) {
                   e.preventDefault();
@@ -195,7 +209,7 @@ function AutocompleteInner<T>(
                 props.onKeyDown?.(e);
               }}
             >
-              <span className="truncate">
+              <span className="truncate" id={valueId}>
                 {displayItem
                   ? renderValue
                     ? renderValue(displayItem)

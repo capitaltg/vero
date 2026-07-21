@@ -1,9 +1,9 @@
-import { useAriaDisabled } from '@/hooks';
+import { useAriaDisabled, useComposedTriggerLabel } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { buttonVariants } from '../../Button/constants';
 import {
   Command,
@@ -43,6 +43,16 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
     const disabledProps = useAriaDisabled({ isDisabled });
     const triggerRef = useRef<HTMLDivElement | null>(null);
     const removeButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+    // The trigger is a <div role="button">, which is not labelable — so a FormItem
+    // <label for> would otherwise be orphaned (label not announced). Compose the trigger's
+    // accessible name from its associated label plus the selected values so screen readers
+    // announce both. See useComposedTriggerLabel.
+    const valueId = useId();
+    const triggerLabelledBy = useComposedTriggerLabel(triggerRef, valueId, {
+      'aria-label': props['aria-label'],
+      'aria-labelledby': props['aria-labelledby'],
+    });
 
     // Handle autoFocus
     useEffect(() => {
@@ -190,8 +200,11 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
               onKeyDown={handleTriggerKeyDown}
               {...disabledProps}
               {...props}
+              aria-labelledby={triggerLabelledBy}
             >
-              <div className="flex flex-1 text-left">{renderTriggerContent()}</div>
+              <div className="flex flex-1 text-left" id={valueId}>
+                {renderTriggerContent()}
+              </div>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 self-center opacity-50" />
             </div>
           </PopoverTrigger>

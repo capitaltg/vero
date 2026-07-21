@@ -88,4 +88,49 @@ describe('Autocomplete', () => {
       expect(screen.queryByRole('button', { name: 'Clear' })).toBeNull();
     });
   });
+
+  // When wrapped in a labeled FormItem, the trigger's associated <label for> would
+  // otherwise override its text content as the accessible name, so the selected value
+  // would never be read back. The trigger composes label + value via aria-labelledby.
+  describe('Accessible name', () => {
+    const LabeledFixture = ({ initialValue = 'react' }: { initialValue?: string }) => {
+      const [value, setValue] = useState(initialValue);
+      return (
+        <FormItem elementId="framework" label="Framework">
+          <Autocomplete
+            getOptionLabel={o => o.label}
+            getOptionValue={o => o.value}
+            id="framework"
+            options={options}
+            value={value}
+            onChange={setValue}
+          />
+        </FormItem>
+      );
+    };
+
+    it('reads back both the field label and the selected value', () => {
+      render(<LabeledFixture />);
+      // Accessible name is "Framework React" (label + value), so it matches both.
+      expect(screen.getByRole('button', { name: /Framework/ })).not.toBeNull();
+      expect(screen.getByRole('button', { name: /React/ })).not.toBeNull();
+      expect(screen.getByRole('button', { name: /Framework/ })).toBe(
+        screen.getByRole('button', { name: /React/ }),
+      );
+    });
+
+    it('falls back to the value when there is no associated label', () => {
+      render(
+        <Autocomplete
+          getOptionLabel={o => o.label}
+          getOptionValue={o => o.value}
+          options={options}
+          placeholder="Select a framework..."
+          value="vue"
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByRole('button', { name: 'Vue' })).not.toBeNull();
+    });
+  });
 });

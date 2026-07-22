@@ -10,7 +10,7 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(
     // Reset error/loading state when `src` changes, so a newly valid src is shown instead
     // of continuing to display the fallback or a stale loading skeleton. This runs during
     // render (React's "adjusting state when a prop changes" pattern) rather than in an
-    // effect: an effect runs asynchronously after commit and could re-set `isLoading` to
+    // effect: an effect runs asynchronously after commit and could reset `isLoading` to
     // true *after* the new image's load event already fired, leaving the skeleton (the
     // "gray box") shown forever with no further load event to clear it.
     const [trackedSrc, setTrackedSrc] = useState(src);

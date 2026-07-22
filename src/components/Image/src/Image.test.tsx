@@ -77,6 +77,37 @@ describe('Image', () => {
     });
   });
 
+  describe('Loading state', () => {
+    // The loading skeleton (the "gray box") is the .animate-pulse overlay.
+    const skeleton = (container: HTMLElement) => container.querySelector('.animate-pulse');
+
+    it('shows the skeleton while loading and hides it once the image loads', () => {
+      const { container } = render(<Image alt="Example" src="https://example.com/a.jpg" />);
+      const img = screen.getByRole('img', { name: 'Example' });
+
+      expect(skeleton(container)).not.toBeNull();
+      expect(img).toHaveClass('invisible');
+
+      fireEvent.load(img);
+
+      expect(skeleton(container)).toBeNull();
+      expect(img).not.toHaveClass('invisible');
+    });
+
+    it('re-shows then clears the skeleton when src changes and the new image loads', () => {
+      // Reproduces the reported flow: src starts as '' then becomes a valid src.
+      const { container, rerender } = render(<Image alt="Example" src="" />);
+      expect(skeleton(container)).not.toBeNull();
+
+      rerender(<Image alt="Example" src="https://example.com/valid.jpg" />);
+      // Still loading the newly-set src.
+      expect(skeleton(container)).not.toBeNull();
+
+      fireEvent.load(screen.getByRole('img', { name: 'Example' }));
+      expect(skeleton(container)).toBeNull();
+    });
+  });
+
   describe('Callbacks', () => {
     it('calls onError when the image fails to load', () => {
       const handleError = vi.fn();

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ImageProps } from '../types';
 
 const Image = React.forwardRef<HTMLImageElement, ImageProps>(
@@ -7,12 +7,18 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Reset error/loading state when the src changes so a newly valid src is
-    // shown instead of continuing to display the fallback.
-    useEffect(() => {
+    // Reset error/loading state when `src` changes, so a newly valid src is shown instead
+    // of continuing to display the fallback or a stale loading skeleton. This runs during
+    // render (React's "adjusting state when a prop changes" pattern) rather than in an
+    // effect: an effect runs asynchronously after commit and could re-set `isLoading` to
+    // true *after* the new image's load event already fired, leaving the skeleton (the
+    // "gray box") shown forever with no further load event to clear it.
+    const [trackedSrc, setTrackedSrc] = useState(src);
+    if (src !== trackedSrc) {
+      setTrackedSrc(src);
       setHasError(false);
       setIsLoading(true);
-    }, [src]);
+    }
 
     const handleError = (evt: React.SyntheticEvent<HTMLImageElement, Event>) => {
       setHasError(true);

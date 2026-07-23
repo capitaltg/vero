@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { ImageChangingSrc } from '../demos/ImageChangingSrc';
+import sourceCodeChangingSrc from '../demos/ImageChangingSrc.tsx?raw';
 import { Image } from '../src/Image';
 
 const meta = {
@@ -164,5 +166,29 @@ export const CustomStyle: Story = {
     width: 400,
     height: 300,
     className: 'rounded-lg shadow-lg',
+  },
+};
+
+/**
+ * Changing the `src` at runtime resets the loading state and shows the new image.
+ *
+ * This covers the case where `src` starts empty (or is swapped for another URL) and is
+ * then set to a valid image: the loading skeleton clears once the new image loads instead
+ * of getting stuck. Use the buttons to set an empty src, load an image, or swap between
+ * two images.
+ */
+export const ChangingSrc: Story = {
+  render: () => <ImageChangingSrc />,
+  args: {
+    src: '',
+    alt: 'Runtime src change demo',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeChangingSrc,
+        language: 'tsx',
+      },
+    },
   },
 };

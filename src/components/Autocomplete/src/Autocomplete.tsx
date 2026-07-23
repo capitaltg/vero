@@ -2,7 +2,6 @@ import { Button } from '@/components/Button';
 import {
   Command,
   CommandForceEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
@@ -231,9 +230,15 @@ function AutocompleteInner<T>(
       const option = displayOptions.find(
         opt => getOptionValueFn(opt).toLowerCase() === nextActive.toLowerCase(),
       );
-      if (option) setAnnouncement(`${getOptionLabel?.(option) ?? nextActive}, selected`);
+      if (option) {
+        const label = getOptionLabel?.(option) ?? nextActive;
+        // Distinguish the option that is the current committed selection from a
+        // merely highlighted one, so a screen reader user knows which is chosen.
+        const isChosen = Boolean(value) && getOptionValueFn(option) === value;
+        setAnnouncement(`${label}, selected${isChosen ? ', current selection' : ''}`);
+      }
     },
-    [displayOptions, getOptionValueFn, getOptionLabel],
+    [displayOptions, getOptionValueFn, getOptionLabel, value],
   );
 
   // Reset navigation tracking when the list closes.
@@ -244,40 +249,31 @@ function AutocompleteInner<T>(
     }
   }, [open]);
 
-  // Announce the state of the suggestion list when it opens or the results
-  // change: the number of suggestions, how to browse them, and the first
-  // suggestion (the option cmdk highlights) so its content is read even when the
-  // user has not arrowed yet — e.g. after filtering to a single result. Or the
-  // loading / error / empty-result message. Options are also announced as the
-  // user navigates (handleActiveChange). This effect does not re-run on
-  // navigation (its deps do not include the active option) and exits once the
-  // list closes, so it never clobbers an option or selection announcement.
-  useEffect(() => {
-    if (!open) return;
-    if (loading) setAnnouncement(loadingMessage);
-    else if (error) setAnnouncement(errorMessage);
+  // The status of the suggestion list when it opens or the results change: the
+  // number of suggestions, how to browse them, and the first suggestion (so its
+  // content is read even before the user arrows — e.g. a single result); or the
+  // loading / error / empty-result message. Built as a plain string so the
+  // effect below can depend on its VALUE. A navigation re-render produces the
+  // same status string (the result set is unchanged), so it is not re-announced
+  // on top of each option announcement — unlike depending on `displayOptions`
+  // or the option accessors, whose identities change every render.
+  let listStatus = '';
+  if (open) {
+    if (loading) listStatus = loadingMessage;
+    else if (error) listStatus = errorMessage;
     else if (displayOptions.length > 0) {
       const count = displayOptions.length;
       const suggestions = count === 1 ? '1 suggestion' : `${count} suggestions`;
       const firstLabel = getOptionLabel?.(displayOptions[0]) ?? getOptionValueFn(displayOptions[0]);
-      setAnnouncement(
-        `There ${count === 1 ? 'is' : 'are'} ${suggestions}, use the up and down arrow keys to browse. ${firstLabel}, 1 of ${count}.`,
-      );
+      listStatus = `There ${count === 1 ? 'is' : 'are'} ${suggestions}, use the up and down arrow keys to browse. ${firstLabel}, 1 of ${count}.`;
     } else if (hasSearched) {
-      setAnnouncement(emptyMessage);
+      listStatus = emptyMessage;
     }
-  }, [
-    open,
-    loading,
-    error,
-    hasSearched,
-    displayOptions,
-    loadingMessage,
-    errorMessage,
-    emptyMessage,
-    getOptionLabel,
-    getOptionValueFn,
-  ]);
+  }
+
+  useEffect(() => {
+    if (listStatus) setAnnouncement(listStatus);
+  }, [listStatus]);
 
   return (
     <>
@@ -290,6 +286,7 @@ function AutocompleteInner<T>(
             <Button
               ref={composedRef}
               aria-expanded={open}
+              aria-haspopup="listbox"
               autoFocus={autoFocus}
               className={cn(
                 'w-full justify-start px-3 text-left font-normal',
@@ -305,6 +302,11 @@ function AutocompleteInner<T>(
                 if ((e.key === 'Delete' || e.key === 'Backspace') && value && !open) {
                   e.preventDefault();
                   handleClear();
+                } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !open) {
+                  // Open the list with the arrow keys, as the combobox pattern
+                  // expects (Enter/Space already open it via the trigger).
+                  e.preventDefault();
+                  setOpen(true);
                 }
                 props.onKeyDown?.(e);
               }}
@@ -327,7 +329,15 @@ function AutocompleteInner<T>(
             className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
             zIndex={resolvedZIndex}
           >
-            <Command shouldFilter={false} value={activeValue} onValueChange={handleActiveChange}>
+            {/* `label` gives the search combobox a programmatic accessible name
+                (cmdk renders a visually-hidden <label> the input points at via
+                aria-labelledby); a placeholder alone is not a label. */}
+            <Command
+              label={placeholder}
+              shouldFilter={false}
+              value={activeValue}
+              onValueChange={handleActiveChange}
+            >
               <CommandInput
                 placeholder={placeholder}
                 value={inputValue}
@@ -352,42 +362,53 @@ function AutocompleteInner<T>(
               {!loading && !error && hasSearched && displayOptions.length === 0 ? (
                 <CommandForceEmpty>{emptyMessage}</CommandForceEmpty>
               ) : null}
+              {/* No CommandGroup wrapper: it adds a role="group" around the
+                  options, and some screen readers (VoiceOver) announce that lone
+                  group's position ("1 of 1") on every option. Rendering the
+                  options directly in the listbox keeps each option's own
+                  aria-posinset/aria-setsize the position that is read. The
+                  px-1 py-1 on the list restores the inset the group used to
+                  provide (px-1 py-1, not the p-1 shorthand, so a consumer's
+                  listClassName padding can still override per-axis). */}
               {!loading && !error && displayOptions.length > 0 ? (
-                <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
-                  <CommandGroup>
-                    {displayOptions.map((option, index) => {
-                      const optValue = getOptionValueFn(option);
-                      const isSelected = Boolean(optValue && value && optValue === value);
+                <CommandList
+                  className={cn('max-h-[16.5rem] overflow-y-auto px-1 py-1', listClassName)}
+                >
+                  {displayOptions.map((option, index) => {
+                    const optValue = getOptionValueFn(option);
+                    const isSelected = Boolean(optValue && value && optValue === value);
 
-                      return (
-                        <CommandItem
-                          key={optValue || index}
-                          // Options sit inside a nested role="group", so screen
-                          // readers cannot infer each one's position in the list
-                          // and announce "1 of 1". Set it explicitly.
-                          aria-posinset={index + 1}
-                          aria-setsize={displayOptions.length}
-                          className="cursor-pointer"
-                          value={optValue}
-                          onSelect={handleSelect}
-                        >
-                          {renderOption ? (
-                            renderOption(option, isSelected)
-                          ) : (
-                            <>
-                              <Check
-                                className={cn(
-                                  'mr-2 h-4 w-4',
-                                  isSelected ? 'opacity-100' : 'opacity-0',
-                                )}
-                              />
-                              {getOptionLabel?.(option) ?? optValue}
-                            </>
-                          )}
-                        </CommandItem>
-                      );
-                    })}
-                  </CommandGroup>
+                    return (
+                      <CommandItem
+                        key={optValue || index}
+                        aria-posinset={index + 1}
+                        aria-setsize={displayOptions.length}
+                        className="cursor-pointer"
+                        value={optValue}
+                        onSelect={handleSelect}
+                      >
+                        {renderOption ? (
+                          renderOption(option, isSelected)
+                        ) : (
+                          <>
+                            <Check
+                              aria-hidden="true"
+                              className={cn(
+                                'mr-2 h-4 w-4',
+                                isSelected ? 'opacity-100' : 'opacity-0',
+                              )}
+                            />
+                            {getOptionLabel?.(option) ?? optValue}
+                            {/* The check mark is the visual cue for the current
+                                selection; expose it to assistive tech too. */}
+                            {isSelected ? (
+                              <span className="sr-only"> (current selection)</span>
+                            ) : null}
+                          </>
+                        )}
+                      </CommandItem>
+                    );
+                  })}
                 </CommandList>
               ) : null}
             </Command>

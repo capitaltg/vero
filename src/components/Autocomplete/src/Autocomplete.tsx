@@ -233,9 +233,11 @@ function AutocompleteInner<T>(
   }, [open]);
 
   // Announce the state of the suggestion list when it opens or the results
-  // change: the number of suggestions plus how to browse them, or the loading /
-  // error / empty-result message. Individual options are announced separately as
-  // the user navigates (handleActiveChange). This effect does not re-run on
+  // change: the number of suggestions, how to browse them, and the first
+  // suggestion (the option cmdk highlights) so its content is read even when the
+  // user has not arrowed yet — e.g. after filtering to a single result. Or the
+  // loading / error / empty-result message. Options are also announced as the
+  // user navigates (handleActiveChange). This effect does not re-run on
   // navigation (its deps do not include the active option) and exits once the
   // list closes, so it never clobbers an option or selection announcement.
   useEffect(() => {
@@ -245,8 +247,9 @@ function AutocompleteInner<T>(
     else if (displayOptions.length > 0) {
       const count = displayOptions.length;
       const suggestions = count === 1 ? '1 suggestion' : `${count} suggestions`;
+      const firstLabel = getOptionLabel?.(displayOptions[0]) ?? getOptionValueFn(displayOptions[0]);
       setAnnouncement(
-        `There ${count === 1 ? 'is' : 'are'} ${suggestions}, use the up and down arrow keys to browse.`,
+        `There ${count === 1 ? 'is' : 'are'} ${suggestions}, use the up and down arrow keys to browse. ${firstLabel}, 1 of ${count}.`,
       );
     } else if (hasSearched) {
       setAnnouncement(emptyMessage);
@@ -256,10 +259,12 @@ function AutocompleteInner<T>(
     loading,
     error,
     hasSearched,
-    displayOptions.length,
+    displayOptions,
     loadingMessage,
     errorMessage,
     emptyMessage,
+    getOptionLabel,
+    getOptionValueFn,
   ]);
 
   return (

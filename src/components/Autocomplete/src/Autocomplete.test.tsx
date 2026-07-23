@@ -131,19 +131,23 @@ describe('Autocomplete', () => {
         expect(screen.getAllByRole('status').some(node => node.textContent === text)).toBe(true),
       );
 
-    it('announces the suggestion count and browsing instructions when the list opens', async () => {
+    it('announces the count, instructions, and first suggestion when the list opens', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
 
-      await announced('There are 3 suggestions, use the up and down arrow keys to browse.');
+      await announced(
+        'There are 3 suggestions, use the up and down arrow keys to browse. React, 1 of 3.',
+      );
     });
 
     it('announces each option as it is highlighted with the arrow keys', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
-      await announced('There are 3 suggestions, use the up and down arrow keys to browse.');
+      await announced(
+        'There are 3 suggestions, use the up and down arrow keys to browse. React, 1 of 3.',
+      );
 
       // The first arrow press lands on the first option (nothing is
       // pre-highlighted), so no option is skipped.
@@ -157,13 +161,16 @@ describe('Autocomplete', () => {
       await announced('Angular, selected');
     });
 
-    it('uses the singular form when a search narrows to a single result', async () => {
+    it('reads the sole suggestion (singular) when a search narrows to one result', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
       await user.type(screen.getByPlaceholderText('Select a framework...'), 'ang');
 
-      await announced('There is 1 suggestion, use the up and down arrow keys to browse.');
+      // The single result's content is read even though the user has not arrowed.
+      await announced(
+        'There is 1 suggestion, use the up and down arrow keys to browse. Angular, 1 of 1.',
+      );
     });
 
     it('announces when a search returns no results', async () => {

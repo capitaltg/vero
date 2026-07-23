@@ -63,6 +63,10 @@ function AutocompleteInner<T>(
   // Debounce timer reference
   const debounceTimer = useRef<NodeJS.Timeout>();
 
+  // The trigger button, so focus can be returned to it when the (unmounting)
+  // clear button is used.
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {
@@ -175,6 +179,10 @@ function AutocompleteInner<T>(
     setAsyncOptions([]);
     setHasSearched(false);
     setAnnouncement('');
+    // Clearing removes the clear button from the DOM, so focus would otherwise
+    // fall to <body>. Return it to the trigger. Deferred until after the
+    // re-render that unmounts the clear button.
+    requestAnimationFrame(() => triggerRef.current?.focus());
   }, [onChange]);
 
   const showClear = !isDisabled && Boolean(value || inputValue);
@@ -225,7 +233,11 @@ function AutocompleteInner<T>(
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
-              ref={ref}
+              ref={el => {
+                if (typeof ref === 'function') ref(el);
+                else if (ref) ref.current = el;
+                triggerRef.current = el;
+              }}
               aria-expanded={open}
               autoFocus={autoFocus}
               className={cn(

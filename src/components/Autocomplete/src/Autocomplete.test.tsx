@@ -87,6 +87,18 @@ describe('Autocomplete', () => {
       expect(trigger()).toHaveTextContent('Select a framework...');
       expect(screen.queryByRole('button', { name: 'Clear' })).toBeNull();
     });
+
+    // 508: clearing removes the clear button from the DOM, so focus must be
+    // returned to the trigger rather than falling to <body>.
+    it('moves focus to the trigger when the value is cleared', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<Fixture initialValue="react" />);
+      const trigger = container.querySelector('button[data-component="autocomplete"]');
+
+      await user.click(screen.getByRole('button', { name: 'Clear' }));
+
+      await waitFor(() => expect(trigger).toHaveFocus());
+    });
   });
 
   // 508: screen readers only speak options via aria-activedescendant while

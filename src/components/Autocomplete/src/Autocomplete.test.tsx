@@ -187,6 +187,29 @@ describe('Autocomplete', () => {
       await announced('Angular, selected');
     });
 
+    // Regression: the list-status effect must not re-fire on navigation (its
+    // deps used to include the unstable displayOptions/accessors), which
+    // clobbered each "<option>, selected" with the count on every arrow.
+    it('does not re-announce the list status after navigating to an option', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+      await openTrigger(user);
+      await announced(
+        'There are 3 suggestions, use the up and down arrow keys to browse. React, 1 of 3.',
+      );
+
+      await user.keyboard('{ArrowDown}');
+      await announced('React, selected');
+
+      // The status region holds only the option announcement; it did not revert.
+      const status = screen
+        .getAllByRole('status')
+        .map(n => n.textContent)
+        .filter(Boolean)
+        .join('|');
+      expect(status).toBe('React, selected');
+    });
+
     it('reads the sole suggestion (singular) when a search narrows to one result', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
@@ -231,6 +254,18 @@ describe('Autocomplete', () => {
         expect(opt).toHaveAttribute('aria-setsize', '3');
         expect(opt).toHaveAttribute('aria-posinset', String(i + 1));
       });
+    });
+
+    // Regression: options must not be wrapped in a role="group" — a lone group
+    // makes some screen readers announce "1 of 1" (the group's position) on
+    // every option, overriding the per-option position.
+    it('does not wrap the options in a group', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+      await openTrigger(user);
+
+      await screen.findAllByRole('option');
+      expect(screen.queryByRole('group')).toBeNull();
     });
 
     // The active option is controlled so navigation can be announced; guard that

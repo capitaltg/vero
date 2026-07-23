@@ -7,7 +7,11 @@ import { SwitchGroupWithSelection } from '../demos/SwitchGroupWithSelection';
 import { SwitchGroupSingleColumn } from '../demos/SwitchGroupSingleColumn';
 import { SwitchGroupThreeColumns } from '../demos/SwitchGroupThreeColumns';
 import { SwitchGroupWithManyOptions } from '../demos/SwitchGroupWithManyOptions';
+import { SwitchGroupWithChildren } from '../demos/SwitchGroupWithChildren';
+import { SwitchGroupWithChildrenRef } from '../demos/SwitchGroupWithChildrenRef';
 import sourceCodeDefault from '../demos/SwitchGroupDefault.tsx?raw';
+import sourceCodeWithChildren from '../demos/SwitchGroupWithChildren.tsx?raw';
+import sourceCodeWithChildrenRef from '../demos/SwitchGroupWithChildrenRef.tsx?raw';
 import sourceCodeHorizontal from '../demos/SwitchGroupHorizontal.tsx?raw';
 import sourceCodeVertical from '../demos/SwitchGroupVertical.tsx?raw';
 import sourceCodeWithSelection from '../demos/SwitchGroupWithSelection.tsx?raw';
@@ -232,6 +236,47 @@ export const WithManyOptions: Story = {
     docs: {
       source: {
         code: sourceCodeWithManyOptions,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Instead of an `options` array, pass **Switch** components as `children` when
+ * you need custom layout or structure. In this mode you manage each Switch's
+ * `isChecked`/`onCheckedChange` yourself; SwitchGroup just provides the group
+ * wrapper and layout.
+ */
+export const WithChildren: Story = {
+  render: () => <SwitchGroupWithChildren />,
+  args: {
+    // The children variant takes no value/onChange (the caller manages state).
+    children: undefined,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithChildren,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Passing Switch components as `children` lets you hold a ref to an individual
+ * Switch — e.g. to move focus to it programmatically.
+ */
+export const WithChildrenAndRef: Story = {
+  render: () => <SwitchGroupWithChildrenRef />,
+  args: {
+    children: undefined,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithChildrenRef,
         language: 'tsx',
       },
     },

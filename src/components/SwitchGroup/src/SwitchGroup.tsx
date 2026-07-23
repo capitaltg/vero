@@ -8,7 +8,8 @@ const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
   (
     {
       options,
-      value,
+      children,
+      value = [],
       onChange,
       className,
       columns = 1,
@@ -22,8 +23,8 @@ const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
 
     const handleSwitchChange = useCallback(
       (id: string, isChecked: boolean) => {
-        const addId = (id: string) => onChange([...value, id]);
-        const removeId = (id: string) => onChange(value.filter(v => v !== id));
+        const addId = (id: string) => onChange?.([...value, id]);
+        const removeId = (id: string) => onChange?.(value.filter(v => v !== id));
 
         if (isChecked) {
           addId(id);
@@ -36,16 +37,18 @@ const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
 
     return (
       <div ref={ref} className={cn('vero-switch-group', layoutClasses, className)} {...props}>
-        {options.map(option => (
-          <Switch
-            key={option.id}
-            id={option.id}
-            isChecked={value.includes(option.id)}
-            isDisabled={isDisabled || option.isDisabled}
-            label={option.label}
-            onCheckedChange={checked => handleSwitchChange(option.id, checked)}
-          />
-        ))}
+        {options
+          ? options.map(option => (
+              <Switch
+                key={option.id}
+                id={option.id}
+                isChecked={value.includes(option.id)}
+                isDisabled={isDisabled || option.isDisabled}
+                label={option.label}
+                onCheckedChange={checked => handleSwitchChange(option.id, checked)}
+              />
+            ))
+          : children}
       </div>
     );
   },

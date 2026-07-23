@@ -21,6 +21,10 @@ import { CheckboxGroupTileWithSelection } from '../demos/CheckboxGroupTileWithSe
 import sourceCodeTileWithSelection from '../demos/CheckboxGroupTileWithSelection.tsx?raw';
 import { CheckboxGroupVertical } from '../demos/CheckboxGroupVertical';
 import sourceCodeVertical from '../demos/CheckboxGroupVertical.tsx?raw';
+import { CheckboxGroupWithChildren } from '../demos/CheckboxGroupWithChildren';
+import sourceCodeWithChildren from '../demos/CheckboxGroupWithChildren.tsx?raw';
+import { CheckboxGroupWithChildrenRef } from '../demos/CheckboxGroupWithChildrenRef';
+import sourceCodeWithChildrenRef from '../demos/CheckboxGroupWithChildrenRef.tsx?raw';
 import { CheckboxGroupWithDescription } from '../demos/CheckboxGroupWithDescription';
 import sourceCodeWithDescription from '../demos/CheckboxGroupWithDescription.tsx?raw';
 import { CheckboxGroupWithSelection } from '../demos/CheckboxGroupWithSelection';
@@ -34,7 +38,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'CheckboxGroup lets users select zero, one, or many options from a list. Use it for multi-select choices (e.g. interests, notification preferences). Options support labels and optional descriptions; layout can be default, tile, or button style, with configurable columns and orientation.\n\nWhen multiple CheckboxGroups appear on the same page with overlapping option IDs, give each group a unique `id` so input IDs stay unique (each checkbox input ID becomes `{id}-{option.id}`). You can override the input ID for a single option by passing an optional `inputId` on that option.',
+          'CheckboxGroup lets users select zero, one, or many options from a list. Use it for multi-select choices (e.g. interests, notification preferences).\n\n**Two usage patterns:**\n- **Options:** Pass an `options` array; CheckboxGroup renders Checkbox items and applies layout (default, tile, or button variant, columns, orientation).\n- **Children:** Pass **Checkbox** components as `children` when you need custom layout or structure (or a ref to a specific Checkbox); you manage each Checkbox’s checked state.\n\nWhen multiple CheckboxGroups appear on the same page with overlapping option IDs, give each group a unique `id` so input IDs stay unique (each checkbox input ID becomes `{id}-{option.id}`). You can override the input ID for a single option by passing an optional `inputId` on that option.',
       },
     },
   },
@@ -449,6 +453,47 @@ export const WithDescription: Story = {
     docs: {
       source: {
         code: sourceCodeWithDescription,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Instead of an `options` array, pass **Checkbox** components as `children` when
+ * you need custom layout or structure. In this mode you manage each Checkbox's
+ * `isChecked`/`onCheckedChange` yourself; CheckboxGroup just provides the group
+ * wrapper and layout.
+ */
+export const WithChildren: Story = {
+  render: () => <CheckboxGroupWithChildren />,
+  args: {
+    // The children variant takes no value/onChange (the caller manages state).
+    children: undefined,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithChildren,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Passing Checkbox components as `children` lets you hold a ref to an individual
+ * Checkbox — e.g. to move focus to it programmatically.
+ */
+export const WithChildrenAndRef: Story = {
+  render: () => <CheckboxGroupWithChildrenRef />,
+  args: {
+    children: undefined,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithChildrenRef,
         language: 'tsx',
       },
     },

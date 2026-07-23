@@ -366,9 +366,11 @@ function AutocompleteInner<T>(
                   options, and some screen readers (VoiceOver) announce that lone
                   group's position ("1 of 1") on every option. Rendering the
                   options directly in the listbox keeps each option's own
-                  aria-posinset/aria-setsize the position that is read. */}
+                  aria-posinset/aria-setsize the position that is read. The p-1
+                  on the list restores the inset the group used to provide, so
+                  options and the selected-row highlight don't touch the edges. */}
               {!loading && !error && displayOptions.length > 0 ? (
-                <CommandList className={cn('max-h-[16.5rem] overflow-y-auto', listClassName)}>
+                <CommandList className={cn('max-h-[16.5rem] overflow-y-auto p-1', listClassName)}>
                   {displayOptions.map((option, index) => {
                     const optValue = getOptionValueFn(option);
                     const isSelected = Boolean(optValue && value && optValue === value);

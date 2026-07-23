@@ -116,25 +116,25 @@ describe('Autocomplete', () => {
         expect(screen.getAllByRole('status').some(node => node.textContent === text)).toBe(true),
       );
 
-    it('announces the first (highlighted) option when the list opens', async () => {
+    it('announces the first (highlighted) option and its position when the list opens', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
 
-      await announced('React');
+      await announced('React, 1 of 3');
     });
 
-    it('announces each option as the highlight moves with the arrow keys', async () => {
+    it('announces each option and its position as the highlight moves with the arrow keys', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
-      await announced('React');
+      await announced('React, 1 of 3');
 
       await user.keyboard('{ArrowDown}');
-      await announced('Vue');
+      await announced('Vue, 2 of 3');
 
       await user.keyboard('{ArrowDown}');
-      await announced('Angular');
+      await announced('Angular, 3 of 3');
     });
 
     it('announces the sole option when a search narrows to a single result', async () => {
@@ -143,8 +143,9 @@ describe('Autocomplete', () => {
       await openTrigger(user);
       await user.type(screen.getByPlaceholderText('Select a framework...'), 'ang');
 
-      // Nothing to arrow to, but the lone option is auto-highlighted and read.
-      await announced('Angular');
+      // Nothing to arrow to, but the lone option is auto-highlighted and read,
+      // and the position conveys that it is the only result.
+      await announced('Angular, 1 of 1');
     });
 
     it('announces when a search returns no results', async () => {

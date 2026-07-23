@@ -300,11 +300,11 @@ export const MinWidthPopover: Story = {
  * timeline. The "Current live-region text" panel mirrors the region visibly
  * (the panels are `aria-hidden` so they are not themselves announced).
  *
- * To debug: open the list (the highlighted option's label is announced),
- * arrow through the options (each active option is announced), narrow to one
- * result (the sole option is announced), search for nothing ("No results
- * found"), and select an option ("<label> selected", then focus returns to the
- * trigger).
+ * To debug: open the list (the highlighted option and its position are
+ * announced, e.g. "React, 1 of 3"), arrow through the options (each active
+ * option and position is announced), narrow to one result ("Angular, 1 of 1"),
+ * search for nothing ("No results found"), and select an option ("<label>
+ * selected", then focus returns to the trigger).
  */
 export const AnnouncementDebug: Story = {
   render: () => <AutocompleteAnnouncementDebug />,

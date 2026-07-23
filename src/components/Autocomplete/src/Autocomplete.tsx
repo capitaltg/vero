@@ -210,25 +210,31 @@ function AutocompleteInner<T>(
     }
   }, [open, displayOptions, activeOption, getOptionValueFn]);
 
-  // Announce the active option as the highlight moves — cmdk keeps the combobox
-  // `aria-activedescendant` in sync, but VoiceOver does not reliably speak
-  // activedescendant changes on comboboxes, so we mirror the active option's
-  // label into the live region. States with no highlightable option (loading, a
-  // failed fetch, an empty result set) are announced in their place. A
-  // selection announcement (set in handleSelect) is left untouched because this
-  // effect exits once the list closes.
+  // Announce the active option, with its position, as the highlight moves —
+  // following the combobox pattern ("<label>, <n> of <total>"). cmdk keeps the
+  // combobox `aria-activedescendant` in sync, but VoiceOver does not reliably
+  // speak activedescendant changes on comboboxes, so we mirror the active option
+  // into the live region. The position also conveys the result count and how it
+  // changes as the list narrows. States with no highlightable option (loading, a
+  // failed fetch, an empty result set) are announced in their place. A selection
+  // announcement (set in handleSelect) is left untouched because this effect
+  // exits once the list closes.
   useEffect(() => {
     if (!open) return;
     if (loading) setAnnouncement(loadingMessage);
     else if (error) setAnnouncement(errorMessage);
     else if (hasSearched && displayOptions.length === 0) setAnnouncement(emptyMessage);
-    else if (activeOption) setAnnouncement(getOptionLabel?.(activeOption) ?? activeValue);
+    else if (activeOption) {
+      const label = getOptionLabel?.(activeOption) ?? activeValue;
+      const position = displayOptions.indexOf(activeOption) + 1;
+      setAnnouncement(`${label}, ${position} of ${displayOptions.length}`);
+    }
   }, [
     open,
     loading,
     error,
     hasSearched,
-    displayOptions.length,
+    displayOptions,
     activeOption,
     activeValue,
     loadingMessage,

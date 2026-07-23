@@ -1,6 +1,6 @@
 import { FormItem } from '@/components/FormItem';
 import { expectNoViolations } from '@/test/utils';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { useState } from 'react';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
@@ -51,5 +51,40 @@ describe('Combobox', () => {
 
     expect(container.querySelector('[data-error="true"]')).not.toBeNull();
     expect(container.querySelector('button[data-component="combobox"]')).not.toBeNull();
+  });
+
+  // When wrapped in a labeled FormItem, the trigger's associated <label for> would
+  // otherwise override its text content as the accessible name, so the selected value
+  // would never be read back. The trigger composes label + value via aria-labelledby.
+  describe('Accessible name', () => {
+    const LabeledFixture = ({ initialValue = 'react' }: { initialValue?: string }) => {
+      const [value, setValue] = useState(initialValue);
+      return (
+        <FormItem elementId="framework" label="Framework">
+          <Combobox id="framework" options={options} value={value} onChange={setValue} />
+        </FormItem>
+      );
+    };
+
+    it('reads back both the field label and the selected value', () => {
+      render(<LabeledFixture />);
+      expect(screen.getByRole('button', { name: /Framework/ })).not.toBeNull();
+      expect(screen.getByRole('button', { name: /React/ })).not.toBeNull();
+      expect(screen.getByRole('button', { name: /Framework/ })).toBe(
+        screen.getByRole('button', { name: /React/ }),
+      );
+    });
+
+    it('falls back to the value when there is no associated label', () => {
+      render(
+        <Combobox
+          options={options}
+          placeholder="Select a framework..."
+          value="vue"
+          onChange={() => {}}
+        />,
+      );
+      expect(screen.getByRole('button', { name: 'Vue' })).not.toBeNull();
+    });
   });
 });

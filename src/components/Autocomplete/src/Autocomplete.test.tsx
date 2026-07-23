@@ -1,6 +1,6 @@
 import { FormItem } from '@/components/FormItem';
 import { expectNoViolations } from '@/test/utils';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it } from 'vitest';
@@ -86,6 +86,61 @@ describe('Autocomplete', () => {
 
       expect(trigger()).toHaveTextContent('Select a framework...');
       expect(screen.queryByRole('button', { name: 'Clear' })).toBeNull();
+    });
+  });
+
+  // 508: screen readers only speak options via aria-activedescendant while
+  // arrowing through the list. A single result (nothing to arrow to), an empty
+  // result set, and the final selection would otherwise pass silently, so the
+  // component announces those states through visually-hidden live regions.
+  describe('Screen reader announcements', () => {
+    const openTrigger = async (user: ReturnType<typeof userEvent.setup>) => {
+      await user.click(screen.getByRole('button', { name: /select a framework/i }));
+    };
+
+    it('announces the number of available results when the list opens', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+      await openTrigger(user);
+
+      const statuses = screen.getAllByRole('status');
+      expect(statuses.some(node => node.textContent === '3 results available')).toBe(true);
+    });
+
+    it('announces a single result using the singular form', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+      await openTrigger(user);
+      await user.type(screen.getByPlaceholderText('Select a framework...'), 'ang');
+
+      const statuses = screen.getAllByRole('status');
+      await waitFor(() =>
+        expect(statuses.some(node => node.textContent === '1 result available')).toBe(true),
+      );
+    });
+
+    it('announces when a search returns no results', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+      await openTrigger(user);
+      await user.type(screen.getByPlaceholderText('Select a framework...'), 'zzz');
+
+      const statuses = screen.getAllByRole('status');
+      await waitFor(() =>
+        expect(statuses.some(node => node.textContent === 'No results found')).toBe(true),
+      );
+    });
+
+    it('announces the selected value after choosing an option', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+      await openTrigger(user);
+      await user.click(screen.getByRole('option', { name: /vue/i }));
+
+      const statuses = screen.getAllByRole('status');
+      await waitFor(() =>
+        expect(statuses.some(node => node.textContent === 'Vue selected')).toBe(true),
+      );
     });
   });
 });

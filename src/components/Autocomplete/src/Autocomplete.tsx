@@ -52,6 +52,7 @@ function AutocompleteInner<T>(
   const [asyncOptions, setAsyncOptions] = useState<T[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedItem, setSelectedItem] = useState<T | undefined>(undefined);
+  const [selectionMessage, setSelectionMessage] = useState('');
 
   // Debounce timer reference
   const debounceTimer = useRef<NodeJS.Timeout>();
@@ -124,13 +125,17 @@ function AutocompleteInner<T>(
       const option = displayOptions.find(opt => getOptionValueFn(opt) === selectedValue);
       if (option) {
         setSelectedItem(option);
+        // Announce the chosen value: the popover closes on select, so the
+        // listbox status region goes silent and returning focus to the trigger
+        // is not a reliable announcement across screen readers.
+        setSelectionMessage(`${getOptionLabel?.(option) ?? selectedValue} selected`);
         onChange(selectedValue, option);
       }
       setOpen(false);
       setInputValue('');
       setHasSearched(false);
     },
-    [onChange, displayOptions, getOptionValueFn],
+    [onChange, displayOptions, getOptionValueFn, getOptionLabel],
   );
 
   const handleInputChange = useCallback(
@@ -162,9 +167,36 @@ function AutocompleteInner<T>(
     setInputValue('');
     setAsyncOptions([]);
     setHasSearched(false);
+    setSelectionMessage('');
   }, [onChange]);
 
   const showClear = !isDisabled && Boolean(value || inputValue);
+
+  // Status announced to screen readers when the list opens or its contents
+  // change. Screen readers otherwise only speak items via aria-activedescendant
+  // while arrowing through the list, so a single result or an empty result set
+  // would pass silently. Gated on `open` so it re-announces each time the list
+  // is shown.
+  const listboxStatus = useMemo(() => {
+    if (!open) return '';
+    if (loading) return loadingMessage;
+    if (error) return errorMessage;
+    if (hasSearched && displayOptions.length === 0) return emptyMessage;
+    if (displayOptions.length > 0) {
+      const count = displayOptions.length;
+      return `${count} ${count === 1 ? 'result' : 'results'} available`;
+    }
+    return '';
+  }, [
+    open,
+    loading,
+    error,
+    hasSearched,
+    displayOptions.length,
+    loadingMessage,
+    errorMessage,
+    emptyMessage,
+  ]);
 
   return (
     <>
@@ -273,6 +305,12 @@ function AutocompleteInner<T>(
           className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 shrink-0 -translate-y-1/2
             opacity-50"
         />
+        <div aria-live="polite" className="sr-only" role="status">
+          {listboxStatus}
+        </div>
+        <div aria-live="polite" className="sr-only" role="status">
+          {selectionMessage}
+        </div>
       </div>
     </>
   );

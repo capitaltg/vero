@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { DatePicker } from '../src/DatePicker';
+import { DatePickerAnnouncementDebug } from '../demos/DatePickerAnnouncementDebug';
+import sourceCodeAnnouncementDebug from '../demos/DatePickerAnnouncementDebug.tsx?raw';
 import { DatePickerDefault } from '../demos/DatePickerDefault';
 import { DatePickerWithValue } from '../demos/DatePickerWithValue';
 import { DatePickerWithStartAndEndMonth } from '../demos/DatePickerWithStartAndEndMonth';
@@ -177,6 +179,29 @@ export const CustomPlaceholder: Story = {
     docs: {
       source: {
         code: sourceCodeCustomPlaceholder,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Debug harness (508). Focus the trigger to confirm its accessible name reads
+ * back the field label + the selected date, and watch focus/live-region events
+ * as you open the calendar and choose a day. The debug panels are aria-hidden
+ * so a screen reader reads only the DatePicker.
+ */
+export const AnnouncementDebug: Story = {
+  render: () => <DatePickerAnnouncementDebug />,
+  args: {
+    value: undefined,
+    onChange: () => {},
+  },
+  tags: ['!autodocs'],
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeAnnouncementDebug,
         language: 'tsx',
       },
     },

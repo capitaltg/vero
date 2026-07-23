@@ -60,6 +60,16 @@ const meta = {
       description: 'Number of columns in the grid (only applies when orientation is vertical)',
       type: { name: 'number', required: false },
     },
+    isDisabled: {
+      control: 'boolean',
+      description:
+        'Disables the entire group. Individual options can also be disabled via `option.isDisabled`. Applies only in `options` mode; when passing `children`, the group does not disable them — set `isDisabled` on each Switch yourself.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof SwitchGroup>;

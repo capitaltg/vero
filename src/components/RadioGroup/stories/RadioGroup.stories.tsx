@@ -95,6 +95,16 @@ const meta = {
         'Number of columns for default and tile variants (only applies when orientation is vertical). Defaults to 1.',
       type: { name: 'number', required: false },
     },
+    isDisabled: {
+      control: 'boolean',
+      description:
+        'Disables the entire group. Individual options can also be disabled via `option.isDisabled`. Applies only in `options` mode; when passing `children`, the group does not disable them — set `isDisabled` on each Radio yourself.',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     required: {
       control: 'boolean',
       description:

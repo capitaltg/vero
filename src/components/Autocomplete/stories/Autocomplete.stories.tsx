@@ -12,6 +12,8 @@ import { AutocompleteMinWidthPopover } from '../demos/AutocompleteMinWidthPopove
 import sourceCodeMinWidthPopover from '../demos/AutocompleteMinWidthPopover.tsx?raw';
 import { AutocompleteWithStaticOptions } from '../demos/AutocompleteWithStaticOptions';
 import sourceCodeWithStaticOptions from '../demos/AutocompleteWithStaticOptions.tsx?raw';
+import { AutocompleteAnnouncementDebug } from '../demos/AutocompleteAnnouncementDebug';
+import sourceCodeAnnouncementDebug from '../demos/AutocompleteAnnouncementDebug.tsx?raw';
 import { Autocomplete } from '../src/Autocomplete';
 
 const meta = {
@@ -272,6 +274,34 @@ export const WithItemCallback: Story = {
  * uses `popoverClassName` so it can be wider than the trigger - the dropdown expands to
  * fit long option labels.
  */
+/**
+ * Debug harness for the screen-reader announcements (508). It watches the real
+ * `[role="status"][aria-live]` live region with a MutationObserver and logs
+ * every text change — this is exactly what a screen reader would speak — plus
+ * focus moves, so announcements and focus changes can be correlated on a
+ * timeline. The "Current live-region text" panel mirrors the region visibly
+ * (the panels are `aria-hidden` so they are not themselves announced).
+ *
+ * To debug: open the list (see "N results available"), narrow to one result
+ * ("1 result available"), search for nothing ("No results found"), and select
+ * an option (should log "<label> selected", then focus returning to the
+ * trigger).
+ */
+export const AnnouncementDebug: Story = {
+  render: () => <AutocompleteAnnouncementDebug />,
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
+  tags: ['!autodocs'],
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeAnnouncementDebug,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
 export const MinWidthPopover: Story = {
   render: () => <AutocompleteMinWidthPopover value="" onChange={() => {}} />,
   // @ts-expect-error - Storybook can't properly infer generic types

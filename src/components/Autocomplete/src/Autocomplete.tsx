@@ -231,9 +231,15 @@ function AutocompleteInner<T>(
       const option = displayOptions.find(
         opt => getOptionValueFn(opt).toLowerCase() === nextActive.toLowerCase(),
       );
-      if (option) setAnnouncement(`${getOptionLabel?.(option) ?? nextActive}, selected`);
+      if (option) {
+        const label = getOptionLabel?.(option) ?? nextActive;
+        // Distinguish the option that is the current committed selection from a
+        // merely highlighted one, so a screen reader user knows which is chosen.
+        const isChosen = Boolean(value) && getOptionValueFn(option) === value;
+        setAnnouncement(`${label}, selected${isChosen ? ', current selection' : ''}`);
+      }
     },
-    [displayOptions, getOptionValueFn, getOptionLabel],
+    [displayOptions, getOptionValueFn, getOptionLabel, value],
   );
 
   // Reset navigation tracking when the list closes.
@@ -290,6 +296,7 @@ function AutocompleteInner<T>(
             <Button
               ref={composedRef}
               aria-expanded={open}
+              aria-haspopup="listbox"
               autoFocus={autoFocus}
               className={cn(
                 'w-full justify-start px-3 text-left font-normal',
@@ -305,6 +312,11 @@ function AutocompleteInner<T>(
                 if ((e.key === 'Delete' || e.key === 'Backspace') && value && !open) {
                   e.preventDefault();
                   handleClear();
+                } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !open) {
+                  // Open the list with the arrow keys, as the combobox pattern
+                  // expects (Enter/Space already open it via the trigger).
+                  e.preventDefault();
+                  setOpen(true);
                 }
                 props.onKeyDown?.(e);
               }}
@@ -327,7 +339,15 @@ function AutocompleteInner<T>(
             className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
             zIndex={resolvedZIndex}
           >
-            <Command shouldFilter={false} value={activeValue} onValueChange={handleActiveChange}>
+            {/* `label` gives the search combobox a programmatic accessible name
+                (cmdk renders a visually-hidden <label> the input points at via
+                aria-labelledby); a placeholder alone is not a label. */}
+            <Command
+              label={placeholder}
+              shouldFilter={false}
+              value={activeValue}
+              onValueChange={handleActiveChange}
+            >
               <CommandInput
                 placeholder={placeholder}
                 value={inputValue}
@@ -376,12 +396,18 @@ function AutocompleteInner<T>(
                           ) : (
                             <>
                               <Check
+                                aria-hidden="true"
                                 className={cn(
                                   'mr-2 h-4 w-4',
                                   isSelected ? 'opacity-100' : 'opacity-0',
                                 )}
                               />
                               {getOptionLabel?.(option) ?? optValue}
+                              {/* The check mark is the visual cue for the current
+                                  selection; expose it to assistive tech too. */}
+                              {isSelected ? (
+                                <span className="sr-only"> (current selection)</span>
+                              ) : null}
                             </>
                           )}
                         </CommandItem>

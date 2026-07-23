@@ -246,5 +246,62 @@ describe('Autocomplete', () => {
 
       await waitFor(() => expect(trigger()).toHaveTextContent('Vue'));
     });
+
+    // 508 (audit #4): distinguish the committed selection from a merely
+    // highlighted option, in both the announcement and the option's own name.
+    it('announces the current selection when navigating onto the chosen option', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<Fixture initialValue="vue" />);
+      await user.click(container.querySelector('button[data-component="autocomplete"]')!);
+
+      await user.keyboard('{ArrowDown}'); // React (not chosen)
+      await announced('React, selected');
+      await user.keyboard('{ArrowDown}'); // Vue (the chosen value)
+      await announced('Vue, selected, current selection');
+    });
+
+    it('exposes the chosen option in the list to assistive tech', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<Fixture initialValue="vue" />);
+      await user.click(container.querySelector('button[data-component="autocomplete"]')!);
+
+      expect(screen.getByRole('option', { name: 'Vue (current selection)' })).not.toBeNull();
+      expect(screen.getByRole('option', { name: 'React' })).not.toBeNull();
+    });
+  });
+
+  // 508 (audit #2, #3): combobox semantics on the trigger and a labeled search
+  // field.
+  describe('Combobox semantics', () => {
+    it('marks the trigger as opening a listbox popup', () => {
+      const { container } = render(<Fixture />);
+      const trigger = container.querySelector('button[data-component="autocomplete"]');
+      expect(trigger).toHaveAttribute('aria-haspopup', 'listbox');
+    });
+
+    it('opens the list when ArrowDown is pressed on the trigger', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<Fixture />);
+      const trigger = container.querySelector<HTMLButtonElement>(
+        'button[data-component="autocomplete"]',
+      )!;
+      trigger.focus();
+
+      expect(screen.queryByPlaceholderText('Select a framework...')).toBeNull();
+      await user.keyboard('{ArrowDown}');
+      await waitFor(() =>
+        expect(screen.getByPlaceholderText('Select a framework...')).toBeInTheDocument(),
+      );
+    });
+
+    it('gives the search input a programmatic label, not just a placeholder', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<Fixture />);
+      await user.click(container.querySelector('button[data-component="autocomplete"]')!);
+
+      expect(screen.getByPlaceholderText('Select a framework...')).toHaveAccessibleName(
+        'Select a framework...',
+      );
+    });
   });
 });

@@ -15,6 +15,11 @@ import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AutocompleteProps } from '../types';
 
+// Delay before the result-set status is announced to screen readers. Debounced
+// so a burst of typing queues only the final message (like a typeahead backend
+// query) instead of one announcement per keystroke.
+const ANNOUNCE_DEBOUNCE_MS = 500;
+
 function AutocompleteInner<T>(
   {
     loadOptions,
@@ -52,7 +57,8 @@ function AutocompleteInner<T>(
   const [asyncOptions, setAsyncOptions] = useState<T[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedItem, setSelectedItem] = useState<T | undefined>(undefined);
-  const [selectionMessage, setSelectionMessage] = useState('');
+  // Single message read out to screen readers via a polite live region.
+  const [announcement, setAnnouncement] = useState('');
 
   // Debounce timer reference
   const debounceTimer = useRef<NodeJS.Timeout>();
@@ -125,10 +131,11 @@ function AutocompleteInner<T>(
       const option = displayOptions.find(opt => getOptionValueFn(opt) === selectedValue);
       if (option) {
         setSelectedItem(option);
-        // Announce the chosen value: the popover closes on select, so the
-        // listbox status region goes silent and returning focus to the trigger
-        // is not a reliable announcement across screen readers.
-        setSelectionMessage(`${getOptionLabel?.(option) ?? selectedValue} selected`);
+        // Announce the chosen value immediately (not debounced): the popover
+        // closes on select, so the result-set status goes silent and returning
+        // focus to the trigger is not a reliable announcement across screen
+        // readers.
+        setAnnouncement(`${getOptionLabel?.(option) ?? selectedValue} selected`);
         onChange(selectedValue, option);
       }
       setOpen(false);
@@ -167,26 +174,37 @@ function AutocompleteInner<T>(
     setInputValue('');
     setAsyncOptions([]);
     setHasSearched(false);
-    setSelectionMessage('');
+    setAnnouncement('');
   }, [onChange]);
 
   const showClear = !isDisabled && Boolean(value || inputValue);
 
-  // Status announced to screen readers when the list opens or its contents
-  // change. Screen readers otherwise only speak items via aria-activedescendant
-  // while arrowing through the list, so a single result or an empty result set
-  // would pass silently. Gated on `open` so it re-announces each time the list
-  // is shown.
-  const listboxStatus = useMemo(() => {
-    if (!open) return '';
-    if (loading) return loadingMessage;
-    if (error) return errorMessage;
-    if (hasSearched && displayOptions.length === 0) return emptyMessage;
-    if (displayOptions.length > 0) {
-      const count = displayOptions.length;
-      return `${count} ${count === 1 ? 'result' : 'results'} available`;
-    }
-    return '';
+  // Announce the result-set status to screen readers when the list is open.
+  // Screen readers otherwise only speak items via aria-activedescendant while
+  // arrowing through the list, so a single result or an empty result set would
+  // pass silently. Debounced so a burst of typing queues only the final message
+  // rather than one announcement per keystroke. A selection announcement (set
+  // synchronously in handleSelect) is not clobbered here because this effect
+  // exits early once the list has closed.
+  useEffect(() => {
+    if (!open) return;
+
+    const timer = setTimeout(() => {
+      if (loading) {
+        setAnnouncement(loadingMessage);
+      } else if (error) {
+        setAnnouncement(errorMessage);
+      } else if (hasSearched && displayOptions.length === 0) {
+        setAnnouncement(emptyMessage);
+      } else if (displayOptions.length > 0) {
+        const count = displayOptions.length;
+        setAnnouncement(`${count} ${count === 1 ? 'result' : 'results'} available`);
+      } else {
+        setAnnouncement('');
+      }
+    }, ANNOUNCE_DEBOUNCE_MS);
+
+    return () => clearTimeout(timer);
   }, [
     open,
     loading,
@@ -306,10 +324,7 @@ function AutocompleteInner<T>(
             opacity-50"
         />
         <div aria-live="polite" className="sr-only" role="status">
-          {listboxStatus}
-        </div>
-        <div aria-live="polite" className="sr-only" role="status">
-          {selectionMessage}
+          {announcement}
         </div>
       </div>
     </>

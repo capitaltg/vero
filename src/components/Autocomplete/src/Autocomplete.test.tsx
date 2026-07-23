@@ -103,8 +103,11 @@ describe('Autocomplete', () => {
       render(<Fixture />);
       await openTrigger(user);
 
-      const statuses = screen.getAllByRole('status');
-      expect(statuses.some(node => node.textContent === '3 results available')).toBe(true);
+      await waitFor(() =>
+        expect(
+          screen.getAllByRole('status').some(node => node.textContent === '3 results available'),
+        ).toBe(true),
+      );
     });
 
     it('announces a single result using the singular form', async () => {

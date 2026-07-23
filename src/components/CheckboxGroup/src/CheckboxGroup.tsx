@@ -9,7 +9,8 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
   (
     {
       options,
-      value,
+      children,
+      value = [],
       onChange,
       className,
       columns = 1,
@@ -32,27 +33,29 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
         id={groupId}
         {...props}
       >
-        {options.map(option => {
-          const inputId = option.inputId ?? `${computedId}-${option.id}`;
-          return (
-            <Checkbox
-              key={option.id}
-              description={option.description}
-              id={inputId}
-              isChecked={value.includes(option.id)}
-              isDisabled={isDisabled || option.isDisabled}
-              label={option.label}
-              variant={variant}
-              onCheckedChange={isChecked => {
-                if (isChecked) {
-                  onChange([...value, option.id]);
-                } else {
-                  onChange(value.filter(id => id !== option.id));
-                }
-              }}
-            />
-          );
-        })}
+        {options
+          ? options.map(option => {
+              const inputId = option.inputId ?? `${computedId}-${option.id}`;
+              return (
+                <Checkbox
+                  key={option.id}
+                  description={option.description}
+                  id={inputId}
+                  isChecked={value.includes(option.id)}
+                  isDisabled={isDisabled || option.isDisabled}
+                  label={option.label}
+                  variant={variant}
+                  onCheckedChange={isChecked => {
+                    if (isChecked) {
+                      onChange?.([...value, option.id]);
+                    } else {
+                      onChange?.(value.filter(id => id !== option.id));
+                    }
+                  }}
+                />
+              );
+            })
+          : children}
       </div>
     );
   },

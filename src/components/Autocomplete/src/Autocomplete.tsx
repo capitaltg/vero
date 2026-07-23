@@ -66,6 +66,13 @@ function AutocompleteInner<T>(
   // clear button is used.
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
+  // Whether the user has arrowed through the list since it opened / the results
+  // last changed. cmdk auto-highlights the first option (and fires
+  // onValueChange) on open, so this distinguishes that automatic highlight —
+  // which should announce the suggestion count + instructions — from real
+  // navigation, which announces the highlighted option.
+  const hasNavigatedRef = useRef(false);
+
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {
@@ -151,6 +158,9 @@ function AutocompleteInner<T>(
   const handleInputChange = useCallback(
     (input: string) => {
       setInputValue(input);
+      // New search results are a fresh list; the next announcement should be the
+      // updated count + instructions, not a navigated option.
+      hasNavigatedRef.current = false;
 
       if (input.length === 0) {
         setHasSearched(false);
@@ -186,61 +196,65 @@ function AutocompleteInner<T>(
 
   const showClear = !isDisabled && Boolean(value || inputValue);
 
-  const activeOption = useMemo(
-    () =>
-      activeValue
-        ? displayOptions.find(
-            opt => getOptionValueFn(opt).toLowerCase() === activeValue.toLowerCase(),
-          )
-        : undefined,
-    [activeValue, displayOptions, getOptionValueFn],
+  // Announce the highlighted option as the user arrows through the list. cmdk
+  // keeps the combobox `aria-activedescendant` in sync, but VoiceOver does not
+  // reliably speak activedescendant changes on comboboxes, so we mirror the
+  // option into the live region. The automatic highlight cmdk applies on open is
+  // ignored here (hasNavigatedRef) so it does not pre-empt the count + how-to
+  // announcement; only genuine navigation speaks an option.
+  const handleActiveChange = useCallback(
+    (nextActive: string) => {
+      // Ignore cmdk's automatic highlight on open (no navigation yet); leaving
+      // the controlled value empty means nothing is pre-highlighted, so the
+      // first arrow press lands on — and announces — the first option instead of
+      // skipping it.
+      if (!hasNavigatedRef.current) return;
+      setActiveValue(nextActive);
+      if (!nextActive) return;
+      const option = displayOptions.find(
+        opt => getOptionValueFn(opt).toLowerCase() === nextActive.toLowerCase(),
+      );
+      if (option) setAnnouncement(`${getOptionLabel?.(option) ?? nextActive}, selected`);
+    },
+    [displayOptions, getOptionValueFn, getOptionLabel],
   );
 
-  // Keep a valid option highlighted while the list is open so there is always
-  // something to announce (and so the single-result case has an active option).
-  // When the results change under a stale highlight, snap to the first option.
-  // Reset when the list closes.
+  // Reset navigation tracking when the list closes.
   useEffect(() => {
     if (!open) {
       setActiveValue('');
-      return;
+      hasNavigatedRef.current = false;
     }
-    if (displayOptions.length > 0 && !activeOption) {
-      setActiveValue(getOptionValueFn(displayOptions[0]));
-    }
-  }, [open, displayOptions, activeOption, getOptionValueFn]);
+  }, [open]);
 
-  // Announce the active option, with its position, as the highlight moves —
-  // following the combobox pattern ("<label>, <n> of <total>"). cmdk keeps the
-  // combobox `aria-activedescendant` in sync, but VoiceOver does not reliably
-  // speak activedescendant changes on comboboxes, so we mirror the active option
-  // into the live region. The position also conveys the result count and how it
-  // changes as the list narrows. States with no highlightable option (loading, a
-  // failed fetch, an empty result set) are announced in their place. A selection
-  // announcement (set in handleSelect) is left untouched because this effect
-  // exits once the list closes.
+  // Announce the state of the suggestion list when it opens or the results
+  // change: the number of suggestions plus how to browse them, or the loading /
+  // error / empty-result message. Individual options are announced separately as
+  // the user navigates (handleActiveChange). This effect does not re-run on
+  // navigation (its deps do not include the active option) and exits once the
+  // list closes, so it never clobbers an option or selection announcement.
   useEffect(() => {
     if (!open) return;
     if (loading) setAnnouncement(loadingMessage);
     else if (error) setAnnouncement(errorMessage);
-    else if (hasSearched && displayOptions.length === 0) setAnnouncement(emptyMessage);
-    else if (activeOption) {
-      const label = getOptionLabel?.(activeOption) ?? activeValue;
-      const position = displayOptions.indexOf(activeOption) + 1;
-      setAnnouncement(`${label}, ${position} of ${displayOptions.length}`);
+    else if (displayOptions.length > 0) {
+      const count = displayOptions.length;
+      const suggestions = count === 1 ? '1 suggestion' : `${count} suggestions`;
+      setAnnouncement(
+        `There ${count === 1 ? 'is' : 'are'} ${suggestions}, use the up and down arrow keys to browse.`,
+      );
+    } else if (hasSearched) {
+      setAnnouncement(emptyMessage);
     }
   }, [
     open,
     loading,
     error,
     hasSearched,
-    displayOptions,
-    activeOption,
-    activeValue,
+    displayOptions.length,
     loadingMessage,
     errorMessage,
     emptyMessage,
-    getOptionLabel,
   ]);
 
   return (
@@ -290,10 +304,24 @@ function AutocompleteInner<T>(
             className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
             zIndex={resolvedZIndex}
           >
-            <Command shouldFilter={false} value={activeValue} onValueChange={setActiveValue}>
+            <Command shouldFilter={false} value={activeValue} onValueChange={handleActiveChange}>
               <CommandInput
                 placeholder={placeholder}
                 value={inputValue}
+                onKeyDown={e => {
+                  // Mark real navigation so the next active-option change is
+                  // announced (vs. cmdk's automatic highlight on open).
+                  if (
+                    e.key === 'ArrowDown' ||
+                    e.key === 'ArrowUp' ||
+                    e.key === 'Home' ||
+                    e.key === 'End' ||
+                    e.key === 'PageUp' ||
+                    e.key === 'PageDown'
+                  ) {
+                    hasNavigatedRef.current = true;
+                  }
+                }}
                 onValueChange={handleInputChange}
               />
               {loading ? <CommandLoading>{loadingMessage}</CommandLoading> : null}

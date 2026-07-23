@@ -103,8 +103,9 @@ describe('Autocomplete', () => {
 
   // 508: cmdk keeps the combobox aria-activedescendant in sync as the highlight
   // moves, but VoiceOver does not reliably speak activedescendant changes, so
-  // the component mirrors the active option's label into a live region. States
-  // with no option to speak (empty result set) and the final selection are
+  // the component mirrors announcements into a live region: the suggestion count
+  // and how to browse when the list opens/changes, and the highlighted option as
+  // the user arrows. The empty-result message and the final selection are
   // announced there too.
   describe('Screen reader announcements', () => {
     const openTrigger = async (user: ReturnType<typeof userEvent.setup>) => {
@@ -116,36 +117,39 @@ describe('Autocomplete', () => {
         expect(screen.getAllByRole('status').some(node => node.textContent === text)).toBe(true),
       );
 
-    it('announces the first (highlighted) option and its position when the list opens', async () => {
+    it('announces the suggestion count and browsing instructions when the list opens', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
 
-      await announced('React, 1 of 3');
+      await announced('There are 3 suggestions, use the up and down arrow keys to browse.');
     });
 
-    it('announces each option and its position as the highlight moves with the arrow keys', async () => {
+    it('announces each option as it is highlighted with the arrow keys', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
-      await announced('React, 1 of 3');
+      await announced('There are 3 suggestions, use the up and down arrow keys to browse.');
+
+      // The first arrow press lands on the first option (nothing is
+      // pre-highlighted), so no option is skipped.
+      await user.keyboard('{ArrowDown}');
+      await announced('React, selected');
 
       await user.keyboard('{ArrowDown}');
-      await announced('Vue, 2 of 3');
+      await announced('Vue, selected');
 
       await user.keyboard('{ArrowDown}');
-      await announced('Angular, 3 of 3');
+      await announced('Angular, selected');
     });
 
-    it('announces the sole option when a search narrows to a single result', async () => {
+    it('uses the singular form when a search narrows to a single result', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
       await user.type(screen.getByPlaceholderText('Select a framework...'), 'ang');
 
-      // Nothing to arrow to, but the lone option is auto-highlighted and read,
-      // and the position conveys that it is the only result.
-      await announced('Angular, 1 of 1');
+      await announced('There is 1 suggestion, use the up and down arrow keys to browse.');
     });
 
     it('announces when a search returns no results', async () => {
@@ -164,6 +168,20 @@ describe('Autocomplete', () => {
       await user.click(screen.getByRole('option', { name: /vue/i }));
 
       await announced('Vue selected');
+    });
+
+    // The active option is controlled so navigation can be announced; guard that
+    // this did not break selecting an option by keyboard (arrow to it + Enter).
+    it('selects the highlighted option when Enter is pressed', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<Fixture />);
+      const trigger = () => container.querySelector('button[data-component="autocomplete"]');
+
+      await openTrigger(user);
+      await user.keyboard('{ArrowDown}{ArrowDown}'); // React -> Vue
+      await user.keyboard('{Enter}');
+
+      await waitFor(() => expect(trigger()).toHaveTextContent('Vue'));
     });
   });
 });

@@ -115,7 +115,9 @@ export const AutocompleteAnnouncementDebug = () => {
           value={value}
           onChange={setValue}
         />
-        <p className="text-sm text-muted-foreground">
+        {/* aria-hidden so the screen reader hears only the Autocomplete's own
+            announcements, not this debug readout. */}
+        <p aria-hidden="true" className="text-sm text-muted-foreground">
           Selected value: <span className="font-medium">{value || 'none'}</span>
         </p>
       </div>

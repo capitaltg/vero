@@ -12,6 +12,8 @@ import { AutocompleteMinWidthPopover } from '../demos/AutocompleteMinWidthPopove
 import sourceCodeMinWidthPopover from '../demos/AutocompleteMinWidthPopover.tsx?raw';
 import { AutocompleteWithStaticOptions } from '../demos/AutocompleteWithStaticOptions';
 import sourceCodeWithStaticOptions from '../demos/AutocompleteWithStaticOptions.tsx?raw';
+import { AutocompleteAnnouncementDebug } from '../demos/AutocompleteAnnouncementDebug';
+import sourceCodeAnnouncementDebug from '../demos/AutocompleteAnnouncementDebug.tsx?raw';
 import { Autocomplete } from '../src/Autocomplete';
 
 const meta = {
@@ -284,6 +286,36 @@ export const MinWidthPopover: Story = {
       },
       source: {
         code: sourceCodeMinWidthPopover,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Debug harness for the screen-reader announcements (508). It watches the real
+ * `[role="status"][aria-live]` live region with a MutationObserver and logs
+ * every text change — this is exactly what a screen reader would speak — plus
+ * focus moves, so announcements and focus changes can be correlated on a
+ * timeline. The "Current live-region text" panel mirrors the region visibly
+ * (the panels are `aria-hidden` so they are not themselves announced).
+ *
+ * To debug: open the list (the count, instructions, and first suggestion are
+ * announced, e.g. "There are 3 suggestions, use the up and down arrow keys to
+ * browse. React, 1 of 3."), arrow through the options (each highlighted option
+ * is announced, e.g. "Vue, selected"), narrow to one result ("There is 1
+ * suggestion, ... Angular, 1 of 1."), search for nothing ("No results found"),
+ * and select an option ("<label> selected", then focus returns to the trigger).
+ */
+export const AnnouncementDebug: Story = {
+  render: () => <AutocompleteAnnouncementDebug />,
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
+  tags: ['!autodocs'],
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeAnnouncementDebug,
         language: 'tsx',
       },
     },

@@ -118,18 +118,20 @@ export const AutocompleteAnnouncementDebug = () => {
         <p className="text-sm text-muted-foreground">
           Selected value: <span className="font-medium">{value || 'none'}</span>
         </p>
+      </div>
 
+      <div aria-hidden="true" className="space-y-4">
         {/* Visible mirror of the live region. aria-hidden so it is NOT itself
-            announced — it only lets you see what the real region holds. */}
-        <div aria-hidden="true" className="bg-muted/40 rounded-md border p-3">
+            announced — it only lets you see what the real region holds. Kept to
+            the right of (and above the event log, not below) the autocomplete so
+            the open dropdown never covers it. */}
+        <div className="bg-muted/40 rounded-md border p-3">
           <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Current live-region text
           </div>
           <div className="min-h-6 font-mono text-sm">{liveText || '(empty)'}</div>
         </div>
-      </div>
 
-      <div aria-hidden="true" className="space-y-2">
         <div className="flex items-center justify-between">
           <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Event log (ms)

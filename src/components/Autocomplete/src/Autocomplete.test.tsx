@@ -41,18 +41,44 @@ describe('Autocomplete', () => {
       expectNoViolations(results);
     });
 
-    // 508: a screen reader focusing the trigger should hear that the text is the
-    // current selection, not just the label on its own.
-    it('exposes the selection as "<label>, selected" in the trigger accessible name', () => {
+    // 508: with no associated label the trigger's accessible name falls back to
+    // its content — the value plus a visually-hidden "selected" so a screen
+    // reader conveys that the text is the current selection.
+    it('exposes the value and "selected" in the trigger accessible name', () => {
       const { container } = render(<Fixture initialValue="react" />);
       const trigger = container.querySelector('button[data-component="autocomplete"]');
-      expect(trigger).toHaveAccessibleName('React, selected');
+      expect(trigger).toHaveAccessibleName('React selected');
     });
 
     it('does not add "selected" to the trigger when nothing is chosen', () => {
       const { container } = render(<Fixture />);
       const trigger = container.querySelector('button[data-component="autocomplete"]');
       expect(trigger).toHaveAccessibleName('Select a framework...');
+    });
+
+    // When wrapped in a labeled FormItem, a native <label for> would otherwise
+    // become the whole accessible name of the <button> and drop the value. The
+    // trigger composes label + value + "selected" via aria-labelledby so a
+    // screen reader reads back the field label AND the current selection.
+    it('reads back the field label, the value, and "selected" when labeled', () => {
+      const LabeledFixture = () => {
+        const [value, setValue] = useState('react');
+        return (
+          <FormItem elementId="framework" label="Framework">
+            <Autocomplete
+              getOptionLabel={o => o.label}
+              getOptionValue={o => o.value}
+              id="framework"
+              options={options}
+              value={value}
+              onChange={setValue}
+            />
+          </FormItem>
+        );
+      };
+      render(<LabeledFixture />);
+      const trigger = screen.getByRole('button', { name: 'Framework React selected' });
+      expect(trigger).not.toBeNull();
     });
   });
 

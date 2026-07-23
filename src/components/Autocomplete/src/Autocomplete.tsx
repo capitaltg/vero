@@ -9,10 +9,12 @@ import {
   CommandLoading,
 } from '@/components/Command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover';
+import { useComposedTriggerLabel } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Check, ChevronsUpDown, X } from 'lucide-react';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AutocompleteProps } from '../types';
 
 function AutocompleteInner<T>(
@@ -195,11 +197,21 @@ function AutocompleteInner<T>(
   }, [onChange]);
 
   const showClear = !isDisabled && Boolean(value || inputValue);
+  const hasSelection = Boolean(displayItem || value);
 
-  // Label spoken when the trigger is focused. Appends ", selected" so a screen
-  // reader conveys that the text is the current selection, not just the value.
-  const selectedLabel = displayItem ? (getOptionLabel?.(displayItem) ?? value) : value;
-  const triggerAriaLabel = selectedLabel ? `${selectedLabel}, selected` : undefined;
+  // Compose the trigger's accessible name from its associated label (e.g. from
+  // FormItem) plus the displayed value, so a screen reader reads back the field
+  // label AND the current selection instead of one overriding the other. A
+  // native `<label for>` otherwise becomes the whole name of a <button> and
+  // drops the value. See useComposedTriggerLabel for the full rationale. The
+  // value span also carries a visually-hidden "selected" (below), so the
+  // composed name reads "<label> <value> selected".
+  const valueId = useId();
+  const triggerLabelledBy = useComposedTriggerLabel(triggerRef, valueId, {
+    'aria-label': props['aria-label'],
+    'aria-labelledby': props['aria-labelledby'],
+  });
+  const composedRef = useComposedRefs(ref, triggerRef);
 
   // Announce the highlighted option as the user arrows through the list. cmdk
   // keeps the combobox `aria-activedescendant` in sync, but VoiceOver does not
@@ -276,13 +288,8 @@ function AutocompleteInner<T>(
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
-              ref={el => {
-                if (typeof ref === 'function') ref(el);
-                else if (ref) ref.current = el;
-                triggerRef.current = el;
-              }}
+              ref={composedRef}
               aria-expanded={open}
-              aria-label={triggerAriaLabel}
               autoFocus={autoFocus}
               className={cn(
                 'w-full justify-start px-3 text-left font-normal',
@@ -293,6 +300,7 @@ function AutocompleteInner<T>(
               isDisabled={isDisabled}
               variant="input"
               {...props}
+              aria-labelledby={triggerLabelledBy}
               onKeyDown={e => {
                 if ((e.key === 'Delete' || e.key === 'Backspace') && value && !open) {
                   e.preventDefault();
@@ -301,12 +309,16 @@ function AutocompleteInner<T>(
                 props.onKeyDown?.(e);
               }}
             >
-              <span className="truncate">
+              <span className="truncate" id={valueId}>
                 {displayItem
                   ? renderValue
                     ? renderValue(displayItem)
                     : (getOptionLabel?.(displayItem) ?? value)
                   : value || placeholder}
+                {/* Conveys, to a screen reader, that the text is the current
+                    selection. Part of the value span so it is included whether
+                    the name comes from aria-labelledby or the trigger content. */}
+                {hasSelection ? <span className="sr-only"> selected</span> : null}
               </span>
             </Button>
           </PopoverTrigger>

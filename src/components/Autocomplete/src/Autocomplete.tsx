@@ -196,6 +196,11 @@ function AutocompleteInner<T>(
 
   const showClear = !isDisabled && Boolean(value || inputValue);
 
+  // Label spoken when the trigger is focused. Appends ", selected" so a screen
+  // reader conveys that the text is the current selection, not just the value.
+  const selectedLabel = displayItem ? (getOptionLabel?.(displayItem) ?? value) : value;
+  const triggerAriaLabel = selectedLabel ? `${selectedLabel}, selected` : undefined;
+
   // Announce the highlighted option as the user arrows through the list. cmdk
   // keeps the combobox `aria-activedescendant` in sync, but VoiceOver does not
   // reliably speak activedescendant changes on comboboxes, so we mirror the
@@ -272,6 +277,7 @@ function AutocompleteInner<T>(
                 triggerRef.current = el;
               }}
               aria-expanded={open}
+              aria-label={triggerAriaLabel}
               autoFocus={autoFocus}
               className={cn(
                 'w-full justify-start px-3 text-left font-normal',

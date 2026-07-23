@@ -40,6 +40,20 @@ describe('Autocomplete', () => {
       const results = await axe(container);
       expectNoViolations(results);
     });
+
+    // 508: a screen reader focusing the trigger should hear that the text is the
+    // current selection, not just the label on its own.
+    it('exposes the selection as "<label>, selected" in the trigger accessible name', () => {
+      const { container } = render(<Fixture initialValue="react" />);
+      const trigger = container.querySelector('button[data-component="autocomplete"]');
+      expect(trigger).toHaveAccessibleName('React, selected');
+    });
+
+    it('does not add "selected" to the trigger when nothing is chosen', () => {
+      const { container } = render(<Fixture />);
+      const trigger = container.querySelector('button[data-component="autocomplete"]');
+      expect(trigger).toHaveAccessibleName('Select a framework...');
+    });
   });
 
   // The error-border styling in components.css targets the trigger via

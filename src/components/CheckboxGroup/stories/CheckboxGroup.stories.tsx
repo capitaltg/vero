@@ -100,7 +100,7 @@ const meta = {
     isDisabled: {
       control: 'boolean',
       description:
-        'Disables the entire group. Individual options can also be disabled via `option.isDisabled`.',
+        'Disables the entire group. Individual options can also be disabled via `option.isDisabled`. Applies only in `options` mode; when passing `children`, the group does not disable them — set `isDisabled` on each Checkbox yourself.',
       type: { name: 'boolean', required: false },
       table: {
         type: { summary: 'boolean' },

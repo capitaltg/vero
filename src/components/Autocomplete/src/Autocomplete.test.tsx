@@ -184,6 +184,22 @@ describe('Autocomplete', () => {
       await announced('Vue selected');
     });
 
+    // 508: options are nested inside a role="group", so without an explicit
+    // set size a screen reader announces "1 of 1" for every option. Each option
+    // must carry its position and the total.
+    it('gives each option an aria-posinset and aria-setsize for correct position', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+      await openTrigger(user);
+
+      const opts = await screen.findAllByRole('option');
+      expect(opts).toHaveLength(3);
+      opts.forEach((opt, i) => {
+        expect(opt).toHaveAttribute('aria-setsize', '3');
+        expect(opt).toHaveAttribute('aria-posinset', String(i + 1));
+      });
+    });
+
     // The active option is controlled so navigation can be announced; guard that
     // this did not break selecting an option by keyboard (arrow to it + Enter).
     it('selects the highlighted option when Enter is pressed', async () => {

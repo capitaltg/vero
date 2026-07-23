@@ -345,6 +345,11 @@ function AutocompleteInner<T>(
                       return (
                         <CommandItem
                           key={optValue || index}
+                          // Options sit inside a nested role="group", so screen
+                          // readers cannot infer each one's position in the list
+                          // and announce "1 of 1". Set it explicitly.
+                          aria-posinset={index + 1}
+                          aria-setsize={displayOptions.length}
                           className="cursor-pointer"
                           value={optValue}
                           onSelect={handleSelect}

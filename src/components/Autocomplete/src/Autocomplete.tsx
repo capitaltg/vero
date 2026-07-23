@@ -15,11 +15,6 @@ import { Check, ChevronsUpDown, X } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AutocompleteProps } from '../types';
 
-// Delay before the result-set status is announced to screen readers. Debounced
-// so a burst of typing queues only the final message (like a typeahead backend
-// query) instead of one announcement per keystroke.
-const ANNOUNCE_DEBOUNCE_MS = 500;
-
 function AutocompleteInner<T>(
   {
     loadOptions,
@@ -59,6 +54,10 @@ function AutocompleteInner<T>(
   const [selectedItem, setSelectedItem] = useState<T | undefined>(undefined);
   // Single message read out to screen readers via a polite live region.
   const [announcement, setAnnouncement] = useState('');
+  // The highlighted option in the open list. Controlled so cmdk fires
+  // onValueChange (it only does so when its value is controlled), which lets us
+  // announce the active option as the user navigates.
+  const [activeValue, setActiveValue] = useState('');
 
   // Debounce timer reference
   const debounceTimer = useRef<NodeJS.Timeout>();
@@ -187,41 +186,55 @@ function AutocompleteInner<T>(
 
   const showClear = !isDisabled && Boolean(value || inputValue);
 
-  // Announce the result-set status to screen readers when the list is open.
-  // Screen readers otherwise only speak items via aria-activedescendant while
-  // arrowing through the list, so a single result or an empty result set would
-  // pass silently. Debounced so a burst of typing queues only the final message
-  // rather than one announcement per keystroke. A selection announcement (set
-  // synchronously in handleSelect) is not clobbered here because this effect
-  // exits early once the list has closed.
+  const activeOption = useMemo(
+    () =>
+      activeValue
+        ? displayOptions.find(
+            opt => getOptionValueFn(opt).toLowerCase() === activeValue.toLowerCase(),
+          )
+        : undefined,
+    [activeValue, displayOptions, getOptionValueFn],
+  );
+
+  // Keep a valid option highlighted while the list is open so there is always
+  // something to announce (and so the single-result case has an active option).
+  // When the results change under a stale highlight, snap to the first option.
+  // Reset when the list closes.
+  useEffect(() => {
+    if (!open) {
+      setActiveValue('');
+      return;
+    }
+    if (displayOptions.length > 0 && !activeOption) {
+      setActiveValue(getOptionValueFn(displayOptions[0]));
+    }
+  }, [open, displayOptions, activeOption, getOptionValueFn]);
+
+  // Announce the active option as the highlight moves — cmdk keeps the combobox
+  // `aria-activedescendant` in sync, but VoiceOver does not reliably speak
+  // activedescendant changes on comboboxes, so we mirror the active option's
+  // label into the live region. States with no highlightable option (loading, a
+  // failed fetch, an empty result set) are announced in their place. A
+  // selection announcement (set in handleSelect) is left untouched because this
+  // effect exits once the list closes.
   useEffect(() => {
     if (!open) return;
-
-    const timer = setTimeout(() => {
-      if (loading) {
-        setAnnouncement(loadingMessage);
-      } else if (error) {
-        setAnnouncement(errorMessage);
-      } else if (hasSearched && displayOptions.length === 0) {
-        setAnnouncement(emptyMessage);
-      } else if (displayOptions.length > 0) {
-        const count = displayOptions.length;
-        setAnnouncement(`${count} ${count === 1 ? 'result' : 'results'} available`);
-      } else {
-        setAnnouncement('');
-      }
-    }, ANNOUNCE_DEBOUNCE_MS);
-
-    return () => clearTimeout(timer);
+    if (loading) setAnnouncement(loadingMessage);
+    else if (error) setAnnouncement(errorMessage);
+    else if (hasSearched && displayOptions.length === 0) setAnnouncement(emptyMessage);
+    else if (activeOption) setAnnouncement(getOptionLabel?.(activeOption) ?? activeValue);
   }, [
     open,
     loading,
     error,
     hasSearched,
     displayOptions.length,
+    activeOption,
+    activeValue,
     loadingMessage,
     errorMessage,
     emptyMessage,
+    getOptionLabel,
   ]);
 
   return (
@@ -271,7 +284,7 @@ function AutocompleteInner<T>(
             className={cn('min-w-[--radix-popover-trigger-width] px-0 py-0', popoverClassName)}
             zIndex={resolvedZIndex}
           >
-            <Command shouldFilter={false}>
+            <Command shouldFilter={false} value={activeValue} onValueChange={setActiveValue}>
               <CommandInput
                 placeholder={placeholder}
                 value={inputValue}

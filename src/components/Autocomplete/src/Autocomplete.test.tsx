@@ -101,37 +101,50 @@ describe('Autocomplete', () => {
     });
   });
 
-  // 508: screen readers only speak options via aria-activedescendant while
-  // arrowing through the list. A single result (nothing to arrow to), an empty
-  // result set, and the final selection would otherwise pass silently, so the
-  // component announces those states through visually-hidden live regions.
+  // 508: cmdk keeps the combobox aria-activedescendant in sync as the highlight
+  // moves, but VoiceOver does not reliably speak activedescendant changes, so
+  // the component mirrors the active option's label into a live region. States
+  // with no option to speak (empty result set) and the final selection are
+  // announced there too.
   describe('Screen reader announcements', () => {
     const openTrigger = async (user: ReturnType<typeof userEvent.setup>) => {
       await user.click(screen.getByRole('button', { name: /select a framework/i }));
     };
 
-    it('announces the number of available results when the list opens', async () => {
+    const announced = (text: string) =>
+      waitFor(() =>
+        expect(screen.getAllByRole('status').some(node => node.textContent === text)).toBe(true),
+      );
+
+    it('announces the first (highlighted) option when the list opens', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
 
-      await waitFor(() =>
-        expect(
-          screen.getAllByRole('status').some(node => node.textContent === '3 results available'),
-        ).toBe(true),
-      );
+      await announced('React');
     });
 
-    it('announces a single result using the singular form', async () => {
+    it('announces each option as the highlight moves with the arrow keys', async () => {
+      const user = userEvent.setup();
+      render(<Fixture />);
+      await openTrigger(user);
+      await announced('React');
+
+      await user.keyboard('{ArrowDown}');
+      await announced('Vue');
+
+      await user.keyboard('{ArrowDown}');
+      await announced('Angular');
+    });
+
+    it('announces the sole option when a search narrows to a single result', async () => {
       const user = userEvent.setup();
       render(<Fixture />);
       await openTrigger(user);
       await user.type(screen.getByPlaceholderText('Select a framework...'), 'ang');
 
-      const statuses = screen.getAllByRole('status');
-      await waitFor(() =>
-        expect(statuses.some(node => node.textContent === '1 result available')).toBe(true),
-      );
+      // Nothing to arrow to, but the lone option is auto-highlighted and read.
+      await announced('Angular');
     });
 
     it('announces when a search returns no results', async () => {
@@ -140,10 +153,7 @@ describe('Autocomplete', () => {
       await openTrigger(user);
       await user.type(screen.getByPlaceholderText('Select a framework...'), 'zzz');
 
-      const statuses = screen.getAllByRole('status');
-      await waitFor(() =>
-        expect(statuses.some(node => node.textContent === 'No results found')).toBe(true),
-      );
+      await announced('No results found');
     });
 
     it('announces the selected value after choosing an option', async () => {
@@ -152,10 +162,7 @@ describe('Autocomplete', () => {
       await openTrigger(user);
       await user.click(screen.getByRole('option', { name: /vue/i }));
 
-      const statuses = screen.getAllByRole('status');
-      await waitFor(() =>
-        expect(statuses.some(node => node.textContent === 'Vue selected')).toBe(true),
-      );
+      await announced('Vue selected');
     });
   });
 });

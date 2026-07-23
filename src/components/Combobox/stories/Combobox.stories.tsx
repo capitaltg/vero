@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { ComboboxAnnouncementDebug } from '../demos/ComboboxAnnouncementDebug';
+import sourceCodeAnnouncementDebug from '../demos/ComboboxAnnouncementDebug.tsx?raw';
 import { ComboboxCustomFilter } from '../demos/ComboboxCustomFilter';
 import sourceCodeCustomFilter from '../demos/ComboboxCustomFilter.tsx?raw';
 import { ComboboxCustomPlaceholders } from '../demos/ComboboxCustomPlaceholders';
@@ -319,6 +321,30 @@ export const MinWidthPopover: Story = {
       },
       source: {
         code: sourceCodeMinWidthPopover,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Debug harness (508). Focus the trigger to confirm its accessible name reads
+ * back the field label + the selected value, and watch focus/live-region events
+ * as you open and choose an option. The debug panels are aria-hidden so a
+ * screen reader reads only the Combobox.
+ */
+export const AnnouncementDebug: Story = {
+  render: () => <ComboboxAnnouncementDebug />,
+  args: {
+    options: [],
+    value: '',
+    onChange: () => {},
+  },
+  tags: ['!autodocs'],
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeAnnouncementDebug,
         language: 'tsx',
       },
     },

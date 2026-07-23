@@ -274,6 +274,24 @@ export const WithItemCallback: Story = {
  * uses `popoverClassName` so it can be wider than the trigger - the dropdown expands to
  * fit long option labels.
  */
+export const MinWidthPopover: Story = {
+  render: () => <AutocompleteMinWidthPopover value="" onChange={() => {}} />,
+  // @ts-expect-error - Storybook can't properly infer generic types
+  args: {},
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Uses a fixed-width trigger, which demonstrates ellipsis when the label content is too long. The popover content uses popoverClassName to set a minimum width, so it can grow when options are wider. Open the dropdown to see it expand for long labels.',
+      },
+      source: {
+        code: sourceCodeMinWidthPopover,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
 /**
  * Debug harness for the screen-reader announcements (508). It watches the real
  * `[role="status"][aria-live]` live region with a MutationObserver and logs
@@ -296,24 +314,6 @@ export const AnnouncementDebug: Story = {
     docs: {
       source: {
         code: sourceCodeAnnouncementDebug,
-        language: 'tsx',
-      },
-    },
-  },
-};
-
-export const MinWidthPopover: Story = {
-  render: () => <AutocompleteMinWidthPopover value="" onChange={() => {}} />,
-  // @ts-expect-error - Storybook can't properly infer generic types
-  args: {},
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Uses a fixed-width trigger, which demonstrates ellipsis when the label content is too long. The popover content uses popoverClassName to set a minimum width, so it can grow when options are wider. Open the dropdown to see it expand for long labels.',
-      },
-      source: {
-        code: sourceCodeMinWidthPopover,
         language: 'tsx',
       },
     },

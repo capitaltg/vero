@@ -1,11 +1,13 @@
 import { Button } from '@/components/Button';
 import { Calendar } from '@/components/Calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover';
+import { useComposedTriggerLabel } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import { DatePickerProps } from '../types';
 
 const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
@@ -29,6 +31,16 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
     const [open, setOpen] = useState(false);
     const resolvedZIndex = getZIndex('popover', zIndex);
 
+    // Compose the trigger's accessible name from its associated label plus the displayed
+    // date, so screen readers read back the selection. See useComposedTriggerLabel.
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const composedRef = useComposedRefs(ref, triggerRef);
+    const valueId = useId();
+    const triggerLabelledBy = useComposedTriggerLabel(triggerRef, valueId, {
+      'aria-label': props['aria-label'],
+      'aria-labelledby': props['aria-labelledby'],
+    });
+
     const handleDateSelect = (date?: Date) => {
       onChange(date);
       setOpen(false);
@@ -47,7 +59,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
-              ref={ref}
+              ref={composedRef}
               aria-required={required}
               autoFocus={autoFocus}
               className={cn(
@@ -60,9 +72,10 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
               isDisabled={isDisabled}
               variant="input"
               {...props}
+              aria-labelledby={triggerLabelledBy}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {value ? format(value, 'LLLL dd, y') : <span>{placeholder}</span>}
+              <span id={valueId}>{value ? format(value, 'LLLL dd, y') : placeholder}</span>
             </Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-auto px-0 py-0" zIndex={resolvedZIndex}>

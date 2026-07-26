@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { addWeeks } from 'date-fns';
 import { DateRangePicker } from '../src/DateRangePicker';
+import { DateRangePickerAnnouncementDebug } from '../demos/DateRangePickerAnnouncementDebug';
+import sourceCodeAnnouncementDebug from '../demos/DateRangePickerAnnouncementDebug.tsx?raw';
 import { DateRangePickerDefault } from '../demos/DateRangePickerDefault';
 import { DateRangePickerWithValue } from '../demos/DateRangePickerWithValue';
 import { DateRangePickerCustomPlaceholders } from '../demos/DateRangePickerCustomPlaceholders';
@@ -169,6 +171,29 @@ export const CustomPlaceholders: Story = {
     docs: {
       source: {
         code: sourceCodeCustomPlaceholders,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Debug harness (508). Focus the trigger to confirm its accessible name reads
+ * back the field label + the selected range, and watch focus/live-region events
+ * as you pick start and end dates. The debug panels are aria-hidden so a screen
+ * reader reads only the DateRangePicker.
+ */
+export const AnnouncementDebug: Story = {
+  render: () => <DateRangePickerAnnouncementDebug />,
+  args: {
+    value: {},
+    onChange: () => {},
+  },
+  tags: ['!autodocs'],
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeAnnouncementDebug,
         language: 'tsx',
       },
     },

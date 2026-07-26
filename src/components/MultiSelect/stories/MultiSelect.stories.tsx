@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { MultiSelectAnnouncementDebug } from '../demos/MultiSelectAnnouncementDebug';
+import sourceCodeAnnouncementDebug from '../demos/MultiSelectAnnouncementDebug.tsx?raw';
 import { MultiSelectCustomPlaceholders } from '../demos/MultiSelectCustomPlaceholders';
 import sourceCodeCustomPlaceholders from '../demos/MultiSelectCustomPlaceholders.tsx?raw';
 import { MultiSelectDefault } from '../demos/MultiSelectDefault';
@@ -248,6 +250,30 @@ export const MinWidthPopover: Story = {
       },
       source: {
         code: sourceCodeMinWidthPopover,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * Debug harness (508). Focus the trigger to confirm its accessible name reads
+ * back the field label + the selected values, and watch focus move across the
+ * remove-chip buttons and trigger as you add and remove selections. The debug
+ * panels are aria-hidden so a screen reader reads only the MultiSelect.
+ */
+export const AnnouncementDebug: Story = {
+  render: () => <MultiSelectAnnouncementDebug />,
+  args: {
+    options: [],
+    value: [],
+    onChange: () => {},
+  },
+  tags: ['!autodocs'],
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeAnnouncementDebug,
         language: 'tsx',
       },
     },

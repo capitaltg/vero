@@ -410,4 +410,30 @@ describe('MultiSelect', () => {
       expect(getTrigger()).toHaveAttribute('aria-haspopup', 'listbox');
     });
   });
+
+  // The trigger is a <div role="button">, which is not labelable, so a FormItem
+  // <label for> would otherwise be orphaned (label never announced). The trigger
+  // composes label + selected values via aria-labelledby so both are read back.
+  describe('Accessible name', () => {
+    const LabeledFixture = ({ initialValue = ['react'] }: FixtureProps) => {
+      const [value, setValue] = useState(initialValue);
+      return (
+        <FormItem elementId="frameworks" label="Frameworks">
+          <MultiSelect id="frameworks" options={options} value={value} onChange={setValue} />
+        </FormItem>
+      );
+    };
+
+    it('reads back both the field label and the selected values', () => {
+      render(<LabeledFixture />);
+      const trigger = screen.getByRole('button', { name: /Frameworks/ });
+      expect(trigger).toBe(getTrigger());
+      expect(trigger).toHaveAccessibleName(/React/);
+    });
+
+    it('falls back to the selected values when there is no associated label', () => {
+      render(<Fixture initialValue={['react']} />);
+      expect(getTrigger()).toHaveAccessibleName(/React/);
+    });
+  });
 });

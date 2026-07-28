@@ -41,17 +41,16 @@ export default defineConfig({
           hook: 'writeBundle', // Make sure this is done after the build
         }),
       ],
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          'react/jsx-runtime': 'jsxRuntime',
-        },
-      },
+      // Externalize every bare (node_modules) import so consumers install,
+      // dedupe, and tree-shake them — instead of inlining ~400 kB of Radix /
+      // lucide / date-fns / etc. into the library bundle. Relative imports, the
+      // `@/` alias, and resolved absolute paths (our own source + CSS) stay in.
+      external: id => !id.startsWith('.') && !path.isAbsolute(id) && !id.startsWith('@/'),
     },
     cssCodeSplit: true,
-    sourcemap: true,
+    // Don't ship sourcemaps in the published package (devtools-only, and they
+    // dominate the tarball size).
+    sourcemap: false,
   },
   resolve: {
     alias: {

@@ -30,6 +30,8 @@ export * from './components/Select';
 export * from './components/StepIndicator';
 export * from './components/Switch';
 export * from './components/SwitchGroup';
+// Internal — not ready for public API. Hidden from Storybook via tags: ['!dev'].
+// export * from './components/Table';
 export * from './components/Tabs';
 // Internal — not ready for public API. Hidden from Storybook via tags: ['!dev'].
 // export * from './components/TagInput';

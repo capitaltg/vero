@@ -142,11 +142,59 @@
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "150 KB"
+      "limit": "50 KB",
+      "ignore": [
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-checkbox",
+        "@radix-ui/react-compose-refs",
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-label",
+        "@radix-ui/react-popover",
+        "@radix-ui/react-primitive",
+        "@radix-ui/react-radio-group",
+        "@radix-ui/react-select",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-switch",
+        "@radix-ui/react-tabs",
+        "@radix-ui/react-tooltip",
+        "@tanstack/react-table",
+        "class-variance-authority",
+        "clsx",
+        "cmdk",
+        "date-fns",
+        "lucide-react",
+        "react-day-picker",
+        "tailwind-merge"
+      ]
     },
     {
       "path": "dist/index.cjs",
-      "limit": "150 KB"
+      "limit": "50 KB",
+      "ignore": [
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-checkbox",
+        "@radix-ui/react-compose-refs",
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-label",
+        "@radix-ui/react-popover",
+        "@radix-ui/react-primitive",
+        "@radix-ui/react-radio-group",
+        "@radix-ui/react-select",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-switch",
+        "@radix-ui/react-tabs",
+        "@radix-ui/react-tooltip",
+        "@tanstack/react-table",
+        "class-variance-authority",
+        "clsx",
+        "cmdk",
+        "date-fns",
+        "lucide-react",
+        "react-day-picker",
+        "tailwind-merge"
+      ]
     },
     {
       "path": "dist/index.css",

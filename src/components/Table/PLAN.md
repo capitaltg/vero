@@ -1,6 +1,11 @@
 # Table Component — Implementation Plan
 
-Status: **v1 implemented** · Owner: TBD · Branch: `feat/table-component`
+Status: **v1 implemented (internal / unreleased)** · Owner: TBD · Branch: `feat/table-component`
+
+> Landed but intentionally **not part of the public API yet**: the root barrel export in
+> `src/index.ts` is commented out and both Storybook stories carry `tags: ['!dev']` (hidden
+> from the sidebar), matching the `Command` / `TagInput` convention. Re-enable both when it's
+> ready to ship.
 
 > v1 shipped on this branch: semantic primitives + `Table<T>`, column grouping,
 > row headers, sorting (`aria-sort` + live announcements), visual row-group sections

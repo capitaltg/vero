@@ -17,7 +17,7 @@ import { Table } from '../src/Table';
 const meta = {
   title: 'Data & Display/Table',
   component: Table,
-  tags: ['autodocs'],
+  tags: ['!dev'], // Internal — not ready for public API; hidden from the sidebar.
   parameters: {
     docs: {
       description: {

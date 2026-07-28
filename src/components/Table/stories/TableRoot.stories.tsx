@@ -20,7 +20,7 @@ import {
 const meta = {
   title: 'Data & Display/Table/Primitives',
   component: TableRoot,
-  tags: ['autodocs'],
+  tags: ['!dev'], // Internal — not ready for public API; hidden from the sidebar.
   parameters: {
     docs: {
       description: {

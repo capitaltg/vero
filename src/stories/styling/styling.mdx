@@ -97,6 +97,15 @@ export default {
 };
 ```
 
+Vero's config loads the `tailwindcss-animate` plugin, so that package must be resolvable from
+your app. It's declared as a peer dependency, so most package managers install it alongside
+Vero — but if yours skipped it (`--legacy-peer-deps`, or a strict-peer pnpm/yarn setup), the
+build fails with `Cannot find module 'tailwindcss-animate'`. Install it directly:
+
+```bash
+npm install tailwindcss-animate
+```
+
 Two details matter here:
 
 - **Don't import `index.css` or `utilities.css`.** Both carry a compiled utilities layer, so

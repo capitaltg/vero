@@ -36,24 +36,16 @@ pnpm add @capitaltg/vero
 npm install @capitaltg/vero react react-dom tailwindcss tailwindcss-animate
 ```
 
-2. Import the CSS in your main CSS file:
+2. Import the CSS. Which entries you want depends on whether your app runs its
+   own Tailwind build — see [Styling setup](#styling-setup) below.
 
 ```css
+/* App does NOT run Tailwind: Vero ships everything it needs. */
+@import '@capitaltg/vero/preflight.css';
 @import '@capitaltg/vero/index.css';
 ```
 
-3. Configure Tailwind CSS by extending your `tailwind.config.js`:
-
-```js
-import veroConfig from '@capitaltg/vero/tailwind.config.js';
-
-export default {
-  ...veroConfig,
-  content: [...veroConfig.content, './src/**/*.{js,ts,jsx,tsx}'],
-};
-```
-
-4. Start using components:
+3. Start using components:
 
 ```tsx
 import { Button, Input, FormItem } from '@capitaltg/vero';
@@ -68,6 +60,84 @@ function App() {
     </div>
   );
 }
+```
+
+## Styling setup
+
+Vero publishes each CSS layer separately so you can compose exactly what your
+app needs. Mixing them incorrectly duplicates Tailwind's output and breaks
+utility precedence, so start from the setup that matches your app below.
+
+| Entry            | Contains                                                      | Size (min) |
+| ---------------- | ------------------------------------------------------------- | ---------- |
+| `preflight.css`  | Tailwind's Preflight                                          | 4.8 kB     |
+| `theme.css`      | Vero's design tokens, plus the mini box-sizing / border reset | 3.8 kB     |
+| `components.css` | Vero's component styles                                       | 1.7 kB     |
+| `utilities.css`  | A utilities layer compiled from Vero's own sources            | 44.1 kB    |
+| `index.css`      | Convenience bundle of `theme` + `components` + `utilities`    | 49.5 kB    |
+
+### Apps that don't use Tailwind
+
+Import the bundle and Preflight, and you're done — Vero's own utilities are
+included:
+
+```css
+@import '@capitaltg/vero/preflight.css';
+@import '@capitaltg/vero/index.css';
+```
+
+### Apps that use Tailwind
+
+Let your app's Tailwind build generate **all** the utilities — its own and the
+ones Vero's components reference — and import only Vero's tokens and component
+styles. The import order mirrors the layers themselves:
+
+```css
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import '@capitaltg/vero/theme.css';
+@import '@capitaltg/vero/components.css';
+@import 'tailwindcss/utilities';
+```
+
+```js
+// tailwind.config.js
+import veroConfig from '@capitaltg/vero/tailwind.config.js';
+
+export default {
+  ...veroConfig,
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    // Required: lets Tailwind generate the utilities Vero's components use.
+    './node_modules/@capitaltg/vero/dist/**/*.{js,cjs}',
+  ],
+};
+```
+
+Two details matter here:
+
+- **Don't import `index.css` or `utilities.css`.** Both carry a compiled
+  utilities layer, so combining either with your own `@tailwind utilities`
+  emits that layer twice. Likewise, skip `preflight.css` — `tailwindcss/base`
+  already provides it.
+- **Keep `tailwindcss/utilities` last, and use `@import` rather than
+  `@tailwind` for it.** Every utility is a single class selector, and a media
+  query adds no specificity — so `md:w-1/2` and `w-full` tie, and source order
+  decides the winner. Tailwind guarantees the right order only _within one_
+  utilities layer, which is why there must be exactly one. (`@import` also
+  keeps ordering intact: `postcss-import` silently drops an `@import` that
+  follows a non-import statement.)
+
+Getting this wrong is what causes responsive prefixes (`md:`, `lg:`) to appear
+to have no effect on Vero components.
+
+### Using Vero's tokens on their own
+
+`theme.css` is pure CSS with no Tailwind directives, so you can import it by
+itself if you only want Vero's color tokens for your own components:
+
+```css
+@import '@capitaltg/vero/theme.css';
 ```
 
 ## Documentation

@@ -1,0 +1,134 @@
+import { Meta } from '@storybook/blocks';
+import { getStorybookUrl } from '../../lib/storybook';
+
+<Meta title="Getting Started/Styling" />
+
+# Styling
+
+Vero publishes each CSS layer separately so you can compose exactly what your app needs. Mixing
+them incorrectly duplicates Tailwind's output and breaks utility precedence, so start from the
+setup that matches your app below.
+
+## What Vero publishes
+
+<table>
+  <thead>
+    <tr>
+      <th>Entry</th>
+      <th>Contains</th>
+      <th>Size (min)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>preflight.css</code>
+      </td>
+      <td>Tailwind's Preflight</td>
+      <td>4.8 kB</td>
+    </tr>
+    <tr>
+      <td>
+        <code>theme.css</code>
+      </td>
+      <td>Vero's design tokens, plus the mini box-sizing / border reset</td>
+      <td>3.8 kB</td>
+    </tr>
+    <tr>
+      <td>
+        <code>components.css</code>
+      </td>
+      <td>Vero's component styles</td>
+      <td>1.7 kB</td>
+    </tr>
+    <tr>
+      <td>
+        <code>utilities.css</code>
+      </td>
+      <td>A utilities layer compiled from Vero's own sources</td>
+      <td>44.1 kB</td>
+    </tr>
+    <tr>
+      <td>
+        <code>index.css</code>
+      </td>
+      <td>
+        Convenience bundle of <code>theme</code> + <code>components</code> + <code>utilities</code>
+      </td>
+      <td>49.5 kB</td>
+    </tr>
+  </tbody>
+</table>
+
+## Apps that don't use Tailwind
+
+Import the bundle and Preflight, and you're done — Vero's own utilities are included:
+
+```css
+@import '@capitaltg/vero/preflight.css';
+@import '@capitaltg/vero/index.css';
+```
+
+## Apps that use Tailwind
+
+Let your app's Tailwind build generate **all** the utilities — its own and the ones Vero's
+components reference — and import only Vero's tokens and component styles. The import order
+mirrors the layers themselves:
+
+```css
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import '@capitaltg/vero/theme.css';
+@import '@capitaltg/vero/components.css';
+@import 'tailwindcss/utilities';
+```
+
+```js
+// tailwind.config.js
+import veroConfig from '@capitaltg/vero/tailwind.config.js';
+
+export default {
+  ...veroConfig,
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    // Required: lets Tailwind generate the utilities Vero's components use.
+    './node_modules/@capitaltg/vero/dist/**/*.{js,cjs}',
+  ],
+};
+```
+
+Vero's config loads the `tailwindcss-animate` plugin, so that package must be resolvable from
+your app. It's declared as a peer dependency, so most package managers install it alongside
+Vero — but if yours skipped it (`--legacy-peer-deps`, or a strict-peer pnpm/yarn setup), the
+build fails with `Cannot find module 'tailwindcss-animate'`. Install it directly:
+
+```bash
+npm install tailwindcss-animate
+```
+
+Two details matter here:
+
+- **Don't import `index.css` or `utilities.css`.** Both carry a compiled utilities layer, so
+  combining either with your own `@tailwind utilities` emits that layer twice. Likewise, skip
+  `preflight.css` — `tailwindcss/base` already provides it.
+- **Keep `tailwindcss/utilities` last, and use `@import` rather than `@tailwind` for it.** Every
+  utility is a single class selector, and a media query adds no specificity — so `md:w-1/2` and
+  `w-full` tie, and source order decides the winner. Tailwind guarantees the right order only
+  _within one_ utilities layer, which is why there must be exactly one. (`@import` also keeps
+  ordering intact: `postcss-import` silently drops an `@import` that follows a non-import
+  statement.)
+
+Getting this wrong is what causes responsive prefixes (`md:`, `lg:`) to appear to have no effect
+on Vero components.
+
+## Using Vero's tokens on their own
+
+`theme.css` is pure CSS with no Tailwind directives, so you can import it by itself if you only
+want Vero's color tokens for your own components:
+
+```css
+@import '@capitaltg/vero/theme.css';
+```
+
+See <a href={getStorybookUrl('?path=/docs/getting-started-design-tokens--docs')}>Design Tokens</a>{' '}
+for the full list of tokens this makes available.

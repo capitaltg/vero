@@ -1,5 +1,7 @@
-/* Everything Vero needs to render standalone, including a utilities layer
-   compiled from Vero's own sources. Apps that run their own Tailwind build
-   should import styles.css instead so the utilities aren't generated twice. */
-@import url(styles.css);
+/* Convenience bundle: everything Vero needs except Tailwind's Preflight, which
+   is published separately as preflight.css. Apps that run their own Tailwind
+   build should import theme.css and components.css instead, so the utilities
+   layer isn't generated twice. */
+@import url(theme.css);
+@import url(components.css);
 @import url(utilities.css);

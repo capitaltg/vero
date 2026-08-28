@@ -10,7 +10,12 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "preflight.css",
+    "index.css",
+    "theme.css",
+    "components.css",
+    "utilities.css"
   ],
   "exports": {
     ".": {
@@ -19,11 +24,11 @@
       "require": "./dist/index.cjs"
     },
     "./tailwind.config.js": "./dist/tailwind.config.js",
-    "./preflight.css": "./dist/preflight.css",
-    "./index.css": "./dist/index.css",
-    "./theme.css": "./dist/theme.css",
-    "./components.css": "./dist/components.css",
-    "./utilities.css": "./dist/utilities.css"
+    "./preflight.css": "./preflight.css",
+    "./index.css": "./index.css",
+    "./theme.css": "./theme.css",
+    "./components.css": "./components.css",
+    "./utilities.css": "./utilities.css"
   },
   "scripts": {
     "dev": "npm run storybook",

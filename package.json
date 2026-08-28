@@ -20,7 +20,8 @@
     },
     "./tailwind.config.js": "./dist/tailwind.config.js",
     "./preflight.css": "./dist/preflight.css",
-    "./index.css": "./dist/index.css"
+    "./index.css": "./dist/index.css",
+    "./styles.css": "./dist/styles.css"
   },
   "scripts": {
     "dev": "npm run storybook",
@@ -202,6 +203,10 @@
     },
     {
       "path": "dist/preflight.css",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/styles.css",
       "limit": "10 KB"
     }
   ]

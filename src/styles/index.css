@@ -1,4 +1,5 @@
-@import url(preflight-mini.css);
-@import url(theme.css);
-@import url(components.css);
+/* Everything Vero needs to render standalone, including a utilities layer
+   compiled from Vero's own sources. Apps that run their own Tailwind build
+   should import styles.css instead so the utilities aren't generated twice. */
+@import url(styles.css);
 @import url(utilities.css);

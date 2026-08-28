@@ -1,0 +1,7 @@
+/* Vero's own styles, without the Tailwind layers a consuming app generates for
+   itself. Use this entry when the app runs its own Tailwind build (see the
+   "Apps that use Tailwind" section of the README); use index.css when it
+   doesn't. */
+@import url(preflight-mini.css);
+@import url(theme.css);
+@import url(components.css);

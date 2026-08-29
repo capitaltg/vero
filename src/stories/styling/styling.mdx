@@ -88,14 +88,26 @@ mirrors the layers themselves:
 import veroConfig from '@capitaltg/vero/tailwind.config.js';
 
 export default {
-  ...veroConfig,
+  presets: [veroConfig],
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     // Required: lets Tailwind generate the utilities Vero's components use.
     './node_modules/@capitaltg/vero/dist/**/*.{js,cjs}',
   ],
+  // Your own additions merge with Vero's theme rather than replacing it.
+  theme: {
+    extend: {
+      colors: { brand: '#4b0082' },
+    },
+  },
 };
 ```
+
+Use `presets`, not object spread. `{ ...veroConfig }` is a shallow copy, so the moment you
+add your own `theme` key it replaces Vero's entire theme and every Vero color, radius, and
+keyframe disappears — from your build and from editor autocomplete. `presets` is Tailwind's
+own mechanism for this and merges `theme.extend` from both. (Your `content` still replaces
+Vero's, which is what you want — Vero's globs are relative to its own repo.)
 
 Vero's config loads the `tailwindcss-animate` plugin, so that package must be resolvable from
 your app. It's declared as a peer dependency, so most package managers install it alongside

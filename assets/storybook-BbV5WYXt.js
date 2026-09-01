@@ -1,0 +1,1 @@
+const a=t=>{if(globalThis.window===void 0)return t;const{origin:i,pathname:n}=globalThis.window.location,l=t.startsWith("?")?t.slice(1):t;let s=n.split("?")[0];const o=s.lastIndexOf("/");return o>=0?s=s.substring(0,o+1):s="/",`${i}${s}?${l}`};export{a as g};

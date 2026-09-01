@@ -193,7 +193,7 @@ reasoning.
 
 The `*-opacity-*` utilities are gone; use a slash opacity such as `hover:bg-black/10`.
 
-### 4.7 Two corrections worth recording
+### 4.7 Corrections worth recording
 
 - **`ring-offset-*` survives.** The v4 documentation summary consulted first said it had been
   removed, which would have hit 13 focus-indicator call sites. Compiling against v4.3.3
@@ -202,6 +202,20 @@ The `*-opacity-*` utilities are gone; use a slash opacity such as `hover:bg-blac
 - **A latent no-op.** `src/components/StepIndicator/constants.ts` uses `text-md`, which has
   never been a Tailwind class in either version. It generates nothing today and will generate
   nothing after. Unrelated to v4, but it likely means the intended size was never applied.
+
+### 4.8 Checked and clear — don't re-investigate
+
+Recorded so nobody spends time re-deriving these:
+
+- **Gradient utilities.** v4 keeps `bg-gradient-to-*` as a deprecated alias alongside the new
+  `bg-linear-to-*`, so even a migration that ignored them would be safe. Vero uses no gradient
+  utilities at all — an earlier count of ~20 was regex false positives (`from-` and `to-`
+  matching ordinary prose).
+- **`prefix: ''`** in the config is a no-op, so v4's move to `@import "tailwindcss" prefix(tw)`
+  does not apply.
+- **Node version.** CI runs Node 22; `@tailwindcss/upgrade` needs 20+.
+- **No test asserts computed styles.** Nothing uses `getComputedStyle` or `toHaveStyle`, so the
+  test-suite exposure is whether CSS _processing_ succeeds, not whether assertions shift.
 
 ---
 
@@ -300,8 +314,15 @@ switcher already covers default, dark, and USWDS.
 - Move to `@tailwindcss/vite` (4.3.3); drop `autoprefixer` and the PostCSS Tailwind plugin.
 - Update the Storybook pipeline.
 - Bump `tailwind-merge` 2.6.0 → 3.6.0 for v4 class awareness.
+- Bump `prettier-plugin-tailwindcss` 0.6.11 → 0.8.x, which is the version that sorts v4
+  classes. Left alone, class sorting silently keeps applying v3 ordering — and it runs in
+  `lint-staged` on every commit, so it would quietly churn every file it touches. Confirm it
+  still composes with `prettier-plugin-classnames` and `prettier-plugin-merge`.
+- Don't forget the test pipeline: `vitest.config.ts` sets `css: true`, so the suite processes
+  CSS through the same toolchain. This phase touches build, Storybook, _and_ tests.
 
-Mechanical, and it fails loudly rather than silently.
+Mostly mechanical, and it fails loudly rather than silently. CI is already on Node 22, which
+satisfies the `@tailwindcss/upgrade` requirement of Node 20+.
 
 ### Phase 3 — Migrate the theme into CSS (1–2 days)
 
@@ -331,6 +352,11 @@ New CSS entry points, the `@theme`-based replacement for the config export, revi
 and size budgets, and a consumer migration guide covering `@source`, the config change, and the
 browser floor. The `./tailwind.config.js` export needs an explicit deprecation story, not
 silent removal.
+
+One documentation consequence that is easy to miss: v4 removes `corePlugins`, and the README
+currently points consumers at `corePlugins: { preflight: false }` to opt out of Preflight.
+Under v4 that key does not exist — you simply don't import the preflight layer. Any published
+guidance mentioning `corePlugins` needs rewriting alongside the config export.
 
 ### Phase 6 — Verify (3–5 days)
 
@@ -378,6 +404,9 @@ The verification range is the least certain number here and the one most likely 
   is a real Tailwind layer and the lowest-priority one, so the mini-preflight's position
   changes meaning. It may be removable entirely in favor of v4's granular `preflight` import —
   a simplification, but one that needs checking against why each rule was added.
-- **The `@apply` sites.** Only five, all in `src/styles/components.css`, all compiling into
-  `--tw-ring-color` overrides. They should survive, but v4 may require a `@reference`
-  depending on how that file ends up being built. Cheap to confirm, easy to miss.
+- **The `@apply` sites — 12 across three files**, not the five in `src/styles/components.css`
+  alone: `.storybook/preview.css` (7), `src/app/styles.css` (2), `src/styles/components.css`
+  (3). The Storybook one matters most, because v4 requires `@reference` in stylesheets that are
+  processed separately from the one importing the theme, and Storybook's preview CSS is exactly
+  that shape. The three in `components.css` compile into `--tw-ring-color` overrides and should
+  survive as-is. Confirm all three files, not just the published one.

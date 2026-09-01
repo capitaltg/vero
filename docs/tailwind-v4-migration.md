@@ -2,9 +2,11 @@
 
 Status: **assessed, not started** · Owner: TBD · Target: `@capitaltg/vero` v2.0
 
-> **Blocked on one decision.** Tailwind v4 requires Safari 16.4+ / Chrome 111+ / Firefox 128+,
-> and no configuration lowers that floor. Nothing in this plan should start until we know
-> whether Vero's consumers can accept it (§2). Every other item here is unblocked.
+> **The browser floor was the open blocker; it has been researched and is not one (§2).**
+> Tailwind v4 requires Safari 16.4+ / Chrome 111+ / Firefox 128+. Those landed in March 2023,
+> March 2023, and July 2024 — the two largest engines are 3½ years back, and ~95% of tracked
+> global usage is above the floor. The residual risk is pinned browsers in managed environments,
+> not release cadence, and Vero's 1.x line on v3 remains as a fallback.
 
 Assessment of what it takes to move Vero from Tailwind 3.4.17 to 4.3.3. The short version:
 **the code migration is small, the verification is the cost.** 384 of Vero's 386 real utility
@@ -48,22 +50,74 @@ without that filter makes the migration look roughly four times larger than it i
 
 ---
 
-## 2. The blocking decision — browser support floor
-
-**Can Vero's consumers accept Safari 16.4+ / Chrome 111+ / Firefox 128+?**
+## 2. Browser support floor — researched, not a blocker
 
 Tailwind v4 is built on `@property` and `color-mix()`. These are not progressive
 enhancements — they carry core utility behavior, so transforms, shadows, rings, and
-placeholder colors degrade badly rather than gracefully on older engines.
+placeholder colors degrade badly rather than gracefully on older engines. No v4
+configuration lowers the floor.
 
-This matters more for Vero than for a typical component library. Vero is USWDS-inspired and
-aimed at government work, where agency browser baselines are often set centrally and lag well
-behind; USWDS 3.x itself supports considerably older engines than v4 requires.
+### How old the floor actually is
 
-This needs consumer data, not a maintainer judgment call. **If the answer is no, this plan is
-deferred rather than executed** — a legitimate outcome, and the reason it sits at the top.
+Measured 31 Aug 2026:
 
----
+| Engine  | v4 floor | Released    | Age at time of writing   | Current stable     |
+| ------- | -------- | ----------- | ------------------------ | ------------------ |
+| Chrome  | 111      | 7 Mar 2023  | 3 yr 6 mo (~40 releases) | 151 (28 Jul 2026)  |
+| Edge    | 111      | Mar 2023    | 3 yr 6 mo                | tracks Chrome      |
+| Safari  | 16.4     | 27 Mar 2023 | 3 yr 5 mo                | 26.6 (27 Jul 2026) |
+| Firefox | 128      | 9 Jul 2024  | 2 yr 2 mo (~26 releases) | 154 (18 Aug 2026)  |
+
+Firefox 128 is the youngest constraint by a wide margin — Mozilla shipped `@property` late.
+
+### Who actually falls below it
+
+From caniuse usage data (`caniuse-lite` 1.0.30001810), summing every tracked browser version
+against the per-engine floor:
+
+- **~92% of tracked global usage is above the floor**; ~4.7% is explicitly below.
+- Of that 4.7%, the largest bucket is **old Chrome at 1.99%** — then Firefox 0.85%,
+  UC Browser 0.68%, iOS Safari 0.61%, IE 0.27%, desktop Safari 0.12%, QQ Browser 0.10%.
+- Excluding UC Browser and QQ Browser, which are not meaningful for US federal traffic, the
+  relevant below-floor share is **~3.8%**.
+
+Normalized against enumerated usage only, that is **~95% supported**.
+
+### Why the release cadence argument holds
+
+Chrome, Edge, and Firefox auto-update and have shipped roughly 40 and 26 releases respectively
+since the floor. So the exposure is not "users who haven't updated yet" — it is **users who
+cannot update**, which is a different and much smaller population.
+
+Two caveats worth keeping in view:
+
+- **Safari is not on a six-week cadence.** It ships with the OS, and Safari 16.4 requires
+  macOS 13 Ventura (Oct 2022). Someone on macOS 12 cannot reach the floor without an OS
+  upgrade. Observed below-floor Safari is nonetheless small: 0.12% desktop, 0.61% iOS.
+- **The old-Chrome tail correlates with managed machines** — locked-down enterprise and
+  government fleets that pin versions. That is disproportionately Vero's audience, and it is
+  where essentially all of the 1.99% lives.
+
+### What this does not change
+
+**IE is already excluded.** Tailwind v3 explicitly supports no version of IE, including 11.
+So IE traffic is unserved by Vero _today_ and v4 is not a regression there. Worth stating
+because IE still shows real share in federal traffic — 1.9% of users in the most recent
+analytics.usa.gov snapshot available (Feb 2025; Chrome 53.4%, Safari 24.4%, Edge 14.5%,
+Firefox 2.9%). That snapshot is stale and should be re-pulled before it is leaned on.
+
+Also note v3 never published a numeric floor — its stated support is "the latest stable
+versions of Chrome, Firefox, Edge, and Safari." There is no crisp v3-to-v4 delta to compute,
+and staying on v3 was never a promise of deep backward compatibility.
+
+### Conclusion
+
+The floor should not block this migration. It is old, well-covered, and the fallback is real:
+the 1.x line stays on v3 for consumers who need it (§5.3).
+
+The one thing still worth confirming is per-consumer: **if a specific agency deployment pins a
+browser version below the floor, that is a conversation with that consumer**, not a
+library-wide blocker.
 
 ## 3. What already points the right way
 
@@ -139,7 +193,7 @@ reasoning.
 
 The `*-opacity-*` utilities are gone; use a slash opacity such as `hover:bg-black/10`.
 
-### 4.7 Two corrections worth recording
+### 4.7 Corrections worth recording
 
 - **`ring-offset-*` survives.** The v4 documentation summary consulted first said it had been
   removed, which would have hit 13 focus-indicator call sites. Compiling against v4.3.3
@@ -148,6 +202,20 @@ The `*-opacity-*` utilities are gone; use a slash opacity such as `hover:bg-blac
 - **A latent no-op.** `src/components/StepIndicator/constants.ts` uses `text-md`, which has
   never been a Tailwind class in either version. It generates nothing today and will generate
   nothing after. Unrelated to v4, but it likely means the intended size was never applied.
+
+### 4.8 Checked and clear — don't re-investigate
+
+Recorded so nobody spends time re-deriving these:
+
+- **Gradient utilities.** v4 keeps `bg-gradient-to-*` as a deprecated alias alongside the new
+  `bg-linear-to-*`, so even a migration that ignored them would be safe. Vero uses no gradient
+  utilities at all — an earlier count of ~20 was regex false positives (`from-` and `to-`
+  matching ordinary prose).
+- **`prefix: ''`** in the config is a no-op, so v4's move to `@import "tailwindcss" prefix(tw)`
+  does not apply.
+- **Node version.** CI runs Node 22; `@tailwindcss/upgrade` needs 20+.
+- **No test asserts computed styles.** Nothing uses `getComputedStyle` or `toHaveStyle`, so the
+  test-suite exposure is whether CSS _processing_ succeeds, not whether assertions shift.
 
 ---
 
@@ -225,10 +293,12 @@ took, and it keeps both stories honest instead of shipping one that half-works.
 Numbered because the order carries real dependencies: baseline capture gates verification, and
 theme migration gates everything visual. Estimates assume one developer.
 
-### Phase 0 — Settle the browser floor and version strategy (no code)
+### Phase 0 — Confirm the version strategy (no code)
 
-Answer §2 with actual consumer data, and confirm the 2.0-on-v4 / 1.x-on-v3 split. Everything
-downstream is wasted if this lands the other way.
+The browser floor is settled (§2). What remains is confirming the 2.0-on-v4 / 1.x-on-v3 split
+and how long 1.x gets maintained, since that shapes how much the dual-track story costs. Worth
+also asking known agency consumers whether any deployment pins a browser below the floor —
+that would be a conversation with them rather than a reason to stop.
 
 ### Phase 1 — Establish visual regression capture, on v3 (1–2 days)
 
@@ -244,8 +314,15 @@ switcher already covers default, dark, and USWDS.
 - Move to `@tailwindcss/vite` (4.3.3); drop `autoprefixer` and the PostCSS Tailwind plugin.
 - Update the Storybook pipeline.
 - Bump `tailwind-merge` 2.6.0 → 3.6.0 for v4 class awareness.
+- Bump `prettier-plugin-tailwindcss` 0.6.11 → 0.8.x, which is the version that sorts v4
+  classes. Left alone, class sorting silently keeps applying v3 ordering — and it runs in
+  `lint-staged` on every commit, so it would quietly churn every file it touches. Confirm it
+  still composes with `prettier-plugin-classnames` and `prettier-plugin-merge`.
+- Don't forget the test pipeline: `vitest.config.ts` sets `css: true`, so the suite processes
+  CSS through the same toolchain. This phase touches build, Storybook, _and_ tests.
 
-Mechanical, and it fails loudly rather than silently.
+Mostly mechanical, and it fails loudly rather than silently. CI is already on Node 22, which
+satisfies the `@tailwindcss/upgrade` requirement of Node 20+.
 
 ### Phase 3 — Migrate the theme into CSS (1–2 days)
 
@@ -275,6 +352,11 @@ New CSS entry points, the `@theme`-based replacement for the config export, revi
 and size budgets, and a consumer migration guide covering `@source`, the config change, and the
 browser floor. The `./tailwind.config.js` export needs an explicit deprecation story, not
 silent removal.
+
+One documentation consequence that is easy to miss: v4 removes `corePlugins`, and the README
+currently points consumers at `corePlugins: { preflight: false }` to opt out of Preflight.
+Under v4 that key does not exist — you simply don't import the preflight layer. Any published
+guidance mentioning `corePlugins` needs rewriting alongside the config export.
 
 ### Phase 6 — Verify (3–5 days)
 
@@ -310,7 +392,9 @@ The verification range is the least certain number here and the one most likely 
 
 ## 8. Open questions / decisions to revisit
 
-- **The browser floor (§2)** — needs consumer data. The only true blocker.
+- **Per-consumer browser pinning (§2)** — the floor itself is settled and fine; what remains
+  is confirming no specific agency deployment pins a browser below it. Not a blocker for the
+  work, but worth asking before 2.0 ships.
 - **Whether 1.x gets real maintenance** or only security fixes, and for how long. Changes how
   much the dual-track story costs over the next year.
 - **Visual regression tooling choice** — worth doing regardless of v4, and cheaper to justify
@@ -320,6 +404,9 @@ The verification range is the least certain number here and the one most likely 
   is a real Tailwind layer and the lowest-priority one, so the mini-preflight's position
   changes meaning. It may be removable entirely in favor of v4's granular `preflight` import —
   a simplification, but one that needs checking against why each rule was added.
-- **The `@apply` sites.** Only five, all in `src/styles/components.css`, all compiling into
-  `--tw-ring-color` overrides. They should survive, but v4 may require a `@reference`
-  depending on how that file ends up being built. Cheap to confirm, easy to miss.
+- **The `@apply` sites — 12 across three files**, not the five in `src/styles/components.css`
+  alone: `.storybook/preview.css` (7), `src/app/styles.css` (2), `src/styles/components.css`
+  (3). The Storybook one matters most, because v4 requires `@reference` in stylesheets that are
+  processed separately from the one importing the theme, and Storybook's preview CSS is exactly
+  that shape. The three in `components.css` compile into `--tw-ring-color` overrides and should
+  survive as-is. Confirm all three files, not just the published one.

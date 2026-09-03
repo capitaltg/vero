@@ -1,8 +1,11 @@
+import { useComposedTriggerLabel } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
+import { useId, useRef } from 'react';
 import { Button } from '../../Button';
 import { Calendar } from '../../Calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../Popover';
@@ -30,6 +33,16 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
     ref,
   ) => {
     const resolvedZIndex = getZIndex('popover', zIndex);
+
+    // Compose the trigger's accessible name from its associated label plus the displayed
+    // range, so screen readers read back the selection. See useComposedTriggerLabel.
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const composedRef = useComposedRefs(ref, triggerRef);
+    const valueId = useId();
+    const triggerLabelledBy = useComposedTriggerLabel(triggerRef, valueId, {
+      'aria-label': props['aria-label'],
+      'aria-labelledby': props['aria-labelledby'],
+    });
 
     const handleDayClick = (day: Date) => {
       const { from, to } = value;
@@ -65,7 +78,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              ref={ref}
+              ref={composedRef}
               autoFocus={autoFocus}
               className={cn(
                 'w-full justify-start px-3 text-left font-normal',
@@ -75,21 +88,24 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
               isDisabled={isDisabled}
               variant="input"
               {...props}
+              aria-labelledby={triggerLabelledBy}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {(() => {
-                if (value.from) {
-                  if (value.to) {
-                    return (
-                      <>
-                        {format(value.from, 'LLLL dd, y')} - {format(value.to, 'LLLL dd, y')}
-                      </>
-                    );
+              <span id={valueId}>
+                {(() => {
+                  if (value.from) {
+                    if (value.to) {
+                      return (
+                        <>
+                          {format(value.from, 'LLLL dd, y')} - {format(value.to, 'LLLL dd, y')}
+                        </>
+                      );
+                    }
+                    return format(value.from, 'LLLL dd, y');
                   }
-                  return format(value.from, 'LLLL dd, y');
-                }
-                return <span>{placeholder.from}</span>;
-              })()}
+                  return placeholder.from;
+                })()}
+              </span>
             </Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-auto px-0 py-0" zIndex={resolvedZIndex}>

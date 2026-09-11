@@ -1,0 +1,604 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks';
+import * as DataTableStories from './DataTable.stories';
+import * as TableStories from './Table.stories';
+
+<Meta of={TableStories} />
+
+# Table
+
+> **Preview.** Both components are complete and covered by tests, but they are not exported from
+> the published package yet — uncomment them in `src/index.ts` to ship them.
+
+Accessible, 508-friendly tables styled after the
+[USWDS Table](https://designsystem.digital.gov/components/table/), with sorting, column grouping
+and responsive behavior built on [TanStack Table](https://tanstack.com/table).
+
+Vero ships two components over one render layer:
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Use it when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>Table</code> — the primitives
+      </td>
+      <td>
+        The content is static or bespoke and writing it as markup is clearer than describing it as
+        data. Compose it with <code>TableHeader</code>, <code>TableBody</code>,{' '}
+        <code>TableRow</code>, <code>TableHead</code> and <code>TableCell</code>, exactly as you
+        would the native elements.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>DataTable</code> — config driven
+      </td>
+      <td>
+        You have rows and a column definition. Pass <code>data</code> and <code>columns</code> and
+        you get sorting, grouped headers, row headers, an empty state and both responsive modes with
+        nothing else to wire up. It renders through the same primitives.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+Don't mix the two inside one table: either compose the primitives yourself, or drive a
+`DataTable` and customize it through its seams (`ColumnDef.cell` renderers, `meta`, and the
+`caption` / `footer` / `emptyState` slots).
+
+<Canvas of={TableStories.Default} />
+
+## Quick start
+
+```tsx
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@capitaltg/vero';
+
+<Table caption="Quarterly revenue">
+  <TableHeader>
+    <TableRow>
+      <TableHead scope="col">Quarter</TableHead>
+      <TableHead scope="col">Revenue</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableHead scope="row">Q1</TableHead>
+      <TableCell>$1.2M</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>;
+```
+
+The `caption` prop is a convenience for the common case; compose `<TableCaption>` yourself when
+the caption needs its own markup.
+
+The same table, config driven:
+
+```tsx
+import { DataTable } from '@capitaltg/vero';
+import type { ColumnDef } from '@tanstack/react-table';
+
+interface Person {
+  name: string;
+  role: string;
+  salary: number;
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  // One column per table should be the row header.
+  { accessorKey: 'name', header: 'Name', meta: { isRowHeader: true } },
+  { accessorKey: 'role', header: 'Role' },
+  {
+    accessorKey: 'salary',
+    header: 'Salary',
+    meta: { align: 'right' },
+    cell: info => `$${info.getValue<number>().toLocaleString()}`,
+  },
+];
+
+<DataTable caption="Team roster" columns={columns} data={people} />;
+```
+
+Every table needs an accessible name. Prefer a visible `caption`; if a heading beside the table
+already names it, pass `captionHidden` to keep the caption for screen readers only, or use
+`aria-label`.
+
+## `Table` props
+
+<Controls of={TableStories.Playground} />
+
+Alongside `caption` / `captionHidden`, `Table` takes the styling and responsive props shared with
+`DataTable`: `variant` (`bordered` | `borderless`), `striped`, `density` (`default` | `compact`),
+`stickyHeader`, `responsive` (`scroll` | `stack` | `none`), `stackBreakpoint` (`sm` | `md` | `lg`)
+and `stackedStyle` (`default` | `headers`). Everything else lands on the `<table>` element.
+
+The children are thin wrappers over the native elements: `TableCaption` (`<caption>`, with
+`hidden` for a screen-reader-only caption), `TableHeader` (`<thead>`), `TableBody` (`<tbody>` —
+use several for row-group sections), `TableFooter` (`<tfoot>`), `TableRow` (`<tr>`), `TableHead`
+(`<th>`, with `scope` defaulting to `col`) and `TableCell` (`<td>`). Both cell components accept
+`data-label`.
+
+## `DataTable` props
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>data</code>
+      </td>
+      <td>
+        <code>TData[]</code>
+      </td>
+      <td>—</td>
+      <td>The rows to render.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>columns</code>
+      </td>
+      <td>
+        <code>ColumnDef&lt;TData, unknown&gt;[]</code>
+      </td>
+      <td>—</td>
+      <td>TanStack Table column definitions. Nest them to get grouped headers.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>caption</code> / <code>captionHidden</code>
+      </td>
+      <td>
+        <code>ReactNode</code> / <code>boolean</code>
+      </td>
+      <td>—</td>
+      <td>The table's caption and accessible name; optionally screen-reader only.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>enableSorting</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Turn on column sorting. Individual columns opt out with <code>enableSorting: false</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>initialSorting</code>
+      </td>
+      <td>
+        <code>SortingState</code>
+      </td>
+      <td>
+        <code>[]</code>
+      </td>
+      <td>Starting sort for the uncontrolled case.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>sorting</code> / <code>onSortingChange</code>
+      </td>
+      <td>
+        <code>SortingState</code> / <code>OnChangeFn</code>
+      </td>
+      <td>—</td>
+      <td>Controlled sorting state.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>responsive</code>
+      </td>
+      <td>
+        <code>'scroll' | 'stack' | 'none'</code>
+      </td>
+      <td>
+        <code>'scroll'</code>
+      </td>
+      <td>How the table adapts to narrow viewports. See below.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>stackBreakpoint</code>
+      </td>
+      <td>
+        <code>'sm' | 'md' | 'lg'</code>
+      </td>
+      <td>
+        <code>'md'</code>
+      </td>
+      <td>Width below which a stacked table becomes cards.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>stackedStyle</code>
+      </td>
+      <td>
+        <code>'default' | 'headers'</code>
+      </td>
+      <td>
+        <code>'default'</code>
+      </td>
+      <td>Whether each card gets a heading. Only applies while stacked.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>variant</code>
+      </td>
+      <td>
+        <code>'bordered' | 'borderless'</code>
+      </td>
+      <td>
+        <code>'bordered'</code>
+      </td>
+      <td>Grid line style.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>striped</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Shade alternating body rows.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>density</code>
+      </td>
+      <td>
+        <code>'default' | 'compact'</code>
+      </td>
+      <td>
+        <code>'default'</code>
+      </td>
+      <td>Cell padding. Not recommended together with stacked mode.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>stickyHeader</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Pin the header row while the rows scroll past it.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>emptyState</code>
+      </td>
+      <td>
+        <code>ReactNode</code>
+      </td>
+      <td>
+        <code>'No data available'</code>
+      </td>
+      <td>
+        Shown in place of rows when <code>data</code> is empty.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>footer</code>
+      </td>
+      <td>
+        <code>ReactNode</code>
+      </td>
+      <td>—</td>
+      <td>
+        Content for a <code>&lt;tfoot&gt;</code> row spanning every column.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>getRowId</code>
+      </td>
+      <td>
+        <code>(row, index) =&gt; string</code>
+      </td>
+      <td>—</td>
+      <td>Stable row identity, forwarded to TanStack.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Per-column options (`ColumnDef.meta`)
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>isRowHeader</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        Render this column's cells as <code>&lt;th scope="row"&gt;</code>. Mark exactly one column
+        per table.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>align</code>
+      </td>
+      <td>
+        <code>'left' | 'center' | 'right'</code>
+      </td>
+      <td>Horizontal alignment of the header and its cells.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>stackedLabel</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        Label used for this column's cells while stacked. Defaults to the header text — set it when
+        the header is JSX, or when the header is too long to repeat on every card.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Responsive behavior
+
+This is the part you get for free, and it works the same on both components.
+
+### Scrolling — the default
+
+Wide tables get a horizontal scroll container. It only becomes a focusable, labeled
+`role="region"` when the content actually overflows, so a table that fits never adds a stray tab
+stop, and one that doesn't fit stays reachable by keyboard.
+
+<Canvas of={DataTableStories.Scrollable} />
+
+Unlike USWDS we don't force `white-space: nowrap` on cells, so text wraps by default and narrow
+tables simply get narrower. Add `whitespace-nowrap` to the columns that should never be squeezed.
+
+### Stacking into cards
+
+With `responsive="stack"`, each row below `stackBreakpoint` becomes a card and every cell renders
+its column header above its value. Resize your browser below 768px to watch these reflow — the
+docs canvas is rendered at the page's own width.
+
+<Canvas of={DataTableStories.Stacked} />
+
+The label comes from a `data-label` attribute on each cell, rendered as
+`content: attr(data-label)` — the same mechanism USWDS uses. You never have to write it:
+
+- `DataTable` fills `data-label` in from your column definitions (or `meta.stackedLabel`).
+- `Table` reads the header row and labels the body cells below it, so hand-composed tables stack
+  too. An explicit `data-label` on a cell always wins.
+
+<Canvas of={TableStories.Stacked} />
+
+<table>
+  <thead>
+    <tr>
+      <th>
+        <code>stackBreakpoint</code>
+      </th>
+      <th>Stacks below</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>sm</code>
+      </td>
+      <td>640px</td>
+    </tr>
+    <tr>
+      <td>
+        <code>md</code> (default)
+      </td>
+      <td>768px</td>
+    </tr>
+    <tr>
+      <td>
+        <code>lg</code>
+      </td>
+      <td>1024px</td>
+    </tr>
+  </tbody>
+</table>
+
+Two things to know before choosing this mode. Below the breakpoint the header row is hidden, so
+the grid's row/column semantics give way to the card layout and the per-cell labels carry the
+meaning — that also means sortable headers are only reachable at wider widths. It suits
+record-style data; for wide numeric tables, `responsive="scroll"` keeps the grid intact.
+
+### Cards with headings
+
+`stackedStyle="headers"` promotes the first cell of each row to the card's heading instead of
+labeling it like the rest — good when that first column identifies the record.
+
+<Canvas of={DataTableStories.StackedHeaders} />
+
+### Sticky header
+
+`stickyHeader` keeps the column headers visible while the rows scroll. The table needs a scrolling
+ancestor for that: the page itself, or a height-constrained container. Pair it with
+`responsive="none"` so the default horizontal scroll wrapper doesn't become a non-scrolling sticky
+context. USWDS advises against combining it with scrollable or stacked variants.
+
+<Canvas of={DataTableStories.StickyHeader} />
+
+## Sorting
+
+Sortable headers render a real `<button>`; the `<th>` carries `aria-sort`, and each change is
+announced through a polite live region. Sorting cycles ascending → descending → unsorted.
+
+<Canvas of={DataTableStories.Sortable} />
+
+## Grouped columns
+
+Nest `columns` to get multi-level headers. Spanning headers get `scope="colgroup"` and the right
+`colSpan` automatically.
+
+<Canvas of={DataTableStories.ColumnGroups} />
+
+With the primitives you write the spanning headers yourself:
+
+<Canvas of={TableStories.ColumnGroups} />
+
+## Row-group sections
+
+Several `<TableBody>` blocks give you visual sections, each introduced by a spanning header. This
+is markup-only — no collapsing or aggregation yet.
+
+<Canvas of={TableStories.RowGroupSections} />
+
+## Style variants
+
+<Canvas of={TableStories.StyleVariants} />
+
+## Empty state
+
+<Canvas of={DataTableStories.Empty} />
+
+## Coming from react-uswds
+
+`Table` is the direct counterpart of react-uswds's `<Table>` — the wrapper you compose your own
+rows inside — so most markup ports across unchanged.
+
+<table>
+  <thead>
+    <tr>
+      <th>react-uswds</th>
+      <th>Vero</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>bordered</code>
+      </td>
+      <td>
+        <code>variant="bordered"</code> (the default) / <code>variant="borderless"</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>striped</code>
+      </td>
+      <td>
+        <code>striped</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>compact</code>
+      </td>
+      <td>
+        <code>density="compact"</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>scrollable</code>
+      </td>
+      <td>
+        <code>responsive="scroll"</code> — on by default, and only focusable when it overflows
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>stackedStyle="default"</code>
+      </td>
+      <td>
+        <code>responsive="stack"</code>, with <code>data-label</code> filled in for you
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>stackedStyle="headers"</code>
+      </td>
+      <td>
+        <code>responsive="stack" stackedStyle="headers"</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>stickyHeader</code>
+      </td>
+      <td>
+        <code>stickyHeader</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>caption</code>
+      </td>
+      <td>
+        <code>caption</code>, or compose <code>&lt;TableCaption&gt;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>fullWidth</code>
+      </td>
+      <td>Not needed — Vero's table is always full width</td>
+    </tr>
+    <tr>
+      <td>
+        <code>fixed</code>
+      </td>
+      <td>
+        <code>className="table-fixed"</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Sorting (USWDS JS)</td>
+      <td>
+        <code>DataTable</code> with <code>enableSorting</code>, powered by TanStack Table
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Accessibility
+
+- Every table has an accessible name — a `<caption>`, `captionHidden`, or `aria-label`.
+- Column headers are `<th scope="col">`, group headers `scope="colgroup"`, and the column marked
+  `meta.isRowHeader` renders `<th scope="row">`.
+- Sortable headers are buttons inside the `<th>`; the `<th>` carries
+  `aria-sort="ascending | descending | none"` and changes are announced politely.
+- The scroll container becomes `role="region"` with `tabindex="0"` and a visible focus ring only
+  when it actually scrolls, so keyboard users can reach off-screen columns without a phantom tab
+  stop on tables that fit.
+- Stacked mode labels every cell with its column header, so the data stays perceivable once the
+  header row is hidden.
+- Every state above is covered by `vitest-axe`. Stacked mode trades table semantics for the card
+  layout by design — a manual screen-reader pass is still worth doing for your specific content.

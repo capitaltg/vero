@@ -1,21 +1,12 @@
-import {
-  TableRoot,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../src/TableRoot';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../src/Table';
 
 /**
  * A small, static table composed from the primitives — no `data`/`columns`
  * config needed. Note `scope="col"` on the column headers and `scope="row"` on
  * the first cell of each body row.
  */
-export const TableRootBasic = () => (
-  <TableRoot aria-label="Quarterly revenue">
-    <TableCaption>Quarterly revenue</TableCaption>
+export const TableBasic = () => (
+  <Table caption="Quarterly revenue">
     <TableHeader>
       <TableRow>
         <TableHead scope="col">Quarter</TableHead>
@@ -44,5 +35,5 @@ export const TableRootBasic = () => (
         <TableCell className="text-right">−7%</TableCell>
       </TableRow>
     </TableBody>
-  </TableRoot>
+  </Table>
 );

@@ -1,21 +1,12 @@
-import {
-  TableRoot,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../src/TableRoot';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../src/Table';
 
 /**
  * Visual row-group sections. Each `<TableBody>` is a section introduced by a
  * spanning group header (`scope="colgroup"`). Static grouping — no collapsing
  * or aggregation (those are planned for a later phase).
  */
-export const TableRootRowGroups = () => (
-  <TableRoot aria-label="Employees by department">
-    <TableCaption>Employees by department</TableCaption>
+export const TableRowGroups = () => (
+  <Table caption="Employees by department">
     <TableHeader>
       <TableRow>
         <TableHead scope="col">Name</TableHead>
@@ -52,5 +43,5 @@ export const TableRootRowGroups = () => (
         <TableCell>Manchester</TableCell>
       </TableRow>
     </TableBody>
-  </TableRoot>
+  </Table>
 );

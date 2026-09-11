@@ -1,13 +1,13 @@
 import {
-  TableRoot,
+  Table,
   TableBody,
   TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from '../src/TableRoot';
-import type { TableRootProps } from '../types';
+} from '../src/Table';
+import type { TableProps } from '../types';
 
 const rows = [
   { fruit: 'Apples', qty: 12, price: '$0.50' },
@@ -15,8 +15,8 @@ const rows = [
   { fruit: 'Cherries', qty: 30, price: '$0.10' },
 ];
 
-const Sample = ({ label, ...props }: { label: string } & TableRootProps) => (
-  <TableRoot aria-label={label} responsive="none" {...props}>
+const Sample = ({ label, ...props }: { label: string } & TableProps) => (
+  <Table aria-label={label} responsive="none" {...props}>
     <TableCaption>{label}</TableCaption>
     <TableHeader>
       <TableRow>
@@ -38,11 +38,11 @@ const Sample = ({ label, ...props }: { label: string } & TableRootProps) => (
         </TableRow>
       ))}
     </TableBody>
-  </TableRoot>
+  </Table>
 );
 
 /** The `variant`, `striped`, and `density` style options. */
-export const TableRootStyleVariants = () => (
+export const TableStyleVariants = () => (
   <div className="flex flex-col gap-8">
     <Sample label="Bordered (default)" />
     <Sample striped label="Striped" />

@@ -1,44 +1,66 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { TableColumnGroups } from '../demos/TableColumnGroups';
 import sourceColumnGroups from '../demos/TableColumnGroups.tsx?raw';
-import { TableDefault } from '../demos/TableDefault';
-import sourceDefault from '../demos/TableDefault.tsx?raw';
-import { TableEmpty } from '../demos/TableEmpty';
-import sourceEmpty from '../demos/TableEmpty.tsx?raw';
-import { TableScrollable } from '../demos/TableScrollable';
-import sourceScrollable from '../demos/TableScrollable.tsx?raw';
-import { TableSortable } from '../demos/TableSortable';
-import sourceSortable from '../demos/TableSortable.tsx?raw';
+import { TableBasic } from '../demos/TableBasic';
+import sourcePrimitive from '../demos/TableBasic.tsx?raw';
+import { TableRowGroups } from '../demos/TableRowGroups';
+import sourceRowGroups from '../demos/TableRowGroups.tsx?raw';
 import { TableStacked } from '../demos/TableStacked';
 import sourceStacked from '../demos/TableStacked.tsx?raw';
-import { people, personColumns } from '../demos/sampleData';
-import { Table } from '../src/Table';
+import { TableStyleVariants } from '../demos/TableStyleVariants';
+import sourceStyleVariants from '../demos/TableStyleVariants.tsx?raw';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../src/Table';
 
 const meta = {
   title: 'Data & Display/Table',
   component: Table,
-  tags: ['!dev'], // Internal — not ready for public API; hidden from the sidebar.
   parameters: {
     docs: {
       description: {
         component:
-          'Config-driven table built on TanStack Table. Pass `data` and `columns` and it ' +
-          'renders through the accessible `TableRoot` primitives — with column grouping, row ' +
-          'headers (`meta.isRowHeader`), sorting (`aria-sort` + live announcements), and ' +
-          'scroll / stacked responsive behavior.',
+          'Accessible, USWDS-styled table primitives. Compose `Table` with `TableCaption`, ' +
+          '`TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, and `TableCell` ' +
+          'for small or bespoke tables. For data-driven tables, see `DataTable`, which renders ' +
+          'through these same primitives.',
       },
     },
   },
-  // The stories below render self-contained demos; these satisfy the required
-  // props on the shared meta type.
-  args: { data: [], columns: [] },
   argTypes: {
-    enableSorting: { control: 'boolean', description: 'Enable column sorting.' },
-    variant: { control: 'radio', options: ['bordered', 'borderless'] },
-    striped: { control: 'boolean' },
-    density: { control: 'radio', options: ['default', 'compact'] },
-    responsive: { control: 'radio', options: ['scroll', 'stack', 'none'] },
-    stackBreakpoint: { control: 'radio', options: ['sm', 'md', 'lg'] },
+    variant: {
+      control: 'radio',
+      options: ['bordered', 'borderless'],
+      description: 'Grid line style.',
+    },
+    striped: { control: 'boolean', description: 'Alternate row background.' },
+    density: {
+      control: 'radio',
+      options: ['default', 'compact'],
+      description: 'Cell padding density.',
+    },
+    responsive: {
+      control: 'radio',
+      options: ['scroll', 'stack', 'none'],
+      description: 'How the table adapts to narrow viewports.',
+    },
+    stackBreakpoint: {
+      control: 'radio',
+      options: ['sm', 'md', 'lg'],
+      description: 'Breakpoint below which a stacked table becomes cards.',
+    },
+    stackedStyle: {
+      control: 'radio',
+      options: ['default', 'headers'],
+      description: 'How each card is presented when stacked.',
+    },
+    stickyHeader: { control: 'boolean', description: 'Pin the header row while the body scrolls.' },
   },
 } satisfies Meta<typeof Table>;
 
@@ -54,63 +76,91 @@ const withSource = (code: string) => ({
 });
 
 /**
- * Interactive example — toggle `enableSorting`, `striped`, `variant`,
- * `density`, and `responsive` in the Controls panel to see them applied live.
+ * Interactive example — change `variant`, `striped`, `density`, and
+ * `responsive` in the Controls panel to see them applied live.
  */
 export const Playground: Story = {
-  args: {
-    caption: 'Team roster',
-    enableSorting: false,
-    variant: 'bordered',
-    striped: false,
-    density: 'default',
-    responsive: 'scroll',
-    stackBreakpoint: 'md',
-  },
-  render: args => <Table {...args} columns={personColumns} data={people} />,
-};
-
-/** Pass `data` + `columns`; the `name` column is the row header. */
-export const Default: Story = {
-  render: () => <TableDefault />,
-  parameters: withSource(sourceDefault),
+  args: { variant: 'bordered', striped: false, density: 'default', responsive: 'none' },
+  render: args => (
+    <Table {...args} aria-label="Fruit inventory">
+      <TableCaption>Fruit inventory</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead scope="col">Fruit</TableHead>
+          <TableHead className="text-right" scope="col">
+            Qty
+          </TableHead>
+          <TableHead className="text-right" scope="col">
+            Price
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableHead scope="row">Apples</TableHead>
+          <TableCell className="text-right">12</TableCell>
+          <TableCell className="text-right">$0.50</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableHead scope="row">Bananas</TableHead>
+          <TableCell className="text-right">8</TableCell>
+          <TableCell className="text-right">$0.25</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableHead scope="row">Cherries</TableHead>
+          <TableCell className="text-right">30</TableCell>
+          <TableCell className="text-right">$0.10</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  ),
 };
 
 /**
- * Sortable columns. Headers are buttons; the `<th>` carries `aria-sort` and
- * changes are announced to screen readers.
+ * A basic table composed from the primitives, with a `<caption>`, column
+ * headers (`scope="col"`), and a row header per row (`scope="row"`).
  */
-export const Sortable: Story = {
-  render: () => <TableSortable />,
-  parameters: withSource(sourceSortable),
+export const Default: Story = {
+  render: () => <TableBasic />,
+  parameters: withSource(sourcePrimitive),
 };
 
-/** Nested column definitions produce multi-level headers. */
+/**
+ * Multi-level column headers using `colSpan` + `scope="colgroup"` for the group
+ * headers and `scope="col"` for the leaf headers.
+ */
 export const ColumnGroups: Story = {
   render: () => <TableColumnGroups />,
   parameters: withSource(sourceColumnGroups),
 };
 
 /**
- * Scrollable (default) responsive mode: a keyboard-focusable, labeled scroll
- * region appears when the table overflows its container.
+ * Visual row-group sections: multiple `<TableBody>` blocks, each introduced by
+ * a spanning group header.
  */
-export const Scrollable: Story = {
-  render: () => <TableScrollable />,
-  parameters: withSource(sourceScrollable),
+export const RowGroupSections: Story = {
+  render: () => <TableRowGroups />,
+  parameters: withSource(sourceRowGroups),
 };
 
 /**
- * Stacked responsive mode: rows become labeled cards below the breakpoint.
- * Resize the preview narrow to see it reflow.
+ * The `variant` (bordered / borderless), `striped`, and `density` style
+ * options.
+ */
+export const StyleVariants: Story = {
+  render: () => <TableStyleVariants />,
+  parameters: withSource(sourceStyleVariants),
+};
+
+/**
+ * Stacked (card) mode with the primitives — the USWDS `usa-table--stacked`
+ * variant. Setting `responsive="stack"` is enough: `Table` reads the column
+ * headers off the header row and labels the body cells with them, so
+ * hand-composed tables reflow with no extra markup. Set `data-label` on a cell
+ * to override its label, or `stackedStyle="headers"` to promote each row's
+ * first cell to the card's heading.
  */
 export const Stacked: Story = {
   render: () => <TableStacked />,
-  parameters: withSource(sourceStacked),
-};
-
-/** Empty state shown when there are no rows. */
-export const Empty: Story = {
-  render: () => <TableEmpty />,
-  parameters: withSource(sourceEmpty),
+  parameters: { ...withSource(sourceStacked), viewport: { defaultViewport: 'mobile2' } },
 };

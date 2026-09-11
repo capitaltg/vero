@@ -10,7 +10,7 @@ import type {
 import type { tableVariants } from './constants';
 
 /**
- * Extra per-column configuration understood by {@link Table}. Set on a
+ * Extra per-column configuration understood by {@link DataTable}. Set on a
  * column via `ColumnDef.meta`, e.g. `{ meta: { isRowHeader: true } }`.
  *
  * This augments TanStack Table's own `ColumnMeta` interface so the fields are
@@ -45,9 +45,18 @@ export type TableResponsive = 'scroll' | 'stack' | 'none';
 /** Breakpoint at which a stacked table returns to a normal grid layout. */
 export type TableStackBreakpoint = 'sm' | 'md' | 'lg';
 
+/**
+ * How a stacked (card) table presents each card, mirroring the USWDS
+ * `usa-table--stacked` / `usa-table--stacked-header` variants.
+ * - `default`: every cell is labelled with its column header.
+ * - `headers`: the first cell of each card becomes the card's heading and
+ *   drops its own label.
+ */
+export type TableStackedStyle = 'default' | 'headers';
+
 type TableVariantProps = VariantProps<typeof tableVariants>;
 
-export interface TableRootProps
+export interface TableProps
   extends Omit<TableHTMLAttributes<HTMLTableElement>, 'aria-label' | 'aria-labelledby'>,
     TableVariantProps {
   /**
@@ -64,6 +73,21 @@ export interface TableRootProps
    * @default 'md'
    */
   stackBreakpoint?: TableStackBreakpoint;
+  /**
+   * How each card is presented when the table is stacked. `headers` promotes
+   * the first cell of every row to the card's heading (USWDS
+   * `usa-table--stacked-header`). Ignored unless `responsive="stack"`.
+   * @default 'default'
+   */
+  stackedStyle?: TableStackedStyle;
+  /**
+   * The table's `<caption>` and accessible name. A convenience for the common
+   * case; compose {@link TableCaption} yourself when the caption needs its own
+   * markup or has to sit somewhere specific.
+   */
+  caption?: ReactNode;
+  /** Visually hide {@link caption} while keeping it available to screen readers. */
+  captionHidden?: boolean;
   /**
    * Accessible name for the scroll region (used when `responsive="scroll"`).
    * A table should always have an accessible name via a `<caption>`; provide
@@ -94,11 +118,22 @@ export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
    * @default 'col'
    */
   scope?: 'col' | 'row' | 'colgroup' | 'rowgroup';
+  /**
+   * Label shown above this cell's value when the table is stacked. Body cells
+   * that leave it unset inherit their column header's text automatically.
+   */
+  'data-label'?: string;
 }
 
-export type TableCellProps = TdHTMLAttributes<HTMLTableCellElement>;
+export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
+  /**
+   * Label shown above this cell's value when the table is stacked. Cells that
+   * leave it unset inherit their column header's text automatically.
+   */
+  'data-label'?: string;
+}
 
-export interface TableProps<TData> extends TableVariantProps {
+export interface DataTableProps<TData> extends TableVariantProps {
   /** The rows to render. */
   data: TData[];
   /** TanStack Table column definitions. */
@@ -139,6 +174,13 @@ export interface TableProps<TData> extends TableVariantProps {
    * @default 'md'
    */
   stackBreakpoint?: TableStackBreakpoint;
+  /**
+   * How each card is presented when the table is stacked. `headers` promotes
+   * the first cell of every row to the card's heading (USWDS
+   * `usa-table--stacked-header`). Ignored unless `responsive="stack"`.
+   * @default 'default'
+   */
+  stackedStyle?: TableStackedStyle;
   /** Content shown when `data` is empty. */
   emptyState?: ReactNode;
   /** Optional footer content rendered in a `<tfoot>`. */

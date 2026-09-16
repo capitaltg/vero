@@ -4,11 +4,11 @@ import { badgeVariants } from '../constants';
 import { BadgeProps } from '../types';
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
-  ({ className, variant, ...props }, ref) => {
+  ({ className, variant, tone, size, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn('vero-badge', badgeVariants({ variant, className }))}
+        className={cn('vero-badge', badgeVariants({ variant, tone, size, className }))}
         {...props}
       />
     );

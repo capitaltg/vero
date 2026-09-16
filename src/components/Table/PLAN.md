@@ -3,15 +3,30 @@
 Status: **v1 implemented (internal / unreleased)** · Owner: TBD · Branch: `feat/table-component`
 
 > Landed but intentionally **not part of the public API yet**: the root barrel export in
-> `src/index.ts` is commented out and both Storybook stories carry `tags: ['!dev']` (hidden
-> from the sidebar), matching the `Command` / `TagInput` convention. Re-enable both when it's
-> ready to ship.
+> `src/index.ts` is still commented out, so nothing ships until it's uncommented. The Storybook
+> stories are visible (they carried `tags: ['!dev']` until the docs page landed), and the docs
+> page carries a "Preview" callout to remove at release.
 
-> v1 shipped on this branch: semantic primitives + `Table<T>`, column grouping,
+> v1 shipped on this branch: semantic primitives + `DataTable<T>`, column grouping,
 > row headers, sorting (`aria-sort` + live announcements), visual row-group sections
 > (primitives), scroll + stacked responsive modes, style variants, Storybook stories with
 > `?raw` demos, and `vitest-axe` + interaction tests (all green; ~89 KB brotlied). Manual
 > screen-reader passes (esp. stacked mode) still recommended per the §7 checklist.
+>
+> Follow-up (responsive parity pass): stacked mode now matches USWDS
+> `usa-table--stacked` / `usa-table--stacked-header` rule for rule, works from the
+> primitives with no extra markup (labels are derived from the header row), gained
+> `stackedStyle="headers"`, and `stickyHeader` was added for
+> `usa-table--sticky-header` parity. The `striped` variant's colors were also fixed —
+> they used `bg-muted/40` and `bg-muted/50`, and Tailwind cannot apply an opacity
+> modifier to Vero's raw `var(--token)` colors, so those rules compiled to nothing.
+>
+> Naming (settled before release, while nothing is exported): the primitives' root is `Table`
+> and the config-driven component is `DataTable`. `Table` is what react-uswds calls its
+> composable wrapper and what the `Table*` children belong to; `DataTable` is the common name
+> for the config/TanStack-driven kind. `Table` also gained `caption` / `captionHidden`
+> convenience props — `DataTable` now forwards its own caption straight through to them
+> instead of rendering `<TableCaption>` itself.
 
 A full-class, 508-compliant Table component for `@capitaltg/vero`, styled like the
 [USWDS Table](https://designsystem.digital.gov/components/table/) using Tailwind + Vero
@@ -48,9 +63,9 @@ Two layers over one shared rendering surface:
 ### Layer 1 — Semantic primitives (dumb, styled, composable)
 
 Styled wrappers around native table elements. Used directly for small/static/bespoke
-tables; also the render target for `Table`.
+tables; also the render target for `DataTable`.
 
-- `TableRoot` — `<table>` + scrollable/stacked responsive wrapper, `vero-table` marker
+- `Table` — `<table>` + scrollable/stacked responsive wrapper, `vero-table` marker
 - `TableCaption` — `<caption>` (supports visually-hidden)
 - `TableHeader` — `<thead>`
 - `TableBody` — `<tbody>` (multiple allowed → visual row-group sections)
@@ -59,22 +74,23 @@ tables; also the render target for `Table`.
 - `TableHead` — `<th>`; `scope` prop (`col | row | colgroup | rowgroup`), sort affordance hooks
 - `TableCell` — `<td>`; optional `data-label` for stacked mode
 
-Exported flat, like Dialog: `TableRoot, TableCaption, TableHeader, TableBody, TableFooter,
-TableRow, TableHead, TableCell`. (The config-driven component below takes the bare `Table`
-name; the primitive `<table>` wrapper is `TableRoot`.)
+Exported flat, like Dialog: `Table, TableCaption, TableHeader, TableBody, TableFooter,
+TableRow, TableHead, TableCell`. The primitive wrapper takes the bare `Table` name — it is the
+direct counterpart of react-uswds's `<Table>`, and it matches the `Table*` children it is
+composed with. The config-driven component below is therefore `DataTable`.
 
-### Layer 2 — `Table<T>` (config-driven, TanStack-powered)
+### Layer 2 — `DataTable<T>` (config-driven, TanStack-powered)
 
 ```tsx
-<Table data={rows} columns={columns} caption="…" />
+<DataTable data={rows} columns={columns} caption="…" />
 ```
 
 Runs `useReactTable` internally, renders through the Layer-1 primitives via `flexRender`.
 Generic over `<T>` using the `Autocomplete` forwardRef-cast pattern. All v1 features below
-are configured through `columns` (`ColumnDef[]`) + `Table` props + slot render props.
+are configured through `columns` (`ColumnDef[]`) + `DataTable` props + slot render props.
 
 **Interchange rule:** the two layers share a render layer but are not mixed mid-table. You
-either compose primitives yourself _or_ drive a `Table` and customize via its seams
+either compose primitives yourself _or_ drive a `DataTable` and customize via its seams
 (`ColumnDef.cell` renderers, `meta`, and slot props for caption/footer/toolbar/empty state).
 
 ---
@@ -83,20 +99,21 @@ either compose primitives yourself _or_ drive a `Table` and customize via its se
 
 ```
 src/components/Table/
-  index.ts                      # flat barrel: Table + TableRoot primitives + types
-  types.ts                      # TableProps<T> (config), TableRootProps (primitive), ColumnMeta augmentation, etc.
+  index.ts                      # flat barrel: DataTable + Table primitives + types
+  types.ts                      # DataTableProps<T> (config), TableProps (primitive), ColumnMeta augmentation, etc.
   constants.ts                  # cva definitions (tableVariants) + stacked-mode class maps
   PLAN.md                       # this document (remove or relocate before public release)
   src/
-    TableRoot.tsx               # primitives (TableRoot + TableHeader/Body/Row/Head/Cell/…)
-    Table.tsx                   # config-driven component (TanStack-powered)
-    TableRoot.test.tsx          # primitives tests
-    Table.test.tsx              # config-driven tests
+    Table.tsx                   # primitives (Table + TableHeader/Body/Row/Head/Cell/…)
+    DataTable.tsx               # config-driven component (TanStack-powered)
+    Table.test.tsx              # primitives tests
+    DataTable.test.tsx          # config-driven tests
   stories/
-    TableRoot.stories.tsx       # primitives + composed examples
-    Table.stories.tsx           # config-driven examples (one story per feature)
+    Table.stories.tsx           # primitives + composed examples
+    Table.mdx                   # the hand-written docs page for both components
+    DataTable.stories.tsx       # config-driven examples (one story per feature)
   demos/
-    TableRoot*.tsx / Table*.tsx # one file per story example, shown as source via ?raw
+    Table*.tsx / DataTable*.tsx # one file per story example, shown as source via ?raw
 ```
 
 - Add `export * from './components/Table'` to `src/index.ts` (alphabetical: between
@@ -116,10 +133,10 @@ the Vero `demos/` + `?raw` pattern so each example renders live _and_ shows its 
 
 Baseline story set (grows with each phase):
 
-- `TableRoot` (primitives): Default, WithCaption, RowHeaders, ColumnGroups (multi-level
+- `Table` (primitives): Default, WithCaption, RowHeaders, ColumnGroups (multi-level
   headers), RowGroupSections, Borderless/Striped/Compact style variants, Scrollable,
   Stacked.
-- `Table` (config-driven): Default, Sortable, ColumnGroups, RowHeaders, RowGroupSections,
+- `DataTable` (config-driven): Default, Sortable, ColumnGroups, RowHeaders, RowGroupSections,
   Scrollable, Stacked, EmptyState, CustomCellRenderers.
 - A dedicated **Accessibility** story per component demonstrating caption, `scope`,
   `aria-sort`, and the live-region announcement, with notes for consuming devs.
@@ -135,20 +152,20 @@ Each phase below lists the stories it must add.
 Semantic, styled Layer-1 components (§2). USWDS style variants via cva: default, striped,
 borderless, compact; optional `stickyHeader`.
 
-### 5.2 `Table<T>`
+### 5.2 `DataTable<T>`
 
 `data` + `columns` → `useReactTable` → primitives via `flexRender`. Slot props:
 `caption`, `emptyState`, `footer`.
 
 ### 5.3 Caption / accessible name
 
-`<caption>` always available (via `TableCaption` or `Table`'s `caption` prop).
+`<caption>` always available (via `TableCaption`, or the `caption` prop on either component).
 Support visually-hidden captions (`styles`-based `sr-only`) so a table can be named for AT
 without a visible title. **A table must always have an accessible name.**
 
 ### 5.4 Row headers
 
-`<th scope="row">` for the row's header cell. In `Table`, designate via
+`<th scope="row">` for the row's header cell. In `DataTable`, designate via
 `ColumnDef.meta.isRowHeader`. Primitives: consumer sets `scope="row"` on `TableHead`.
 
 ### 5.5 Column grouping (multi-level headers)
@@ -170,18 +187,22 @@ with correct `colSpan` and `scope="colgroup"` on spanning headers.
 
 Multiple `<tbody>` sections, each introduced by a group-header row using
 `<th scope="colgroup">` (or `rowgroup` as appropriate). **Static only** — no collapse, no
-aggregation in v1. Supported in primitives directly; `Table` helper to derive sections
+aggregation in v1. Supported in primitives directly; `DataTable` helper to derive sections
 from a grouping key (render-only, not TanStack `getGroupedRowModel`).
 
 ### 5.8 Responsive
 
 - **Scrollable (default, always on):** focusable scroll container — `role="region"`,
-  `tabindex="0"`, `aria-label` (derived from caption), visible focus ring. Works for any
-  table.
-- **Stacked (opt-in, `responsive="stack"`):** below a breakpoint each row becomes a card;
-  each cell shows its column header via `data-label`. **`Table` populates `data-label`
-  automatically** (it knows the headers). Primitive-path stacked requires the consumer to
-  pass `data-label`/`stackedLabel` per cell — documented, lower priority.
+  `tabindex="0"`, `aria-label` (derived from caption), visible focus ring, applied only
+  when the table actually overflows so it never becomes a phantom tab stop. Unlike USWDS
+  we do not force `white-space: nowrap` on cells, so text wraps by default; add
+  `whitespace-nowrap` per column to get the USWDS "never squeeze a column" behavior.
+- **Stacked (opt-in, `responsive="stack"`):** below `stackBreakpoint` each row becomes a
+  card and each cell renders its column header above its value from `data-label`
+  (`content: attr(data-label)`), exactly as USWDS does. Both layers fill `data-label` in
+  automatically: `DataTable` from the column definitions, `Table` by reading the header
+  row (an explicit `data-label` on a cell always wins). `stackedStyle="headers"` promotes
+  each row's first cell to the card's heading (USWDS `usa-table--stacked-header`).
 
 ### 5.9 Testing (v1)
 
@@ -263,7 +284,8 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
 - [ ] `<th>` with correct `scope` (`col`/`row`/`colgroup`/`rowgroup`) everywhere.
 - [ ] Sortable headers: `<button>` + `aria-sort`; live-region announcement.
 - [ ] Scroll container: `role="region"`, `tabindex="0"`, `aria-label`, visible focus.
-- [ ] Stacked mode: each cell labeled with its column header.
+- [x] Stacked mode: each cell labeled with its column header (`data-label` on every body
+      cell; rendered as `::before` generated content, the USWDS approach).
 - [ ] Color is never the only signal (sort direction, selection, groups also use icon/text).
 - [ ] Contrast meets WCAG AA against Vero tokens in default + `.dark` + `.theme-uswds`.
 - [ ] All interactive affordances are keyboard-operable with visible focus.
@@ -274,11 +296,15 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
 
 ## 8. Open questions / decisions to revisit
 
-- Primitive-path stacked mode: ship in v1 (consumer supplies labels) or defer entirely?
-  _Current: defer; `Table` stacked only in v1._
+- ~~Primitive-path stacked mode: ship in v1 (consumer supplies labels) or defer entirely?~~
+  _Resolved: shipped. `Table` derives each cell's label from the header row, so
+  hand-composed tables stack with no extra markup; `data-label` overrides it._
+- Stacking keys off viewport width (like USWDS). A container query would stack a table
+  that sits in a narrow column of a wide page; revisit with the Tailwind v4 migration,
+  which has container queries built in.
 - Do we align pagination with a future dedicated Vero `Pagination` component, or build
   table-local controls first? (Phase 2 decision.)
 - When we add collapsible grouping/expansion: native semantics vs `treegrid`. (Phase 3.)
-- Should style variants (striped/compact/borderless) be cva variants on `TableRoot`, or a
+- Should style variants (striped/compact/borderless) be cva variants on `Table`, or a
   theme-level concern? _Current: cva variants._
 - Final home for this PLAN.md before public release (docs site vs delete).

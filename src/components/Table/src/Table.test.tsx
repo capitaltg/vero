@@ -1,113 +1,149 @@
 import { expectNoViolations } from '@/test/utils';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
-import { groupedPersonColumns, people, personColumns, type Person } from '../demos/sampleData';
-import { Table } from './Table';
+import { TableColumnGroups } from '../demos/TableColumnGroups';
+import { TableBasic } from '../demos/TableBasic';
+import { TableRowGroups } from '../demos/TableRowGroups';
+import { TableStacked } from '../demos/TableStacked';
+import { TableStyleVariants } from '../demos/TableStyleVariants';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './Table';
 
-describe('Table', () => {
+describe('Table (primitives)', () => {
   describe('Accessibility', () => {
-    it('has no violations with a caption', async () => {
-      const { container } = render(
-        <Table caption="Team roster" columns={personColumns} data={people} />,
-      );
+    it('has no violations for a basic table', async () => {
+      const { container } = render(<TableBasic />);
       expectNoViolations(await axe(container));
     });
 
-    it('has no violations when sortable', async () => {
-      const { container } = render(
-        <Table enableSorting caption="Team roster" columns={personColumns} data={people} />,
-      );
+    it('has no violations with grouped column headers', async () => {
+      const { container } = render(<TableColumnGroups />);
       expectNoViolations(await axe(container));
     });
 
-    it('has no violations with grouped columns', async () => {
-      const { container } = render(
-        <Table caption="Team roster" columns={groupedPersonColumns} data={people} />,
-      );
+    it('has no violations with row-group sections', async () => {
+      const { container } = render(<TableRowGroups />);
       expectNoViolations(await axe(container));
     });
 
-    it('has no violations in stacked mode', async () => {
-      const { container } = render(
-        <Table caption="Team roster" columns={personColumns} data={people} responsive="stack" />,
-      );
+    it('has no violations across style variants', async () => {
+      const { container } = render(<TableStyleVariants />);
       expectNoViolations(await axe(container));
     });
 
-    it('has no violations when empty', async () => {
-      const { container } = render(
-        <Table caption="Team roster" columns={personColumns} data={[] as Person[]} />,
-      );
+    it('has no violations when stacked', async () => {
+      const { container } = render(<TableStacked />);
       expectNoViolations(await axe(container));
     });
   });
 
-  it('marks the isRowHeader column as a row header', () => {
-    render(<Table caption="Team roster" columns={personColumns} data={people} />);
-    const ada = screen.getByRole('rowheader', { name: 'Ada Lovelace' });
-    expect(ada.tagName).toBe('TH');
-    expect(ada).toHaveAttribute('scope', 'row');
+  it('names the table with its caption', () => {
+    render(<TableBasic />);
+    expect(screen.getByRole('table', { name: 'Quarterly revenue' })).toBeInTheDocument();
   });
 
-  it('applies scope="colgroup" to group headers', () => {
-    render(<Table caption="Team roster" columns={groupedPersonColumns} data={people} />);
-    const group = screen.getByRole('columnheader', { name: 'Employment' });
-    expect(group).toHaveAttribute('scope', 'colgroup');
-    expect(group).toHaveAttribute('colspan', '2');
+  it('renders column headers with scope="col"', () => {
+    render(<TableBasic />);
+    const quarter = screen.getByRole('columnheader', { name: 'Quarter' });
+    expect(quarter).toHaveAttribute('scope', 'col');
   });
 
-  it('renders the empty state spanning all columns', () => {
-    render(
-      <Table
-        caption="Team roster"
-        columns={personColumns}
-        data={[] as Person[]}
-        emptyState="No team members found."
-      />,
-    );
-    const cell = screen.getByText('No team members found.');
-    expect(cell).toHaveAttribute('colspan', String(personColumns.length));
+  it('renders row headers with scope="row"', () => {
+    render(<TableBasic />);
+    const q1 = screen.getByRole('rowheader', { name: 'Q1' });
+    expect(q1.tagName).toBe('TH');
+    expect(q1).toHaveAttribute('scope', 'row');
   });
 
-  describe('sorting', () => {
-    it('does not render sort controls when sorting is disabled', () => {
-      render(<Table caption="Team roster" columns={personColumns} data={people} />);
-      expect(screen.queryByRole('button', { name: 'Role' })).not.toBeInTheDocument();
-      expect(screen.getByRole('columnheader', { name: 'Role' })).not.toHaveAttribute('aria-sort');
+  it('uses scope="colgroup" on spanning group headers', () => {
+    render(<TableColumnGroups />);
+    const firstHalf = screen.getByRole('columnheader', { name: 'First half' });
+    expect(firstHalf).toHaveAttribute('scope', 'colgroup');
+    expect(firstHalf).toHaveAttribute('colspan', '2');
+  });
+
+  describe('stacked mode', () => {
+    it('labels body cells with their column header', () => {
+      render(<TableStacked />);
+      // Derived from the header row — the demo sets no data-label on these.
+      expect(screen.getByRole('rowheader', { name: 'Q1' })).toHaveAttribute(
+        'data-label',
+        'Quarter',
+      );
+      expect(screen.getByRole('cell', { name: '$1.2M' })).toHaveAttribute('data-label', 'Revenue');
     });
 
-    it('cycles aria-sort ascending → descending → none and announces the change', async () => {
-      const user = userEvent.setup();
-      render(<Table enableSorting caption="Team roster" columns={personColumns} data={people} />);
-
-      const header = screen.getByRole('columnheader', { name: 'Role' });
-      const button = screen.getByRole('button', { name: 'Role' });
-      const status = screen.getByRole('status');
-
-      expect(header).toHaveAttribute('aria-sort', 'none');
-
-      await user.click(button);
-      expect(header).toHaveAttribute('aria-sort', 'ascending');
-      expect(status).toHaveTextContent('Sorted by Role, ascending');
-
-      await user.click(button);
-      expect(header).toHaveAttribute('aria-sort', 'descending');
-      expect(status).toHaveTextContent('Sorted by Role, descending');
-
-      await user.click(button);
-      expect(header).toHaveAttribute('aria-sort', 'none');
-      expect(status).toHaveTextContent('TableRoot is no longer sorted');
+    it('keeps an explicit data-label', () => {
+      render(<TableStacked />);
+      expect(screen.getByRole('cell', { name: '+4%' })).toHaveAttribute(
+        'data-label',
+        'Change vs. Q4',
+      );
     });
 
-    it('reorders rows when a column is sorted', async () => {
-      const user = userEvent.setup();
-      render(<Table enableSorting caption="Team roster" columns={personColumns} data={people} />);
+    it('marks the stacked style on the table', () => {
+      const { rerender } = render(<TableStacked />);
+      expect(screen.getByRole('table')).toHaveAttribute('data-stacked-style', 'default');
 
-      await user.click(screen.getByRole('button', { name: 'Name' }));
-      const rowHeaders = screen.getAllByRole('rowheader').map(el => el.textContent);
-      expect(rowHeaders).toEqual([...rowHeaders].sort());
+      rerender(<TableBasic />);
+      expect(screen.getByRole('table')).not.toHaveAttribute('data-stacked-style');
+    });
+
+    it('leaves spanning cells (row-group headings) unlabeled', () => {
+      render(
+        <Table aria-label="Employees" responsive="stack">
+          <TableHeader>
+            <TableRow>
+              <TableHead scope="col">Name</TableHead>
+              <TableHead scope="col">Role</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableHead colSpan={2} scope="colgroup">
+                Engineering
+              </TableHead>
+            </TableRow>
+            <TableRow>
+              <TableHead scope="row">Ada Lovelace</TableHead>
+              <TableCell>Engineer</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+
+      expect(screen.getByRole('columnheader', { name: 'Engineering' })).not.toHaveAttribute(
+        'data-label',
+      );
+      expect(screen.getByRole('cell', { name: 'Engineer' })).toHaveAttribute('data-label', 'Role');
+    });
+
+    it('does not label cells when the table is not stacked', () => {
+      render(<TableBasic />);
+      expect(screen.getByRole('cell', { name: '$1.2M' })).not.toHaveAttribute('data-label');
+    });
+  });
+
+  describe('caption', () => {
+    it('renders the caption prop as the first child of the table', () => {
+      render(<TableBasic />);
+      const table = screen.getByRole('table', { name: 'Quarterly revenue' });
+      expect(table.firstElementChild?.tagName).toBe('CAPTION');
+      expect(table.firstElementChild).toHaveTextContent('Quarterly revenue');
+    });
+
+    it('keeps a hidden caption available to assistive technology', () => {
+      render(
+        <Table captionHidden caption="Quarterly revenue" responsive="none">
+          <TableBody>
+            <TableRow>
+              <TableCell>$1.2M</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+      const caption = screen.getByRole('table', { name: 'Quarterly revenue' }).firstElementChild;
+      expect(caption).toHaveClass('sr-only');
     });
   });
 });

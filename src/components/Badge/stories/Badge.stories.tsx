@@ -14,14 +14,14 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'primary', 'success', 'danger', 'warning', 'outline'],
+      options: ['default', 'primary', 'success', 'danger', 'warning', 'info', 'outline'],
       description: 'The visual style variant of the badge',
       table: {
         defaultValue: {
           summary: 'default',
         },
         type: {
-          summary: 'default | primary | success | danger | warning | outline',
+          summary: 'default | primary | success | danger | warning | info | outline',
         },
       },
     },
@@ -126,6 +126,17 @@ export const Danger: Story = {
 };
 
 /**
+ * A badge with info styling.
+ * This variant is typically used for neutral, informational context.
+ */
+export const Info: Story = {
+  args: {
+    variant: 'info',
+    children: 'Info',
+  },
+};
+
+/**
  * A badge with outline styling.
  * This variant provides a more subtle appearance with just a border.
  */
@@ -183,7 +194,7 @@ export const Tones: Story = {
     <div className="flex flex-col gap-3">
       {(['dark', 'light'] as const).map(tone => (
         <div key={tone} className="flex flex-wrap items-center gap-2">
-          {(['default', 'primary', 'success', 'danger', 'warning', 'outline'] as const).map(
+          {(['default', 'primary', 'success', 'danger', 'warning', 'info', 'outline'] as const).map(
             variant => (
               <Badge key={variant} {...args} tone={tone} variant={variant}>
                 {children}
@@ -207,7 +218,7 @@ export const Sizes: Story = {
     <div className="flex flex-col gap-3">
       {(['default', 'lg'] as const).map(size => (
         <div key={size} className="flex flex-wrap items-center gap-2">
-          {(['default', 'primary', 'success', 'danger', 'warning', 'outline'] as const).map(
+          {(['default', 'primary', 'success', 'danger', 'warning', 'info', 'outline'] as const).map(
             variant => (
               <Badge key={variant} {...args} size={size} variant={variant}>
                 {children}

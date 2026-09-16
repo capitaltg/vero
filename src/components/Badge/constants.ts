@@ -1,11 +1,12 @@
 import { cva } from 'class-variance-authority';
 
-/* Light tone pairs a -100 background with a border and text in the same semantic
-   color as the dark tone. Where that shade fails WCAG AA (4.5:1) against the light
-   background at the badge's text size, it steps one or two stops darker:
-   success 500 -> 600, danger 400 -> 500, warning 300 -> 700. The neutral `default`
-   variant is the exception: it keeps the dark tone's black text, since the border
-   alone is enough to carry the variant. */
+/* Light tone pairs a -100 background with a -400 border, matching the Alert's use of
+   -400 as its accent. Text does not follow the border down: only `primary` clears WCAG
+   AA (4.5:1) at -400 against a -100 background at the badge's text size, so the rest
+   step darker until they do -- default base-600, success 600, danger 600, warning 700,
+   info 700. The borders themselves fall below the 3:1 non-text threshold for success
+   (2.78), warning (2.01) and info (2.02); the -100 background is what identifies the
+   badge, so the border reads as decorative rather than as a required boundary. */
 export const badgeVariants = cva(
   `inline-flex items-center rounded-full border font-semibold transition-colors focus:outline-none
   focus:ring-2 focus:ring-ring focus:ring-offset-2`,
@@ -17,6 +18,7 @@ export const badgeVariants = cva(
         success: '',
         danger: '',
         warning: '',
+        info: '',
         outline: '',
       },
       tone: {
@@ -35,9 +37,10 @@ export const badgeVariants = cva(
       { variant: 'success', tone: 'dark', class: 'border-transparent bg-success-500 text-white' },
       { variant: 'danger', tone: 'dark', class: 'border-transparent bg-danger-400 text-white' },
       { variant: 'warning', tone: 'dark', class: 'border-transparent bg-warning-300 text-black' },
+      { variant: 'info', tone: 'dark', class: 'border-transparent bg-info-400 text-black' },
 
-      // Light tone: tinted background with a 1px border in the same semantic color.
-      { variant: 'default', tone: 'light', class: 'border-base-500 bg-base-100 text-black' },
+      // Light tone: tinted background with a 1px -400 border; text steps darker for AA.
+      { variant: 'default', tone: 'light', class: 'border-base-400 bg-base-100 text-base-600' },
       {
         variant: 'primary',
         tone: 'light',
@@ -46,18 +49,19 @@ export const badgeVariants = cva(
       {
         variant: 'success',
         tone: 'light',
-        class: 'border-success-600 bg-success-100 text-success-600',
+        class: 'border-success-400 bg-success-100 text-success-600',
       },
       {
         variant: 'danger',
         tone: 'light',
-        class: 'border-danger-500 bg-danger-100 text-danger-500',
+        class: 'border-danger-400 bg-danger-100 text-danger-600',
       },
       {
         variant: 'warning',
         tone: 'light',
-        class: 'border-warning-700 bg-warning-100 text-warning-700',
+        class: 'border-warning-400 bg-warning-100 text-warning-700',
       },
+      { variant: 'info', tone: 'light', class: 'border-info-400 bg-info-100 text-info-700' },
 
       // Outline has no semantic fill to lighten, so it renders the same in both tones.
       { variant: 'outline', class: 'text-foreground' },

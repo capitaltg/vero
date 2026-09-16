@@ -18,6 +18,15 @@ describe('Badge', () => {
       expect(badge).toHaveClass('px-2.5', 'py-0.5', 'text-xs/[1.4]');
     });
 
+    it('renders the info variant in the dark tone', () => {
+      render(<Badge variant="info">New</Badge>);
+      expect(screen.getByText('New')).toHaveClass(
+        'border-transparent',
+        'bg-info-400',
+        'text-black',
+      );
+    });
+
     it('does not leak the tone and size props onto the DOM', () => {
       render(
         <Badge size="lg" tone="light" variant="primary">
@@ -39,11 +48,12 @@ describe('Badge', () => {
 
   describe('Tone', () => {
     it.each([
-      ['default', 'border-base-500', 'bg-base-100', 'text-black'],
+      ['default', 'border-base-400', 'bg-base-100', 'text-base-600'],
       ['primary', 'border-primary-400', 'bg-primary-100', 'text-primary-400'],
-      ['success', 'border-success-600', 'bg-success-100', 'text-success-600'],
-      ['danger', 'border-danger-500', 'bg-danger-100', 'text-danger-500'],
-      ['warning', 'border-warning-700', 'bg-warning-100', 'text-warning-700'],
+      ['success', 'border-success-400', 'bg-success-100', 'text-success-600'],
+      ['danger', 'border-danger-400', 'bg-danger-100', 'text-danger-600'],
+      ['warning', 'border-warning-400', 'bg-warning-100', 'text-warning-700'],
+      ['info', 'border-info-400', 'bg-info-100', 'text-info-700'],
     ] as const)(
       'renders %s in the light tone with a matching border',
       (variant, border, bg, text) => {
@@ -89,7 +99,7 @@ describe('Badge', () => {
       );
       const badge = screen.getByText('New');
       expect(badge).toHaveClass('px-4', 'py-1.5', 'text-base/[1.4]');
-      expect(badge).toHaveClass('border-success-600', 'bg-success-100', 'text-success-600');
+      expect(badge).toHaveClass('border-success-400', 'bg-success-100', 'text-success-600');
     });
   });
 

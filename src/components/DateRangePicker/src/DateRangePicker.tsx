@@ -114,8 +114,16 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
               showOutsideDays={false}
               startMonth={bounds.startMonth}
               onDayClick={handleDayClick}
-              onSelect={range => {
-                if (range) onChange(range);
+              onSelect={() => {
+                // Deliberately empty. react-day-picker runs its own range logic on
+                // every click and reports the result here, but `handleDayClick`
+                // above is the single source of truth for the range -- it restarts
+                // on a completed range where react-day-picker would adjust an end.
+                // Letting both write called `onChange` twice per click.
+                //
+                // The handler must still be *defined*: react-day-picker treats the
+                // selection as uncontrolled when `onSelect` is absent, and the range
+                // highlight would stop tracking `value`.
               }}
             />
           </PopoverContent>

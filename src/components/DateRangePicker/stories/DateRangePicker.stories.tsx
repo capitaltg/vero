@@ -5,10 +5,12 @@ import { DateRangePickerDefault } from '../demos/DateRangePickerDefault';
 import { DateRangePickerWithValue } from '../demos/DateRangePickerWithValue';
 import { DateRangePickerCustomPlaceholders } from '../demos/DateRangePickerCustomPlaceholders';
 import { DateRangePickerWithMinAndMaxDate } from '../demos/DateRangePickerWithMinAndMaxDate';
+import { DateRangePickerWithExcludedDates } from '../demos/DateRangePickerWithExcludedDates';
 import sourceCodeDefault from '../demos/DateRangePickerDefault.tsx?raw';
 import sourceCodeWithValue from '../demos/DateRangePickerWithValue.tsx?raw';
 import sourceCodeCustomPlaceholders from '../demos/DateRangePickerCustomPlaceholders.tsx?raw';
 import sourceCodeWithMinAndMaxDate from '../demos/DateRangePickerWithMinAndMaxDate.tsx?raw';
+import sourceCodeWithExcludedDates from '../demos/DateRangePickerWithExcludedDates.tsx?raw';
 
 const meta = {
   title: 'Data & Display/DateRangePicker',
@@ -58,6 +60,16 @@ const meta = {
       table: {
         type: {
           summary: 'Date',
+        },
+      },
+    },
+    excludeDates: {
+      control: false,
+      description:
+        'Days to exclude from selection inside the allowed window, as a `Date[]` or a `(date: Date) => boolean` predicate. Excluded days are disabled in the calendar. Unlike `minDate`/`maxDate`, this does not affect which months can be navigated to.',
+      table: {
+        type: {
+          summary: 'Date[] | ((date: Date) => boolean)',
         },
       },
     },
@@ -238,6 +250,32 @@ export const WithMinAndMaxDate: Story = {
     docs: {
       source: {
         code: sourceCodeWithMinAndMaxDate,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * DateRangePicker with individual days excluded.
+ * `excludeDates` disables days *inside* the allowed window, so they cannot be
+ * used as either end of a range. A range may also not span an excluded day:
+ * picking an end date across one starts a new range from that day instead.
+ */
+export const WithExcludedDates: Story = {
+  render: () => <DateRangePickerWithExcludedDates />,
+  args: {
+    value: {},
+    onChange: () => {},
+    placeholder: {
+      from: 'Start date',
+      to: 'End date',
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithExcludedDates,
         language: 'tsx',
       },
     },

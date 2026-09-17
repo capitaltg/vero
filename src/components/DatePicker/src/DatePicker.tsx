@@ -45,7 +45,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
             name={name}
             required={required}
             type="hidden"
-            value={value ? value.toISOString().split('T')[0] : ''}
+            value={value ? format(value, 'yyyy-MM-dd') : ''}
           />
         ) : null}
         <Popover open={open} onOpenChange={setOpen}>

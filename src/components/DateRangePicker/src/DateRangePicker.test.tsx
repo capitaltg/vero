@@ -116,4 +116,42 @@ describe('DateRangePicker', () => {
       expect(disabled).toHaveLength(0);
     });
   });
+  describe('form submission', () => {
+    // The default test timezone is west of UTC, where local-midnight dates happen
+    // to round-trip correctly through UTC. Pin an eastern zone so they do not.
+    const originalTz = process.env.TZ;
+
+    beforeEach(() => {
+      process.env.TZ = 'Asia/Tokyo';
+    });
+
+    afterEach(() => {
+      process.env.TZ = originalTz;
+    });
+
+    const hiddenInput = () =>
+      document.querySelector<HTMLInputElement>('input[type="hidden"][name="stay"]');
+
+    const renderWith = (value: DateRange) =>
+      render(<DateRangePicker name="stay" value={value} onChange={() => {}} />);
+
+    it('serializes both ends as the days the user picked, not their UTC equivalents', () => {
+      // Local midnight in Tokyo is the previous day in UTC.
+      renderWith({ from: new Date(2025, 5, 15), to: new Date(2025, 5, 20) });
+
+      expect(hiddenInput()).toHaveValue('2025-06-15,2025-06-20');
+    });
+
+    it('serializes a half-open range as a single local date', () => {
+      renderWith({ from: new Date(2025, 5, 15), to: undefined });
+
+      expect(hiddenInput()).toHaveValue('2025-06-15');
+    });
+
+    it('serializes an empty string when there is no value', () => {
+      renderWith({});
+
+      expect(hiddenInput()).toHaveValue('');
+    });
+  });
 });

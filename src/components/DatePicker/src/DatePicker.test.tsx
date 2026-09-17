@@ -118,4 +118,42 @@ describe('DatePicker', () => {
       expect(screen.getByRole('grid').querySelectorAll('[data-disabled]')).toHaveLength(0);
     });
   });
+  describe('form submission', () => {
+    // The default test timezone is west of UTC, where local-midnight dates happen
+    // to round-trip correctly through UTC. Pin an eastern zone so they do not.
+    const originalTz = process.env.TZ;
+
+    beforeEach(() => {
+      process.env.TZ = 'Asia/Tokyo';
+    });
+
+    afterEach(() => {
+      process.env.TZ = originalTz;
+    });
+
+    const hiddenInput = () =>
+      document.querySelector<HTMLInputElement>('input[type="hidden"][name="appointment"]');
+
+    it('serializes the date the user picked, not its UTC equivalent', () => {
+      // Local midnight in Tokyo is the previous day in UTC.
+      const value = new Date(2025, 5, 15);
+      render(<DatePicker name="appointment" value={value} onChange={() => {}} />);
+
+      expect(hiddenInput()).toHaveValue('2025-06-15');
+    });
+
+    it('serializes the same day the trigger displays', () => {
+      const value = new Date(2025, 5, 15);
+      render(<DatePicker name="appointment" value={value} onChange={() => {}} />);
+
+      expect(screen.getByRole('button', { name: /June 15, 2025/i })).toBeInTheDocument();
+      expect(hiddenInput()).toHaveValue('2025-06-15');
+    });
+
+    it('serializes an empty string when there is no value', () => {
+      render(<DatePicker name="appointment" value={undefined} onChange={() => {}} />);
+
+      expect(hiddenInput()).toHaveValue('');
+    });
+  });
 });

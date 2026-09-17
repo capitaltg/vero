@@ -6,8 +6,14 @@ export interface DateBounds {
   minDate?: Date;
   /** Latest selectable date, inclusive. */
   maxDate?: Date;
-  /** Explicit navigation bounds, which take precedence over the derived ones. */
+  /**
+   * Explicit navigation bounds, which take precedence over the derived ones.
+   *
+   * @deprecated Prefer `minDate`/`maxDate`. Retained so callers can still widen
+   * navigation beyond what is selectable.
+   */
   startMonth?: Date;
+  /** @deprecated See `startMonth`. */
   endMonth?: Date;
 }
 

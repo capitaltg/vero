@@ -97,7 +97,9 @@ describe('DatePicker', () => {
       expectNavDisabled(/next/i, true);
     });
 
-    it('lets an explicit startMonth widen navigation without widening selection', async () => {
+    // startMonth is deprecated in favour of minDate, but still honoured: it is the
+    // only way to browse a wider range than can be selected.
+    it('lets a deprecated startMonth widen navigation without widening selection', async () => {
       const user = setup();
       render(<Harness minDate={new Date(2025, 5, 10)} startMonth={new Date(2025, 0)} />);
       await openCalendar(user);

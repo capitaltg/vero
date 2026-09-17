@@ -10,8 +10,6 @@ export interface DatePickerProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled' | 'value'>,
     DatePickerFormAttributes {
   value?: Date;
-  startMonth?: Date;
-  endMonth?: Date;
   /**
    * The earliest date a user can select, inclusive.
    * Days before this are disabled in the calendar. When `startMonth` is not
@@ -24,6 +22,28 @@ export interface DatePickerProps
    * set, navigation is also limited to this date's month.
    */
   maxDate?: Date;
+  /**
+   * The earliest month a user can navigate to.
+   *
+   * @deprecated Prefer `minDate`, which constrains selection as well as
+   * navigation. `startMonth` works at month granularity and never blocked
+   * selection: every day in the boundary month stays selectable, so it cannot
+   * express a bound like "no earlier than the 15th". It stays supported for the
+   * uncommon case of letting users browse a wider range than they can select,
+   * where it takes precedence over the month derived from `minDate`.
+   */
+  startMonth?: Date;
+  /**
+   * The latest month a user can navigate to.
+   *
+   * @deprecated Prefer `maxDate`, which constrains selection as well as
+   * navigation. `endMonth` works at month granularity and never blocked
+   * selection: every day in the boundary month stays selectable, so it cannot
+   * express a bound like "no later than the 15th". It stays supported for the
+   * uncommon case of letting users browse a wider range than they can select,
+   * where it takes precedence over the month derived from `maxDate`.
+   */
+  endMonth?: Date;
   onChange: (date?: Date) => void;
   placeholder?: string;
   className?: string;

@@ -61,6 +61,28 @@ const meta = {
         },
       },
     },
+    startMonth: {
+      control: 'date',
+      description:
+        '**Deprecated** -- prefer `minDate`. Limits which months the user can navigate to, at month granularity; every day in the boundary month stays selectable. Still honoured, and takes precedence over the month derived from `minDate`, for the uncommon case of browsing a wider range than can be selected.',
+      table: {
+        category: 'Deprecated',
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    endMonth: {
+      control: 'date',
+      description:
+        '**Deprecated** -- prefer `maxDate`. Limits which months the user can navigate to, at month granularity; every day in the boundary month stays selectable. Still honoured, and takes precedence over the month derived from `maxDate`, for the uncommon case of browsing a wider range than can be selected.',
+      table: {
+        category: 'Deprecated',
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
     className: {
       type: 'string',
       description: 'Additional class names to apply to the component',

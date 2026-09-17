@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { DatePicker } from '../src/DatePicker';
 
+/**
+ * Deprecated -- prefer `minDate`/`maxDate`, as shown in the WithMinAndMaxDate
+ * demo. `startMonth`/`endMonth` only limit navigation, so every day in January
+ * 2020 and December 2025 below remains selectable.
+ */
 export const DatePickerWithStartAndEndMonth = () => {
   const [value, setValue] = useState<Date | undefined>(undefined);
   return (
@@ -13,7 +18,8 @@ export const DatePickerWithStartAndEndMonth = () => {
         onChange={setValue}
       />
       <p className="text-sm text-muted-foreground">
-        Selected date: {value ? value.toLocaleDateString() : 'none'}
+        Navigation is limited to Jan 2020 - Dec 2025, but every day within those months stays
+        selectable. Selected date: {value ? value.toLocaleDateString() : 'none'}
       </p>
     </div>
   );

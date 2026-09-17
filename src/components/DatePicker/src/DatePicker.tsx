@@ -1,6 +1,7 @@
 import { Button } from '@/components/Button';
 import { Calendar } from '@/components/Calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover';
+import { resolveDateBounds } from '@/lib/date-bounds';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { format } from 'date-fns';
@@ -14,6 +15,8 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
       value,
       startMonth,
       endMonth,
+      minDate,
+      maxDate,
       onChange,
       placeholder = 'Pick a date',
       className,
@@ -28,6 +31,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
   ) => {
     const [open, setOpen] = useState(false);
     const resolvedZIndex = getZIndex('popover', zIndex);
+    const bounds = resolveDateBounds({ minDate, maxDate, startMonth, endMonth });
 
     const handleDateSelect = (date?: Date) => {
       onChange(date);
@@ -68,10 +72,11 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
           <PopoverContent align="start" className="w-auto px-0 py-0" zIndex={resolvedZIndex}>
             <Calendar
               autoFocus
-              endMonth={endMonth}
+              disabled={bounds.disabled}
+              endMonth={bounds.endMonth}
               mode="single"
               selected={value}
-              startMonth={startMonth}
+              startMonth={bounds.startMonth}
               onSelect={handleDateSelect}
             />
           </PopoverContent>

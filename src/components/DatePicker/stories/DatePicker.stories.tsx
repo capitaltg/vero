@@ -4,10 +4,12 @@ import { DatePickerDefault } from '../demos/DatePickerDefault';
 import { DatePickerWithValue } from '../demos/DatePickerWithValue';
 import { DatePickerWithStartAndEndMonth } from '../demos/DatePickerWithStartAndEndMonth';
 import { DatePickerCustomPlaceholder } from '../demos/DatePickerCustomPlaceholder';
+import { DatePickerWithMinAndMaxDate } from '../demos/DatePickerWithMinAndMaxDate';
 import sourceCodeDefault from '../demos/DatePickerDefault.tsx?raw';
 import sourceCodeWithValue from '../demos/DatePickerWithValue.tsx?raw';
 import sourceCodeWithStartAndEndMonth from '../demos/DatePickerWithStartAndEndMonth.tsx?raw';
 import sourceCodeCustomPlaceholder from '../demos/DatePickerCustomPlaceholder.tsx?raw';
+import sourceCodeWithMinAndMaxDate from '../demos/DatePickerWithMinAndMaxDate.tsx?raw';
 
 const meta = {
   title: 'Data & Display/DatePicker',
@@ -39,6 +41,46 @@ const meta = {
       table: {
         type: {
           summary: 'boolean',
+        },
+      },
+    },
+    minDate: {
+      control: 'date',
+      description: 'The earliest date a user can select, inclusive. Days before this are disabled.',
+      table: {
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    maxDate: {
+      control: 'date',
+      description: 'The latest date a user can select, inclusive. Days after this are disabled.',
+      table: {
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    startMonth: {
+      control: 'date',
+      description:
+        '**Deprecated** -- prefer `minDate`. Limits which months the user can navigate to, at month granularity; every day in the boundary month stays selectable. Still honoured, and takes precedence over the month derived from `minDate`, for the uncommon case of browsing a wider range than can be selected.',
+      table: {
+        category: 'Deprecated',
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    endMonth: {
+      control: 'date',
+      description:
+        '**Deprecated** -- prefer `maxDate`. Limits which months the user can navigate to, at month granularity; every day in the boundary month stays selectable. Still honoured, and takes precedence over the month derived from `maxDate`, for the uncommon case of browsing a wider range than can be selected.',
+      table: {
+        category: 'Deprecated',
+        type: {
+          summary: 'Date',
         },
       },
     },
@@ -141,8 +183,14 @@ export const WithValue: Story = {
 };
 
 /**
- * DatePicker with restricted start and end months.
- * Shows how to limit the selectable date range within the specified months and years.
+ * **Deprecated -- prefer `minDate`/`maxDate`.**
+ *
+ * `startMonth`/`endMonth` limit which months the user can navigate to. They
+ * work at month granularity and never blocked selection: every day within the
+ * boundary months stays selectable, so they cannot express a bound like "no
+ * earlier than the 15th". They remain honoured, and still take precedence over
+ * the months derived from `minDate`/`maxDate`, for the uncommon case of letting
+ * users browse a wider range than they can select.
  */
 export const WithStartAndEndMonth: Story = {
   render: () => <DatePickerWithStartAndEndMonth />,
@@ -177,6 +225,29 @@ export const CustomPlaceholder: Story = {
     docs: {
       source: {
         code: sourceCodeCustomPlaceholder,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * DatePicker restricted to a specific range of days.
+ * `minDate` and `maxDate` are inclusive: days outside the window are disabled
+ * in the calendar and cannot be selected by mouse or keyboard. Navigation is
+ * limited to the surrounding months unless `startMonth`/`endMonth` are set
+ * explicitly.
+ */
+export const WithMinAndMaxDate: Story = {
+  render: () => <DatePickerWithMinAndMaxDate />,
+  args: {
+    onChange: () => {},
+    placeholder: 'Pick a date',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithMinAndMaxDate,
         language: 'tsx',
       },
     },

@@ -1,3 +1,4 @@
+import { resolveDateBounds } from '@/lib/date-bounds';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { format } from 'date-fns';
@@ -22,6 +23,8 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       isDisabled = false,
       startMonth,
       endMonth,
+      minDate,
+      maxDate,
       name,
       required,
       autoFocus,
@@ -30,6 +33,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
     ref,
   ) => {
     const resolvedZIndex = getZIndex('popover', zIndex);
+    const bounds = resolveDateBounds({ minDate, maxDate, startMonth, endMonth });
 
     const handleDayClick = (day: Date) => {
       const { from, to } = value;
@@ -96,7 +100,8 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
             <Calendar
               autoFocus
               defaultMonth={value.from}
-              endMonth={endMonth}
+              disabled={bounds.disabled}
+              endMonth={bounds.endMonth}
               mode="range"
               modifiers={{
                 today: () => false, // Disable the "today" modifier
@@ -107,7 +112,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
                 to: value.to,
               }}
               showOutsideDays={false}
-              startMonth={startMonth}
+              startMonth={bounds.startMonth}
               onDayClick={handleDayClick}
               onSelect={range => {
                 if (range) onChange(range);

@@ -154,4 +154,79 @@ describe('DateRangePicker', () => {
       expect(hiddenInput()).toHaveValue('');
     });
   });
+  describe('selection handling', () => {
+    it('calls onChange exactly once per click', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(<Harness onChange={onChange} />);
+      await openCalendar(user);
+
+      // Opening a range.
+      await user.click(dayButton('2025-06-10')!);
+      expect(onChange).toHaveBeenCalledTimes(1);
+
+      // Completing it. react-day-picker runs its own range logic on every
+      // click and reports it through onSelect; only handleDayClick may write.
+      onChange.mockClear();
+      await user.click(dayButton('2025-06-20')!);
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith({
+        from: new Date(2025, 5, 10),
+        to: new Date(2025, 5, 20),
+      });
+    });
+
+    it('restarts the range when a day before the start is clicked', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(<Harness onChange={onChange} />);
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-20')!);
+      onChange.mockClear();
+
+      // Vero restarts here. react-day-picker's addToRange would instead
+      // complete the range backwards, as { from: 10th, to: 20th }.
+      await user.click(dayButton('2025-06-10')!);
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith({ from: new Date(2025, 5, 10), to: undefined });
+    });
+
+    it('restarts the range when a completed range is clicked', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(<Harness onChange={onChange} />);
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-10')!);
+      await user.click(dayButton('2025-06-20')!);
+      onChange.mockClear();
+
+      // Vero starts over. react-day-picker's addToRange would adjust an end.
+      await user.click(dayButton('2025-06-15')!);
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith({ from: new Date(2025, 5, 15), to: undefined });
+    });
+    it('stays controlled: the highlight follows `value`, not internal state', async () => {
+      const user = setup();
+      // A parent that refuses every change. If react-day-picker fell back to its
+      // own uncontrolled selection -- which it does when `onSelect` is absent --
+      // it would highlight the clicked day anyway.
+      render(
+        <DateRangePicker
+          placeholder={{ from: 'Start date', to: 'End date' }}
+          value={{}}
+          onChange={() => {}}
+        />,
+      );
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-10')!);
+
+      expect(document.querySelector('[data-day="2025-06-10"]')).not.toHaveAttribute(
+        'data-selected',
+      );
+      expect(screen.getByRole('button', { name: /start date/i })).toBeInTheDocument();
+    });
+  });
 });

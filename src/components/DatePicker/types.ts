@@ -12,6 +12,18 @@ export interface DatePickerProps
   value?: Date;
   startMonth?: Date;
   endMonth?: Date;
+  /**
+   * The earliest date a user can select, inclusive.
+   * Days before this are disabled in the calendar. When `startMonth` is not
+   * set, navigation is also limited to this date's month.
+   */
+  minDate?: Date;
+  /**
+   * The latest date a user can select, inclusive.
+   * Days after this are disabled in the calendar. When `endMonth` is not
+   * set, navigation is also limited to this date's month.
+   */
+  maxDate?: Date;
   onChange: (date?: Date) => void;
   placeholder?: string;
   className?: string;

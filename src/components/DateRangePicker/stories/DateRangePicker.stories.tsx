@@ -4,9 +4,11 @@ import { DateRangePicker } from '../src/DateRangePicker';
 import { DateRangePickerDefault } from '../demos/DateRangePickerDefault';
 import { DateRangePickerWithValue } from '../demos/DateRangePickerWithValue';
 import { DateRangePickerCustomPlaceholders } from '../demos/DateRangePickerCustomPlaceholders';
+import { DateRangePickerWithMinAndMaxDate } from '../demos/DateRangePickerWithMinAndMaxDate';
 import sourceCodeDefault from '../demos/DateRangePickerDefault.tsx?raw';
 import sourceCodeWithValue from '../demos/DateRangePickerWithValue.tsx?raw';
 import sourceCodeCustomPlaceholders from '../demos/DateRangePickerCustomPlaceholders.tsx?raw';
+import sourceCodeWithMinAndMaxDate from '../demos/DateRangePickerWithMinAndMaxDate.tsx?raw';
 
 const meta = {
   title: 'Data & Display/DateRangePicker',
@@ -38,6 +40,24 @@ const meta = {
       table: {
         type: {
           summary: 'boolean',
+        },
+      },
+    },
+    minDate: {
+      control: 'date',
+      description: 'The earliest date a user can select, inclusive. Days before this are disabled.',
+      table: {
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    maxDate: {
+      control: 'date',
+      description: 'The latest date a user can select, inclusive. Days after this are disabled.',
+      table: {
+        type: {
+          summary: 'Date',
         },
       },
     },
@@ -169,6 +189,33 @@ export const CustomPlaceholders: Story = {
     docs: {
       source: {
         code: sourceCodeCustomPlaceholders,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * DateRangePicker restricted to a specific range of days.
+ * `minDate` and `maxDate` are inclusive: days outside the window are disabled
+ * in the calendar, so neither end of the selected range can fall outside it.
+ * Navigation is limited to the surrounding months unless `startMonth`/`endMonth`
+ * are set explicitly.
+ */
+export const WithMinAndMaxDate: Story = {
+  render: () => <DateRangePickerWithMinAndMaxDate />,
+  args: {
+    value: {},
+    onChange: () => {},
+    placeholder: {
+      from: 'Start date',
+      to: 'End date',
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithMinAndMaxDate,
         language: 'tsx',
       },
     },

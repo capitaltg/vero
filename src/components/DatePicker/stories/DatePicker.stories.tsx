@@ -4,10 +4,12 @@ import { DatePickerDefault } from '../demos/DatePickerDefault';
 import { DatePickerWithValue } from '../demos/DatePickerWithValue';
 import { DatePickerWithStartAndEndMonth } from '../demos/DatePickerWithStartAndEndMonth';
 import { DatePickerCustomPlaceholder } from '../demos/DatePickerCustomPlaceholder';
+import { DatePickerWithMinAndMaxDate } from '../demos/DatePickerWithMinAndMaxDate';
 import sourceCodeDefault from '../demos/DatePickerDefault.tsx?raw';
 import sourceCodeWithValue from '../demos/DatePickerWithValue.tsx?raw';
 import sourceCodeWithStartAndEndMonth from '../demos/DatePickerWithStartAndEndMonth.tsx?raw';
 import sourceCodeCustomPlaceholder from '../demos/DatePickerCustomPlaceholder.tsx?raw';
+import sourceCodeWithMinAndMaxDate from '../demos/DatePickerWithMinAndMaxDate.tsx?raw';
 
 const meta = {
   title: 'Data & Display/DatePicker',
@@ -39,6 +41,24 @@ const meta = {
       table: {
         type: {
           summary: 'boolean',
+        },
+      },
+    },
+    minDate: {
+      control: 'date',
+      description: 'The earliest date a user can select, inclusive. Days before this are disabled.',
+      table: {
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    maxDate: {
+      control: 'date',
+      description: 'The latest date a user can select, inclusive. Days after this are disabled.',
+      table: {
+        type: {
+          summary: 'Date',
         },
       },
     },
@@ -142,7 +162,9 @@ export const WithValue: Story = {
 
 /**
  * DatePicker with restricted start and end months.
- * Shows how to limit the selectable date range within the specified months and years.
+ * These limit which months the user can navigate to. They work at month
+ * granularity -- every day within the boundary months stays selectable. To
+ * restrict selection to specific days, use `minDate` and `maxDate` instead.
  */
 export const WithStartAndEndMonth: Story = {
   render: () => <DatePickerWithStartAndEndMonth />,
@@ -177,6 +199,29 @@ export const CustomPlaceholder: Story = {
     docs: {
       source: {
         code: sourceCodeCustomPlaceholder,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * DatePicker restricted to a specific range of days.
+ * `minDate` and `maxDate` are inclusive: days outside the window are disabled
+ * in the calendar and cannot be selected by mouse or keyboard. Navigation is
+ * limited to the surrounding months unless `startMonth`/`endMonth` are set
+ * explicitly.
+ */
+export const WithMinAndMaxDate: Story = {
+  render: () => <DatePickerWithMinAndMaxDate />,
+  args: {
+    onChange: () => {},
+    placeholder: 'Pick a date',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithMinAndMaxDate,
         language: 'tsx',
       },
     },

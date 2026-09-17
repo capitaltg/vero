@@ -54,11 +54,11 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       if (day.getTime() === from.getTime()) return onChange({ from: undefined, to: undefined });
     };
 
-    // Format date range for form submission (ISO date format)
+    // Format date range for form submission (ISO date format, in local time)
     const formatDateRange = (range: { from?: Date; to?: Date }): string => {
       if (!range.from) return '';
-      if (!range.to) return range.from.toISOString().split('T')[0];
-      return `${range.from.toISOString().split('T')[0]},${range.to.toISOString().split('T')[0]}`;
+      if (!range.to) return format(range.from, 'yyyy-MM-dd');
+      return `${format(range.from, 'yyyy-MM-dd')},${format(range.to, 'yyyy-MM-dd')}`;
     };
 
     return (

@@ -4,6 +4,7 @@ import { getZIndex } from '@/lib/z-index';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
+import { rangeContainsModifiers } from 'react-day-picker';
 import { Button } from '../../Button';
 import { Calendar } from '../../Calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../Popover';
@@ -25,6 +26,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       endMonth,
       minDate,
       maxDate,
+      excludeDates,
       name,
       required,
       autoFocus,
@@ -33,7 +35,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
     ref,
   ) => {
     const resolvedZIndex = getZIndex('popover', zIndex);
-    const bounds = resolveDateBounds({ minDate, maxDate, startMonth, endMonth });
+    const bounds = resolveDateBounds({ minDate, maxDate, excludeDates, startMonth, endMonth });
 
     const handleDayClick = (day: Date) => {
       const { from, to } = value;
@@ -47,8 +49,17 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       // If a complete date range exists, start a new date range
       if (from && to) return onChange({ from: day, to: undefined });
 
-      // If start date is selected and selecting a day after it, complete the date range
-      if (day > from) return onChange({ from, to: day });
+      // If start date is selected and selecting a day after it, complete the date
+      // range -- unless the span would swallow an excluded day, in which case
+      // start over from the clicked day, as react-day-picker's own
+      // `excludeDisabled` does. Both ends are known to be selectable already, so
+      // only `excludeDates` can match here; the bounds never can.
+      if (day > from) {
+        if (bounds.disabled && rangeContainsModifiers({ from, to: day }, bounds.disabled)) {
+          return onChange({ from: day, to: undefined });
+        }
+        return onChange({ from, to: day });
+      }
 
       // If selecting the start date, clear the date range
       if (day.getTime() === from.getTime()) return onChange({ from: undefined, to: undefined });

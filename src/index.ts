@@ -39,6 +39,9 @@ export * from './components/Textarea';
 export * from './components/Tooltip';
 
 // Export utilities
+// Only the public prop type, not the whole module: `resolveDateBounds` is an
+// internal helper and its return type leaks react-day-picker's `Matcher`.
+export type { ExcludeDates } from './lib/date-bounds';
 export * from './lib/form-controls';
 export * from './lib/utils';
 export * from './lib/z-index';

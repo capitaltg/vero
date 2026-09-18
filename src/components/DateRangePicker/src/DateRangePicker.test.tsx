@@ -22,6 +22,7 @@ const Harness = ({
 }: {
   minDate?: Date;
   maxDate?: Date;
+  excludeDates?: Date[] | ((date: Date) => boolean);
   onChange?: (range: DateRange) => void;
 }) => {
   const [value, setValue] = useState<DateRange>({});
@@ -227,6 +228,104 @@ describe('DateRangePicker', () => {
         'data-selected',
       );
       expect(screen.getByRole('button', { name: /start date/i })).toBeInTheDocument();
+    });
+  });
+  describe('excludeDates', () => {
+    it('disables an excluded day so it cannot be an endpoint', async () => {
+      const user = setup();
+      render(<Harness excludeDates={[new Date(2025, 5, 15)]} />);
+      await openCalendar(user);
+
+      expect(dayButton('2025-06-15')).toBeDisabled();
+      expect(dayButton('2025-06-14')).toBeEnabled();
+    });
+
+    it('restarts rather than completing a range that would span an excluded day', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(<Harness excludeDates={[new Date(2025, 5, 15)]} onChange={onChange} />);
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-10')!);
+      expect(onChange).toHaveBeenLastCalledWith({ from: new Date(2025, 5, 10), to: undefined });
+
+      // The 20th is selectable, but the span would swallow the excluded 15th.
+      onChange.mockClear();
+      await user.click(dayButton('2025-06-20')!);
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith({ from: new Date(2025, 5, 20), to: undefined });
+    });
+
+    it('still completes a range that clears the excluded day', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(<Harness excludeDates={[new Date(2025, 5, 15)]} onChange={onChange} />);
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-16')!);
+      onChange.mockClear();
+      await user.click(dayButton('2025-06-20')!);
+
+      expect(onChange).toHaveBeenCalledWith({
+        from: new Date(2025, 5, 16),
+        to: new Date(2025, 5, 20),
+      });
+    });
+
+    // June 2025: the 12th is a Thursday, 13th Friday, 14th/15th the weekend, 18th a Wednesday.
+    const weekends = (d: Date) => d.getDay() === 0 || d.getDay() === 6;
+
+    it('completes a range that does not cross an excluded weekend', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(<Harness excludeDates={weekends} onChange={onChange} />);
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-12')!); // Thursday
+      onChange.mockClear();
+      await user.click(dayButton('2025-06-13')!); // Friday, nothing excluded in between
+
+      expect(onChange).toHaveBeenCalledWith({
+        from: new Date(2025, 5, 12),
+        to: new Date(2025, 5, 13),
+      });
+    });
+
+    it('restarts when the span would cross an excluded weekend', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(<Harness excludeDates={weekends} onChange={onChange} />);
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-12')!); // Thursday
+      onChange.mockClear();
+      await user.click(dayButton('2025-06-18')!); // Wednesday, but the weekend is in between
+
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith({ from: new Date(2025, 5, 18), to: undefined });
+    });
+
+    it('does not restrict spans when nothing is excluded', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(
+        <Harness
+          maxDate={new Date(2025, 5, 28)}
+          minDate={new Date(2025, 5, 1)}
+          onChange={onChange}
+        />,
+      );
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-05')!);
+      onChange.mockClear();
+      await user.click(dayButton('2025-06-25')!);
+
+      // The bounds matchers must never trip the span check.
+      expect(onChange).toHaveBeenCalledWith({
+        from: new Date(2025, 5, 5),
+        to: new Date(2025, 5, 25),
+      });
     });
   });
 });

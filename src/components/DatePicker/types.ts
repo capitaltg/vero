@@ -1,3 +1,4 @@
+import { ExcludeDates } from '@/lib/date-bounds';
 import { ButtonHTMLAttributes } from 'react';
 
 // Pick form-related attributes from SelectHTMLAttributes that we want to support
@@ -22,6 +23,12 @@ export interface DatePickerProps
    * set, navigation is also limited to this date's month.
    */
   maxDate?: Date;
+  /**
+   * Days to exclude from selection inside the allowed window, as an explicit
+   * list or a predicate. Excluded days are disabled in the calendar. Unlike
+   * `minDate`/`maxDate` this does not affect which months can be navigated to.
+   */
+  excludeDates?: ExcludeDates;
   /**
    * The earliest month a user can navigate to.
    *

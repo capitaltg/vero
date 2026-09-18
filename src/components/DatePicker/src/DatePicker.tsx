@@ -17,6 +17,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
       endMonth,
       minDate,
       maxDate,
+      excludeDates,
       onChange,
       placeholder = 'Pick a date',
       className,
@@ -31,7 +32,7 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
   ) => {
     const [open, setOpen] = useState(false);
     const resolvedZIndex = getZIndex('popover', zIndex);
-    const bounds = resolveDateBounds({ minDate, maxDate, startMonth, endMonth });
+    const bounds = resolveDateBounds({ minDate, maxDate, excludeDates, startMonth, endMonth });
 
     const handleDateSelect = (date?: Date) => {
       onChange(date);

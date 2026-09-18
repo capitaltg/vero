@@ -5,11 +5,13 @@ import { DatePickerWithValue } from '../demos/DatePickerWithValue';
 import { DatePickerWithStartAndEndMonth } from '../demos/DatePickerWithStartAndEndMonth';
 import { DatePickerCustomPlaceholder } from '../demos/DatePickerCustomPlaceholder';
 import { DatePickerWithMinAndMaxDate } from '../demos/DatePickerWithMinAndMaxDate';
+import { DatePickerWithExcludedDates } from '../demos/DatePickerWithExcludedDates';
 import sourceCodeDefault from '../demos/DatePickerDefault.tsx?raw';
 import sourceCodeWithValue from '../demos/DatePickerWithValue.tsx?raw';
 import sourceCodeWithStartAndEndMonth from '../demos/DatePickerWithStartAndEndMonth.tsx?raw';
 import sourceCodeCustomPlaceholder from '../demos/DatePickerCustomPlaceholder.tsx?raw';
 import sourceCodeWithMinAndMaxDate from '../demos/DatePickerWithMinAndMaxDate.tsx?raw';
+import sourceCodeWithExcludedDates from '../demos/DatePickerWithExcludedDates.tsx?raw';
 
 const meta = {
   title: 'Data & Display/DatePicker',
@@ -59,6 +61,16 @@ const meta = {
       table: {
         type: {
           summary: 'Date',
+        },
+      },
+    },
+    excludeDates: {
+      control: false,
+      description:
+        'Days to exclude from selection inside the allowed window, as a `Date[]` or a `(date: Date) => boolean` predicate. Excluded days are disabled in the calendar. Unlike `minDate`/`maxDate`, this does not affect which months can be navigated to.',
+      table: {
+        type: {
+          summary: 'Date[] | ((date: Date) => boolean)',
         },
       },
     },
@@ -248,6 +260,29 @@ export const WithMinAndMaxDate: Story = {
     docs: {
       source: {
         code: sourceCodeWithMinAndMaxDate,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * DatePicker with individual days excluded.
+ * `excludeDates` disables days *inside* the allowed window -- blackout dates,
+ * weekends, holidays -- as either an explicit list or a predicate. It does not
+ * change which months can be navigated to, since exclusions are holes rather
+ * than edges.
+ */
+export const WithExcludedDates: Story = {
+  render: () => <DatePickerWithExcludedDates />,
+  args: {
+    onChange: () => {},
+    placeholder: 'Pick a date',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithExcludedDates,
         language: 'tsx',
       },
     },

@@ -23,7 +23,13 @@ const openCalendar = async (user: ReturnType<typeof setup>) => {
   expect(await screen.findByRole('grid')).toBeInTheDocument();
 };
 
-const Harness = (props: { minDate?: Date; maxDate?: Date; startMonth?: Date; endMonth?: Date }) => {
+const Harness = (props: {
+  minDate?: Date;
+  maxDate?: Date;
+  excludeDates?: Date[] | ((date: Date) => boolean);
+  startMonth?: Date;
+  endMonth?: Date;
+}) => {
   const [value, setValue] = useState<Date | undefined>(undefined);
   return <DatePicker placeholder="Pick a date" value={value} onChange={setValue} {...props} />;
 };
@@ -154,6 +160,84 @@ describe('DatePicker', () => {
       render(<DatePicker name="appointment" value={undefined} onChange={() => {}} />);
 
       expect(hiddenInput()).toHaveValue('');
+    });
+  });
+  describe('excludeDates', () => {
+    it('disables a listed day while leaving its neighbours selectable', async () => {
+      const user = setup();
+      // Deliberately a distinct object from the one the grid builds: react-day-picker
+      // compares a Date[] matcher by reference, so this would silently not match if
+      // the list were handed over as a single matcher.
+      render(<Harness excludeDates={[new Date(2025, 5, 15)]} />);
+      await openCalendar(user);
+
+      expect(dayButton('2025-06-15')).toBeDisabled();
+      expect(dayButton('2025-06-14')).toBeEnabled();
+      expect(dayButton('2025-06-16')).toBeEnabled();
+    });
+
+    it('ignores the time of day on a listed date', async () => {
+      const user = setup();
+      render(<Harness excludeDates={[new Date(2025, 5, 15, 16, 30)]} />);
+      await openCalendar(user);
+
+      expect(dayButton('2025-06-15')).toBeDisabled();
+    });
+
+    it('accepts a predicate, disabling every matching day', async () => {
+      const user = setup();
+      // Weekends.
+      render(<Harness excludeDates={d => d.getDay() === 0 || d.getDay() === 6} />);
+      await openCalendar(user);
+
+      expect(dayButton('2025-06-14')).toBeDisabled(); // Saturday
+      expect(dayButton('2025-06-15')).toBeDisabled(); // Sunday
+      expect(dayButton('2025-06-16')).toBeEnabled(); // Monday
+    });
+
+    it('does not fire onChange when an excluded day is clicked', async () => {
+      const user = setup();
+      const onChange = vi.fn();
+      render(
+        <DatePicker
+          excludeDates={[new Date(2025, 5, 15)]}
+          placeholder="Pick a date"
+          value={undefined}
+          onChange={onChange}
+        />,
+      );
+      await openCalendar(user);
+
+      await user.click(dayButton('2025-06-15')!);
+      expect(onChange).not.toHaveBeenCalled();
+
+      await user.click(dayButton('2025-06-16')!);
+      expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    it('combines with minDate and maxDate', async () => {
+      const user = setup();
+      render(
+        <Harness
+          excludeDates={[new Date(2025, 5, 15)]}
+          maxDate={new Date(2025, 5, 20)}
+          minDate={new Date(2025, 5, 10)}
+        />,
+      );
+      await openCalendar(user);
+
+      expect(dayButton('2025-06-09')).toBeDisabled(); // outside the window
+      expect(dayButton('2025-06-15')).toBeDisabled(); // excluded inside it
+      expect(dayButton('2025-06-16')).toBeEnabled();
+    });
+
+    it('leaves navigation alone, unlike the bounds', async () => {
+      const user = setup();
+      render(<Harness excludeDates={[new Date(2025, 5, 15)]} />);
+      await openCalendar(user);
+
+      expectNavDisabled(/previous/i, false);
+      expectNavDisabled(/next/i, false);
     });
   });
 });

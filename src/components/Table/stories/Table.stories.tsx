@@ -15,13 +15,19 @@ import { people, personColumns } from '../demos/sampleData';
 import { Table } from '../src/Table';
 
 const meta = {
-  title: 'Data & Display/Table',
+  // "(Experimental)" in the title keeps it visible in the sidebar tree even
+  // without opening the docs page.
+  title: 'Data & Display/Table (Experimental)',
   component: Table,
-  tags: ['!dev'], // Internal — not ready for public API; hidden from the sidebar.
+  // Exported for early feedback — see the callout in the docs description
+  // below, and src/index.ts / Table/PLAN.md for status.
   parameters: {
     docs: {
       description: {
         component:
+          '⚠️ **Experimental** — exported for early feedback. The API may change, or this ' +
+          'component may be removed, without a major version bump. Not yet recommended for ' +
+          'production use; see `Table/PLAN.md` for status.\n\n' +
           'Config-driven table built on TanStack Table. Pass `data` and `columns` and it ' +
           'renders through the accessible `TableRoot` primitives — with column grouping, row ' +
           'headers (`meta.isRowHeader`), sorting (`aria-sort` + live announcements), and ' +

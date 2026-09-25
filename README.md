@@ -70,6 +70,17 @@ function App() {
 }
 ```
 
+## Experimental components
+
+A small number of components are exported ahead of a stable release so we can collect
+early feedback. Their API may change, or the export may be removed, without a major
+version bump — pin your version if you rely on one. Each is marked `@experimental` in its
+JSDoc and its Storybook page is labeled "(Experimental)".
+
+- **`Table`** / **`TableRoot`** and its primitives (`TableCaption`, `TableHeader`,
+  `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`) — see
+  [`src/components/Table/PLAN.md`](src/components/Table/PLAN.md) for status and roadmap.
+
 ## Documentation
 
 Visit our [Storybook documentation](https://capitaltg.github.io/vero/) to explore all available components and their usage examples.

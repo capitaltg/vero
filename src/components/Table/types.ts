@@ -47,6 +47,10 @@ export type TableStackBreakpoint = 'sm' | 'md' | 'lg';
 
 type TableVariantProps = VariantProps<typeof tableVariants>;
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See `Table/PLAN.md`.
+ */
 export interface TableRootProps
   extends Omit<TableHTMLAttributes<HTMLTableElement>, 'aria-label' | 'aria-labelledby'>,
     TableVariantProps {
@@ -74,6 +78,10 @@ export interface TableRootProps
   'aria-labelledby'?: string;
 }
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See `Table/PLAN.md`.
+ */
 export type TableCaptionProps = HTMLAttributes<HTMLTableCaptionElement> & {
   /**
    * Visually hide the caption while keeping it available to assistive
@@ -84,9 +92,22 @@ export type TableCaptionProps = HTMLAttributes<HTMLTableCaptionElement> & {
   hidden?: boolean;
 };
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See `Table/PLAN.md`.
+ */
 export type TableSectionProps = HTMLAttributes<HTMLTableSectionElement>;
+
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See `Table/PLAN.md`.
+ */
 export type TableRowProps = HTMLAttributes<HTMLTableRowElement>;
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See `Table/PLAN.md`.
+ */
 export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
   /**
    * The header's scope. Use `col` for column headers, `row` for row headers,
@@ -96,8 +117,16 @@ export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
   scope?: 'col' | 'row' | 'colgroup' | 'rowgroup';
 }
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See `Table/PLAN.md`.
+ */
 export type TableCellProps = TdHTMLAttributes<HTMLTableCellElement>;
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See `Table/PLAN.md`.
+ */
 export interface TableProps<TData> extends TableVariantProps {
   /** The rows to render. */
   data: TData[];

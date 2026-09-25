@@ -18,13 +18,19 @@ import {
 } from '../src/TableRoot';
 
 const meta = {
-  title: 'Data & Display/Table/Primitives',
+  // "(Experimental)" in the title keeps it visible in the sidebar tree even
+  // without opening the docs page.
+  title: 'Data & Display/Table (Experimental)/Primitives',
   component: TableRoot,
-  tags: ['!dev'], // Internal — not ready for public API; hidden from the sidebar.
+  // Exported for early feedback — see the callout in the docs description
+  // below, and src/index.ts / Table/PLAN.md for status.
   parameters: {
     docs: {
       description: {
         component:
+          '⚠️ **Experimental** — exported for early feedback. The API may change, or these ' +
+          'components may be removed, without a major version bump. Not yet recommended for ' +
+          'production use; see `Table/PLAN.md` for status.\n\n' +
           'Accessible, USWDS-styled table primitives. Compose `TableRoot`, `TableCaption`, ' +
           '`TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, and `TableCell` ' +
           'directly for small or bespoke tables. For data-driven tables, see `Table`, which ' +

@@ -1,8 +1,10 @@
+import { resolveDateBounds } from '@/lib/date-bounds';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
+import { rangeContainsModifiers } from 'react-day-picker';
 import { Button } from '../../Button';
 import { Calendar } from '../../Calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../Popover';
@@ -22,6 +24,9 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       isDisabled = false,
       startMonth,
       endMonth,
+      minDate,
+      maxDate,
+      excludeDates,
       name,
       required,
       autoFocus,
@@ -30,6 +35,7 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
     ref,
   ) => {
     const resolvedZIndex = getZIndex('popover', zIndex);
+    const bounds = resolveDateBounds({ minDate, maxDate, excludeDates, startMonth, endMonth });
 
     const handleDayClick = (day: Date) => {
       const { from, to } = value;
@@ -43,18 +49,27 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
       // If a complete date range exists, start a new date range
       if (from && to) return onChange({ from: day, to: undefined });
 
-      // If start date is selected and selecting a day after it, complete the date range
-      if (day > from) return onChange({ from, to: day });
+      // If start date is selected and selecting a day after it, complete the date
+      // range -- unless the span would swallow an excluded day, in which case
+      // start over from the clicked day, as react-day-picker's own
+      // `excludeDisabled` does. Both ends are known to be selectable already, so
+      // only `excludeDates` can match here; the bounds never can.
+      if (day > from) {
+        if (bounds.disabled && rangeContainsModifiers({ from, to: day }, bounds.disabled)) {
+          return onChange({ from: day, to: undefined });
+        }
+        return onChange({ from, to: day });
+      }
 
       // If selecting the start date, clear the date range
       if (day.getTime() === from.getTime()) return onChange({ from: undefined, to: undefined });
     };
 
-    // Format date range for form submission (ISO date format)
+    // Format date range for form submission (ISO date format, in local time)
     const formatDateRange = (range: { from?: Date; to?: Date }): string => {
       if (!range.from) return '';
-      if (!range.to) return range.from.toISOString().split('T')[0];
-      return `${range.from.toISOString().split('T')[0]},${range.to.toISOString().split('T')[0]}`;
+      if (!range.to) return format(range.from, 'yyyy-MM-dd');
+      return `${format(range.from, 'yyyy-MM-dd')},${format(range.to, 'yyyy-MM-dd')}`;
     };
 
     return (
@@ -96,7 +111,8 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
             <Calendar
               autoFocus
               defaultMonth={value.from}
-              endMonth={endMonth}
+              disabled={bounds.disabled}
+              endMonth={bounds.endMonth}
               mode="range"
               modifiers={{
                 today: () => false, // Disable the "today" modifier
@@ -107,10 +123,18 @@ const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps
                 to: value.to,
               }}
               showOutsideDays={false}
-              startMonth={startMonth}
+              startMonth={bounds.startMonth}
               onDayClick={handleDayClick}
-              onSelect={range => {
-                if (range) onChange(range);
+              onSelect={() => {
+                // Deliberately empty. react-day-picker runs its own range logic on
+                // every click and reports the result here, but `handleDayClick`
+                // above is the single source of truth for the range -- it restarts
+                // on a completed range where react-day-picker would adjust an end.
+                // Letting both write called `onChange` twice per click.
+                //
+                // The handler must still be *defined*: react-day-picker treats the
+                // selection as uncontrolled when `onSelect` is absent, and the range
+                // highlight would stop tracking `value`.
               }}
             />
           </PopoverContent>

@@ -7,7 +7,9 @@ import { CalendarYearPickerProps } from '../types';
 const getYears = (startMonth?: Date, endMonth?: Date): number[] => {
   const currentYear = new Date().getFullYear();
   const startYear = startMonth ? startMonth.getFullYear() : currentYear - 23;
-  const endYear = endMonth ? endMonth.getFullYear() : currentYear;
+  // Without an upper bound the list runs to today, unless the lower bound is
+  // itself in the future -- in which case that would produce no years at all.
+  const endYear = endMonth ? endMonth.getFullYear() : Math.max(currentYear, startYear);
 
   const years: number[] = [];
   for (let year = endYear; year >= startYear; year--) {

@@ -4,9 +4,13 @@ import { DateRangePicker } from '../src/DateRangePicker';
 import { DateRangePickerDefault } from '../demos/DateRangePickerDefault';
 import { DateRangePickerWithValue } from '../demos/DateRangePickerWithValue';
 import { DateRangePickerCustomPlaceholders } from '../demos/DateRangePickerCustomPlaceholders';
+import { DateRangePickerWithMinAndMaxDate } from '../demos/DateRangePickerWithMinAndMaxDate';
+import { DateRangePickerWithExcludedDates } from '../demos/DateRangePickerWithExcludedDates';
 import sourceCodeDefault from '../demos/DateRangePickerDefault.tsx?raw';
 import sourceCodeWithValue from '../demos/DateRangePickerWithValue.tsx?raw';
 import sourceCodeCustomPlaceholders from '../demos/DateRangePickerCustomPlaceholders.tsx?raw';
+import sourceCodeWithMinAndMaxDate from '../demos/DateRangePickerWithMinAndMaxDate.tsx?raw';
+import sourceCodeWithExcludedDates from '../demos/DateRangePickerWithExcludedDates.tsx?raw';
 
 const meta = {
   title: 'Data & Display/DateRangePicker',
@@ -38,6 +42,56 @@ const meta = {
       table: {
         type: {
           summary: 'boolean',
+        },
+      },
+    },
+    minDate: {
+      control: 'date',
+      description: 'The earliest date a user can select, inclusive. Days before this are disabled.',
+      table: {
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    maxDate: {
+      control: 'date',
+      description: 'The latest date a user can select, inclusive. Days after this are disabled.',
+      table: {
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    excludeDates: {
+      control: false,
+      description:
+        'Days to exclude from selection inside the allowed window, as a `Date[]` or a `(date: Date) => boolean` predicate. Excluded days are disabled in the calendar. Unlike `minDate`/`maxDate`, this does not affect which months can be navigated to.',
+      table: {
+        type: {
+          summary: 'Date[] | ((date: Date) => boolean)',
+        },
+      },
+    },
+    startMonth: {
+      control: 'date',
+      description:
+        '**Deprecated** -- prefer `minDate`. Limits which months the user can navigate to, at month granularity; every day in the boundary month stays selectable. Still honoured, and takes precedence over the month derived from `minDate`, for the uncommon case of browsing a wider range than can be selected.',
+      table: {
+        category: 'Deprecated',
+        type: {
+          summary: 'Date',
+        },
+      },
+    },
+    endMonth: {
+      control: 'date',
+      description:
+        '**Deprecated** -- prefer `maxDate`. Limits which months the user can navigate to, at month granularity; every day in the boundary month stays selectable. Still honoured, and takes precedence over the month derived from `maxDate`, for the uncommon case of browsing a wider range than can be selected.',
+      table: {
+        category: 'Deprecated',
+        type: {
+          summary: 'Date',
         },
       },
     },
@@ -169,6 +223,59 @@ export const CustomPlaceholders: Story = {
     docs: {
       source: {
         code: sourceCodeCustomPlaceholders,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * DateRangePicker restricted to a specific range of days.
+ * `minDate` and `maxDate` are inclusive: days outside the window are disabled
+ * in the calendar, so neither end of the selected range can fall outside it.
+ * Navigation is limited to the surrounding months unless `startMonth`/`endMonth`
+ * are set explicitly.
+ */
+export const WithMinAndMaxDate: Story = {
+  render: () => <DateRangePickerWithMinAndMaxDate />,
+  args: {
+    value: {},
+    onChange: () => {},
+    placeholder: {
+      from: 'Start date',
+      to: 'End date',
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithMinAndMaxDate,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * DateRangePicker with individual days excluded.
+ * `excludeDates` disables days *inside* the allowed window, so they cannot be
+ * used as either end of a range. A range may also not span an excluded day:
+ * picking an end date across one starts a new range from that day instead.
+ */
+export const WithExcludedDates: Story = {
+  render: () => <DateRangePickerWithExcludedDates />,
+  args: {
+    value: {},
+    onChange: () => {},
+    placeholder: {
+      from: 'Start date',
+      to: 'End date',
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithExcludedDates,
         language: 'tsx',
       },
     },

@@ -1,0 +1,7 @@
+/* Public entry point for @capitaltg/vero/utilities.css.
+
+   This file exists at the package root, not just in dist/, because
+   `postcss-import` (used by the Tailwind CLI and plain PostCSS setups) resolves
+   bare specifiers by file path and does not consult package.json "exports".
+   Bundlers that do honor "exports" resolve here too, so both paths agree. */
+@import "./dist/utilities.css";

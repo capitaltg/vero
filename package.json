@@ -1,6 +1,6 @@
 {
   "name": "@capitaltg/vero",
-  "version": "1.16.0",
+  "version": "1.19.0",
   "description": "Accessible, modern, open source React component library inspired by USWDS built with Radix UI",
   "type": "module",
   "main": "dist/index.js",
@@ -10,7 +10,12 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "preflight.css",
+    "index.css",
+    "theme.css",
+    "components.css",
+    "utilities.css"
   ],
   "exports": {
     ".": {
@@ -19,8 +24,11 @@
       "require": "./dist/index.cjs"
     },
     "./tailwind.config.js": "./dist/tailwind.config.js",
-    "./preflight.css": "./dist/preflight.css",
-    "./index.css": "./dist/index.css"
+    "./preflight.css": "./preflight.css",
+    "./index.css": "./index.css",
+    "./theme.css": "./theme.css",
+    "./components.css": "./components.css",
+    "./utilities.css": "./utilities.css"
   },
   "scripts": {
     "dev": "npm run storybook",
@@ -55,8 +63,7 @@
   "peerDependencies": {
     "react": "^18.2.0 || ^19.0.0",
     "react-dom": "^18.2.0 || ^19.0.0",
-    "tailwindcss": "^3.4.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss": "^3.4.1"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.1.2",
@@ -80,7 +87,8 @@
     "date-fns": "^4.1.0",
     "lucide-react": "^0.525.0",
     "react-day-picker": "^9.7.0",
-    "tailwind-merge": "^2.2.1"
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@axe-core/react": "^4.11.0",
@@ -203,6 +211,18 @@
     {
       "path": "dist/preflight.css",
       "limit": "10 KB"
+    },
+    {
+      "path": "dist/theme.css",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/components.css",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/utilities.css",
+      "limit": "50 KB"
     }
   ]
 }

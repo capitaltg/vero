@@ -93,6 +93,25 @@ export const Introduction: Story = {
                 {`import { Button, Badge } from '@capitaltg/vero';`}
               </div>
             </div>
+            <div>
+              <h3 className="mb-2 text-lg font-semibold">Styles</h3>
+              <div className="rounded bg-muted p-3 font-mono text-sm">
+                {`@import '@capitaltg/vero/preflight.css';`}
+                <br />
+                {`@import '@capitaltg/vero/index.css';`}
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">
+                That's everything for an app that doesn't use Tailwind. If yours does, import Vero's
+                layers individually instead — see{' '}
+                <a
+                  className="font-bold"
+                  href={getStorybookUrl('?path=/docs/getting-started-styling--docs')}
+                >
+                  Styling
+                </a>
+                .
+              </p>
+            </div>
           </div>
         </div>
 

@@ -4,6 +4,8 @@ import { DialogDefault } from '../demos/DialogDefault';
 import sourceCodeDefault from '../demos/DialogDefault.tsx?raw';
 import { DialogInformationalOnly } from '../demos/DialogInformationalOnly';
 import sourceCodeInformationalOnly from '../demos/DialogInformationalOnly.tsx?raw';
+import { DialogWithCombobox } from '../demos/DialogWithCombobox';
+import sourceCodeWithCombobox from '../demos/DialogWithCombobox.tsx?raw';
 import { DialogWithDestructiveAction } from '../demos/DialogWithDestructiveAction';
 import sourceCodeWithDestructiveAction from '../demos/DialogWithDestructiveAction.tsx?raw';
 
@@ -89,6 +91,22 @@ export const InformationalOnly: Story = {
     docs: {
       source: {
         code: sourceCodeInformationalOnly,
+      },
+    },
+  },
+};
+
+/**
+ * A dialog containing a Combobox.
+ * The Combobox dropdown renders outside the dialog, yet its options stay clickable even though
+ * a modal dialog disables pointer events on the rest of the page.
+ */
+export const WithCombobox: Story = {
+  render: () => <DialogWithCombobox />,
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithCombobox,
       },
     },
   },

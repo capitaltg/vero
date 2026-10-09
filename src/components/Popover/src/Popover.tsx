@@ -20,7 +20,11 @@ const PopoverContent = React.forwardRef<
       <PopoverPrimitive.Content
         ref={ref}
         align={align}
-        className={cn('vero-popover', styles.popover, className)}
+        // A modal Dialog sets `pointer-events: none` on body. Radix normally re-enables pointer
+        // events on a nested popover inline, but only when both share one copy of
+        // @radix-ui/react-dismissable-layer; duplicate copies in a consumer's node_modules break
+        // that, leaving the portaled popover unclickable. Radix's inline style still wins when set.
+        className={cn('vero-popover', 'pointer-events-auto', styles.popover, className)}
         sideOffset={sideOffset}
         style={{ zIndex: resolvedZIndex, ...props.style }}
         {...props}

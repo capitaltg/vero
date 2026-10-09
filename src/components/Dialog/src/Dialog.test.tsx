@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { Button } from '../../Button';
+import { Combobox } from '../../Combobox';
 import { Dialog, DialogContent, DialogTrigger } from './Dialog';
 import { DialogDescription } from './DialogDescription';
 import { DialogFooter } from './DialogFooter';
@@ -139,6 +140,36 @@ describe('Dialog', () => {
 
       expect(screen.getByRole('button', { name: 'Primary action' })).toHaveFocus();
       expect(screen.getByRole('button', { name: 'Close' })).not.toHaveFocus();
+    });
+  });
+
+  describe('Nested popovers', () => {
+    it('lets a Combobox option be selected inside a modal Dialog', async () => {
+      const user = userEvent.setup();
+      const onChange = vi.fn();
+
+      render(
+        <Dialog modal open>
+          <DialogContent>
+            <DialogTitle>Pick one</DialogTitle>
+            <DialogDescription>Choose an option.</DialogDescription>
+            <Combobox
+              options={[
+                { label: 'Alpha', value: 'a' },
+                { label: 'Beta', value: 'b' },
+              ]}
+              placeholder="Select"
+              value=""
+              onChange={onChange}
+            />
+          </DialogContent>
+        </Dialog>,
+      );
+
+      await user.click(screen.getByRole('button', { name: 'Select' }));
+      await user.click(await screen.findByText('Beta'));
+
+      expect(onChange).toHaveBeenCalledWith('b');
     });
   });
 });

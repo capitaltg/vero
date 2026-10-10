@@ -49,7 +49,7 @@ type TableVariantProps = VariantProps<typeof tableVariants>;
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  */
 export interface TableRootProps
   extends Omit<TableHTMLAttributes<HTMLTableElement>, 'aria-label' | 'aria-labelledby'>,
@@ -80,7 +80,7 @@ export interface TableRootProps
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  */
 export type TableCaptionProps = HTMLAttributes<HTMLTableCaptionElement> & {
   /**
@@ -94,19 +94,19 @@ export type TableCaptionProps = HTMLAttributes<HTMLTableCaptionElement> & {
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  */
 export type TableSectionProps = HTMLAttributes<HTMLTableSectionElement>;
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  */
 export type TableRowProps = HTMLAttributes<HTMLTableRowElement>;
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  */
 export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
   /**
@@ -119,13 +119,13 @@ export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  */
 export type TableCellProps = TdHTMLAttributes<HTMLTableCellElement>;
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  */
 export interface TableProps<TData> extends TableVariantProps {
   /** The rows to render. */

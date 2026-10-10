@@ -1,6 +1,6 @@
 # Table Component — Implementation Plan
 
-Status: **v1 implemented — exported as experimental** · Owner: TBD · Branch: `feat/table-component`
+Status: **v1 implemented — exported as experimental** · Owner: TBD
 
 > Landed and now **exported as experimental**: the root barrel export in `src/index.ts` is
 > live (uncommented) and both Storybook stories are visible under
@@ -285,6 +285,13 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
 - When we add collapsible grouping/expansion: native semantics vs `treegrid`. (Phase 3.)
 - Should style variants (striped/compact/borderless) be cva variants on `TableRoot`, or a
   theme-level concern? _Current: cva variants._
+- Should Vero globally augment TanStack's `ColumnMeta` (in `types.ts`)? It leaks
+  `isRowHeader` / `align` / `stackedLabel` into every consumer's TanStack types and can
+  conflict with a consumer's own augmentation. Alternatives: export a plain
+  `TableColumnMeta` and let consumers opt in to the augmentation (unaugmented `ColumnMeta`
+  is empty, so `meta: { isRowHeader: true }` still compiles); move the options to
+  `Table` props keyed by column id (`rowHeader`, `columnAlign`, …); or namespace them under
+  `meta.vero`. Decide before promoting to stable (#148). _Current: global augmentation._
 - Final home for this PLAN.md before public release (docs site vs delete).
 - Promotion checklist from experimental → stable: remove the `@experimental` JSDoc tags,
   the `TableRoot` dev-mode `console.warn`, the "(Experimental)" Storybook title suffix, and

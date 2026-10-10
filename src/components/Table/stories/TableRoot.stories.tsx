@@ -30,7 +30,7 @@ const meta = {
         component:
           '⚠️ **Experimental** — exported for early feedback. The API may change, or these ' +
           'components may be removed, without a major version bump. Not yet recommended for ' +
-          'production use; see `Table/PLAN.md` for status.\n\n' +
+          'production use; see the [Table plan](https://github.com/capitaltg/vero/blob/main/src/components/Table/PLAN.md) for status.\n\n' +
           'Accessible, USWDS-styled table primitives. Compose `TableRoot`, `TableCaption`, ' +
           '`TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, and `TableCell` ' +
           'directly for small or bespoke tables. For data-driven tables, see `Table`, which ' +

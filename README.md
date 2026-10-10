@@ -72,6 +72,9 @@ JSDoc and its Storybook page is labeled "(Experimental)".
 - **`Table`** / **`TableRoot`** and its primitives (`TableCaption`, `TableHeader`,
   `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`) — see
   [`src/components/Table/PLAN.md`](src/components/Table/PLAN.md) for status and roadmap.
+  Note that importing Vero augments `@tanstack/react-table`'s `ColumnMeta` type with
+  Table's column options (`isRowHeader`, `align`, …), so those fields also appear on
+  `ColumnMeta` if your app uses TanStack Table directly.
 
 ## Styling setup
 

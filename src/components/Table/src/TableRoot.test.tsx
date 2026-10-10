@@ -1,6 +1,6 @@
 import { expectNoViolations } from '@/test/utils';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 import { TableRootColumnGroups } from '../demos/TableRootColumnGroups';
 import { TableRootBasic } from '../demos/TableRootBasic';
@@ -53,5 +53,49 @@ describe('TableRoot (primitives)', () => {
     const firstHalf = screen.getByRole('columnheader', { name: 'First half' });
     expect(firstHalf).toHaveAttribute('scope', 'colgroup');
     expect(firstHalf).toHaveAttribute('colspan', '2');
+  });
+
+  describe('experimental warning', () => {
+    const EXPERIMENTAL = '[vero] Table is experimental';
+
+    // The "warned once" flag is module state, so load a fresh copy per test.
+    async function loadTableRoot() {
+      vi.resetModules();
+      return (await import('./TableRoot')).TableRoot;
+    }
+
+    function experimentalWarnings() {
+      return vi
+        .mocked(console.warn)
+        .mock.calls.filter(([msg]) => typeof msg === 'string' && msg.startsWith(EXPERIMENTAL));
+    }
+
+    beforeEach(() => {
+      vi.mocked(console.warn).mockClear();
+    });
+
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    it('warns once in development, however many tables mount', async () => {
+      vi.stubEnv('NODE_ENV', 'development');
+      const TableRoot = await loadTableRoot();
+      render(
+        <>
+          <TableRoot />
+          <TableRoot />
+        </>,
+      );
+      render(<TableRoot />);
+      expect(experimentalWarnings()).toHaveLength(1);
+    });
+
+    it('does not warn in production', async () => {
+      vi.stubEnv('NODE_ENV', 'production');
+      const TableRoot = await loadTableRoot();
+      render(<TableRoot />);
+      expect(experimentalWarnings()).toHaveLength(0);
+    });
   });
 });

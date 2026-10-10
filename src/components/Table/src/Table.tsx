@@ -280,7 +280,7 @@ TableBase.displayName = 'Table';
 // forwardRef erases the generic, so re-assert it (same pattern as Autocomplete).
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * Config-driven, accessible table. Pass `data` + `columns` and it renders
  * through the `TableRoot` primitives — with column grouping, row headers,

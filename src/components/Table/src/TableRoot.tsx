@@ -40,10 +40,12 @@ function useHorizontalOverflow(ref: React.RefObject<HTMLElement>) {
 // primitives directly or rendered by the config-driven `Table` — mounts one.
 let hasWarnedExperimental = false;
 function warnExperimentalOnce() {
-  if (hasWarnedExperimental) return;
-  if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'production') return;
+  // Keep the bare `process.env.NODE_ENV` form: consumers' bundlers replace that
+  // exact expression at build time, which drops the warning from production
+  // bundles (a `typeof process` guard or `?.` would defeat the replacement).
+  if (hasWarnedExperimental || process.env.NODE_ENV === 'production') return;
   hasWarnedExperimental = true;
-  // eslint-disable-next-line no-console
+   
   console.warn(
     '[vero] Table is experimental: `Table`, `TableRoot`, and the other table primitives are ' +
       'exported for early feedback and may change — or be removed — without a major version ' +
@@ -53,7 +55,7 @@ function warnExperimentalOnce() {
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * The `<table>` element, with USWDS-inspired styling and responsive
  * (scroll / stacked) behavior. Compose with `TableCaption`, `TableHeader`,
@@ -132,7 +134,7 @@ TableRoot.displayName = 'TableRoot';
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * `<caption>` for a `TableRoot`. Every table should have one (visible or
  * visually hidden via the `hidden` prop) so it has an accessible name.
@@ -150,7 +152,7 @@ TableCaption.displayName = 'TableCaption';
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * `<thead>` for a `TableRoot`.
  */
@@ -163,7 +165,7 @@ TableHeader.displayName = 'TableHeader';
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * `<tbody>` for a `TableRoot`. Use multiple `TableBody` blocks to create
  * visual row-group sections.
@@ -177,7 +179,7 @@ TableBody.displayName = 'TableBody';
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * `<tfoot>` for a `TableRoot`.
  */
@@ -190,7 +192,7 @@ TableFooter.displayName = 'TableFooter';
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * `<tr>` for a `TableRoot`.
  */
@@ -203,7 +205,7 @@ TableRow.displayName = 'TableRow';
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * `<th>` for a `TableRoot`. Set `scope="row"` on the header cell of each row.
  */
@@ -216,7 +218,7 @@ TableHead.displayName = 'TableHead';
 
 /**
  * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See `Table/PLAN.md`.
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
  * `<td>` for a `TableRoot`.
  */

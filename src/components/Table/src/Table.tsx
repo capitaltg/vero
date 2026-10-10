@@ -1,285 +1,232 @@
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
-import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type Column,
-  type OnChangeFn,
-  type SortingState,
-} from '@tanstack/react-table';
-import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as React from 'react';
-import { tableStackLabelVisibility } from '../constants';
-import type { TableProps } from '../types';
-import {
-  TableRoot,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from './TableRoot';
+import { tableStackVariants, tableVariants } from '../constants';
+import type {
+  TableCaptionProps,
+  TableCellProps,
+  TableHeadProps,
+  TableProps,
+  TableRowProps,
+  TableSectionProps,
+} from '../types';
 
-const alignClass = {
-  left: 'text-left',
-  center: 'text-center',
-  right: 'text-right',
-} as const;
+/**
+ * Tracks whether an element's content overflows horizontally, so the scroll
+ * region only becomes a focusable, named region when it is actually
+ * scrollable — avoiding a phantom tab stop on tables that fit.
+ */
+function useHorizontalOverflow(ref: React.RefObject<HTMLElement>) {
+  const [overflowing, setOverflowing] = React.useState(false);
 
-const alignJustify = {
-  left: 'justify-start',
-  center: 'justify-center',
-  right: 'justify-end',
-} as const;
-
-/** Best-effort human label for a column (its string header, else its id). */
-function getColumnLabel<TData>(column: Column<TData, unknown>): string {
-  const header = column.columnDef.header;
-  return typeof header === 'string' ? header : column.id;
-}
-
-/** Label shown in front of a cell's value in stacked (card) mode. */
-function getStackLabel<TData>(column: Column<TData, unknown>): string {
-  return column.columnDef.meta?.stackedLabel ?? getColumnLabel(column);
-}
-
-function SortIcon({ state }: { state: false | 'asc' | 'desc' }) {
-  const Icon = state === 'asc' ? ArrowUp : state === 'desc' ? ArrowDown : ChevronsUpDown;
-  return (
-    <Icon aria-hidden="true" className={cn('ml-1 h-4 w-4 shrink-0', !state && 'opacity-50')} />
-  );
-}
-
-function TableInner<TData>(
-  {
-    data,
-    columns,
-    caption,
-    captionHidden = false,
-    enableSorting = false,
-    initialSorting,
-    sorting: controlledSorting,
-    onSortingChange,
-    responsive = 'scroll',
-    stackBreakpoint = 'md',
-    variant,
-    striped,
-    density,
-    emptyState = 'No data available',
-    footer,
-    getRowId,
-    className,
-    ...props
-  }: TableProps<TData>,
-  ref: React.ForwardedRef<HTMLTableElement>,
-) {
-  const ariaLabelProp = props['aria-label'];
-  const ariaLabelledby = props['aria-labelledby'];
-
-  const [internalSorting, setInternalSorting] = React.useState<SortingState>(initialSorting ?? []);
-  const isControlled = controlledSorting !== undefined;
-  const sorting = isControlled ? controlledSorting : internalSorting;
-
-  const handleSortingChange: OnChangeFn<SortingState> = React.useCallback(
-    updater => {
-      if (!isControlled) {
-        setInternalSorting(prev => (typeof updater === 'function' ? updater(prev) : updater));
-      }
-      onSortingChange?.(updater);
-    },
-    [isControlled, onSortingChange],
-  );
-
-  const table = useReactTable({
-    data,
-    columns,
-    state: { sorting },
-    enableSorting,
-    onSortingChange: handleSortingChange,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
-    getRowId,
-  });
-
-  // Announce sort changes to screen readers via a polite live region.
-  const [announcement, setAnnouncement] = React.useState('');
-  const hasMounted = React.useRef(false);
   React.useEffect(() => {
-    if (!enableSorting) return;
-    // Don't announce the initial (possibly pre-sorted) state on mount.
-    if (!hasMounted.current) {
-      hasMounted.current = true;
-      return;
+    const el = ref.current;
+    if (!el) return;
+
+    const measure = () => setOverflowing(el.scrollWidth > el.clientWidth);
+    measure();
+
+    if (typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  return overflowing;
+}
+
+/**
+ * Marks the `data-label` attributes this component set itself, so a later pass
+ * can refresh them without clobbering labels the consumer supplied.
+ */
+const AUTO_LABEL_ATTR = 'data-vero-auto-label';
+
+/**
+ * Copies each column header's text onto the body cells below it as
+ * `data-label`, which stacked mode renders above the cell's value. This is what
+ * makes `responsive="stack"` work for hand-composed tables with no extra
+ * markup; cells that already carry an explicit `data-label` are left alone.
+ *
+ * Runs on every render (tables are small, and the labels have to follow header
+ * or row changes) and only touches an attribute React does not manage.
+ */
+function useStackedLabels(ref: React.RefObject<HTMLTableElement>, enabled: boolean) {
+  React.useEffect(() => {
+    if (!enabled) return;
+    const table = ref.current;
+    if (!table) return;
+
+    // `:scope >` keeps a nested table's own rows out of this table's labels.
+    const headerRows = table.querySelectorAll<HTMLTableRowElement>(':scope > thead > tr');
+    if (headerRows.length === 0) return;
+
+    const cellsOf = (row: HTMLTableRowElement) =>
+      row.querySelectorAll<HTMLTableCellElement>(':scope > th, :scope > td');
+    const spanOf = (cell: HTMLTableCellElement) => Number(cell.getAttribute('colspan') ?? '1') || 1;
+
+    // The last header row holds the leaf columns the body cells line up with.
+    const labels: string[] = [];
+    for (const cell of cellsOf(headerRows[headerRows.length - 1])) {
+      const text = cell.textContent?.trim() ?? '';
+      for (let i = 0; i < spanOf(cell); i += 1) labels.push(text);
     }
-    if (sorting.length === 0) {
-      setAnnouncement('TableRoot is no longer sorted');
-      return;
+
+    for (const row of table.querySelectorAll<HTMLTableRowElement>(':scope > tbody > tr')) {
+      let column = 0;
+      for (const cell of cellsOf(row)) {
+        const label = labels[column];
+        const span = spanOf(cell);
+        column += span;
+
+        // Spanning cells (row-group headings, empty states) label nothing.
+        if (span > 1) continue;
+        if (cell.hasAttribute('data-label') && !cell.hasAttribute(AUTO_LABEL_ATTR)) continue;
+
+        if (label) {
+          cell.setAttribute('data-label', label);
+          cell.setAttribute(AUTO_LABEL_ATTR, '');
+        } else if (cell.hasAttribute(AUTO_LABEL_ATTR)) {
+          cell.removeAttribute('data-label');
+          cell.removeAttribute(AUTO_LABEL_ATTR);
+        }
+      }
     }
-    const primary = sorting[0];
-    const column = table.getColumn(primary.id);
-    const label = column ? getColumnLabel(column) : primary.id;
-    setAnnouncement(`Sorted by ${label}, ${primary.desc ? 'descending' : 'ascending'}`);
-  }, [sorting, enableSorting, table]);
+  });
+}
 
-  const rows = table.getRowModel().rows;
-  const leafColumnCount = table.getVisibleLeafColumns().length;
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+  (
+    {
+      className,
+      variant,
+      striped,
+      density,
+      stickyHeader,
+      responsive = 'scroll',
+      stackBreakpoint = 'md',
+      stackedStyle = 'default',
+      caption,
+      captionHidden = false,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const scrollRef = React.useRef<HTMLDivElement>(null);
+    const overflowing = useHorizontalOverflow(scrollRef);
 
-  // Name the scroll region after the caption text (when it's a plain string) or
-  // an explicit aria-label. A non-string caption still names the <table> via
-  // <caption>; the region then stays a plain focusable scroll container.
-  const captionText = typeof caption === 'string' ? caption : undefined;
-  const regionLabel = ariaLabelProp ?? captionText;
+    const stacked = responsive === 'stack';
+    const tableRef = React.useRef<HTMLTableElement>(null);
+    const composedRef = useComposedRefs(ref, tableRef);
+    useStackedLabels(tableRef, stacked);
 
-  return (
-    <>
-      <TableRoot
-        ref={ref}
-        aria-label={regionLabel}
-        aria-labelledby={ariaLabelledby}
-        className={className}
-        density={density}
-        responsive={responsive}
-        stackBreakpoint={stackBreakpoint}
-        striped={striped}
-        variant={variant}
+    // The <caption> names the table itself. The scroll region needs its own
+    // name, so it reuses an explicit aria-label when there is one and falls
+    // back to the caption's text.
+    const captionText = typeof caption === 'string' ? caption : undefined;
+    const regionLabel = props['aria-label'] ?? captionText;
+    const ariaLabelledby = props['aria-labelledby'];
+
+    const table = (
+      <table
+        ref={composedRef}
+        className={cn(
+          tableVariants({ variant, striped, density, stickyHeader }),
+          stacked && tableStackVariants[stackBreakpoint],
+          className,
+        )}
+        data-stacked-style={stacked ? stackedStyle : undefined}
+        {...props}
       >
         {caption != null ? <TableCaption hidden={captionHidden}>{caption}</TableCaption> : null}
+        {children}
+      </table>
+    );
 
-        <TableHeader>
-          {table.getHeaderGroups().map(headerGroup => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map(header => {
-                const canSort = enableSorting && header.column.getCanSort();
-                const sorted = header.column.getIsSorted();
-                const align = header.column.columnDef.meta?.align ?? 'left';
-                const scope = header.colSpan > 1 ? 'colgroup' : 'col';
+    if (responsive !== 'scroll') return table;
 
-                // A placeholder header exists only to keep grouped columns
-                // aligned (e.g. the top-left corner above an ungrouped column).
-                // Render it as an empty, hidden cell so it doesn't register as
-                // an empty table header for assistive tech.
-                if (header.isPlaceholder) {
-                  return (
-                    <td
-                      key={header.id}
-                      aria-hidden="true"
-                      className="bg-muted"
-                      colSpan={header.colSpan}
-                    />
-                  );
-                }
+    // Only expose the wrapper as a focusable, named region when the content
+    // actually overflows. A region needs an accessible name, so when there is
+    // nothing to name it with — no aria-label, no plain-text caption — fall
+    // back to a plain (still keyboard-scrollable) container rather than emit an
+    // unnamed region.
+    const hasName = Boolean(regionLabel || ariaLabelledby);
+    const regionProps = overflowing
+      ? hasName
+        ? {
+            role: 'region',
+            tabIndex: 0,
+            'aria-label': regionLabel,
+            'aria-labelledby': ariaLabelledby,
+          }
+        : { tabIndex: 0 }
+      : {};
 
-                return (
-                  <TableHead
-                    key={header.id}
-                    aria-sort={
-                      !canSort
-                        ? undefined
-                        : sorted === 'asc'
-                          ? 'ascending'
-                          : sorted === 'desc'
-                            ? 'descending'
-                            : 'none'
-                    }
-                    className={alignClass[align]}
-                    colSpan={header.colSpan}
-                    scope={scope}
-                  >
-                    {canSort ? (
-                      <button
-                        className={cn(
-                          'inline-flex w-full items-center font-bold',
-                          alignJustify[align],
-                          styles.focusRingVisible,
-                        )}
-                        type="button"
-                        onClick={header.column.getToggleSortingHandler()}
-                      >
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                        <SortIcon state={sorted} />
-                      </button>
-                    ) : (
-                      flexRender(header.column.columnDef.header, header.getContext())
-                    )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-
-        <TableBody>
-          {rows.length === 0 ? (
-            <TableRow>
-              <TableCell className="text-center text-muted-foreground" colSpan={leafColumnCount}>
-                {emptyState}
-              </TableCell>
-            </TableRow>
-          ) : (
-            rows.map(row => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map(cell => {
-                  const isRowHeader = cell.column.columnDef.meta?.isRowHeader;
-                  const align = cell.column.columnDef.meta?.align ?? 'left';
-                  const value = flexRender(cell.column.columnDef.cell, cell.getContext());
-                  const content =
-                    responsive === 'stack' ? (
-                      <>
-                        <span
-                          className={cn(
-                            'vero-table-stacked-label mr-4 font-bold text-foreground',
-                            tableStackLabelVisibility[stackBreakpoint],
-                          )}
-                        >
-                          {getStackLabel(cell.column)}
-                        </span>
-                        <span className="vero-table-cell-value">{value}</span>
-                      </>
-                    ) : (
-                      value
-                    );
-
-                  return isRowHeader ? (
-                    <TableHead key={cell.id} className={alignClass[align]} scope="row">
-                      {content}
-                    </TableHead>
-                  ) : (
-                    <TableCell key={cell.id} className={alignClass[align]}>
-                      {content}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-
-        {footer != null ? (
-          <TableFooter>
-            <TableRow>
-              <TableCell colSpan={leafColumnCount}>{footer}</TableCell>
-            </TableRow>
-          </TableFooter>
-        ) : null}
-      </TableRoot>
-
-      <div aria-live="polite" className="sr-only" role="status">
-        {announcement}
+    return (
+      <div
+        ref={scrollRef}
+        className={cn('vero-table-scroll overflow-x-auto', overflowing && styles.focusRingVisible)}
+        {...regionProps}
+      >
+        {table}
       </div>
-    </>
-  );
-}
+    );
+  },
+);
+Table.displayName = 'Table';
 
-const TableBase = React.forwardRef(TableInner);
-TableBase.displayName = 'Table';
+const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
+  ({ className, hidden = false, ...props }, ref) => (
+    <caption
+      ref={ref}
+      className={cn('vero-table-caption', hidden && 'sr-only', className)}
+      {...props}
+    />
+  ),
+);
+TableCaption.displayName = 'TableCaption';
 
-// forwardRef erases the generic, so re-assert it (same pattern as Autocomplete).
-const Table = TableBase as unknown as <TData>(
-  props: TableProps<TData> & { ref?: React.ForwardedRef<HTMLTableElement> },
-) => React.ReactElement;
+const TableHeader = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
+  ({ className, ...props }, ref) => (
+    <thead ref={ref} className={cn('vero-table-header', className)} {...props} />
+  ),
+);
+TableHeader.displayName = 'TableHeader';
 
-export { Table };
+const TableBody = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
+  ({ className, ...props }, ref) => (
+    <tbody ref={ref} className={cn('vero-table-body', className)} {...props} />
+  ),
+);
+TableBody.displayName = 'TableBody';
+
+const TableFooter = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
+  ({ className, ...props }, ref) => (
+    <tfoot ref={ref} className={cn('vero-table-footer font-bold', className)} {...props} />
+  ),
+);
+TableFooter.displayName = 'TableFooter';
+
+const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
+  ({ className, ...props }, ref) => (
+    <tr ref={ref} className={cn('vero-table-row', className)} {...props} />
+  ),
+);
+TableRow.displayName = 'TableRow';
+
+const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
+  ({ className, scope = 'col', ...props }, ref) => (
+    <th ref={ref} className={cn('vero-table-head', className)} scope={scope} {...props} />
+  ),
+);
+TableHead.displayName = 'TableHead';
+
+const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
+  ({ className, ...props }, ref) => (
+    <td ref={ref} className={cn('vero-table-cell', className)} {...props} />
+  ),
+);
+TableCell.displayName = 'TableCell';
+
+export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow };

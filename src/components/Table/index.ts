@@ -1,6 +1,6 @@
-export { Table } from './src/Table';
+export { DataTable } from './src/DataTable';
 export {
-  TableRoot,
+  Table,
   TableBody,
   TableCaption,
   TableCell,
@@ -8,16 +8,17 @@ export {
   TableHead,
   TableHeader,
   TableRow,
-} from './src/TableRoot';
+} from './src/Table';
 
 export type {
-  TableProps,
+  DataTableProps,
   TableCaptionProps,
   TableCellProps,
   TableHeadProps,
-  TableRootProps,
+  TableProps,
   TableResponsive,
   TableRowProps,
   TableSectionProps,
   TableStackBreakpoint,
+  TableStackedStyle,
 } from './types';

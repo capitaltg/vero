@@ -1,4 +1,4 @@
-import { Table } from '../src/Table';
+import { DataTable } from '../src/DataTable';
 import { people, personColumns } from './sampleData';
 
 /**
@@ -7,8 +7,8 @@ import { people, personColumns } from './sampleData';
  * header (or focus it and press Enter/Space) to cycle ascending → descending →
  * unsorted.
  */
-export const TableSortable = () => (
-  <Table
+export const DataTableSortable = () => (
+  <DataTable
     enableSorting
     caption="Team roster (sortable)"
     columns={personColumns}

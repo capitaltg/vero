@@ -1,11 +1,15 @@
 # Table Component — Implementation Plan
 
-Status: **v1 implemented (internal / unreleased)** · Owner: TBD · Branch: `feat/table-component`
+Status: **v1 implemented — exported as experimental** · Owner: TBD
 
-> Landed but intentionally **not part of the public API yet**: the root barrel export in
-> `src/index.ts` is commented out and both Storybook stories carry `tags: ['!dev']` (hidden
-> from the sidebar), matching the `Command` / `TagInput` convention. Re-enable both when it's
-> ready to ship.
+> Landed and now **exported as experimental**: the root barrel export in `src/index.ts` is
+> live (uncommented) and both Storybook stories are visible under
+> `Data & Display/Table (Experimental)`. `@experimental` JSDoc is on every exported symbol
+> (shows on hover in consumers' editors), and `TableRoot` logs a one-time dev-mode
+> `console.warn` on mount. The API may still change, or the component may be removed,
+> without a major version bump — promote out of experimental (drop the JSDoc tags, the
+> console warning, and the "(Experimental)" story title suffix) once it's ready to ship
+> as stable.
 
 > v1 shipped on this branch: semantic primitives + `Table<T>`, column grouping,
 > row headers, sorting (`aria-sort` + live announcements), visual row-group sections
@@ -99,8 +103,8 @@ src/components/Table/
     TableRoot*.tsx / Table*.tsx # one file per story example, shown as source via ?raw
 ```
 
-- Add `export * from './components/Table'` to `src/index.ts` (alphabetical: between
-  `SwitchGroup` and `Tabs`).
+- ~~Add `export * from './components/Table'` to `src/index.ts` (alphabetical: between
+  `SwitchGroup` and `Tabs`).~~ Done — exported as experimental.
 - Augment TanStack's `ColumnMeta` interface (module augmentation in `types.ts`) with
   `isRowHeader?`, `align?`, `stackedLabel?`, etc.
 - New dependency: `@tanstack/react-table` (~13–15 KB gzipped, tree-shakeable — within the
@@ -281,4 +285,14 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
 - When we add collapsible grouping/expansion: native semantics vs `treegrid`. (Phase 3.)
 - Should style variants (striped/compact/borderless) be cva variants on `TableRoot`, or a
   theme-level concern? _Current: cva variants._
+- Should Vero globally augment TanStack's `ColumnMeta` (in `types.ts`)? It leaks
+  `isRowHeader` / `align` / `stackedLabel` into every consumer's TanStack types and can
+  conflict with a consumer's own augmentation. Alternatives: export a plain
+  `TableColumnMeta` and let consumers opt in to the augmentation (unaugmented `ColumnMeta`
+  is empty, so `meta: { isRowHeader: true }` still compiles); move the options to
+  `Table` props keyed by column id (`rowHeader`, `columnAlign`, …); or namespace them under
+  `meta.vero`. Decide before promoting to stable (#148). _Current: global augmentation._
 - Final home for this PLAN.md before public release (docs site vs delete).
+- Promotion checklist from experimental → stable: remove the `@experimental` JSDoc tags,
+  the `TableRoot` dev-mode `console.warn`, the "(Experimental)" Storybook title suffix, and
+  this PLAN.md (or relocate it), then bump at least a minor version.

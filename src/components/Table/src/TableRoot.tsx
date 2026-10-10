@@ -35,6 +35,32 @@ function useHorizontalOverflow(ref: React.RefObject<HTMLElement>) {
   return overflowing;
 }
 
+// One-time dev-mode notice that the Table primitives are experimental. Fired
+// from `TableRoot` because every table — whether composed from the
+// primitives directly or rendered by the config-driven `Table` — mounts one.
+let hasWarnedExperimental = false;
+function warnExperimentalOnce() {
+  // Keep the bare `process.env.NODE_ENV` form: consumers' bundlers replace that
+  // exact expression at build time, which drops the warning from production
+  // bundles (a `typeof process` guard or `?.` would defeat the replacement).
+  if (hasWarnedExperimental || process.env.NODE_ENV === 'production') return;
+  hasWarnedExperimental = true;
+   
+  console.warn(
+    '[vero] Table is experimental: `Table`, `TableRoot`, and the other table primitives are ' +
+      'exported for early feedback and may change — or be removed — without a major version ' +
+      'bump. See the Storybook docs for details.',
+  );
+}
+
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * The `<table>` element, with USWDS-inspired styling and responsive
+ * (scroll / stacked) behavior. Compose with `TableCaption`, `TableHeader`,
+ * `TableBody`, `TableFooter`, `TableRow`, `TableHead`, and `TableCell`.
+ */
 const TableRoot = React.forwardRef<HTMLTableElement, TableRootProps>(
   (
     {
@@ -49,6 +75,10 @@ const TableRoot = React.forwardRef<HTMLTableElement, TableRootProps>(
     },
     ref,
   ) => {
+    React.useEffect(() => {
+      warnExperimentalOnce();
+    }, []);
+
     const scrollRef = React.useRef<HTMLDivElement>(null);
     const overflowing = useHorizontalOverflow(scrollRef);
 
@@ -102,6 +132,13 @@ const TableRoot = React.forwardRef<HTMLTableElement, TableRootProps>(
 );
 TableRoot.displayName = 'TableRoot';
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * `<caption>` for a `TableRoot`. Every table should have one (visible or
+ * visually hidden via the `hidden` prop) so it has an accessible name.
+ */
 const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
   ({ className, hidden = false, ...props }, ref) => (
     <caption
@@ -113,6 +150,12 @@ const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps
 );
 TableCaption.displayName = 'TableCaption';
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * `<thead>` for a `TableRoot`.
+ */
 const TableHeader = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
   ({ className, ...props }, ref) => (
     <thead ref={ref} className={cn('vero-table-header', className)} {...props} />
@@ -120,6 +163,13 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, TableSectionProps>
 );
 TableHeader.displayName = 'TableHeader';
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * `<tbody>` for a `TableRoot`. Use multiple `TableBody` blocks to create
+ * visual row-group sections.
+ */
 const TableBody = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
   ({ className, ...props }, ref) => (
     <tbody ref={ref} className={cn('vero-table-body', className)} {...props} />
@@ -127,6 +177,12 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
 );
 TableBody.displayName = 'TableBody';
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * `<tfoot>` for a `TableRoot`.
+ */
 const TableFooter = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
   ({ className, ...props }, ref) => (
     <tfoot ref={ref} className={cn('vero-table-footer font-bold', className)} {...props} />
@@ -134,6 +190,12 @@ const TableFooter = React.forwardRef<HTMLTableSectionElement, TableSectionProps>
 );
 TableFooter.displayName = 'TableFooter';
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * `<tr>` for a `TableRoot`.
+ */
 const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, ...props }, ref) => (
     <tr ref={ref} className={cn('vero-table-row', className)} {...props} />
@@ -141,6 +203,12 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
 );
 TableRow.displayName = 'TableRow';
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * `<th>` for a `TableRoot`. Set `scope="row"` on the header cell of each row.
+ */
 const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, scope = 'col', ...props }, ref) => (
     <th ref={ref} className={cn('vero-table-head', className)} scope={scope} {...props} />
@@ -148,6 +216,12 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
 );
 TableHead.displayName = 'TableHead';
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * `<td>` for a `TableRoot`.
+ */
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, ...props }, ref) => (
     <td ref={ref} className={cn('vero-table-cell', className)} {...props} />

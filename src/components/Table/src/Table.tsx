@@ -278,6 +278,14 @@ const TableBase = React.forwardRef(TableInner);
 TableBase.displayName = 'Table';
 
 // forwardRef erases the generic, so re-assert it (same pattern as Autocomplete).
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * Config-driven, accessible table. Pass `data` + `columns` and it renders
+ * through the `TableRoot` primitives — with column grouping, row headers,
+ * sorting, and scroll / stacked responsive behavior built in.
+ */
 const Table = TableBase as unknown as <TData>(
   props: TableProps<TData> & { ref?: React.ForwardedRef<HTMLTableElement> },
 ) => React.ReactElement;

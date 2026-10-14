@@ -1,11 +1,10 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../src/Table';
 
 /**
- * Stacked (card) mode with the primitives. `responsive="stack"` is all that's
- * needed: below the breakpoint each row becomes a card and every cell is
- * labelled with its column header, which `Table` reads from the header row
- * for you. Pass `data-label` on a cell to override the derived label (see the
- * "Change" column).
+ * Stacked (card) mode with the primitives. Below the breakpoint each row
+ * becomes a card, and each body cell shows its `label` above its value — pass
+ * the column header, or anything more specific (see the "Change" column).
+ * `DataTable` fills the labels in from its column definitions for you.
  */
 export const TableStacked = () => (
   <Table caption="Quarterly revenue" responsive="stack">
@@ -22,23 +21,35 @@ export const TableStacked = () => (
     </TableHeader>
     <TableBody>
       <TableRow>
-        <TableHead scope="row">Q1</TableHead>
-        <TableCell className="text-right">$1.2M</TableCell>
-        <TableCell className="text-right" data-label="Change vs. Q4">
+        <TableHead label="Quarter" scope="row">
+          Q1
+        </TableHead>
+        <TableCell className="text-right" label="Revenue">
+          $1.2M
+        </TableCell>
+        <TableCell className="text-right" label="Change vs. Q4">
           +4%
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableHead scope="row">Q2</TableHead>
-        <TableCell className="text-right">$1.4M</TableCell>
-        <TableCell className="text-right" data-label="Change vs. Q1">
+        <TableHead label="Quarter" scope="row">
+          Q2
+        </TableHead>
+        <TableCell className="text-right" label="Revenue">
+          $1.4M
+        </TableCell>
+        <TableCell className="text-right" label="Change vs. Q1">
           +17%
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableHead scope="row">Q3</TableHead>
-        <TableCell className="text-right">$1.3M</TableCell>
-        <TableCell className="text-right" data-label="Change vs. Q2">
+        <TableHead label="Quarter" scope="row">
+          Q3
+        </TableHead>
+        <TableCell className="text-right" label="Revenue">
+          $1.3M
+        </TableCell>
+        <TableCell className="text-right" label="Change vs. Q2">
           −7%
         </TableCell>
       </TableRow>

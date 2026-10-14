@@ -135,6 +135,9 @@ describe('DataTable', () => {
   });
 
   describe('stacked mode', () => {
+    const labelOf = (cell: HTMLElement) =>
+      cell.querySelector('.vero-table-stacked-label')?.textContent ?? null;
+
     it('labels every body cell with its column header', () => {
       render(
         <DataTable
@@ -144,14 +147,8 @@ describe('DataTable', () => {
           responsive="stack"
         />,
       );
-      expect(screen.getByRole('rowheader', { name: 'Ada Lovelace' })).toHaveAttribute(
-        'data-label',
-        'Name',
-      );
-      expect(screen.getByRole('cell', { name: 'Researcher' })).toHaveAttribute(
-        'data-label',
-        'Role',
-      );
+      expect(labelOf(screen.getByRole('rowheader', { name: /Ada Lovelace/ }))).toBe('Name');
+      expect(labelOf(screen.getByRole('cell', { name: /Researcher/ }))).toBe('Role');
     });
 
     it('prefers meta.stackedLabel over the column header', () => {
@@ -162,13 +159,10 @@ describe('DataTable', () => {
       render(
         <DataTable caption="Team roster" columns={columns} data={people} responsive="stack" />,
       );
-      expect(screen.getByRole('cell', { name: 'Researcher' })).toHaveAttribute(
-        'data-label',
-        'Job title',
-      );
+      expect(labelOf(screen.getByRole('cell', { name: /Researcher/ }))).toBe('Job title');
     });
 
-    it('applies the stacked style to the table', () => {
+    it('applies the card-heading classes for stackedStyle="headers"', () => {
       render(
         <DataTable
           caption="Team roster"
@@ -178,7 +172,12 @@ describe('DataTable', () => {
           stackedStyle="headers"
         />,
       );
-      expect(screen.getByRole('table')).toHaveAttribute('data-stacked-style', 'headers');
+      expect(screen.getByRole('cell', { name: /Researcher/ })).toHaveClass('max-md:first:text-lg');
+    });
+
+    it('does not render labels when not stacked', () => {
+      render(<DataTable caption="Team roster" columns={personColumns} data={people} />);
+      expect(labelOf(screen.getByRole('cell', { name: 'Researcher' }))).toBeNull();
     });
   });
 });

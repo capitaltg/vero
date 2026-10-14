@@ -154,10 +154,9 @@ export const StyleVariants: Story = {
 
 /**
  * Stacked (card) mode with the primitives — the USWDS `usa-table--stacked`
- * variant. Setting `responsive="stack"` is enough: `Table` reads the column
- * headers off the header row and labels the body cells with them, so
- * hand-composed tables reflow with no extra markup. Set `data-label` on a cell
- * to override its label, or `stackedStyle="headers"` to promote each row's
+ * variant. Set `responsive="stack"` and give each body cell a `label` (usually
+ * its column header); below the breakpoint each row becomes a card with the
+ * label above every value. Add `stackedStyle="headers"` to promote each row's
  * first cell to the card's heading.
  */
 export const Stacked: Story = {

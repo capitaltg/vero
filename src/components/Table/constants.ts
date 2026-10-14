@@ -3,9 +3,11 @@ import { cva } from 'class-variance-authority';
 import type { TableStackBreakpoint } from './types';
 
 /**
- * USWDS-inspired styling for the `<table>` root. Structural rules are applied
- * with descendant selectors so the semantic primitives stay thin and the whole
- * look can be re-themed from one place.
+ * USWDS-inspired styling for the `<table>` root: only what belongs to the table
+ * itself. Rows, cells and the caption style themselves (see
+ * {@link tableCellVariants}), reading the table's settings from context, so the
+ * look never leaks into a table nested inside a cell and every class on a cell
+ * carries the same weight as a consumer's own.
  *
  * Colors use theme-adaptive tokens where possible (`muted`, `foreground`,
  * `input`) so the table works in the default, `.dark`, and `.theme-uswds`
@@ -17,26 +19,20 @@ import type { TableStackBreakpoint } from './types';
  * flat token (`bg-muted`) rather than a tinted one.
  */
 export const tableVariants = cva(
-  tw`vero-table w-full border-collapse text-left align-top text-sm text-foreground [&_caption]:mb-3
-  [&_caption]:text-left [&_caption]:text-base [&_caption]:font-bold [&_caption]:text-foreground
-  [&_tbody_th]:bg-muted [&_tbody_th]:text-left [&_tbody_th]:align-middle [&_td]:px-4 [&_td]:py-2
-  [&_td]:align-top [&_th]:px-4 [&_th]:py-2 [&_th]:text-left [&_th]:align-bottom [&_th]:font-bold
-  [&_thead_th]:bg-muted [&_thead_th]:text-foreground`,
+  tw`vero-table w-full border-collapse text-left align-top text-sm text-foreground`,
   {
     variants: {
       variant: {
-        bordered: tw`[&_td]:border [&_td]:border-base-500 [&_th]:border [&_th]:border-base-500`,
-        borderless: tw`[&_tbody_td]:border-b [&_tbody_td]:border-input [&_tbody_th]:border-b
-        [&_tbody_th]:border-input [&_tbody_th]:bg-transparent [&_td]:border-0 [&_th]:border-0
-        [&_thead_th]:border-b-2 [&_thead_th]:border-base-500 [&_thead_th]:bg-transparent`,
+        bordered: '',
+        borderless: '',
       },
       striped: {
-        true: tw`[&_tbody_tr:nth-child(even)_td]:bg-muted`,
+        true: '',
         false: '',
       },
       density: {
         default: '',
-        compact: tw`text-[0.8125rem] [&_td]:px-3 [&_td]:py-1 [&_th]:px-3 [&_th]:py-1`,
+        compact: tw`text-[0.8125rem]`,
       },
       /**
        * Pins the header row to the top of the viewport while the body scrolls
@@ -45,9 +41,7 @@ export const tableVariants = cva(
        * collapsed into the neighbouring cell.
        */
       stickyHeader: {
-        true: tw`border-separate border-spacing-0 [&_tbody_tr:last-child>*]:border-b-0
-        [&_td]:border-l-0 [&_td]:border-t-0 [&_th]:border-l-0 [&_th]:border-t-0 [&_thead_th]:sticky
-        [&_thead_th]:top-0 [&_thead_th]:z-10 [&_tr>*:last-child]:border-r-0`,
+        true: tw`border-separate border-spacing-0`,
         false: '',
       },
     },
@@ -65,11 +59,97 @@ export const tableVariants = cva(
   },
 );
 
+/** The `<caption>`'s own styling. */
+export const tableCaptionClasses = tw`mb-3 text-left text-base font-bold text-foreground`;
+
 /**
- * Card/stacked reflow, applied to the `<table>` root when
- * `responsive="stack"`. Rules are gated behind `max-*` (max-width) variants so
- * they apply ONLY below the breakpoint and leave the normal grid — and its
- * variant borders — untouched at and above it.
+ * Styling for a `<th>` or `<td>`, driven by the table's settings and the
+ * section the cell sits in. Later classes win where two conflict (`cn` merges
+ * them), so the compound variants refine the base ones.
+ *
+ * Striping isn't here: it depends on whether the table stacks, so the cell
+ * picks {@link tableStripeClass} or a breakpoint-scoped stripe itself.
+ */
+export const tableCellVariants = cva('', {
+  variants: {
+    kind: {
+      th: tw`text-left align-bottom font-bold`,
+      td: tw`align-top`,
+    },
+    section: {
+      head: '',
+      body: '',
+      foot: '',
+    },
+    variant: {
+      bordered: tw`border border-base-500`,
+      borderless: tw`border-0`,
+    },
+    density: {
+      default: tw`px-4 py-2`,
+      compact: tw`px-3 py-1`,
+    },
+    stickyHeader: {
+      true: tw`border-l-0 border-t-0 last:border-r-0`,
+      false: '',
+    },
+  },
+  compoundVariants: [
+    { kind: 'th', section: 'head', class: tw`bg-muted text-foreground` },
+    { kind: 'th', section: 'body', class: tw`bg-muted align-middle` },
+    { variant: 'borderless', section: 'body', class: tw`border-b border-input` },
+    { variant: 'borderless', kind: 'th', section: 'body', class: tw`bg-transparent` },
+    {
+      variant: 'borderless',
+      kind: 'th',
+      section: 'head',
+      class: tw`border-b-2 border-base-500 bg-transparent`,
+    },
+    { stickyHeader: true, kind: 'th', section: 'head', class: tw`sticky top-0 z-10` },
+    { stickyHeader: true, section: 'body', class: tw`[tr:last-child>&]:border-b-0` },
+  ],
+  defaultVariants: {
+    variant: 'bordered',
+    density: 'default',
+    stickyHeader: false,
+  },
+});
+
+/** Tints every other body row's data cells for `striped` tables. */
+export const tableStripeClass = tw`[tr:nth-child(even)>&]:bg-muted`;
+
+/** Classes each primitive applies to itself while its table is stacked. */
+export interface TableStackClasses {
+  /** `<thead>`: hidden — each cell carries its own label instead. */
+  header: string;
+  /** Body `<tr>`: each row becomes a card, closed by a heavy bottom rule. */
+  row: string;
+  /** Every body cell (`<td>` and row-header `<th>`). */
+  cell: string;
+  /** Body `<th>` (row headers) only. */
+  headerCell: string;
+  /**
+   * The `striped` tint, scoped to at and above the breakpoint so a card never
+   * carries a stripe — and so there is nothing for the card heading to undo.
+   */
+  stripe: string;
+  /** A body cell that renders a stacked label. */
+  labelledCell: string;
+  /** The label element rendered above a cell's value. */
+  label: string;
+  /** Extra classes on body cells for `stackedStyle="headers"`. */
+  headingCell: string;
+  /** Extra classes on labels for `stackedStyle="headers"`. */
+  headingLabel: string;
+}
+
+/**
+ * Card/stacked reflow for `responsive="stack"`. `Table` shares its stacked
+ * settings through context and each primitive applies its own slice of these
+ * classes, so the rules only reach the table they belong to — a nested table
+ * is unaffected. Everything is gated behind `max-*` (max-width) variants so it
+ * applies ONLY below the breakpoint, leaving the normal grid untouched at and
+ * above it.
  *
  * These are the USWDS `usa-table--stacked` / `usa-table--stacked-header` rules,
  * restated as utilities (Prettier sorts the class strings, so read them here):
@@ -82,69 +162,57 @@ export const tableVariants = cva(
  *    from the label sitting above it.)
  * 4. The seam between cards: the first cell of a row loses its top rule, and
  *    the very first cell gets the same heavy rule that closes each card.
- * 5. A cell's `data-label` renders above its value as a bold label
- *    (`content: attr(data-label)`), exactly like USWDS. {@link DataTable} fills
- *    `data-label` in from the column definitions, and `Table` derives it from
- *    the header row for hand-composed tables, so both work with no extra
- *    markup.
+ * 5. A cell's `label` renders above its value as a bold label. USWDS draws it
+ *    with `content: attr(data-label)`; here it is a real element, so it can
+ *    hold any React content.
  * 6. With `stackedStyle="headers"` (USWDS `usa-table--stacked-header`) the
  *    first cell of each card becomes the card's heading and drops its label.
+ *
+ * These sit beside the base cell classes from {@link tableCellVariants} at the
+ * same weight, and Tailwind emits `max-*` utilities after unprefixed ones, so
+ * below the breakpoint they win by source order alone.
  *
  * The three breakpoints are spelled out because Tailwind only generates classes
  * it can find as literal strings in the source.
  */
-export const tableStackVariants: Record<TableStackBreakpoint, string> = {
-  sm: tw`max-sm:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:bg-muted
-  max-sm:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:px-4
-  max-sm:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:py-3
-  max-sm:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:text-lg
-  max-sm:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:font-bold
-  max-sm:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:before:hidden
-  max-sm:[&_tbody_[data-label]]:pb-3 max-sm:[&_tbody_[data-label]]:before:block
-  max-sm:[&_tbody_[data-label]]:before:pb-1 max-sm:[&_tbody_[data-label]]:before:font-bold
-  max-sm:[&_tbody_[data-label]]:before:content-[attr(data-label)] max-sm:[&_tbody_td]:block
-  max-sm:[&_tbody_td]:w-full max-sm:[&_tbody_td]:border-b-0 max-sm:[&_tbody_td]:text-left
-  max-sm:[&_tbody_th]:block max-sm:[&_tbody_th]:w-full max-sm:[&_tbody_th]:border-b-0
-  max-sm:[&_tbody_th]:bg-transparent max-sm:[&_tbody_th]:text-left
-  max-sm:[&_tbody_tr:first-child>*:first-child]:border-t-4
-  max-sm:[&_tbody_tr:first-child>*:first-child]:border-base-500
-  max-sm:[&_tbody_tr:nth-child(even)_td]:bg-transparent max-sm:[&_tbody_tr>*:first-child]:border-t-0
-  max-sm:[&_tbody_tr]:border-0 max-sm:[&_tbody_tr]:border-b-4 max-sm:[&_tbody_tr]:border-base-500
-  max-sm:[&_thead]:hidden`,
-
-  md: tw`max-md:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:bg-muted
-  max-md:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:px-4
-  max-md:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:py-3
-  max-md:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:text-lg
-  max-md:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:font-bold
-  max-md:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:before:hidden
-  max-md:[&_tbody_[data-label]]:pb-3 max-md:[&_tbody_[data-label]]:before:block
-  max-md:[&_tbody_[data-label]]:before:pb-1 max-md:[&_tbody_[data-label]]:before:font-bold
-  max-md:[&_tbody_[data-label]]:before:content-[attr(data-label)] max-md:[&_tbody_td]:block
-  max-md:[&_tbody_td]:w-full max-md:[&_tbody_td]:border-b-0 max-md:[&_tbody_td]:text-left
-  max-md:[&_tbody_th]:block max-md:[&_tbody_th]:w-full max-md:[&_tbody_th]:border-b-0
-  max-md:[&_tbody_th]:bg-transparent max-md:[&_tbody_th]:text-left
-  max-md:[&_tbody_tr:first-child>*:first-child]:border-t-4
-  max-md:[&_tbody_tr:first-child>*:first-child]:border-base-500
-  max-md:[&_tbody_tr:nth-child(even)_td]:bg-transparent max-md:[&_tbody_tr>*:first-child]:border-t-0
-  max-md:[&_tbody_tr]:border-0 max-md:[&_tbody_tr]:border-b-4 max-md:[&_tbody_tr]:border-base-500
-  max-md:[&_thead]:hidden`,
-
-  lg: tw`max-lg:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:bg-muted
-  max-lg:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:px-4
-  max-lg:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:py-3
-  max-lg:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:text-lg
-  max-lg:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:font-bold
-  max-lg:[&[data-stacked-style=headers]_tbody_tr>*:first-child]:before:hidden
-  max-lg:[&_tbody_[data-label]]:pb-3 max-lg:[&_tbody_[data-label]]:before:block
-  max-lg:[&_tbody_[data-label]]:before:pb-1 max-lg:[&_tbody_[data-label]]:before:font-bold
-  max-lg:[&_tbody_[data-label]]:before:content-[attr(data-label)] max-lg:[&_tbody_td]:block
-  max-lg:[&_tbody_td]:w-full max-lg:[&_tbody_td]:border-b-0 max-lg:[&_tbody_td]:text-left
-  max-lg:[&_tbody_th]:block max-lg:[&_tbody_th]:w-full max-lg:[&_tbody_th]:border-b-0
-  max-lg:[&_tbody_th]:bg-transparent max-lg:[&_tbody_th]:text-left
-  max-lg:[&_tbody_tr:first-child>*:first-child]:border-t-4
-  max-lg:[&_tbody_tr:first-child>*:first-child]:border-base-500
-  max-lg:[&_tbody_tr:nth-child(even)_td]:bg-transparent max-lg:[&_tbody_tr>*:first-child]:border-t-0
-  max-lg:[&_tbody_tr]:border-0 max-lg:[&_tbody_tr]:border-b-4 max-lg:[&_tbody_tr]:border-base-500
-  max-lg:[&_thead]:hidden`,
+export const tableStackClasses: Record<TableStackBreakpoint, TableStackClasses> = {
+  sm: {
+    header: tw`max-sm:hidden`,
+    row: tw`max-sm:border-0 max-sm:border-b-4 max-sm:border-base-500`,
+    cell: tw`max-sm:block max-sm:w-full max-sm:border-b-0 max-sm:text-left max-sm:first:border-t-0
+    max-sm:[tr:first-child>&]:first:border-t-4 max-sm:[tr:first-child>&]:first:border-base-500`,
+    headerCell: tw`max-sm:bg-transparent`,
+    stripe: tw`sm:[tr:nth-child(even)>&]:bg-muted`,
+    labelledCell: tw`max-sm:pb-3`,
+    label: tw`hidden pb-1 font-bold max-sm:block`,
+    headingCell: tw`max-sm:first:bg-muted max-sm:first:px-4 max-sm:first:py-3 max-sm:first:text-lg
+    max-sm:first:font-bold`,
+    headingLabel: tw`max-sm:[tr>:first-child>&]:hidden`,
+  },
+  md: {
+    header: tw`max-md:hidden`,
+    row: tw`max-md:border-0 max-md:border-b-4 max-md:border-base-500`,
+    cell: tw`max-md:block max-md:w-full max-md:border-b-0 max-md:text-left max-md:first:border-t-0
+    max-md:[tr:first-child>&]:first:border-t-4 max-md:[tr:first-child>&]:first:border-base-500`,
+    headerCell: tw`max-md:bg-transparent`,
+    stripe: tw`md:[tr:nth-child(even)>&]:bg-muted`,
+    labelledCell: tw`max-md:pb-3`,
+    label: tw`hidden pb-1 font-bold max-md:block`,
+    headingCell: tw`max-md:first:bg-muted max-md:first:px-4 max-md:first:py-3 max-md:first:text-lg
+    max-md:first:font-bold`,
+    headingLabel: tw`max-md:[tr>:first-child>&]:hidden`,
+  },
+  lg: {
+    header: tw`max-lg:hidden`,
+    row: tw`max-lg:border-0 max-lg:border-b-4 max-lg:border-base-500`,
+    cell: tw`max-lg:block max-lg:w-full max-lg:border-b-0 max-lg:text-left max-lg:first:border-t-0
+    max-lg:[tr:first-child>&]:first:border-t-4 max-lg:[tr:first-child>&]:first:border-base-500`,
+    headerCell: tw`max-lg:bg-transparent`,
+    stripe: tw`lg:[tr:nth-child(even)>&]:bg-muted`,
+    labelledCell: tw`max-lg:pb-3`,
+    label: tw`hidden pb-1 font-bold max-lg:block`,
+    headingCell: tw`max-lg:first:bg-muted max-lg:first:px-4 max-lg:first:py-3 max-lg:first:text-lg
+    max-lg:first:font-bold`,
+    headingLabel: tw`max-lg:[tr>:first-child>&]:hidden`,
+  },
 };

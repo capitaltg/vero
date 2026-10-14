@@ -1,8 +1,14 @@
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as React from 'react';
-import { tableStackVariants, tableVariants } from '../constants';
+import {
+  tableCaptionClasses,
+  tableCellVariants,
+  tableStackClasses,
+  tableStripeClass,
+  tableVariants,
+  type TableStackClasses,
+} from '../constants';
 import type {
   TableCaptionProps,
   TableCellProps,
@@ -10,6 +16,7 @@ import type {
   TableProps,
   TableRowProps,
   TableSectionProps,
+  TableStackedStyle,
 } from '../types';
 
 /**
@@ -36,63 +43,74 @@ function useHorizontalOverflow(ref: React.RefObject<HTMLElement>) {
   return overflowing;
 }
 
-/**
- * Marks the `data-label` attributes this component set itself, so a later pass
- * can refresh them without clobbering labels the consumer supplied.
- */
-const AUTO_LABEL_ATTR = 'data-vero-auto-label';
+/** Settings `Table` shares with the primitives inside it. */
+interface TableContextValue {
+  variant: 'bordered' | 'borderless';
+  striped: boolean;
+  density: 'default' | 'compact';
+  stickyHeader: boolean;
+  /** The stacked classes for this table's breakpoint, or null when not stacked. */
+  stack: TableStackClasses | null;
+  stackedStyle: TableStackedStyle;
+}
+
+const TableContext = React.createContext<TableContextValue>({
+  variant: 'bordered',
+  striped: false,
+  density: 'default',
+  stickyHeader: false,
+  stack: null,
+  stackedStyle: 'default',
+});
+
+/** Which section of the table a row or cell sits in. */
+type TableSection = 'head' | 'body' | 'foot';
+
+const TableSectionContext = React.createContext<TableSection | null>(null);
 
 /**
- * Copies each column header's text onto the body cells below it as
- * `data-label`, which stacked mode renders above the cell's value. This is what
- * makes `responsive="stack"` work for hand-composed tables with no extra
- * markup; cells that already carry an explicit `data-label` are left alone.
- *
- * Runs on every render (tables are small, and the labels have to follow header
- * or row changes) and only touches an attribute React does not manage.
+ * Classes for a `<th>` or `<td>` from its table's settings and section, plus
+ * the stacked label element when the table is stacked and the cell has one.
  */
-function useStackedLabels(ref: React.RefObject<HTMLTableElement>, enabled: boolean) {
-  React.useEffect(() => {
-    if (!enabled) return;
-    const table = ref.current;
-    if (!table) return;
+function useCellStyles(kind: 'th' | 'td', label: React.ReactNode) {
+  const { variant, striped, density, stickyHeader, stack, stackedStyle } =
+    React.useContext(TableContext);
+  const section = React.useContext(TableSectionContext);
 
-    // `:scope >` keeps a nested table's own rows out of this table's labels.
-    const headerRows = table.querySelectorAll<HTMLTableRowElement>(':scope > thead > tr');
-    if (headerRows.length === 0) return;
+  const stacked = stack && section === 'body' ? stack : null;
+  const headings = stackedStyle === 'headers';
+  const hasLabel = stacked != null && label != null;
+  const stripe =
+    striped && kind === 'td' && section === 'body'
+      ? (stacked?.stripe ?? tableStripeClass)
+      : undefined;
 
-    const cellsOf = (row: HTMLTableRowElement) =>
-      row.querySelectorAll<HTMLTableCellElement>(':scope > th, :scope > td');
-    const spanOf = (cell: HTMLTableCellElement) => Number(cell.getAttribute('colspan') ?? '1') || 1;
+  return {
+    className: cn(
+      tableCellVariants({ kind, section, variant, density, stickyHeader }),
+      stripe,
+      stacked && [
+        stacked.cell,
+        kind === 'th' && stacked.headerCell,
+        hasLabel && stacked.labelledCell,
+        headings && stacked.headingCell,
+      ],
+    ),
+    labelElement: hasLabel ? (
+      <span
+        className={cn('vero-table-stacked-label', stacked.label, headings && stacked.headingLabel)}
+      >
+        {label}
+      </span>
+    ) : null,
+  };
+}
 
-    // The last header row holds the leaf columns the body cells line up with.
-    const labels: string[] = [];
-    for (const cell of cellsOf(headerRows[headerRows.length - 1])) {
-      const text = cell.textContent?.trim() ?? '';
-      for (let i = 0; i < spanOf(cell); i += 1) labels.push(text);
-    }
-
-    for (const row of table.querySelectorAll<HTMLTableRowElement>(':scope > tbody > tr')) {
-      let column = 0;
-      for (const cell of cellsOf(row)) {
-        const label = labels[column];
-        const span = spanOf(cell);
-        column += span;
-
-        // Spanning cells (row-group headings, empty states) label nothing.
-        if (span > 1) continue;
-        if (cell.hasAttribute('data-label') && !cell.hasAttribute(AUTO_LABEL_ATTR)) continue;
-
-        if (label) {
-          cell.setAttribute('data-label', label);
-          cell.setAttribute(AUTO_LABEL_ATTR, '');
-        } else if (cell.hasAttribute(AUTO_LABEL_ATTR)) {
-          cell.removeAttribute('data-label');
-          cell.removeAttribute(AUTO_LABEL_ATTR);
-        }
-      }
-    }
-  });
+/** The stacked classes for a row or section, or null when they don't apply. */
+function useStackClasses(section: TableSection) {
+  const { stack } = React.useContext(TableContext);
+  const current = React.useContext(TableSectionContext);
+  return stack && current === section ? stack : null;
 }
 
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
@@ -117,9 +135,17 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
     const overflowing = useHorizontalOverflow(scrollRef);
 
     const stacked = responsive === 'stack';
-    const tableRef = React.useRef<HTMLTableElement>(null);
-    const composedRef = useComposedRefs(ref, tableRef);
-    useStackedLabels(tableRef, stacked);
+    const context = React.useMemo<TableContextValue>(
+      () => ({
+        variant: variant ?? 'bordered',
+        striped: striped ?? false,
+        density: density ?? 'default',
+        stickyHeader: stickyHeader ?? false,
+        stack: stacked ? tableStackClasses[stackBreakpoint] : null,
+        stackedStyle,
+      }),
+      [variant, striped, density, stickyHeader, stacked, stackBreakpoint, stackedStyle],
+    );
 
     // The <caption> names the table itself. The scroll region needs its own
     // name, so it reuses an explicit aria-label when there is one and falls
@@ -130,17 +156,15 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
 
     const table = (
       <table
-        ref={composedRef}
-        className={cn(
-          tableVariants({ variant, striped, density, stickyHeader }),
-          stacked && tableStackVariants[stackBreakpoint],
-          className,
-        )}
-        data-stacked-style={stacked ? stackedStyle : undefined}
+        ref={ref}
+        className={cn(tableVariants({ variant, striped, density, stickyHeader }), className)}
         {...props}
       >
         {caption != null ? <TableCaption hidden={captionHidden}>{caption}</TableCaption> : null}
-        {children}
+        {/* Reset the section so a table nested in a cell starts fresh. */}
+        <TableContext.Provider value={context}>
+          <TableSectionContext.Provider value={null}>{children}</TableSectionContext.Provider>
+        </TableContext.Provider>
       </table>
     );
 
@@ -180,7 +204,7 @@ const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps
   ({ className, hidden = false, ...props }, ref) => (
     <caption
       ref={ref}
-      className={cn('vero-table-caption', hidden && 'sr-only', className)}
+      className={cn('vero-table-caption', tableCaptionClasses, hidden && 'sr-only', className)}
       {...props}
     />
   ),
@@ -188,44 +212,73 @@ const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps
 TableCaption.displayName = 'TableCaption';
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
-  ({ className, ...props }, ref) => (
-    <thead ref={ref} className={cn('vero-table-header', className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    // The header sets the section rather than sitting in one, so it reads the
+    // table's stacked classes directly.
+    const { stack } = React.useContext(TableContext);
+    return (
+      <TableSectionContext.Provider value="head">
+        <thead ref={ref} className={cn('vero-table-header', stack?.header, className)} {...props} />
+      </TableSectionContext.Provider>
+    );
+  },
 );
 TableHeader.displayName = 'TableHeader';
 
 const TableBody = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
   ({ className, ...props }, ref) => (
-    <tbody ref={ref} className={cn('vero-table-body', className)} {...props} />
+    <TableSectionContext.Provider value="body">
+      <tbody ref={ref} className={cn('vero-table-body', className)} {...props} />
+    </TableSectionContext.Provider>
   ),
 );
 TableBody.displayName = 'TableBody';
 
 const TableFooter = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
   ({ className, ...props }, ref) => (
-    <tfoot ref={ref} className={cn('vero-table-footer font-bold', className)} {...props} />
+    <TableSectionContext.Provider value="foot">
+      <tfoot ref={ref} className={cn('vero-table-footer font-bold', className)} {...props} />
+    </TableSectionContext.Provider>
   ),
 );
 TableFooter.displayName = 'TableFooter';
 
 const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, ...props }, ref) => (
-    <tr ref={ref} className={cn('vero-table-row', className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    const stacked = useStackClasses('body');
+    return <tr ref={ref} className={cn('vero-table-row', stacked?.row, className)} {...props} />;
+  },
 );
 TableRow.displayName = 'TableRow';
 
 const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
-  ({ className, scope = 'col', ...props }, ref) => (
-    <th ref={ref} className={cn('vero-table-head', className)} scope={scope} {...props} />
-  ),
+  ({ className, scope = 'col', label, children, ...props }, ref) => {
+    const cell = useCellStyles('th', label);
+    return (
+      <th
+        ref={ref}
+        className={cn('vero-table-head', cell.className, className)}
+        scope={scope}
+        {...props}
+      >
+        {cell.labelElement}
+        {children}
+      </th>
+    );
+  },
 );
 TableHead.displayName = 'TableHead';
 
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, ...props }, ref) => (
-    <td ref={ref} className={cn('vero-table-cell', className)} {...props} />
-  ),
+  ({ className, label, children, ...props }, ref) => {
+    const cell = useCellStyles('td', label);
+    return (
+      <td ref={ref} className={cn('vero-table-cell', cell.className, className)} {...props}>
+        {cell.labelElement}
+        {children}
+      </td>
+    );
+  },
 );
 TableCell.displayName = 'TableCell';
 

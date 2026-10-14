@@ -120,8 +120,8 @@ and `stackedStyle` (`default` | `headers`). Everything else lands on the `<table
 The children are thin wrappers over the native elements: `TableCaption` (`<caption>`, with
 `hidden` for a screen-reader-only caption), `TableHeader` (`<thead>`), `TableBody` (`<tbody>` —
 use several for row-group sections), `TableFooter` (`<tfoot>`), `TableRow` (`<tr>`), `TableHead`
-(`<th>`, with `scope` defaulting to `col`) and `TableCell` (`<td>`). Both cell components accept
-`data-label`.
+(`<th>`, with `scope` defaulting to `col`) and `TableCell` (`<td>`). Both cell components accept a
+`label`, shown above the value while the table is stacked.
 
 ## `DataTable` props
 
@@ -394,12 +394,14 @@ docs canvas is rendered at the page's own width.
 
 <Canvas of={DataTableStories.Stacked} />
 
-The label comes from a `data-label` attribute on each cell, rendered as
-`content: attr(data-label)` — the same mechanism USWDS uses. You never have to write it:
+The label comes from each cell's `label` prop. USWDS uses a `data-label` attribute drawn with
+`content: attr(data-label)`; here it is a real element, so it can hold any React content, and it
+is only rendered while the table is stacked.
 
-- `DataTable` fills `data-label` in from your column definitions (or `meta.stackedLabel`).
-- `Table` reads the header row and labels the body cells below it, so hand-composed tables stack
-  too. An explicit `data-label` on a cell always wins.
+- `DataTable` fills `label` in from your column definitions (or `meta.stackedLabel`), so there is
+  nothing to wire up.
+- With the primitives, pass `label` on each body cell — usually its column header, or something
+  more specific when that reads better on a card.
 
 <Canvas of={TableStories.Stacked} />
 
@@ -538,7 +540,8 @@ rows inside — so most markup ports across unchanged.
         <code>stackedStyle="default"</code>
       </td>
       <td>
-        <code>responsive="stack"</code>, with <code>data-label</code> filled in for you
+        <code>responsive="stack"</code>, with <code>label</code> on each cell (
+        <code>DataTable</code> fills it in)
       </td>
     </tr>
     <tr>

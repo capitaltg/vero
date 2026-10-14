@@ -119,18 +119,20 @@ export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
    */
   scope?: 'col' | 'row' | 'colgroup' | 'rowgroup';
   /**
-   * Label shown above this cell's value when the table is stacked. Body cells
-   * that leave it unset inherit their column header's text automatically.
+   * Label shown above this cell's value when the table is stacked — normally
+   * its column header. Only used for row headers in the body (`scope="row"`);
+   * rendered only while the table is stacked and below its breakpoint.
    */
-  'data-label'?: string;
+  label?: ReactNode;
 }
 
 export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
   /**
-   * Label shown above this cell's value when the table is stacked. Cells that
-   * leave it unset inherit their column header's text automatically.
+   * Label shown above this cell's value when the table is stacked — normally
+   * its column header. Rendered only while the table is stacked and below its
+   * breakpoint. {@link DataTable} fills it in from the column definitions.
    */
-  'data-label'?: string;
+  label?: ReactNode;
 }
 
 export interface DataTableProps<TData> extends TableVariantProps {

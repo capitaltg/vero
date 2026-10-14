@@ -1,3 +1,4 @@
+import type * as React from 'react';
 import { expectNoViolations } from '@/test/utils';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
@@ -63,64 +64,225 @@ describe('Table (primitives)', () => {
   });
 
   describe('stacked mode', () => {
-    it('labels body cells with their column header', () => {
+    const labelOf = (cell: HTMLElement) =>
+      cell.querySelector('.vero-table-stacked-label')?.textContent ?? null;
+
+    it('renders each cell label above its value', () => {
       render(<TableStacked />);
-      // Derived from the header row — the demo sets no data-label on these.
-      expect(screen.getByRole('rowheader', { name: 'Q1' })).toHaveAttribute(
-        'data-label',
-        'Quarter',
-      );
-      expect(screen.getByRole('cell', { name: '$1.2M' })).toHaveAttribute('data-label', 'Revenue');
+      const revenue = screen.getByRole('cell', { name: /\$1\.2M/ });
+      expect(labelOf(revenue)).toBe('Revenue');
+      expect(revenue.firstElementChild).toHaveClass('vero-table-stacked-label');
+      expect(labelOf(screen.getByRole('rowheader', { name: /Q1/ }))).toBe('Quarter');
     });
 
-    it('keeps an explicit data-label', () => {
-      render(<TableStacked />);
-      expect(screen.getByRole('cell', { name: '+4%' })).toHaveAttribute(
-        'data-label',
-        'Change vs. Q4',
-      );
-    });
-
-    it('marks the stacked style on the table', () => {
-      const { rerender } = render(<TableStacked />);
-      expect(screen.getByRole('table')).toHaveAttribute('data-stacked-style', 'default');
-
-      rerender(<TableBasic />);
-      expect(screen.getByRole('table')).not.toHaveAttribute('data-stacked-style');
-    });
-
-    it('leaves spanning cells (row-group headings) unlabeled', () => {
+    it('renders rich label content', () => {
       render(
         <Table aria-label="Employees" responsive="stack">
-          <TableHeader>
+          <TableBody>
             <TableRow>
-              <TableHead scope="col">Name</TableHead>
-              <TableHead scope="col">Role</TableHead>
+              <TableCell label={<abbr title="Department">Dept.</abbr>}>Engineering</TableCell>
             </TableRow>
-          </TableHeader>
+          </TableBody>
+        </Table>,
+      );
+      expect(screen.getByTitle('Department')).toHaveTextContent('Dept.');
+    });
+
+    it('applies the stacked classes to each part', () => {
+      render(<TableStacked />);
+      const table = screen.getByRole('table');
+      expect(table.querySelector('thead')).toHaveClass('max-md:hidden');
+      expect(screen.getAllByRole('row')[1]).toHaveClass('max-md:border-b-4');
+      expect(screen.getByRole('cell', { name: /\$1\.2M/ })).toHaveClass('max-md:block');
+    });
+
+    it('follows the stack breakpoint', () => {
+      render(
+        <Table aria-label="Employees" responsive="stack" stackBreakpoint="lg">
+          <TableBody>
+            <TableRow>
+              <TableCell label="Role">Engineer</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+      const cell = screen.getByRole('cell', { name: /Engineer/ });
+      expect(cell).toHaveClass('max-lg:block');
+      expect(cell).not.toHaveClass('max-md:block');
+    });
+
+    it('applies the card-heading classes for stackedStyle="headers"', () => {
+      const { rerender } = render(<TableStacked />);
+      const cell = () => screen.getByRole('cell', { name: /\$1\.2M/ });
+      expect(cell()).not.toHaveClass('max-md:first:text-lg');
+
+      rerender(
+        <Table aria-label="Employees" responsive="stack" stackedStyle="headers">
+          <TableBody>
+            <TableRow>
+              <TableCell label="Revenue">$1.2M</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+      expect(cell()).toHaveClass('max-md:first:text-lg');
+    });
+
+    it('leaves cells without a label unlabeled', () => {
+      render(
+        <Table aria-label="Employees" responsive="stack">
           <TableBody>
             <TableRow>
               <TableHead colSpan={2} scope="colgroup">
                 Engineering
               </TableHead>
             </TableRow>
+          </TableBody>
+        </Table>,
+      );
+      const heading = screen.getByRole('columnheader', { name: 'Engineering' });
+      expect(labelOf(heading)).toBeNull();
+      expect(heading).not.toHaveClass('max-md:pb-3');
+    });
+
+    it('does not render labels or stacked classes when not stacked', () => {
+      render(
+        <Table aria-label="Employees">
+          <TableHeader>
             <TableRow>
-              <TableHead scope="row">Ada Lovelace</TableHead>
-              <TableCell>Engineer</TableCell>
+              <TableHead scope="col">Role</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell label="Role">Engineer</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+      const cell = screen.getByRole('cell', { name: 'Engineer' });
+      expect(labelOf(cell)).toBeNull();
+      expect(cell).not.toHaveClass('max-md:block');
+      expect(screen.getByRole('table').querySelector('thead')).not.toHaveClass('max-md:hidden');
+    });
+
+    it('does not stack the header or footer rows', () => {
+      render(<TableStacked />);
+      const header = screen.getByRole('columnheader', { name: 'Revenue' });
+      expect(labelOf(header)).toBeNull();
+      expect(header).not.toHaveClass('max-md:block');
+    });
+
+    it('does not stack a table nested inside a stacked one', () => {
+      render(
+        <Table aria-label="Outer" responsive="stack">
+          <TableBody>
+            <TableRow>
+              <TableCell label="Detail">
+                <Table aria-label="Inner">
+                  <TableBody>
+                    <TableRow>
+                      <TableCell label="Inner label">Nested</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+      const nested = screen.getByRole('cell', { name: 'Nested' });
+      expect(labelOf(nested)).toBeNull();
+      expect(nested).not.toHaveClass('max-md:block');
+    });
+  });
+
+  describe('cell styling', () => {
+    const renderTable = (props: React.ComponentProps<typeof Table> = {}) =>
+      render(
+        <Table aria-label="Employees" {...props}>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-right">Role</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell label="Role">Engineer</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell label="Role">Researcher</TableCell>
             </TableRow>
           </TableBody>
         </Table>,
       );
 
-      expect(screen.getByRole('columnheader', { name: 'Engineering' })).not.toHaveAttribute(
-        'data-label',
+    it('styles cells from the table settings', () => {
+      const { rerender } = renderTable();
+      expect(screen.getByRole('cell', { name: 'Engineer' })).toHaveClass('border', 'px-4');
+
+      rerender(
+        <Table aria-label="Employees" density="compact" variant="borderless">
+          <TableBody>
+            <TableRow>
+              <TableCell>Engineer</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
       );
-      expect(screen.getByRole('cell', { name: 'Engineer' })).toHaveAttribute('data-label', 'Role');
+      const cell = screen.getByRole('cell', { name: 'Engineer' });
+      expect(cell).toHaveClass('border-b', 'border-input', 'px-3');
+      expect(cell).not.toHaveClass('border-base-500');
     });
 
-    it('does not label cells when the table is not stacked', () => {
-      render(<TableBasic />);
-      expect(screen.getByRole('cell', { name: '$1.2M' })).not.toHaveAttribute('data-label');
+    it("lets a cell's own classes override the base styling", () => {
+      renderTable();
+      const header = screen.getByRole('columnheader', { name: 'Role' });
+      expect(header).toHaveClass('text-right');
+      expect(header).not.toHaveClass('text-left');
+    });
+
+    it('stripes body cells, only above the breakpoint when stacked', () => {
+      const { rerender } = renderTable({ striped: true });
+      expect(screen.getByRole('cell', { name: /Engineer/ })).toHaveClass(
+        '[tr:nth-child(even)>&]:bg-muted',
+      );
+
+      rerender(
+        <Table striped aria-label="Employees" responsive="stack">
+          <TableBody>
+            <TableRow>
+              <TableCell label="Role">Engineer</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+      const cell = screen.getByRole('cell', { name: /Engineer/ });
+      expect(cell).toHaveClass('md:[tr:nth-child(even)>&]:bg-muted');
+      expect(cell).not.toHaveClass('[tr:nth-child(even)>&]:bg-muted');
+    });
+
+    it("does not pass a table's settings to a table nested inside it", () => {
+      render(
+        <Table striped aria-label="Outer" density="compact" variant="borderless">
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Table aria-label="Inner">
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>Nested</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>,
+      );
+      const nested = screen.getByRole('cell', { name: 'Nested' });
+      expect(nested).toHaveClass('border', 'border-base-500', 'px-4');
+      expect(nested).not.toHaveClass('px-3');
     });
   });
 

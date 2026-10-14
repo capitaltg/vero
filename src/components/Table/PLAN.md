@@ -72,7 +72,7 @@ tables; also the render target for `DataTable`.
 - `TableFooter` — `<tfoot>`
 - `TableRow` — `<tr>`
 - `TableHead` — `<th>`; `scope` prop (`col | row | colgroup | rowgroup`), sort affordance hooks
-- `TableCell` — `<td>`; optional `data-label` for stacked mode
+- `TableCell` — `<td>`; optional `label` for stacked mode
 
 Exported flat, like Dialog: `Table, TableCaption, TableHeader, TableBody, TableFooter,
 TableRow, TableHead, TableCell`. The primitive wrapper takes the bare `Table` name — it is the
@@ -101,7 +101,7 @@ either compose primitives yourself _or_ drive a `DataTable` and customize via it
 src/components/Table/
   index.ts                      # flat barrel: DataTable + Table primitives + types
   types.ts                      # DataTableProps<T> (config), TableProps (primitive), ColumnMeta augmentation, etc.
-  constants.ts                  # cva definitions (tableVariants) + stacked-mode class maps
+  constants.ts                  # cva definitions (tableVariants, tableCellVariants) + stacked-mode class maps
   PLAN.md                       # this document (remove or relocate before public release)
   src/
     Table.tsx                   # primitives (Table + TableHeader/Body/Row/Head/Cell/…)
@@ -198,11 +198,13 @@ from a grouping key (render-only, not TanStack `getGroupedRowModel`).
   we do not force `white-space: nowrap` on cells, so text wraps by default; add
   `whitespace-nowrap` per column to get the USWDS "never squeeze a column" behavior.
 - **Stacked (opt-in, `responsive="stack"`):** below `stackBreakpoint` each row becomes a
-  card and each cell renders its column header above its value from `data-label`
-  (`content: attr(data-label)`), exactly as USWDS does. Both layers fill `data-label` in
-  automatically: `DataTable` from the column definitions, `Table` by reading the header
-  row (an explicit `data-label` on a cell always wins). `stackedStyle="headers"` promotes
-  each row's first cell to the card's heading (USWDS `usa-table--stacked-header`).
+  card and each cell renders its `label` prop above its value as a real element (USWDS
+  draws a `data-label` attribute with `content: attr(data-label)`). `DataTable` fills
+  `label` in from the column definitions; with the primitives, pass it per cell. `Table`
+  shares its stacked settings through context and each primitive applies its own stacked
+  classes, so nothing touches the DOM after render and nested tables are unaffected.
+  `stackedStyle="headers"` promotes each row's first cell to the card's heading (USWDS
+  `usa-table--stacked-header`).
 
 ### 5.9 Testing (v1)
 
@@ -284,8 +286,8 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
 - [ ] `<th>` with correct `scope` (`col`/`row`/`colgroup`/`rowgroup`) everywhere.
 - [ ] Sortable headers: `<button>` + `aria-sort`; live-region announcement.
 - [ ] Scroll container: `role="region"`, `tabindex="0"`, `aria-label`, visible focus.
-- [x] Stacked mode: each cell labeled with its column header (`data-label` on every body
-      cell; rendered as `::before` generated content, the USWDS approach).
+- [x] Stacked mode: each cell labeled with its column header (`label` on every body cell,
+      rendered as a real element only while stacked).
 - [ ] Color is never the only signal (sort direction, selection, groups also use icon/text).
 - [ ] Contrast meets WCAG AA against Vero tokens in default + `.dark` + `.theme-uswds`.
 - [ ] All interactive affordances are keyboard-operable with visible focus.
@@ -297,8 +299,9 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
 ## 8. Open questions / decisions to revisit
 
 - ~~Primitive-path stacked mode: ship in v1 (consumer supplies labels) or defer entirely?~~
-  _Resolved: shipped. `Table` derives each cell's label from the header row, so
-  hand-composed tables stack with no extra markup; `data-label` overrides it._
+  _Resolved: shipped, with the consumer supplying `label` per cell (as USWDS requires
+  `data-label`). Deriving labels from the header row automatically would need
+  `React.Children` indexing or DOM reads; revisit only if there's demand._
 - Stacking keys off viewport width (like USWDS). A container query would stack a table
   that sits in a narrow column of a wide page; revisit with the Tailwind v4 migration,
   which has container queries built in.

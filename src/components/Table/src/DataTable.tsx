@@ -160,7 +160,7 @@ function DataTableInner<TData>(
                 // an empty table header for assistive tech.
                 if (header.isPlaceholder) {
                   return (
-                    <td
+                    <TableCell
                       key={header.id}
                       aria-hidden="true"
                       className="bg-muted"
@@ -223,22 +223,21 @@ function DataTableInner<TData>(
                   const align = cell.column.columnDef.meta?.align ?? 'left';
                   const content = flexRender(cell.column.columnDef.cell, cell.getContext());
 
-                  // Every cell carries its column's label so stacked mode can
-                  // render it above the value (USWDS `data-label`). Harmless in
-                  // the other modes, and it keeps the markup mode-independent.
+                  // Each cell takes its column's label; the primitives only
+                  // render it while the table is stacked.
                   const label = getStackLabel(cell.column);
 
                   return isRowHeader ? (
                     <TableHead
                       key={cell.id}
                       className={alignClass[align]}
-                      data-label={label}
+                      label={label}
                       scope="row"
                     >
                       {content}
                     </TableHead>
                   ) : (
-                    <TableCell key={cell.id} className={alignClass[align]} data-label={label}>
+                    <TableCell key={cell.id} className={alignClass[align]} label={label}>
                       {content}
                     </TableCell>
                   );

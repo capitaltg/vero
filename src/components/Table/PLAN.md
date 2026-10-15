@@ -102,7 +102,7 @@ either compose primitives yourself _or_ drive a `DataTable` and customize via it
 ```
 src/components/Table/
   index.ts                      # flat barrel: DataTable + Table primitives + types
-  types.ts                      # DataTableProps<T> (config), TableProps (primitive), ColumnMeta augmentation, etc.
+  types.ts                      # DataTableProps<T> (config), TableProps (primitive), DataTableColumnDef / DataTableColumnMeta, etc.
   constants.ts                  # cva definitions (tableVariants, tableCellVariants) + stacked-mode class maps
   PLAN.md                       # this document (remove or relocate before public release)
   src/
@@ -120,8 +120,9 @@ src/components/Table/
 
 - ~~Add `export * from './components/Table'` to `src/index.ts` (alphabetical: between
   `SwitchGroup` and `Tabs`).~~ Done — exported as experimental.
-- Augment TanStack's `ColumnMeta` interface (module augmentation in `types.ts`) with
-  `isRowHeader?`, `align?`, `stackedLabel?`, etc.
+- ~~Augment TanStack's `ColumnMeta` interface (module augmentation in `types.ts`) with
+  `isRowHeader?`, `align?`, `stackedLabel?`, etc.~~ Replaced by a scoped
+  `DataTableColumnDef<T>` type (see §8, #148).
 - New dependency: `@tanstack/react-table` (~13–15 KB gzipped, tree-shakeable — within the
   150 KB `size-limit` budget). Add to `dependencies`.
 
@@ -312,13 +313,14 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
 - When we add collapsible grouping/expansion: native semantics vs `treegrid`. (Phase 3.)
 - Should style variants (striped/compact/borderless) be cva variants on `Table`, or a
   theme-level concern? _Current: cva variants._
-- Should Vero globally augment TanStack's `ColumnMeta` (in `types.ts`)? It leaks
-  `isRowHeader` / `align` / `stackedLabel` into every consumer's TanStack types and can
-  conflict with a consumer's own augmentation. Alternatives: export a plain
-  `TableColumnMeta` and let consumers opt in to the augmentation (unaugmented `ColumnMeta`
-  is empty, so `meta: { isRowHeader: true }` still compiles); move the options to
-  `DataTable` props keyed by column id (`rowHeader`, `columnAlign`, …); or namespace them
-  under `meta.vero`. Decide before promoting to stable (#148). _Current: global augmentation._
+- ~~Should Vero globally augment TanStack's `ColumnMeta` (in `types.ts`)?~~ _Resolved (#148):
+  no. The global augmentation added Vero's fields to every consumer's TanStack types and broke
+  apps that define a same-named field such as `align` (TS2717 in their own code, which
+  `skipLibCheck` doesn't suppress; or, depending on declaration order, their type silently
+  winning). `DataTable` now takes `DataTableColumnDef<T>[]`, a `ColumnDef` whose `meta` (including
+  nested group columns) accepts `DataTableColumnMeta`, with Vero's fields taking precedence over
+  same-named app fields. Plain `ColumnDef` arrays and `createColumnHelper` output still work, and
+  apps can opt in to the global augmentation themselves (documented on `DataTableColumnMeta`)._
 - Final home for this PLAN.md before public release (docs site vs delete).
 - Promotion checklist from experimental → stable: remove the `@experimental` JSDoc tags,
   the `Table` dev-mode `console.warn` (and its filter in `src/test/setup.ts`), the

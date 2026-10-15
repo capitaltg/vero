@@ -1,4 +1,4 @@
-import type { ColumnDef } from '@tanstack/react-table';
+import type { DataTableColumnDef } from '../types';
 import { DataTable } from '../src/DataTable';
 
 interface Metric {
@@ -43,7 +43,7 @@ const data: Metric[] = [
 
 const num = (n: number) => n.toLocaleString('en-US');
 
-const columns: ColumnDef<Metric, unknown>[] = [
+const columns: DataTableColumnDef<Metric>[] = [
   { accessorKey: 'month', header: 'Month', meta: { isRowHeader: true } },
   {
     accessorKey: 'visitors',

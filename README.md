@@ -72,9 +72,10 @@ JSDoc and its Storybook page is labeled "(Experimental)".
 - **`Table`** and its parts (`TableCaption`, `TableHeader`, `TableBody`, `TableFooter`,
   `TableRow`, `TableHead`, `TableCell`), plus the config-driven **`DataTable`** — see
   [`src/components/Table/PLAN.md`](src/components/Table/PLAN.md) for status and roadmap.
-  Note that importing Vero augments `@tanstack/react-table`'s `ColumnMeta` type with
-  `DataTable`'s column options (`isRowHeader`, `align`, `stackedLabel`), so those fields
-  also appear on `ColumnMeta` if your app uses TanStack Table directly.
+  Vero doesn't change `@tanstack/react-table`'s types. Type your columns as
+  `DataTableColumnDef<T>[]` to get checking on `DataTable`'s column options (`isRowHeader`,
+  `align`, `stackedLabel`); `DataTableColumnMeta` documents how to opt in to them on
+  TanStack's `ColumnMeta` globally if you prefer.
 
 ## Styling setup
 

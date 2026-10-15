@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import { Table } from '../src/Table';
+import { DataTable } from '../src/DataTable';
 
 interface Metric {
   month: string;
@@ -89,8 +89,8 @@ const columns: ColumnDef<Metric, unknown>[] = [
  * users can reach the off-screen columns. The wrapper is constrained here to
  * force the overflow.
  */
-export const TableScrollable = () => (
+export const DataTableScrollable = () => (
   <div className="max-w-xl">
-    <Table caption="Monthly metrics" columns={columns} data={data} />
+    <DataTable caption="Monthly metrics" columns={columns} data={data} />
   </div>
 );

@@ -1,10 +1,10 @@
-// Experimental: the Table component (and its primitives) is exported for early
-// feedback. v1 is feature-complete and tested, but the API may still change — or
-// be removed — without a major version bump. See `PLAN.md` in this folder for
-// status and the v2+ roadmap. Each export carries its own `@experimental` tag.
-export { Table } from './src/Table';
+// Experimental: the table components are exported for early feedback. v1 is
+// feature-complete and tested, but the API may still change — or be removed —
+// without a major version bump. See `PLAN.md` in this folder for status and the
+// v2+ roadmap. Each export carries its own `@experimental` tag.
+export { DataTable } from './src/DataTable';
 export {
-  TableRoot,
+  Table,
   TableBody,
   TableCaption,
   TableCell,
@@ -12,16 +12,17 @@ export {
   TableHead,
   TableHeader,
   TableRow,
-} from './src/TableRoot';
+} from './src/Table';
 
 export type {
-  TableProps,
+  DataTableProps,
   TableCaptionProps,
   TableCellProps,
   TableHeadProps,
-  TableRootProps,
+  TableProps,
   TableResponsive,
   TableRowProps,
   TableSectionProps,
   TableStackBreakpoint,
+  TableStackedStyle,
 } from './types';

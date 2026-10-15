@@ -8,7 +8,7 @@ import * as matchers from 'vitest-axe/matchers';
 expect.extend(matchers);
 
 // Silence the one-time "Table is experimental" dev warning so it doesn't clutter
-// test output (it has dedicated coverage in TableRoot.test.tsx). Remove when Table
+// test output (it has dedicated coverage in Table.test.tsx). Remove when Table
 // is promoted to stable.
 const originalWarn = console.warn;
 vi.spyOn(console, 'warn').mockImplementation((...args: unknown[]) => {

@@ -69,12 +69,12 @@ early feedback. Their API may change, or the export may be removed, without a ma
 version bump — pin your version if you rely on one. Each is marked `@experimental` in its
 JSDoc and its Storybook page is labeled "(Experimental)".
 
-- **`Table`** / **`TableRoot`** and its primitives (`TableCaption`, `TableHeader`,
-  `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`) — see
+- **`Table`** and its parts (`TableCaption`, `TableHeader`, `TableBody`, `TableFooter`,
+  `TableRow`, `TableHead`, `TableCell`), plus the config-driven **`DataTable`** — see
   [`src/components/Table/PLAN.md`](src/components/Table/PLAN.md) for status and roadmap.
   Note that importing Vero augments `@tanstack/react-table`'s `ColumnMeta` type with
-  Table's column options (`isRowHeader`, `align`, …), so those fields also appear on
-  `ColumnMeta` if your app uses TanStack Table directly.
+  `DataTable`'s column options (`isRowHeader`, `align`, `stackedLabel`), so those fields
+  also appear on `ColumnMeta` if your app uses TanStack Table directly.
 
 ## Styling setup
 

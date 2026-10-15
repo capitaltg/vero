@@ -60,6 +60,24 @@ describe('Popover', () => {
       });
     });
 
+    it('enables pointer events so it stays clickable when a modal Dialog disables them on body', async () => {
+      const user = userEvent.setup();
+      render(
+        <Popover>
+          <PopoverTrigger asChild>
+            <button>Open</button>
+          </PopoverTrigger>
+          <PopoverContent>Content</PopoverContent>
+        </Popover>,
+      );
+
+      await user.click(screen.getByText('Open'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Content')).toHaveClass('pointer-events-auto');
+      });
+    });
+
     it('renders with React node content', async () => {
       const user = userEvent.setup();
       render(

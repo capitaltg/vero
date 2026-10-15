@@ -39,13 +39,26 @@ declare module '@tanstack/react-table' {
   }
 }
 
-/** Responsive behavior for a table on narrow viewports. */
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * Responsive behavior for a table on narrow viewports.
+ */
 export type TableResponsive = 'scroll' | 'stack' | 'none';
 
-/** Breakpoint at which a stacked table returns to a normal grid layout. */
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * Breakpoint at which a stacked table returns to a normal grid layout.
+ */
 export type TableStackBreakpoint = 'sm' | 'md' | 'lg';
 
 /**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
  * How a stacked (card) table presents each card, mirroring the USWDS
  * `usa-table--stacked` / `usa-table--stacked-header` variants.
  * - `default`: every cell is labelled with its column header.
@@ -56,6 +69,10 @@ export type TableStackedStyle = 'default' | 'headers';
 
 type TableVariantProps = VariantProps<typeof tableVariants>;
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ */
 export interface TableProps
   extends Omit<TableHTMLAttributes<HTMLTableElement>, 'aria-label' | 'aria-labelledby'>,
     TableVariantProps {
@@ -98,6 +115,10 @@ export interface TableProps
   'aria-labelledby'?: string;
 }
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ */
 export type TableCaptionProps = HTMLAttributes<HTMLTableCaptionElement> & {
   /**
    * Visually hide the caption while keeping it available to assistive
@@ -108,9 +129,22 @@ export type TableCaptionProps = HTMLAttributes<HTMLTableCaptionElement> & {
   hidden?: boolean;
 };
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ */
 export type TableSectionProps = HTMLAttributes<HTMLTableSectionElement>;
+
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ */
 export type TableRowProps = HTMLAttributes<HTMLTableRowElement>;
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ */
 export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
   /**
    * The header's scope. Use `col` for column headers, `row` for row headers,
@@ -126,6 +160,10 @@ export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
   label?: ReactNode;
 }
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ */
 export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
   /**
    * Label shown above this cell's value when the table is stacked — normally
@@ -135,6 +173,10 @@ export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
   label?: ReactNode;
 }
 
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ */
 export interface DataTableProps<TData> extends TableVariantProps {
   /** The rows to render. */
   data: TData[];

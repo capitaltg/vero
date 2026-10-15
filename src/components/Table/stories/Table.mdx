@@ -6,8 +6,11 @@ import * as TableStories from './Table.stories';
 
 # Table
 
-> **Preview.** Both components are complete and covered by tests, but they are not exported from
-> the published package yet — uncomment them in `src/index.ts` to ship them.
+> **Experimental.** Both components are exported for early feedback. They are complete and covered
+> by tests, but the API may change, or they may be removed, without a major version bump. Each
+> export is tagged `@experimental`, and the first table to mount logs a one-time warning in
+> development builds. See the [Table plan](https://github.com/capitaltg/vero/blob/main/src/components/Table/PLAN.md)
+> for status.
 
 Accessible, 508-friendly tables styled after the
 [USWDS Table](https://designsystem.digital.gov/components/table/), with sorting, column grouping

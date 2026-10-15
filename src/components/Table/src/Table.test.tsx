@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import { expectNoViolations } from '@/test/utils';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 import { TableColumnGroups } from '../demos/TableColumnGroups';
 import { TableBasic } from '../demos/TableBasic';
@@ -306,6 +306,50 @@ describe('Table (primitives)', () => {
       );
       const caption = screen.getByRole('table', { name: 'Quarterly revenue' }).firstElementChild;
       expect(caption).toHaveClass('sr-only');
+    });
+  });
+
+  describe('experimental warning', () => {
+    const EXPERIMENTAL = '[vero] Table is experimental';
+
+    // The "warned once" flag is module state, so load a fresh copy per test.
+    async function loadTable() {
+      vi.resetModules();
+      return (await import('./Table')).Table;
+    }
+
+    function experimentalWarnings() {
+      return vi
+        .mocked(console.warn)
+        .mock.calls.filter(([msg]) => typeof msg === 'string' && msg.startsWith(EXPERIMENTAL));
+    }
+
+    beforeEach(() => {
+      vi.mocked(console.warn).mockClear();
+    });
+
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    it('warns once in development, however many tables mount', async () => {
+      vi.stubEnv('NODE_ENV', 'development');
+      const FreshTable = await loadTable();
+      render(
+        <>
+          <FreshTable aria-label="First" />
+          <FreshTable aria-label="Second" />
+        </>,
+      );
+      render(<FreshTable aria-label="Third" />);
+      expect(experimentalWarnings()).toHaveLength(1);
+    });
+
+    it('does not warn in production', async () => {
+      vi.stubEnv('NODE_ENV', 'production');
+      const FreshTable = await loadTable();
+      render(<FreshTable aria-label="Only" />);
+      expect(experimentalWarnings()).toHaveLength(0);
     });
   });
 });

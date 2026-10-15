@@ -20,12 +20,17 @@ import {
 } from '../src/Table';
 
 const meta = {
-  title: 'Data & Display/Table',
+  // "(Experimental)" in the title keeps it visible in the sidebar tree even
+  // without opening the docs page.
+  title: 'Data & Display/Table (Experimental)',
   component: Table,
   parameters: {
     docs: {
       description: {
         component:
+          '⚠️ **Experimental** — exported for early feedback. The API may change, or these components ' +
+          'may be removed, without a major version bump. Not yet recommended for ' +
+          'production use; see the [Table plan](https://github.com/capitaltg/vero/blob/main/src/components/Table/PLAN.md) for status.\n\n' +
           'Accessible, USWDS-styled table primitives. Compose `Table` with `TableCaption`, ' +
           '`TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, and `TableCell` ' +
           'for small or bespoke tables. For data-driven tables, see `DataTable`, which renders ' +

@@ -1,11 +1,13 @@
 # Table Component — Implementation Plan
 
-Status: **v1 implemented (internal / unreleased)** · Owner: TBD · Branch: `feat/table-component`
+Status: **v1 implemented — exported as experimental** · Owner: TBD
 
-> Landed but intentionally **not part of the public API yet**: the root barrel export in
-> `src/index.ts` is still commented out, so nothing ships until it's uncommented. The Storybook
-> stories are visible (they carried `tags: ['!dev']` until the docs page landed), and the docs
-> page carries a "Preview" callout to remove at release.
+> Landed and now **exported as experimental**: the root barrel export in `src/index.ts` is
+> live, and both Storybook pages are visible as `Data & Display/Table (Experimental)` and
+> `Data & Display/DataTable (Experimental)`, with an "Experimental" callout on the docs page.
+> `@experimental` JSDoc is on every exported symbol (shows on hover in consumers' editors), and
+> `Table` logs a one-time dev-mode `console.warn` on mount. The API may still change, or the
+> components may be removed, without a major version bump — see the promotion checklist in §8.
 
 > v1 shipped on this branch: semantic primitives + `DataTable<T>`, column grouping,
 > row headers, sorting (`aria-sort` + live announcements), visual row-group sections
@@ -15,7 +17,7 @@ Status: **v1 implemented (internal / unreleased)** · Owner: TBD · Branch: `fea
 >
 > Follow-up (responsive parity pass): stacked mode now matches USWDS
 > `usa-table--stacked` / `usa-table--stacked-header` rule for rule, works from the
-> primitives with no extra markup (labels are derived from the header row), gained
+> primitives too (each body cell takes a `label` prop; `DataTable` fills it in), gained
 > `stackedStyle="headers"`, and `stickyHeader` was added for
 > `usa-table--sticky-header` parity. The `striped` variant's colors were also fixed —
 > they used `bg-muted/40` and `bg-muted/50`, and Tailwind cannot apply an opacity
@@ -116,8 +118,8 @@ src/components/Table/
     Table*.tsx / DataTable*.tsx # one file per story example, shown as source via ?raw
 ```
 
-- Add `export * from './components/Table'` to `src/index.ts` (alphabetical: between
-  `SwitchGroup` and `Tabs`).
+- ~~Add `export * from './components/Table'` to `src/index.ts` (alphabetical: between
+  `SwitchGroup` and `Tabs`).~~ Done — exported as experimental.
 - Augment TanStack's `ColumnMeta` interface (module augmentation in `types.ts`) with
   `isRowHeader?`, `align?`, `stackedLabel?`, etc.
 - New dependency: `@tanstack/react-table` (~13–15 KB gzipped, tree-shakeable — within the
@@ -310,4 +312,15 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
 - When we add collapsible grouping/expansion: native semantics vs `treegrid`. (Phase 3.)
 - Should style variants (striped/compact/borderless) be cva variants on `Table`, or a
   theme-level concern? _Current: cva variants._
+- Should Vero globally augment TanStack's `ColumnMeta` (in `types.ts`)? It leaks
+  `isRowHeader` / `align` / `stackedLabel` into every consumer's TanStack types and can
+  conflict with a consumer's own augmentation. Alternatives: export a plain
+  `TableColumnMeta` and let consumers opt in to the augmentation (unaugmented `ColumnMeta`
+  is empty, so `meta: { isRowHeader: true }` still compiles); move the options to
+  `DataTable` props keyed by column id (`rowHeader`, `columnAlign`, …); or namespace them
+  under `meta.vero`. Decide before promoting to stable (#148). _Current: global augmentation._
 - Final home for this PLAN.md before public release (docs site vs delete).
+- Promotion checklist from experimental → stable: remove the `@experimental` JSDoc tags,
+  the `Table` dev-mode `console.warn` (and its filter in `src/test/setup.ts`), the
+  "(Experimental)" Storybook title suffixes and the docs-page callout, and this PLAN.md (or
+  relocate it), then bump at least a minor version.

@@ -19,18 +19,23 @@ import { people, personColumns } from '../demos/sampleData';
 import { DataTable } from '../src/DataTable';
 
 const meta = {
-  title: 'Data & Display/DataTable',
+  // "(Experimental)" in the title keeps it visible in the sidebar tree even
+  // without opening the docs page.
+  title: 'Data & Display/DataTable (Experimental)',
   component: DataTable,
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
         component:
+          '⚠️ **Experimental** — exported for early feedback. The API may change, or this component ' +
+          'may be removed, without a major version bump. Not yet recommended for ' +
+          'production use; see the [Table plan](https://github.com/capitaltg/vero/blob/main/src/components/Table/PLAN.md) for status.\n\n' +
           'Config-driven table built on TanStack Table. Pass `data` and `columns` and it ' +
           'renders through the accessible `Table` primitives — with column grouping, row ' +
           'headers (`meta.isRowHeader`), sorting (`aria-sort` + live announcements), and ' +
           'scroll / stacked responsive behavior. The full guide for both components lives ' +
-          'on the [Table docs page](?path=/docs/data-display-table--docs).',
+          'on the [Table docs page](?path=/docs/data-display-table-experimental--docs).',
       },
     },
   },

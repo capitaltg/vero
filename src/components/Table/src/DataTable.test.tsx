@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
-import type { ColumnDef } from '@tanstack/react-table';
+import { createColumnHelper, type ColumnDef } from '@tanstack/react-table';
+import type { DataTableColumnDef } from '../types';
 import { groupedPersonColumns, people, personColumns, type Person } from '../demos/sampleData';
 import { DataTable } from './DataTable';
 
@@ -152,7 +153,7 @@ describe('DataTable', () => {
     });
 
     it('prefers meta.stackedLabel over the column header', () => {
-      const columns: ColumnDef<Person, unknown>[] = [
+      const columns: DataTableColumnDef<Person>[] = [
         { accessorKey: 'name', header: 'Name', meta: { isRowHeader: true } },
         { accessorKey: 'role', header: 'Role', meta: { stackedLabel: 'Job title' } },
       ];
@@ -178,6 +179,60 @@ describe('DataTable', () => {
     it('does not render labels when not stacked', () => {
       render(<DataTable caption="Team roster" columns={personColumns} data={people} />);
       expect(labelOf(screen.getByRole('cell', { name: 'Researcher' }))).toBeNull();
+    });
+  });
+
+  // These are compile-time checks: `npm run type-check` fails if they regress.
+  describe('column typing', () => {
+    it('accepts plain TanStack ColumnDef arrays', () => {
+      const columns: ColumnDef<Person, unknown>[] = [{ accessorKey: 'name', header: 'Name' }];
+      render(<DataTable caption="Team roster" columns={columns} data={people} />);
+      expect(screen.getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
+    });
+
+    it('accepts createColumnHelper output', () => {
+      const helper = createColumnHelper<Person>();
+      const columns = [
+        helper.accessor('name', { header: 'Name' }),
+        helper.accessor('salary', { header: 'Salary' }),
+      ];
+      render(<DataTable caption="Team roster" columns={columns} data={people} />);
+      expect(screen.getByRole('columnheader', { name: 'Salary' })).toBeInTheDocument();
+    });
+
+    it('type-checks DataTable options on meta', () => {
+      const columns: DataTableColumnDef<Person>[] = [
+        { accessorKey: 'name', header: 'Name', meta: { isRowHeader: true } },
+        // @ts-expect-error -- 'rigth' is not a valid alignment
+        { accessorKey: 'salary', header: 'Salary', meta: { align: 'rigth' } },
+      ];
+      expect(columns).toHaveLength(2);
+    });
+
+    it('type-checks meta on nested group columns', () => {
+      const columns: DataTableColumnDef<Person>[] = [
+        {
+          header: 'Pay',
+          columns: [
+            { accessorKey: 'salary', header: 'Salary', meta: { align: 'right' } },
+            // @ts-expect-error -- 'rigth' is not a valid alignment
+            { accessorKey: 'salary', header: 'Base', meta: { align: 'rigth' } },
+          ],
+        },
+      ];
+      expect(columns).toHaveLength(1);
+    });
+
+    it('type-checks inline columns passed straight to the prop', () => {
+      render(
+        <DataTable
+          caption="Team roster"
+          // @ts-expect-error -- 'rigth' is not a valid alignment
+          columns={[{ accessorKey: 'salary', header: 'Salary', meta: { align: 'rigth' } }]}
+          data={people}
+        />,
+      );
+      expect(screen.getByRole('columnheader', { name: 'Salary' })).toBeInTheDocument();
     });
   });
 });

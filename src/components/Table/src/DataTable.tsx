@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
-import type { DataTableProps } from '../types';
+import type { DataTableColumnMeta, DataTableProps } from '../types';
 import {
   Table,
   TableBody,
@@ -34,6 +34,15 @@ const alignJustify = {
   right: 'justify-end',
 } as const;
 
+/**
+ * A column's {@link DataTableColumnMeta}. TanStack types `meta` as its own
+ * (empty, unless an app augments it) `ColumnMeta`; `columns` is typed as
+ * `DataTableColumnDef[]`, so reading it as our options is safe.
+ */
+function getMeta<TData>(column: Column<TData, unknown>): DataTableColumnMeta | undefined {
+  return column.columnDef.meta as DataTableColumnMeta | undefined;
+}
+
 /** Best-effort human label for a column (its string header, else its id). */
 function getColumnLabel<TData>(column: Column<TData, unknown>): string {
   const header = column.columnDef.header;
@@ -42,7 +51,7 @@ function getColumnLabel<TData>(column: Column<TData, unknown>): string {
 
 /** Label rendered above a cell's value in stacked (card) mode. */
 function getStackLabel<TData>(column: Column<TData, unknown>): string {
-  return column.columnDef.meta?.stackedLabel ?? getColumnLabel(column);
+  return getMeta(column)?.stackedLabel ?? getColumnLabel(column);
 }
 
 function SortIcon({ state }: { state: false | 'asc' | 'desc' }) {
@@ -151,7 +160,7 @@ function DataTableInner<TData>(
               {headerGroup.headers.map(header => {
                 const canSort = enableSorting && header.column.getCanSort();
                 const sorted = header.column.getIsSorted();
-                const align = header.column.columnDef.meta?.align ?? 'left';
+                const align = getMeta(header.column)?.align ?? 'left';
                 const scope = header.colSpan > 1 ? 'colgroup' : 'col';
 
                 // A placeholder header exists only to keep grouped columns
@@ -219,8 +228,9 @@ function DataTableInner<TData>(
             rows.map(row => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map(cell => {
-                  const isRowHeader = cell.column.columnDef.meta?.isRowHeader;
-                  const align = cell.column.columnDef.meta?.align ?? 'left';
+                  const meta = getMeta(cell.column);
+                  const isRowHeader = meta?.isRowHeader;
+                  const align = meta?.align ?? 'left';
                   const content = flexRender(cell.column.columnDef.cell, cell.getContext());
 
                   // Each cell takes its column's label; the primitives only

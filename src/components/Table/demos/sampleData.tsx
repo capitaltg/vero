@@ -1,4 +1,4 @@
-import type { ColumnDef } from '@tanstack/react-table';
+import type { DataTableColumnDef } from '../types';
 
 export interface Person {
   name: string;
@@ -50,7 +50,7 @@ const currency = (value: number) =>
   value.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
 /** Flat columns. The `name` column is marked as the row header. */
-export const personColumns: ColumnDef<Person, unknown>[] = [
+export const personColumns: DataTableColumnDef<Person>[] = [
   { accessorKey: 'name', header: 'Name', meta: { isRowHeader: true } },
   { accessorKey: 'role', header: 'Role' },
   { accessorKey: 'location', header: 'Location' },
@@ -64,7 +64,7 @@ export const personColumns: ColumnDef<Person, unknown>[] = [
 ];
 
 /** Grouped columns — produces multi-level column headers. */
-export const groupedPersonColumns: ColumnDef<Person, unknown>[] = [
+export const groupedPersonColumns: DataTableColumnDef<Person>[] = [
   { accessorKey: 'name', header: 'Name', meta: { isRowHeader: true } },
   {
     header: 'Employment',

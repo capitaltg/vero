@@ -83,8 +83,7 @@ the caption needs its own markup.
 The same table, config driven:
 
 ```tsx
-import { DataTable } from '@capitaltg/vero';
-import type { ColumnDef } from '@tanstack/react-table';
+import { DataTable, type DataTableColumnDef } from '@capitaltg/vero';
 
 interface Person {
   name: string;
@@ -92,7 +91,7 @@ interface Person {
   salary: number;
 }
 
-const columns: ColumnDef<Person, unknown>[] = [
+const columns: DataTableColumnDef<Person>[] = [
   // One column per table should be the row header.
   { accessorKey: 'name', header: 'Name', meta: { isRowHeader: true } },
   { accessorKey: 'role', header: 'Role' },
@@ -153,10 +152,13 @@ use several for row-group sections), `TableFooter` (`<tfoot>`), `TableRow` (`<tr
         <code>columns</code>
       </td>
       <td>
-        <code>ColumnDef&lt;TData, unknown&gt;[]</code>
+        <code>DataTableColumnDef&lt;TData&gt;[]</code>
       </td>
       <td>—</td>
-      <td>TanStack Table column definitions. Nest them to get grouped headers.</td>
+      <td>
+        TanStack Table column definitions, with Vero's options on <code>meta</code>. Nest them to
+        get grouped headers. Plain <code>ColumnDef</code> arrays work too.
+      </td>
     </tr>
     <tr>
       <td>
@@ -327,7 +329,7 @@ use several for row-group sections), `TableFooter` (`<tfoot>`), `TableRow` (`<tr
   </tbody>
 </table>
 
-### Per-column options (`ColumnDef.meta`)
+### Per-column options (`meta`)
 
 <table>
   <thead>
@@ -373,6 +375,24 @@ use several for row-group sections), `TableFooter` (`<tfoot>`), `TableRow` (`<tr
     </tr>
   </tbody>
 </table>
+
+Type your column array as `DataTableColumnDef<T>[]` (exported from Vero) to get autocomplete and
+typo checking on these fields. Plain TanStack `ColumnDef` arrays and `createColumnHelper` output
+are accepted too, just without that checking on `meta`.
+
+Vero deliberately doesn't add these fields to TanStack's global `ColumnMeta` type: that would
+change the types of every app that imports Vero, and break apps that already define a field such
+as `align` of their own. If you'd rather have them on `ColumnMeta` everywhere, for example to use
+`createColumnHelper` with full checking, opt in from your own app:
+
+```ts
+import type { DataTableColumnMeta } from '@capitaltg/vero';
+import type { RowData } from '@tanstack/react-table';
+
+declare module '@tanstack/react-table' {
+  interface ColumnMeta<TData extends RowData, TValue> extends DataTableColumnMeta {}
+}
+```
 
 ## Responsive behavior
 

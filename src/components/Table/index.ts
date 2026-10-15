@@ -15,6 +15,8 @@ export {
 } from './src/Table';
 
 export type {
+  DataTableColumnDef,
+  DataTableColumnMeta,
   DataTableProps,
   TableCaptionProps,
   TableCellProps,

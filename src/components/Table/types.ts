@@ -1,5 +1,11 @@
 import type { VariantProps } from 'class-variance-authority';
-import type { ColumnDef, OnChangeFn, RowData, SortingState } from '@tanstack/react-table';
+import type {
+  ColumnDef,
+  ColumnMeta,
+  OnChangeFn,
+  RowData,
+  SortingState,
+} from '@tanstack/react-table';
 import type {
   HTMLAttributes,
   ReactNode,
@@ -10,34 +16,80 @@ import type {
 import type { tableVariants } from './constants';
 
 /**
- * Extra per-column configuration understood by {@link DataTable}. Set on a
- * column via `ColumnDef.meta`, e.g. `{ meta: { isRowHeader: true } }`.
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
  *
- * This augments TanStack Table's own `ColumnMeta` interface so the fields are
- * available wherever a `ColumnDef` is typed.
+ * Extra per-column configuration understood by {@link DataTable}, set on a
+ * column via `meta`, e.g. `{ meta: { isRowHeader: true } }`.
+ *
+ * Vero deliberately does not augment TanStack Table's global `ColumnMeta`
+ * interface: that would add these fields to every app that imports Vero and
+ * break apps that define their own `ColumnMeta` fields with the same names.
+ * Type your columns as {@link DataTableColumnDef} instead. To get these fields
+ * on `ColumnMeta` everywhere (for example with `createColumnHelper`), opt in
+ * from your own app:
+ *
+ * ```ts
+ * declare module '@tanstack/react-table' {
+ *   interface ColumnMeta<TData extends RowData, TValue> extends DataTableColumnMeta {}
+ * }
+ * ```
  */
-declare module '@tanstack/react-table' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface ColumnMeta<TData extends RowData, TValue> {
-    /**
-     * When true, this column's cells render as `<th scope="row">` instead of
-     * `<td>`, making them row headers for assistive technology. Designate
-     * exactly one column per table as the row header for the best experience.
-     */
-    isRowHeader?: boolean;
-    /**
-     * Horizontal alignment of the column's header and cells.
-     * @default 'left'
-     */
-    align?: 'left' | 'center' | 'right';
-    /**
-     * Label used to prefix this column's cells when the table is displayed in
-     * stacked (card) mode. Defaults to the column's header text when it is a
-     * plain string, otherwise the column id.
-     */
-    stackedLabel?: string;
-  }
+export interface DataTableColumnMeta {
+  /**
+   * When true, this column's cells render as `<th scope="row">` instead of
+   * `<td>`, making them row headers for assistive technology. Designate
+   * exactly one column per table as the row header for the best experience.
+   */
+  isRowHeader?: boolean;
+  /**
+   * Horizontal alignment of the column's header and cells.
+   * @default 'left'
+   */
+  align?: 'left' | 'center' | 'right';
+  /**
+   * Label shown above this column's cells when the table is stacked (card)
+   * mode. Defaults to the column's header text when it is a plain string,
+   * otherwise the column id.
+   */
+  stackedLabel?: string;
 }
+
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * A TanStack Table `ColumnDef` whose `meta` also accepts
+ * {@link DataTableColumnMeta}. Type your column array with it to get
+ * autocomplete and typo checking on the `DataTable` options:
+ *
+ * ```ts
+ * const columns: DataTableColumnDef<Person>[] = [
+ *   { accessorKey: 'name', header: 'Name', meta: { isRowHeader: true } },
+ * ];
+ * ```
+ *
+ * Plain `ColumnDef` arrays (and `createColumnHelper` output) are accepted too.
+ */
+export type DataTableColumnDef<TData extends RowData, TValue = unknown> = TData extends unknown
+  ? // Distributes over TanStack's `ColumnDef` union, so accessor, display and
+    // group columns keep their own shapes.
+    WithDataTableMeta<ColumnDef<TData, TValue>, TData, TValue>
+  : never;
+
+/** Replaces a column variant's `meta` (and a group's `columns`) with Vero's. */
+type WithDataTableMeta<TDef, TData extends RowData, TValue> = TDef extends unknown
+  ? Omit<TDef, 'meta' | 'columns'> & {
+      // Vero's options win over same-named fields an app adds to `ColumnMeta`,
+      // while the app's other fields stay available.
+      meta?: Omit<ColumnMeta<TData, TValue>, keyof DataTableColumnMeta> & DataTableColumnMeta;
+    } & (TDef extends { columns?: unknown }
+        ? // `any`, as TanStack's own group columns use: each child has its own
+          // value type, and `unknown` would reject them.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          { columns?: DataTableColumnDef<TData, any>[] }
+        : unknown)
+  : never;
 
 /**
  * @experimental Exported for early feedback; the API may change or be
@@ -180,8 +232,15 @@ export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
 export interface DataTableProps<TData> extends TableVariantProps {
   /** The rows to render. */
   data: TData[];
-  /** TanStack Table column definitions. */
-  columns: ColumnDef<TData, unknown>[];
+  /**
+   * TanStack Table column definitions. Type them as {@link DataTableColumnDef}
+   * to get checking on the `meta` options; plain `ColumnDef` arrays and
+   * `createColumnHelper` output work too.
+   */
+  // `any` is what TanStack recommends for a column array: each column has its
+  // own value type, and `unknown` would reject typed (e.g. helper) columns.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  columns: DataTableColumnDef<TData, any>[];
   /**
    * The table's caption / accessible name. Strongly recommended — every table
    * should have one.

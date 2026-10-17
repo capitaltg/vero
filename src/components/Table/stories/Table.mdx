@@ -408,6 +408,16 @@ stop, and one that doesn't fit stays reachable by keyboard.
 
 Unlike USWDS we don't force `white-space: nowrap` on cells, so text wraps by default and narrow
 tables simply get narrower. Add `whitespace-nowrap` to the columns that should never be squeezed.
+To keep a whole table on one line per row and let it scroll instead, put the class on the table
+itself. Cells inherit it:
+
+```tsx
+<DataTable caption="Cases" className="whitespace-nowrap" columns={columns} data={cases} />
+```
+
+If the table also stacks, scope it to the stack breakpoint, so long values can still wrap inside
+the cards on narrow screens: `className="md:whitespace-nowrap"` for the default
+`stackBreakpoint="md"` (`sm:` or `lg:` to match the others).
 
 ### Stacking into cards
 
@@ -512,6 +522,45 @@ is markup-only — no collapsing or aggregation yet.
 ## Empty state
 
 <Canvas of={DataTableStories.Empty} />
+
+## Empty values
+
+A cell whose value is missing renders empty. Whether to show a placeholder instead, and what it
+says, is up to your app: "—", "Not provided" and "None on file" each fit different fields. Do it in
+the column's `cell` renderer, or in a helper your app's columns share:
+
+```tsx
+import type { DataTableColumnDef } from '@capitaltg/vero';
+
+// A dash for sighted users, words for screen readers.
+const EmptyValue = () => (
+  <>
+    <span aria-hidden="true">—</span>
+    <span className="sr-only">No value</span>
+  </>
+);
+
+// Only null, undefined and '' are empty: 0 and false are real values.
+const orEmpty = (value: unknown) =>
+  value == null || value === '' ? <EmptyValue /> : String(value);
+
+const columns: DataTableColumnDef<Driver>[] = [
+  { accessorKey: 'name', header: 'Name', meta: { isRowHeader: true } },
+  { accessorKey: 'points', header: 'Points', cell: info => orEmpty(info.getValue()) },
+  {
+    accessorKey: 'altBirthDate',
+    header: 'Alternate birth date',
+    cell: info => orEmpty(info.getValue()),
+  },
+];
+```
+
+Two things to avoid:
+
+- **A truthiness check** such as `value ? value : <EmptyValue />`. It turns a real `0` into a
+  dash.
+- **`aria-label` on a plain `<span>`.** ARIA doesn't allow a name on an element with no role, so
+  screen readers may not announce it. Use visually hidden text, as above.
 
 ## Coming from react-uswds
 

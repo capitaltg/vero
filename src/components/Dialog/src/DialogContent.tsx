@@ -2,6 +2,7 @@ import { focusFirstInteractable } from '@/lib/focus';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import * as React from 'react';
@@ -10,11 +11,35 @@ import { DialogContentProps } from '../types';
 import { DialogPortal } from './Dialog';
 import { DialogOverlay } from './DialogOverlay';
 
+const OPEN_LAYER_SELECTOR = [
+  '[role="dialog"][data-state="open"]',
+  '[role="alertdialog"][data-state="open"]',
+  '[data-radix-popper-content-wrapper]',
+].join(',');
+
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
 >(({ className, children, zIndex, onOpenAutoFocus, ...props }, ref) => {
   const resolvedZIndex = getZIndex('dialog', zIndex);
+
+  // A modal Dialog sets `pointer-events: none` on body, and each layer nested in it (Popover,
+  // Select, DropdownMenu) that does the same remembers the body's value when it opened, to restore
+  // when it closes. Radix coordinates this when every layer shares one copy of
+  // @radix-ui/react-dismissable-layer. With duplicate copies in a consumer's node_modules, one
+  // Escape closes the nested layer and the dialog together, and the nested layer can restore the
+  // `none` it saw last, freezing the page. Once the content unmounts and nothing is left open,
+  // clear that stale value.
+  const clearStalePointerEvents = useCallback((node: HTMLDivElement | null) => {
+    if (node) return;
+    setTimeout(() => {
+      const { body } = document;
+      if (body.style.pointerEvents === 'none' && !document.querySelector(OPEN_LAYER_SELECTOR)) {
+        body.style.pointerEvents = '';
+      }
+    });
+  }, []);
+  const composedRef = useComposedRefs(ref, clearStalePointerEvents);
 
   const handleOpenAutoFocus = useCallback(
     (event: Event) => {
@@ -31,7 +56,7 @@ const DialogContent = React.forwardRef<
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Content
-        ref={ref}
+        ref={composedRef}
         className={cn(
           'vero-dialog',
           `fixed left-[50%] top-[50%] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]

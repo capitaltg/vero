@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useEffect } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { Button } from '../../Button';
 import { Combobox } from '../../Combobox';
@@ -170,6 +171,37 @@ describe('Dialog', () => {
       await user.click(await screen.findByText('Beta'));
 
       expect(onChange).toHaveBeenCalledWith('b');
+    });
+
+    it('clears a stale body pointer-events: none left behind by a nested layer on close', async () => {
+      const user = userEvent.setup();
+      // Mimics a nested layer from a duplicate copy of @radix-ui/react-dismissable-layer, which
+      // restores the `none` it saw when it opened after the dialog has already restored body.
+      const StaleNestedLayer = () => {
+        useEffect(() => {
+          return () => {
+            document.body.style.pointerEvents = 'none';
+          };
+        }, []);
+        return null;
+      };
+
+      render(
+        <Dialog defaultOpen>
+          <DialogContent>
+            <DialogTitle>Pick one</DialogTitle>
+            <DialogDescription>Choose an option.</DialogDescription>
+            <StaleNestedLayer />
+          </DialogContent>
+        </Dialog>,
+      );
+
+      await user.keyboard('{Escape}');
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        expect(document.body.style.pointerEvents).toBe('');
+      });
     });
   });
 });

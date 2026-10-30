@@ -47,6 +47,7 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "size": "size-limit",
+    "preversion": "sh scripts/check-release-branch.sh",
     "release:patch": "npm run build && npm version patch && git push && git push --tags && npm publish",
     "release:minor": "npm run build && npm version minor && git push && git push --tags && npm publish"
   },

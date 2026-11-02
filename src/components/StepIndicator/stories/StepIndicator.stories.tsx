@@ -231,3 +231,19 @@ export const WithoutLabels: Story = {
     showLabels: false,
   },
 };
+
+/**
+ * On narrow viewports (below the `md` breakpoint, 768px), the default variant
+ * hides its segment bars and labels, leaving just the "Step X of Y" header.
+ * This story opens in a mobile viewport; widen the preview to see the bars return.
+ */
+export const Mobile: Story = {
+  args: {
+    steps,
+    currentStep: 'profile',
+    variant: 'default',
+  },
+  parameters: {
+    viewport: { defaultViewport: 'mobile2' },
+  },
+};

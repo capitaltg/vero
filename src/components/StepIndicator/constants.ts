@@ -57,7 +57,7 @@ export const stepIndicatorDefaultContainerVariants = cva('flex flex-col gap-8', 
   },
 });
 
-export const stepIndicatorSegmentsVariants = cva('mb-0 mt-0 flex gap-1 pl-0', {
+export const stepIndicatorSegmentsVariants = cva('mb-0 mt-0 hidden gap-1 pl-0 md:flex', {
   variants: {
     orientation: {
       horizontal: 'flex-row',

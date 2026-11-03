@@ -20,4 +20,152 @@
   [data-error="true"] [data-component="tag-input"] {
     @apply border-destructive focus-within:ring-destructive;
   }
+
+  /* Card: the rules that depend on a part's siblings or on the card's layout. Sizes
+     follow the USWDS card (see Card/constants.ts); `--vero-card-inner-radius` is the
+     card's radius less its 2px border, so media corners sit flush inside it. */
+  .vero-card {
+    --vero-card-inner-radius: calc(theme("borderRadius.lg") - 2px);
+    --vero-card-flag-media-width: 15rem;
+  }
+
+  /* The media follows the header in the DOM but shows first (USWDS a11y guidance). */
+  .vero-card .vero-card-media {
+    order: -1;
+  }
+
+  .vero-card .vero-card-media-frame {
+    border-top-left-radius: var(--vero-card-inner-radius);
+    border-top-right-radius: var(--vero-card-inner-radius);
+  }
+
+  .vero-card .vero-card-media[data-variant="inset"] {
+    padding: theme("spacing.6") theme("spacing.6") 0;
+  }
+
+  .vero-card .vero-card-media[data-variant="inset"] .vero-card-media-frame {
+    border-radius: 0;
+  }
+
+  .vero-card .vero-card-media[data-variant="exdent"] {
+    margin: -2px -2px 0;
+  }
+
+  .vero-card .vero-card-media[data-variant="exdent"] .vero-card-media-frame {
+    border-top-left-radius: theme("borderRadius.lg");
+    border-top-right-radius: theme("borderRadius.lg");
+  }
+
+  /* With no header, the section under the media gets the full perimeter padding. */
+  .vero-card .vero-card-media:first-child + .vero-card-body,
+  .vero-card .vero-card-media:first-child + .vero-card-footer {
+    padding-top: theme("spacing.6");
+  }
+
+  /* Header first: the media drops back into DOM order between header and body. Its 8px
+     margins add to the sections' 8px padding for the usual 16px either side. */
+  .vero-card[data-header-first="true"] .vero-card-media {
+    order: 0;
+    margin-block: theme("spacing.2");
+  }
+
+  .vero-card[data-header-first="true"] .vero-card-media[data-variant="inset"] {
+    padding-top: 0;
+  }
+
+  .vero-card[data-header-first="true"] .vero-card-media-frame {
+    border-radius: 0;
+  }
+
+  /* Flag: the media fills a fixed-width column beside the content (USWDS switches at
+     its `tablet` breakpoint, 640px, the same as Tailwind's `sm`). */
+  @media (min-width: theme("screens.sm")) {
+    .vero-card[data-layout="flag"] .vero-card-media {
+      position: absolute;
+      inset-block: 0;
+      left: 0;
+      width: var(--vero-card-flag-media-width);
+      margin: 0;
+    }
+
+    .vero-card[data-layout="flag"] > :not(.vero-card-media) {
+      margin-left: var(--vero-card-flag-media-width);
+    }
+
+    .vero-card[data-layout="flag"] .vero-card-media-frame {
+      height: 100%;
+      aspect-ratio: auto;
+      border-radius: var(--vero-card-inner-radius) 0 0 var(--vero-card-inner-radius);
+    }
+
+    .vero-card[data-layout="flag"] .vero-card-media[data-variant="inset"] {
+      padding: theme("spacing.6") 0 theme("spacing.6") theme("spacing.6");
+    }
+
+    .vero-card[data-layout="flag"] .vero-card-media[data-variant="inset"] .vero-card-media-frame {
+      border-radius: 0;
+    }
+
+    .vero-card[data-layout="flag"] .vero-card-media[data-variant="exdent"] {
+      inset-block: -2px;
+      left: -2px;
+    }
+
+    .vero-card[data-layout="flag"] .vero-card-media[data-variant="exdent"] .vero-card-media-frame {
+      border-radius: theme("borderRadius.lg") 0 0 theme("borderRadius.lg");
+    }
+
+    /* Media on the right mirrors every left-side rule above. */
+    .vero-card[data-layout="flag"][data-media-position="right"] .vero-card-media {
+      left: auto;
+      right: 0;
+    }
+
+    .vero-card[data-layout="flag"][data-media-position="right"] > :not(.vero-card-media) {
+      margin-left: 0;
+      margin-right: var(--vero-card-flag-media-width);
+    }
+
+    .vero-card[data-layout="flag"][data-media-position="right"] .vero-card-media-frame {
+      border-radius: 0 var(--vero-card-inner-radius) var(--vero-card-inner-radius) 0;
+    }
+
+    .vero-card[data-layout="flag"][data-media-position="right"]
+      .vero-card-media[data-variant="inset"] {
+      padding: theme("spacing.6") theme("spacing.6") theme("spacing.6") 0;
+    }
+
+    .vero-card[data-layout="flag"][data-media-position="right"]
+      .vero-card-media[data-variant="exdent"] {
+      left: auto;
+      right: -2px;
+    }
+
+    .vero-card[data-layout="flag"][data-media-position="right"]
+      .vero-card-media[data-variant="exdent"]
+      .vero-card-media-frame {
+      border-radius: 0 theme("borderRadius.lg") theme("borderRadius.lg") 0;
+    }
+
+    .vero-card[data-layout="flag"][data-media-position="right"]
+      .vero-card-media[data-variant="inset"]
+      .vero-card-media-frame {
+      border-radius: 0;
+    }
+  }
+
+  /* Linked card (a CardLink in the title): highlight the whole card on hover, and move
+     the link's focus ring onto the card, which is the visible click target. */
+  .vero-card:has(.vero-card-link) {
+    transition-property: border-color, box-shadow;
+    transition-duration: 150ms;
+  }
+
+  .vero-card:has(.vero-card-link:hover) {
+    @apply border-primary-400 shadow-md;
+  }
+
+  .vero-card:has(.vero-card-link:focus-visible) {
+    @apply ring-2 ring-ring ring-offset-2;
+  }
 }

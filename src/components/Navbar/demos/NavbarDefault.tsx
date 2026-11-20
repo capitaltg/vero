@@ -2,7 +2,7 @@ import { LogOut, Settings, User } from 'lucide-react';
 import { Navbar, NavbarActions, NavbarBrand, NavbarItem, NavbarNav } from '../src/Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from '../src/NavbarDropdown';
 import { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from '../src/NavbarProfile';
-import { Logo } from './Logo';
+import { Wordmark } from './Wordmark';
 
 /**
  * Brand, navigation with dropdowns, and a profile menu.
@@ -11,8 +11,7 @@ import { Logo } from './Logo';
 export const NavbarDefault = () => (
   <Navbar>
     <NavbarBrand href="#">
-      <Logo />
-      Vero
+      <Wordmark name="Vero" />
     </NavbarBrand>
     <NavbarNav>
       <NavbarItem active href="#">

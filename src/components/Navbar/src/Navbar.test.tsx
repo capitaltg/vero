@@ -8,6 +8,7 @@ import { NavbarDefault } from '../demos/NavbarDefault';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
 import { NavbarProfileControls } from '../demos/NavbarProfileControls';
+import { NavbarWithActions } from '../demos/NavbarWithActions';
 import { Navbar, NavbarAction, NavbarActions, NavbarBrand, NavbarItem, NavbarNav } from './Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from './NavbarDropdown';
 import { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from './NavbarProfile';
@@ -347,6 +348,30 @@ describe('Navbar', () => {
       expect(item).toHaveAttribute('data-disabled');
       await user.click(item);
       expect(onSelect).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('NavbarAction as a popover trigger', () => {
+    it('opens the notifications list and counts unread ones on the badge', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<NavbarWithActions />);
+      const bell = screen.getByRole('button', { name: 'Notifications (3 unread)' });
+      expect(bell).toHaveAttribute('aria-haspopup', 'dialog');
+
+      await user.click(bell);
+      const dialog = await screen.findByRole('dialog', { name: 'Notifications' });
+      expectNoViolations(await axe(container));
+      await user.click(
+        within(dialog).getByRole('link', { name: /Maria Lopez commented on Q3 roadmap/ }),
+      );
+      expect(bell).toHaveAccessibleName('Notifications (2 unread)');
+
+      await user.click(within(dialog).getByRole('button', { name: 'Mark all as read' }));
+      expect(bell).toHaveAccessibleName('Notifications');
+
+      await user.keyboard('{Escape}');
+      expect(bell).toHaveAttribute('aria-expanded', 'false');
+      expect(bell).toHaveFocus();
     });
   });
 

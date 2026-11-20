@@ -8,7 +8,7 @@ import {
   NavbarProfileSeparator,
   NavbarProfileSwitchItem,
 } from '../src/NavbarProfile';
-import { Logo } from './Logo';
+import { Wordmark } from './Wordmark';
 
 /**
  * Settings in the profile menu: a switch, four ordinary items and a checkbox. Choosing a
@@ -22,8 +22,7 @@ export const NavbarProfileControls = () => {
   return (
     <Navbar>
       <NavbarBrand href="#">
-        <Logo />
-        Vero
+        <Wordmark name="Vero" />
       </NavbarBrand>
       <NavbarNav>
         <NavbarItem active href="#">

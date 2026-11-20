@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Bell, LogOut, Settings } from 'lucide-react';
-import { Logo } from '../demos/Logo';
+import { Wordmark } from '../demos/Wordmark';
 import { NavbarDefault } from '../demos/NavbarDefault';
 import sourceDefault from '../demos/NavbarDefault.tsx?raw';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
 import sourceManyItems from '../demos/NavbarManyItems.tsx?raw';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
 import { NavbarProfileControls } from '../demos/NavbarProfileControls';
+import { NavbarWithActions } from '../demos/NavbarWithActions';
+import sourceWithActions from '../demos/NavbarWithActions.tsx?raw';
 import sourceProfileControls from '../demos/NavbarProfileControls.tsx?raw';
 import sourceMinimal from '../demos/NavbarMinimal.tsx?raw';
 import {
@@ -66,8 +68,7 @@ const meta = {
   render: args => (
     <Navbar {...args}>
       <NavbarBrand href="#">
-        <Logo />
-        Vero
+        <Wordmark name="Vero" />
       </NavbarBrand>
       <NavbarNav>
         <NavbarItem active href="#">
@@ -129,6 +130,15 @@ export const Minimal: Story = {
 export const ManyItems: Story = {
   render: () => <NavbarManyItems />,
   parameters: withSource(sourceManyItems),
+};
+
+/**
+ * Icon actions beside the profile menu. The bell opens a Popover listing notifications:
+ * wrap the `NavbarAction` in `PopoverTrigger asChild`. Its badge counts the unread ones.
+ */
+export const Actions: Story = {
+  render: () => <NavbarWithActions />,
+  parameters: withSource(sourceWithActions),
 };
 
 /**

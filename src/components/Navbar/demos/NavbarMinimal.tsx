@@ -1,7 +1,7 @@
 import { LogOut } from 'lucide-react';
 import { Navbar, NavbarActions, NavbarBrand } from '../src/Navbar';
 import { NavbarProfile, NavbarProfileItem } from '../src/NavbarProfile';
-import { Logo } from './Logo';
+import { Wordmark } from './Wordmark';
 
 /**
  * Every part is optional. Without a `NavbarNav` there is no menu button, and the actions
@@ -10,8 +10,7 @@ import { Logo } from './Logo';
 export const NavbarMinimal = () => (
   <Navbar containerClassName="max-w-5xl">
     <NavbarBrand href="#">
-      <Logo />
-      Vero
+      <Wordmark name="Vero" />
     </NavbarBrand>
     <NavbarActions>
       <NavbarProfile

@@ -209,6 +209,103 @@ describe('Navbar', () => {
     });
   });
 
+  describe('Dropdowns above the breakpoint', () => {
+    /* jsdom has no matchMedia; report every width query as matching, so the navbar is
+       expanded and dropdown panels float in a portal. */
+    const expand = () => {
+      vi.stubGlobal(
+        'matchMedia',
+        vi.fn((query: string) => ({
+          matches: true,
+          media: query,
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+        })),
+      );
+    };
+    afterEach(() => vi.unstubAllGlobals());
+
+    it('renders the open panel in a portal, outside the navbar', async () => {
+      const user = userEvent.setup();
+      expand();
+      render(<NavbarDefault />);
+      const trigger = screen.getByRole('button', { name: 'Projects' });
+      await user.click(trigger);
+
+      const panel = document.getElementById(trigger.getAttribute('aria-controls') as string);
+      expect(panel).toBeVisible();
+      expect(screen.getByRole('banner')).not.toContainElement(panel);
+      expect(panel?.style.top).not.toBe('');
+    });
+
+    it('keeps the links in tab order after the button', async () => {
+      const user = userEvent.setup();
+      expand();
+      render(<NavbarDefault />);
+      const trigger = screen.getByRole('button', { name: 'Projects' });
+      await user.click(trigger);
+
+      await user.tab();
+      expect(screen.getByRole('link', { name: 'All projects' })).toHaveFocus();
+      await user.tab();
+      await user.tab();
+      expect(screen.getByRole('link', { name: 'Archived' })).toHaveFocus();
+      await user.tab();
+      expect(screen.getByRole('button', { name: 'Reports' })).toHaveFocus();
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    it('goes back to the button with Shift+Tab from the first link', async () => {
+      const user = userEvent.setup();
+      expand();
+      render(<NavbarDefault />);
+      const trigger = screen.getByRole('button', { name: 'Projects' });
+      await user.click(trigger);
+      await user.tab();
+      await user.tab({ shift: true });
+      expect(trigger).toHaveFocus();
+      expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('follows a link in the panel, then closes', async () => {
+      const user = userEvent.setup();
+      const onClick = vi.fn((event: React.MouseEvent) => event.preventDefault());
+      expand();
+      render(
+        <Navbar>
+          <NavbarNav>
+            <NavbarDropdown label="Projects">
+              <NavbarDropdownItem href="/recent" onClick={onClick}>
+                Recent
+              </NavbarDropdownItem>
+            </NavbarDropdown>
+          </NavbarNav>
+        </Navbar>,
+      );
+      const trigger = screen.getByRole('button', { name: 'Projects' });
+      await user.click(trigger);
+      await user.click(screen.getByRole('link', { name: 'Recent' }));
+      expect(onClick).toHaveBeenCalledOnce();
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    it('closes on a press outside, and on Escape', async () => {
+      const user = userEvent.setup();
+      expand();
+      render(<NavbarDefault />);
+      const trigger = screen.getByRole('button', { name: 'Projects' });
+      await user.click(trigger);
+      await user.click(document.body);
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+      await user.click(trigger);
+      await user.tab();
+      await user.keyboard('{Escape}');
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
+      expect(trigger).toHaveFocus();
+    });
+  });
+
   describe('Mobile menu', () => {
     it('opens and closes the nav panel', async () => {
       const user = userEvent.setup();

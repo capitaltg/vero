@@ -4,6 +4,8 @@ import { NavbarProps } from '../types';
 export interface NavbarContextValue {
   /** Below this breakpoint the nav folds into the menu panel. */
   collapseBelow: NonNullable<NavbarProps['collapseBelow']>;
+  /** Whether the viewport is at or above `collapseBelow`, so the nav is laid out in the bar. */
+  isExpanded: boolean;
   /** Whether the small-screen nav panel is open. */
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;

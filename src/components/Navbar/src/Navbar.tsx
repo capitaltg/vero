@@ -28,6 +28,29 @@ import {
 import { NavbarContext, NavbarContextValue, NavbarOverflowContext, useNavbar } from './context';
 import { NavbarDisclosure, NavbarDropdownItem } from './NavbarDropdown';
 
+/* Tailwind's default `sm`, `md` and `lg` widths, which Vero's theme keeps. They must match
+   the `sm:`, `md:` and `lg:` classes in `constants.ts`. */
+const BREAKPOINT_WIDTHS = { sm: 640, md: 768, lg: 1024 } as const;
+
+/** Whether the viewport is at least `width` pixels wide, kept up to date as it resizes. */
+function useMinWidth(width: number): boolean {
+  const query = `(min-width: ${width}px)`;
+  const subscribe = React.useCallback(
+    (onChange: () => void) => {
+      if (typeof window === 'undefined' || !window.matchMedia) return () => {};
+      const list = window.matchMedia(query);
+      list.addEventListener('change', onChange);
+      return () => list.removeEventListener('change', onChange);
+    },
+    [query],
+  );
+  return React.useSyncExternalStore(
+    subscribe,
+    () => typeof window !== 'undefined' && !!window.matchMedia?.(query).matches,
+    () => false,
+  );
+}
+
 /**
  * A site header with a brand, primary navigation and a right-aligned area for actions and
  * the user's profile menu. Compose it from `NavbarBrand`, `NavbarNav` (holding
@@ -50,10 +73,12 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
     const [profileSlot, setProfileSlot] = React.useState<HTMLElement | null>(null);
+    const isExpanded = useMinWidth(BREAKPOINT_WIDTHS[collapseBelow]);
 
     const context = React.useMemo<NavbarContextValue>(
       () => ({
         collapseBelow,
+        isExpanded,
         mobileOpen,
         setMobileOpen,
         openDropdown,
@@ -65,7 +90,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         profileSlot,
         setProfileSlot,
       }),
-      [collapseBelow, mobileOpen, openDropdown, profileSlot],
+      [collapseBelow, isExpanded, mobileOpen, openDropdown, profileSlot],
     );
 
     return (

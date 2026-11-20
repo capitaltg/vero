@@ -22,10 +22,12 @@ export const navbarVariants = cva(
   },
 );
 
-/* Vertical padding rather than a min-height, so the top row keeps its 60px height (40px
-   controls plus 10px above and below) when the small-screen nav panel wraps below it. No
-   gap: the parts' own margins space them, so the brand's margin is the whole space after it. */
-export const navbarContainerClasses = tw`mx-auto flex w-full flex-wrap items-center px-4 py-2.5`;
+/* 60px tall: 40px controls plus 10px above and below. The minimum height keeps it 60px
+   when nothing in it is 40px tall (e.g. no actions); when the small-screen nav panel
+   wraps below the top row, the row grows to fit it. No gap: the parts' own margins space
+   them, so the brand's margin is the whole space after it. */
+export const navbarContainerClasses = tw`mx-auto flex min-h-[60px] w-full flex-wrap items-center
+px-4 py-2.5`;
 
 /* `mr-8` is the whole space after the brand; a `mr-*` class passed as `className` replaces it. */
 export const navbarBrandClasses = tw`mr-8 flex shrink-0 items-center gap-2 rounded-sm text-lg
@@ -156,27 +158,13 @@ export const navbarDropdownTriggerClasses = tw`cursor-pointer border-0 bg-transp
 [&>svg]:transition-transform [&[aria-expanded=true]>svg]:rotate-180`;
 
 /* No `display` utility here: it would override the `hidden` attribute that closes the panel.
-   Expanded, it floats below the bar; `align: end` lines it up with the item's right edge,
-   for "More", the last item. */
-export const navbarDropdownPanelVariants = cva(tw`m-0 mt-1 list-none space-y-1 p-0 pl-4`, {
-  variants: {
-    collapseBelow: {
-      sm: tw`sm:absolute sm:left-0 sm:top-full sm:min-w-[12rem] sm:rounded-md sm:border
-      sm:border-muted sm:bg-popover sm:p-1 sm:shadow-md`,
-      md: tw`md:absolute md:left-0 md:top-full md:min-w-[12rem] md:rounded-md md:border
-      md:border-muted md:bg-popover md:p-1 md:shadow-md`,
-      lg: tw`lg:absolute lg:left-0 lg:top-full lg:min-w-[12rem] lg:rounded-md lg:border
-      lg:border-muted lg:bg-popover lg:p-1 lg:shadow-md`,
-    },
-    align: { start: '', end: '' },
-  },
-  compoundVariants: [
-    { align: 'end', collapseBelow: 'sm', className: tw`sm:left-auto sm:right-0` },
-    { align: 'end', collapseBelow: 'md', className: tw`md:left-auto md:right-0` },
-    { align: 'end', collapseBelow: 'lg', className: tw`lg:left-auto lg:right-0` },
-  ],
-  defaultVariants: { align: 'start' },
-});
+   Collapsed, the panel expands in place inside the nav panel. */
+export const navbarDropdownPanelClasses = tw`m-0 mt-1 list-none space-y-1 p-0 pl-4`;
+
+/* Expanded, the panel floats below its button, rendered in a portal so no clipping or
+   scrolling container around the navbar can cut it off. NavbarDropdown positions it. */
+export const navbarDropdownFloatingPanelClasses = tw`fixed m-0 mt-1 min-w-[12rem] list-none
+space-y-1 rounded-md border border-muted bg-popover p-1 shadow-md`;
 
 /* A `NavbarDropdown` shown as a group inside the "More" dropdown. */
 export const navbarOverflowGroupLabelClasses = tw`block px-3 pb-1 pt-2 text-xs font-semibold

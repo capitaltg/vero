@@ -9,11 +9,12 @@ import {
   navbarBrandClasses,
   navbarContainerClasses,
   navbarLinkClasses,
-  navbarListClasses,
+  navbarNavListVariants,
   navbarMenuIconLineClasses,
   navbarMenuIconOpenClasses,
-  navbarNavClasses,
-  navbarToggleClasses,
+  navbarNavVariants,
+  navbarToggleVariants,
+  navbarTopLinkVariants,
   navbarVariants,
 } from '../constants';
 import {
@@ -25,7 +26,7 @@ import {
   NavbarProps,
 } from '../types';
 import { NavbarContext, NavbarContextValue, NavbarOverflowContext, useNavbar } from './context';
-import { NavbarDropdown, NavbarDropdownItem } from './NavbarDropdown';
+import { NavbarDisclosure, NavbarDropdownItem } from './NavbarDropdown';
 
 /**
  * A site header with a brand, primary navigation and a right-aligned area for actions and
@@ -52,6 +53,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 
     const context = React.useMemo<NavbarContextValue>(
       () => ({
+        collapseBelow,
         mobileOpen,
         setMobileOpen,
         openDropdown,
@@ -63,7 +65,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         profileSlot,
         setProfileSlot,
       }),
-      [mobileOpen, openDropdown, profileSlot],
+      [collapseBelow, mobileOpen, openDropdown, profileSlot],
     );
 
     return (
@@ -71,7 +73,6 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         <header
           ref={ref}
           className={cn(navbarVariants({ sticky }), className)}
-          data-collapse-below={collapseBelow}
           style={sticky ? { zIndex: getZIndex('dropdown'), ...style } : style}
           {...props}
         >
@@ -236,7 +237,8 @@ const NavbarNav = React.forwardRef<HTMLElement, NavbarNavProps>(
     },
     ref,
   ) => {
-    const { mobileOpen, setMobileOpen, openDropdown, setProfileSlot } = useNavbar('NavbarNav');
+    const { collapseBelow, mobileOpen, setMobileOpen, openDropdown, setProfileSlot } =
+      useNavbar('NavbarNav');
     const navId = React.useId();
     const toggleRef = React.useRef<HTMLButtonElement>(null);
     const navRef = React.useRef<HTMLElement>(null);
@@ -267,7 +269,7 @@ const NavbarNav = React.forwardRef<HTMLElement, NavbarNavProps>(
           ref={toggleRef}
           aria-controls={navId}
           aria-expanded={mobileOpen}
-          className={cn('vero-navbar-toggle', navbarToggleClasses)}
+          className={cn('vero-navbar-toggle', navbarToggleVariants({ collapseBelow }))}
           type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
@@ -277,24 +279,28 @@ const NavbarNav = React.forwardRef<HTMLElement, NavbarNavProps>(
         <nav
           ref={navRef}
           aria-label={ariaLabel}
-          className={cn('vero-navbar-nav', navbarNavClasses, className)}
+          className={cn('vero-navbar-nav', navbarNavVariants({ collapseBelow }), className)}
           data-open={mobileOpen}
           id={navId}
           {...props}
           onKeyDown={handleKeyDown}
         >
-          <ul ref={listRef} className={cn('vero-navbar-list', navbarListClasses)}>
+          <ul
+            ref={listRef}
+            className={cn('vero-navbar-list', navbarNavListVariants({ collapseBelow }))}
+          >
             {visible}
             {overflow.length > 0 ? (
-              <NavbarDropdown
+              <NavbarDisclosure
                 active={overflowActive}
                 className="vero-navbar-more"
                 label={moreLabel}
+                panelAlign="end"
               >
                 <NavbarOverflowContext.Provider value={true}>
                   {overflow}
                 </NavbarOverflowContext.Provider>
-              </NavbarDropdown>
+              </NavbarDisclosure>
             ) : null}
           </ul>
           {/* NavbarProfile renders its small-screen account section here. */}
@@ -309,7 +315,7 @@ NavbarNav.displayName = 'NavbarNav';
 /** A top-level navigation link. In the "More" dropdown it shows as a dropdown link. */
 const NavbarItem = React.forwardRef<HTMLAnchorElement, NavbarItemProps>(
   ({ className, active = false, asChild = false, onClick, ...props }, ref) => {
-    const { closeAll } = useNavbar('NavbarItem');
+    const { collapseBelow, closeAll } = useNavbar('NavbarItem');
     const inOverflow = React.useContext(NavbarOverflowContext);
     if (inOverflow) {
       return (
@@ -329,7 +335,13 @@ const NavbarItem = React.forwardRef<HTMLAnchorElement, NavbarItemProps>(
         <Comp
           ref={ref}
           aria-current={active ? 'page' : undefined}
-          className={cn('vero-navbar-link', navbarLinkClasses, className)}
+          className={cn(
+            'vero-navbar-link',
+            navbarLinkClasses,
+            navbarTopLinkVariants({ collapseBelow }),
+            className,
+          )}
+          data-active={active}
           onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
             onClick?.(event);
             closeAll();

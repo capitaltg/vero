@@ -2,13 +2,13 @@ import { styles } from '@/lib/styles';
 import { tw } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 
-/* These classes describe the collapsed (small screen) navbar. The expanded layout above
-   the `collapseBelow` breakpoint, the active-item indicator and the desktop dropdown
-   panel live in `src/styles/components.css`, keyed on the navbar's data attributes,
-   because the breakpoint is a prop and Tailwind only generates literal class names. */
+/* The base classes describe the collapsed (small screen) navbar. The `collapseBelow`
+   variants add the expanded layout from that breakpoint up. Tailwind only generates class
+   names it finds written out in full, so each variant spells out its `sm:`, `md:` or `lg:`
+   classes; the three are identical apart from the prefix, so keep them in step. */
 
 export const navbarVariants = cva(
-  'vero-navbar relative w-full border-b border-base-200 bg-background text-foreground',
+  'vero-navbar group/navbar relative w-full border-b border-base-200 bg-background text-foreground',
   {
     variants: {
       sticky: {
@@ -23,18 +23,27 @@ export const navbarVariants = cva(
 );
 
 /* Vertical padding rather than a min-height, so the top row keeps its 60px height (40px
-   controls plus 10px above and below) when the small-screen nav panel wraps below it. */
-export const navbarContainerClasses = tw`mx-auto flex w-full flex-wrap items-center gap-x-4 px-4
-py-2.5`;
+   controls plus 10px above and below) when the small-screen nav panel wraps below it. No
+   gap: the parts' own margins space them, so the brand's margin is the whole space after it. */
+export const navbarContainerClasses = tw`mx-auto flex w-full flex-wrap items-center px-4 py-2.5`;
 
-export const navbarBrandClasses = tw`mr-auto flex shrink-0 items-center gap-2 rounded-sm text-lg
+/* `mr-8` is the whole space after the brand; a `mr-*` class passed as `className` replaces it. */
+export const navbarBrandClasses = tw`mr-8 flex shrink-0 items-center gap-2 rounded-sm text-lg
 font-bold text-inherit no-underline ${styles.focusRingVisible}`;
 
-/* `order-1` places the menu button after the actions, at the far right. The brand's auto
-   margin pushes both to the right, and `-ml-2` matches the 8px gap between actions. */
-export const navbarToggleClasses = tw`order-1 -ml-2 inline-flex size-10 shrink-0 items-center
-justify-center rounded-sm text-base-600 transition-colors hover:bg-base-100 hover:text-base-700
-${styles.focusRingVisible}`;
+/* `order-1` places the menu button after the actions, at the far right. The actions' auto
+   margin pushes both to the right, and `ml-2` matches the 8px gap between actions. With no
+   actions, the button takes the auto margin itself. */
+export const navbarToggleVariants = cva(
+  tw`order-1 ml-auto inline-flex size-10 shrink-0 items-center justify-center rounded-sm
+  text-base-600 transition-colors hover:bg-base-100 hover:text-base-700
+  group-has-[.vero-navbar-actions]/navbar:ml-2 ${styles.focusRingVisible}`,
+  {
+    variants: {
+      collapseBelow: { sm: 'sm:hidden', md: 'md:hidden', lg: 'lg:hidden' },
+    },
+  },
+);
 
 /* The menu button's three bars. They turn about the icon's centre (12, 12 in its 24-unit
    view box): the outer bars slide to the middle and rotate into an X while the middle bar
@@ -48,21 +57,126 @@ export const navbarMenuIconOpenClasses = {
   bottom: tw`[transform:rotate(-45deg)_translateY(-6px)]`,
 };
 
-export const navbarNavClasses = tw`order-last hidden basis-full pt-2 data-[open=true]:block`;
+/* Expanded, the nav fills the space between the brand and the actions (NavbarNav measures
+   it to decide which items move into the "More" dropdown), and reaches through the
+   container's vertical padding so its items fill the bar's full height. */
+export const navbarNavVariants = cva(tw`order-last hidden basis-full pt-2 data-[open=true]:block`, {
+  variants: {
+    collapseBelow: {
+      sm: tw`sm:order-none sm:-my-2.5 sm:mr-4 sm:flex sm:min-w-0 sm:flex-1 sm:self-stretch sm:pt-0
+      sm:data-[open=true]:flex`,
+      md: tw`md:order-none md:-my-2.5 md:mr-4 md:flex md:min-w-0 md:flex-1 md:self-stretch md:pt-0
+      md:data-[open=true]:flex`,
+      lg: tw`lg:order-none lg:-my-2.5 lg:mr-4 lg:flex lg:min-w-0 lg:flex-1 lg:self-stretch lg:pt-0
+      lg:data-[open=true]:flex`,
+    },
+  },
+});
 
 export const navbarListClasses = tw`m-0 flex list-none flex-col gap-1 p-0`;
 
-/* Shared by top-level links, dropdown buttons and dropdown links. */
+export const navbarNavListVariants = cva(navbarListClasses, {
+  variants: {
+    collapseBelow: {
+      sm: tw`sm:flex-row sm:items-stretch sm:gap-0`,
+      md: tw`md:flex-row md:items-stretch md:gap-0`,
+      lg: tw`lg:flex-row lg:items-stretch lg:gap-0`,
+    },
+  },
+});
+
+/* Shared by top-level links, dropdown buttons, dropdown links and the profile items in the
+   nav panel. The current page (`data-active`) is marked by more than color: a faint
+   background and a bar beside it. */
 export const navbarLinkClasses = tw`relative flex w-full items-center gap-1 whitespace-nowrap
 rounded-sm px-3 py-2 text-sm font-medium text-base-600 no-underline transition-colors
-hover:bg-base-100 hover:text-base-700 aria-[current=page]:font-bold
-aria-[current=page]:text-primary-400 data-[active=true]:text-primary-400 ${styles.focusRingVisible}`;
+hover:bg-base-100 hover:text-base-700 aria-[current=page]:font-bold data-[active=true]:bg-base-100
+data-[active=true]:text-primary-400 data-[active=true]:after:absolute
+data-[active=true]:after:inset-y-1 data-[active=true]:after:left-0 data-[active=true]:after:w-[3px]
+data-[active=true]:after:rounded-full data-[active=true]:after:bg-primary
+${styles.focusRingVisible}`;
+
+/* Top-level links and dropdown buttons. Expanded, they fill the bar's height, the bar
+   moves under them onto the navbar's 1px bottom border, and the focus ring is drawn inside
+   them on a layer above that bar (a ring outside would spill below the navbar). */
+export const navbarTopLinkVariants = cva('', {
+  variants: {
+    collapseBelow: {
+      sm: tw`sm:h-full sm:rounded-none sm:px-6 sm:focus-visible:ring-0
+      sm:focus-visible:ring-offset-0 sm:focus-visible:before:pointer-events-none
+      sm:focus-visible:before:absolute sm:focus-visible:before:inset-x-0
+      sm:focus-visible:before:-bottom-px sm:focus-visible:before:top-0 sm:focus-visible:before:z-[1]
+      sm:focus-visible:before:ring-[3px] sm:focus-visible:before:ring-inset
+      sm:focus-visible:before:ring-ring sm:data-[active=true]:after:inset-x-0
+      sm:data-[active=true]:after:-bottom-px sm:data-[active=true]:after:top-auto
+      sm:data-[active=true]:after:h-[3px] sm:data-[active=true]:after:w-auto
+      sm:data-[active=true]:after:rounded-none`,
+      md: tw`md:h-full md:rounded-none md:px-6 md:focus-visible:ring-0
+      md:focus-visible:ring-offset-0 md:focus-visible:before:pointer-events-none
+      md:focus-visible:before:absolute md:focus-visible:before:inset-x-0
+      md:focus-visible:before:-bottom-px md:focus-visible:before:top-0 md:focus-visible:before:z-[1]
+      md:focus-visible:before:ring-[3px] md:focus-visible:before:ring-inset
+      md:focus-visible:before:ring-ring md:data-[active=true]:after:inset-x-0
+      md:data-[active=true]:after:-bottom-px md:data-[active=true]:after:top-auto
+      md:data-[active=true]:after:h-[3px] md:data-[active=true]:after:w-auto
+      md:data-[active=true]:after:rounded-none`,
+      lg: tw`lg:h-full lg:rounded-none lg:px-6 lg:focus-visible:ring-0
+      lg:focus-visible:ring-offset-0 lg:focus-visible:before:pointer-events-none
+      lg:focus-visible:before:absolute lg:focus-visible:before:inset-x-0
+      lg:focus-visible:before:-bottom-px lg:focus-visible:before:top-0 lg:focus-visible:before:z-[1]
+      lg:focus-visible:before:ring-[3px] lg:focus-visible:before:ring-inset
+      lg:focus-visible:before:ring-ring lg:data-[active=true]:after:inset-x-0
+      lg:data-[active=true]:after:-bottom-px lg:data-[active=true]:after:top-auto
+      lg:data-[active=true]:after:h-[3px] lg:data-[active=true]:after:w-auto
+      lg:data-[active=true]:after:rounded-none`,
+    },
+  },
+});
+
+/* Links in dropdowns. The bar runs their full height, following their rounded left
+   corners. Expanded, they sit in a floating panel. */
+export const navbarDropdownLinkVariants = cva(
+  tw`data-[active=true]:after:inset-y-0 data-[active=true]:after:rounded-none
+  data-[active=true]:after:rounded-l-[inherit]`,
+  {
+    variants: {
+      collapseBelow: {
+        sm: tw`sm:py-3 sm:text-popover-foreground sm:hover:bg-accent sm:hover:text-accent-foreground
+        sm:data-[active=true]:text-primary-400`,
+        md: tw`md:py-3 md:text-popover-foreground md:hover:bg-accent md:hover:text-accent-foreground
+        md:data-[active=true]:text-primary-400`,
+        lg: tw`lg:py-3 lg:text-popover-foreground lg:hover:bg-accent lg:hover:text-accent-foreground
+        lg:data-[active=true]:text-primary-400`,
+      },
+    },
+  },
+);
 
 export const navbarDropdownTriggerClasses = tw`cursor-pointer border-0 bg-transparent
 [&>svg]:transition-transform [&[aria-expanded=true]>svg]:rotate-180`;
 
-/* No `display` utility here: it would override the `hidden` attribute that closes the panel. */
-export const navbarDropdownPanelClasses = tw`m-0 mt-1 list-none space-y-1 p-0 pl-4`;
+/* No `display` utility here: it would override the `hidden` attribute that closes the panel.
+   Expanded, it floats below the bar; `align: end` lines it up with the item's right edge,
+   for "More", the last item. */
+export const navbarDropdownPanelVariants = cva(tw`m-0 mt-1 list-none space-y-1 p-0 pl-4`, {
+  variants: {
+    collapseBelow: {
+      sm: tw`sm:absolute sm:left-0 sm:top-full sm:min-w-[12rem] sm:rounded-md sm:border
+      sm:border-muted sm:bg-popover sm:p-1 sm:shadow-md`,
+      md: tw`md:absolute md:left-0 md:top-full md:min-w-[12rem] md:rounded-md md:border
+      md:border-muted md:bg-popover md:p-1 md:shadow-md`,
+      lg: tw`lg:absolute lg:left-0 lg:top-full lg:min-w-[12rem] lg:rounded-md lg:border
+      lg:border-muted lg:bg-popover lg:p-1 lg:shadow-md`,
+    },
+    align: { start: '', end: '' },
+  },
+  compoundVariants: [
+    { align: 'end', collapseBelow: 'sm', className: tw`sm:left-auto sm:right-0` },
+    { align: 'end', collapseBelow: 'md', className: tw`md:left-auto md:right-0` },
+    { align: 'end', collapseBelow: 'lg', className: tw`lg:left-auto lg:right-0` },
+  ],
+  defaultVariants: { align: 'start' },
+});
 
 /* A `NavbarDropdown` shown as a group inside the "More" dropdown. */
 export const navbarOverflowGroupLabelClasses = tw`block px-3 pb-1 pt-2 text-xs font-semibold
@@ -102,10 +216,27 @@ gap-2 rounded-sm px-2 py-1.5 text-sm text-inherit no-underline outline-none tran
 focus:bg-accent focus:text-accent-foreground data-[disabled]:cursor-not-allowed
 data-[disabled]:opacity-50 [&_svg]:size-4`;
 
+/* The thumb of the switch drawn in `NavbarProfileSwitchItem`, matching Vero's Switch. */
+export const navbarProfileSwitchThumbClasses = tw`pointer-events-none block size-5 rounded-full
+bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5
+data-[state=unchecked]:translate-x-0 motion-reduce:transition-none`;
+
 export const navbarProfileSeparatorClasses = tw`-mx-1 my-1 h-px bg-muted`;
 
+/* In a navbar with a nav, the avatar menu shows only when expanded; collapsed, the
+   profile is in the nav panel instead. */
+export const navbarProfileTriggerShownVariants = cva('hidden', {
+  variants: {
+    collapseBelow: { sm: 'sm:inline-flex', md: 'md:inline-flex', lg: 'lg:inline-flex' },
+  },
+});
+
 /* The profile section at the bottom of the small-screen nav panel. */
-export const navbarProfilePanelClasses = tw`mt-2 border-t border-base-200 pt-3`;
+export const navbarProfilePanelVariants = cva(tw`mt-2 border-t border-base-200 pt-3`, {
+  variants: {
+    collapseBelow: { sm: 'sm:hidden', md: 'md:hidden', lg: 'lg:hidden' },
+  },
+});
 
 export const navbarProfilePanelHeaderClasses = tw`mb-2 flex items-center gap-3 px-3`;
 

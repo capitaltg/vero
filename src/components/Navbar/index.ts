@@ -7,7 +7,13 @@ export {
   NavbarNav,
 } from './src/Navbar';
 export { NavbarDropdown, NavbarDropdownItem } from './src/NavbarDropdown';
-export { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from './src/NavbarProfile';
+export {
+  NavbarProfile,
+  NavbarProfileCheckboxItem,
+  NavbarProfileItem,
+  NavbarProfileSeparator,
+  NavbarProfileSwitchItem,
+} from './src/NavbarProfile';
 export type {
   NavbarActionProps,
   NavbarActionsProps,
@@ -18,6 +24,9 @@ export type {
   NavbarNavProps,
   NavbarProfileItemProps,
   NavbarProfileProps,
+  NavbarProfileCheckboxItemProps,
   NavbarProfileSeparatorProps,
+  NavbarProfileSwitchItemProps,
+  NavbarProfileToggleItemProps,
   NavbarProps,
 } from './types';

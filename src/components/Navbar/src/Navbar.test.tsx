@@ -7,6 +7,7 @@ import { axe } from 'vitest-axe';
 import { NavbarDefault } from '../demos/NavbarDefault';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
+import { NavbarProfileControls } from '../demos/NavbarProfileControls';
 import { Navbar, NavbarAction, NavbarActions, NavbarBrand, NavbarItem, NavbarNav } from './Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from './NavbarDropdown';
 import { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from './NavbarProfile';
@@ -23,6 +24,14 @@ describe('Navbar', () => {
 
     it('has no violations for the minimal navbar', async () => {
       const { container } = render(<NavbarMinimal />);
+      expectNoViolations(await axe(container));
+    });
+
+    it('has no violations with switch and checkbox items in the open profile menu', async () => {
+      const user = userEvent.setup();
+      const { container } = render(<NavbarProfileControls />);
+      await user.click(screen.getByRole('button', { name: 'Jane Doe' }));
+      await screen.findByRole('menu');
       expectNoViolations(await axe(container));
     });
 
@@ -48,14 +57,31 @@ describe('Navbar', () => {
       expect(within(list).getByRole('link', { name: 'Dashboard' })).toBeInTheDocument();
     });
 
-    it('exposes the breakpoint as a data attribute for the stylesheet', () => {
+    it('expands from the collapseBelow breakpoint', () => {
       render(
         <Navbar collapseBelow="lg">
           <NavbarBrand href="/">Acme</NavbarBrand>
+          <NavbarNav>
+            <NavbarItem href="/a">Alpha</NavbarItem>
+          </NavbarNav>
         </Navbar>,
       );
-      const header = screen.getByRole('banner');
-      expect(header).toHaveAttribute('data-collapse-below', 'lg');
+      expect(screen.getByRole('button', { name: 'Menu' })).toHaveClass('lg:hidden');
+      expect(screen.getByRole('button', { name: 'Menu' })).not.toHaveClass('md:hidden');
+      expect(getMain()).toHaveClass('lg:flex');
+    });
+
+    it('lets a className replace the space after the brand', () => {
+      render(
+        <Navbar>
+          <NavbarBrand className="mr-12" href="/">
+            Acme
+          </NavbarBrand>
+        </Navbar>,
+      );
+      const brand = screen.getByRole('link', { name: 'Acme' });
+      expect(brand).toHaveClass('mr-12');
+      expect(brand).not.toHaveClass('mr-8');
     });
 
     it('marks the active item as the current page', () => {
@@ -321,6 +347,45 @@ describe('Navbar', () => {
       expect(item).toHaveAttribute('data-disabled');
       await user.click(item);
       expect(onSelect).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('NavbarProfile switch and checkbox items', () => {
+    it('toggles from the menu and keeps it open', async () => {
+      const user = userEvent.setup();
+      render(<NavbarProfileControls />);
+      await user.click(screen.getByRole('button', { name: 'Jane Doe' }));
+      const menu = await screen.findByRole('menu');
+
+      const darkMode = within(menu).getByRole('menuitemcheckbox', { name: 'Dark mode' });
+      expect(darkMode).toHaveAttribute('aria-checked', 'false');
+      await user.click(darkMode);
+      expect(darkMode).toHaveAttribute('aria-checked', 'true');
+      expect(screen.getByRole('menu')).toBeInTheDocument();
+
+      const updates = within(menu).getByRole('menuitemcheckbox', {
+        name: 'Email me product updates',
+      });
+      expect(updates).toHaveAttribute('aria-checked', 'true');
+      await user.keyboard('{End}{Enter}');
+      expect(updates).toHaveAttribute('aria-checked', 'false');
+    });
+
+    it('shows as a switch and a checkbox in the nav panel', async () => {
+      const user = userEvent.setup();
+      render(<NavbarProfileControls />);
+      await user.click(screen.getByRole('button', { name: 'Menu' }));
+      const account = within(getMain()).getByRole('list', { name: 'Account' });
+
+      const darkMode = within(account).getByRole('switch', { name: 'Dark mode' });
+      await user.click(darkMode);
+      expect(darkMode).toHaveAttribute('aria-checked', 'true');
+
+      const updates = within(account).getByRole('checkbox', { name: 'Email me product updates' });
+      await user.click(updates);
+      expect(updates).toHaveAttribute('aria-checked', 'false');
+      // Toggling a setting leaves the panel open.
+      expect(screen.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'true');
     });
   });
 

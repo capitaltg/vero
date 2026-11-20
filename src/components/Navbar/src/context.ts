@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { NavbarProps } from '../types';
 
 export interface NavbarContextValue {
+  /** Below this breakpoint the nav folds into the menu panel. */
+  collapseBelow: NonNullable<NavbarProps['collapseBelow']>;
   /** Whether the small-screen nav panel is open. */
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;

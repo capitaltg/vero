@@ -122,6 +122,27 @@ export interface NavbarProfileItemProps
   isDisabled?: boolean;
 }
 
+export interface NavbarProfileToggleItemProps
+  extends Omit<
+    ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+    'checked' | 'onCheckedChange' | 'disabled'
+  > {
+  /** Whether the setting is on. */
+  isChecked: boolean;
+  /** Called with the new value when the item is chosen. The menu stays open. */
+  onCheckedChange: (checked: boolean) => void;
+  /** An icon shown before the label. */
+  icon?: ReactNode;
+  /** Disables the item. Disabled items are skipped by the keyboard. */
+  isDisabled?: boolean;
+}
+
+/** A setting shown with a switch, after its label. */
+export type NavbarProfileSwitchItemProps = NavbarProfileToggleItemProps;
+
+/** A setting shown with a checkbox, before its label. */
+export type NavbarProfileCheckboxItemProps = NavbarProfileToggleItemProps;
+
 export type NavbarProfileSeparatorProps = ComponentPropsWithoutRef<
   typeof DropdownMenuPrimitive.Separator
 >;

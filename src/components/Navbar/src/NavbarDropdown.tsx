@@ -4,9 +4,11 @@ import { Slot } from '@radix-ui/react-slot';
 import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 import {
-  navbarDropdownPanelClasses,
+  navbarDropdownLinkVariants,
+  navbarDropdownPanelVariants,
   navbarDropdownTriggerClasses,
   navbarLinkClasses,
+  navbarTopLinkVariants,
   navbarOverflowGroupLabelClasses,
   navbarOverflowGroupListClasses,
 } from '../constants';
@@ -57,9 +59,28 @@ const NavbarOverflowGroup = React.forwardRef<HTMLLIElement, NavbarDropdownProps>
 );
 NavbarOverflowGroup.displayName = 'NavbarOverflowGroup';
 
-const NavbarDisclosure = React.forwardRef<HTMLLIElement, NavbarDropdownProps>(
-  ({ className, label, active = false, children, onKeyDown, onBlur, ...props }, ref) => {
-    const { openDropdown, setOpenDropdown } = useNavbar('NavbarDropdown');
+/**
+ * The dropdown itself. NavbarNav also uses it for "More", whose panel lines up with the
+ * item's right edge (`panelAlign="end"`) because it is the last item.
+ */
+const NavbarDisclosure = React.forwardRef<
+  HTMLLIElement,
+  NavbarDropdownProps & { panelAlign?: 'start' | 'end' }
+>(
+  (
+    {
+      className,
+      label,
+      active = false,
+      panelAlign = 'start',
+      children,
+      onKeyDown,
+      onBlur,
+      ...props
+    },
+    ref,
+  ) => {
+    const { collapseBelow, openDropdown, setOpenDropdown } = useNavbar('NavbarDropdown');
     const id = React.useId();
     const panelId = `${id}-panel`;
     const isOpen = openDropdown === id;
@@ -114,6 +135,7 @@ const NavbarDisclosure = React.forwardRef<HTMLLIElement, NavbarDropdownProps>(
           className={cn(
             'vero-navbar-dropdown-trigger',
             navbarLinkClasses,
+            navbarTopLinkVariants({ collapseBelow }),
             navbarDropdownTriggerClasses,
           )}
           data-active={active}
@@ -124,7 +146,10 @@ const NavbarDisclosure = React.forwardRef<HTMLLIElement, NavbarDropdownProps>(
           <ChevronDown aria-hidden="true" className="size-4 shrink-0" />
         </button>
         <ul
-          className={cn('vero-navbar-dropdown-panel', navbarDropdownPanelClasses)}
+          className={cn(
+            'vero-navbar-dropdown-panel',
+            navbarDropdownPanelVariants({ collapseBelow, align: panelAlign }),
+          )}
           hidden={!isOpen}
           id={panelId}
           style={{ zIndex: getZIndex('dropdown') }}
@@ -140,14 +165,20 @@ NavbarDisclosure.displayName = 'NavbarDisclosure';
 /** A link inside a `NavbarDropdown`. */
 const NavbarDropdownItem = React.forwardRef<HTMLAnchorElement, NavbarDropdownItemProps>(
   ({ className, active = false, asChild = false, onClick, ...props }, ref) => {
-    const { closeAll } = useNavbar('NavbarDropdownItem');
+    const { collapseBelow, closeAll } = useNavbar('NavbarDropdownItem');
     const Comp = asChild ? Slot : 'a';
     return (
       <li>
         <Comp
           ref={ref}
           aria-current={active ? 'page' : undefined}
-          className={cn('vero-navbar-dropdown-link', navbarLinkClasses, className)}
+          className={cn(
+            'vero-navbar-dropdown-link',
+            navbarLinkClasses,
+            navbarDropdownLinkVariants({ collapseBelow }),
+            className,
+          )}
+          data-active={active}
           onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
             onClick?.(event);
             closeAll();
@@ -160,4 +191,4 @@ const NavbarDropdownItem = React.forwardRef<HTMLAnchorElement, NavbarDropdownIte
 );
 NavbarDropdownItem.displayName = 'NavbarDropdownItem';
 
-export { NavbarDropdown, NavbarDropdownItem };
+export { NavbarDisclosure, NavbarDropdown, NavbarDropdownItem };

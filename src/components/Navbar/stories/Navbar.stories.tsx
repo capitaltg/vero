@@ -6,6 +6,8 @@ import sourceDefault from '../demos/NavbarDefault.tsx?raw';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
 import sourceManyItems from '../demos/NavbarManyItems.tsx?raw';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
+import { NavbarProfileControls } from '../demos/NavbarProfileControls';
+import sourceProfileControls from '../demos/NavbarProfileControls.tsx?raw';
 import sourceMinimal from '../demos/NavbarMinimal.tsx?raw';
 import {
   Navbar,
@@ -105,7 +107,7 @@ export const Playground: Story = {
 };
 
 /**
- * Brand, navigation with dropdowns, actions with a notification badge, and a profile menu.
+ * Brand, navigation with dropdowns, and a profile menu.
  */
 export const Default: Story = {
   render: () => <NavbarDefault />,
@@ -127,6 +129,16 @@ export const Minimal: Story = {
 export const ManyItems: Story = {
   render: () => <NavbarManyItems />,
   parameters: withSource(sourceManyItems),
+};
+
+/**
+ * Settings in the profile menu. `NavbarProfileSwitchItem` and `NavbarProfileCheckboxItem`
+ * are checkable menu items drawn with Vero's switch and checkbox; choosing one toggles it
+ * and leaves the menu open.
+ */
+export const ProfileControls: Story = {
+  render: () => <NavbarProfileControls />,
+  parameters: withSource(sourceProfileControls),
 };
 
 /**

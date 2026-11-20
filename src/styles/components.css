@@ -20,4 +20,356 @@
   [data-error="true"] [data-component="tag-input"] {
     @apply border-destructive focus-within:ring-destructive;
   }
+
+  /* Navbar. The utility classes in Navbar/constants.ts lay out the collapsed (small
+     screen) navbar; these rules add the active-item indicator and, above each
+     `collapseBelow` breakpoint, the expanded layout. The three breakpoint blocks are
+     identical apart from the breakpoint: keep them in step. */
+
+  /* The current page is marked by more than color: a faint background and a bar, beside
+     links in a list and under items in the expanded bar. Links in dropdowns, including
+     "More", keep the side bar at every width. */
+  .vero-navbar-link[aria-current="page"],
+  .vero-navbar-dropdown-link[aria-current="page"],
+  .vero-navbar-dropdown-trigger[data-active="true"] {
+    background: theme("colors.base.100");
+  }
+
+  .vero-navbar-link[aria-current="page"]::after,
+  .vero-navbar-dropdown-link[aria-current="page"]::after,
+  .vero-navbar-dropdown-trigger[data-active="true"]::after {
+    content: "";
+    position: absolute;
+    top: theme("spacing.1");
+    bottom: theme("spacing.1");
+    left: 0;
+    width: 3px;
+    border-radius: 9999px;
+    background: theme("colors.primary.DEFAULT");
+  }
+
+  /* In dropdowns the bar runs the link's full height, following its rounded left corners. */
+  .vero-navbar-dropdown-link[aria-current="page"]::after {
+    top: 0;
+    bottom: 0;
+    border-radius: 0;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+  }
+
+  /* Collapsed, a navbar with a menu panel shows the profile inside the panel
+     (`.vero-navbar-profile-panel`) instead of as an avatar menu. */
+  .vero-navbar:has(.vero-navbar-nav) .vero-navbar-profile {
+    display: none;
+  }
+
+  @media (min-width: theme("screens.sm")) {
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-toggle,
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-profile-panel {
+      display: none;
+    }
+
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-profile {
+      display: inline-flex;
+    }
+
+    /* The actions take over the auto margin from the brand, so the nav sits beside it, set
+       off by the container's gap plus this margin. */
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-brand {
+      margin-right: theme("spacing.6");
+    }
+
+    /* The nav fills the space between the brand and the actions; NavbarNav measures it to
+       decide which items move into the "More" dropdown. It reaches through the container's
+       vertical padding so its items fill the bar's full height. */
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-nav {
+      display: flex;
+      order: 0;
+      flex: 1 1 0%;
+      min-width: 0;
+      align-self: stretch;
+      margin-block: calc(theme("spacing[2.5]") * -1);
+      padding-top: 0;
+    }
+
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-list {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-link,
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-dropdown-trigger {
+      height: 100%;
+      padding-inline: theme("spacing.6");
+      border-radius: 0;
+    }
+
+    /* A ring drawn outside a full-height item would spill below the bar, so it is drawn
+       inside instead, on a layer above the active bar (::after) so the bar can't cover its
+       bottom edge. It reaches 1px lower to cover the part of the bar on the border. */
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-link:focus-visible,
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-dropdown-trigger:focus-visible {
+      box-shadow: none;
+    }
+
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-link:focus-visible::before,
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-dropdown-trigger:focus-visible::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 -1px;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 3px theme("colors.ring");
+    }
+
+    /* The bar sits over the navbar's 1px bottom border. */
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-link[aria-current="page"]::after,
+    .vero-navbar[data-collapse-below="sm"]
+      .vero-navbar-dropdown-trigger[data-active="true"]::after {
+      top: auto;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      width: auto;
+      height: 3px;
+      border-radius: 0;
+    }
+
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-dropdown-panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 12rem;
+      margin-top: theme("spacing.1");
+      padding: theme("spacing.1");
+      border: 1px solid theme("colors.muted.DEFAULT");
+      border-radius: theme("borderRadius.md");
+      background: theme("colors.popover.DEFAULT");
+      box-shadow: theme("boxShadow.md");
+    }
+
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-dropdown-link {
+      padding-block: theme("spacing.3");
+      color: theme("colors.popover.foreground");
+    }
+
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-dropdown-link:hover {
+      background: theme("colors.accent.DEFAULT");
+      color: theme("colors.accent.foreground");
+    }
+
+    .vero-navbar[data-collapse-below="sm"] .vero-navbar-dropdown-link[aria-current="page"] {
+      color: theme("colors.primary.400");
+    }
+  }
+
+  @media (min-width: theme("screens.md")) {
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-toggle,
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-profile-panel {
+      display: none;
+    }
+
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-profile {
+      display: inline-flex;
+    }
+
+    /* The actions take over the auto margin from the brand, so the nav sits beside it, set
+       off by the container's gap plus this margin. */
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-brand {
+      margin-right: theme("spacing.6");
+    }
+
+    /* The nav fills the space between the brand and the actions; NavbarNav measures it to
+       decide which items move into the "More" dropdown. It reaches through the container's
+       vertical padding so its items fill the bar's full height. */
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-nav {
+      display: flex;
+      order: 0;
+      flex: 1 1 0%;
+      min-width: 0;
+      align-self: stretch;
+      margin-block: calc(theme("spacing[2.5]") * -1);
+      padding-top: 0;
+    }
+
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-list {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-link,
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-dropdown-trigger {
+      height: 100%;
+      padding-inline: theme("spacing.6");
+      border-radius: 0;
+    }
+
+    /* A ring drawn outside a full-height item would spill below the bar, so it is drawn
+       inside instead, on a layer above the active bar (::after) so the bar can't cover its
+       bottom edge. It reaches 1px lower to cover the part of the bar on the border. */
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-link:focus-visible,
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-dropdown-trigger:focus-visible {
+      box-shadow: none;
+    }
+
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-link:focus-visible::before,
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-dropdown-trigger:focus-visible::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 -1px;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 3px theme("colors.ring");
+    }
+
+    /* The bar sits over the navbar's 1px bottom border. */
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-link[aria-current="page"]::after,
+    .vero-navbar[data-collapse-below="md"]
+      .vero-navbar-dropdown-trigger[data-active="true"]::after {
+      top: auto;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      width: auto;
+      height: 3px;
+      border-radius: 0;
+    }
+
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-dropdown-panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 12rem;
+      margin-top: theme("spacing.1");
+      padding: theme("spacing.1");
+      border: 1px solid theme("colors.muted.DEFAULT");
+      border-radius: theme("borderRadius.md");
+      background: theme("colors.popover.DEFAULT");
+      box-shadow: theme("boxShadow.md");
+    }
+
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-dropdown-link {
+      padding-block: theme("spacing.3");
+      color: theme("colors.popover.foreground");
+    }
+
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-dropdown-link:hover {
+      background: theme("colors.accent.DEFAULT");
+      color: theme("colors.accent.foreground");
+    }
+
+    .vero-navbar[data-collapse-below="md"] .vero-navbar-dropdown-link[aria-current="page"] {
+      color: theme("colors.primary.400");
+    }
+  }
+
+  @media (min-width: theme("screens.lg")) {
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-toggle,
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-profile-panel {
+      display: none;
+    }
+
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-profile {
+      display: inline-flex;
+    }
+
+    /* The actions take over the auto margin from the brand, so the nav sits beside it, set
+       off by the container's gap plus this margin. */
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-brand {
+      margin-right: theme("spacing.6");
+    }
+
+    /* The nav fills the space between the brand and the actions; NavbarNav measures it to
+       decide which items move into the "More" dropdown. It reaches through the container's
+       vertical padding so its items fill the bar's full height. */
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-nav {
+      display: flex;
+      order: 0;
+      flex: 1 1 0%;
+      min-width: 0;
+      align-self: stretch;
+      margin-block: calc(theme("spacing[2.5]") * -1);
+      padding-top: 0;
+    }
+
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-list {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-link,
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-dropdown-trigger {
+      height: 100%;
+      padding-inline: theme("spacing.6");
+      border-radius: 0;
+    }
+
+    /* A ring drawn outside a full-height item would spill below the bar, so it is drawn
+       inside instead, on a layer above the active bar (::after) so the bar can't cover its
+       bottom edge. It reaches 1px lower to cover the part of the bar on the border. */
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-link:focus-visible,
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-dropdown-trigger:focus-visible {
+      box-shadow: none;
+    }
+
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-link:focus-visible::before,
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-dropdown-trigger:focus-visible::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 -1px;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 3px theme("colors.ring");
+    }
+
+    /* The bar sits over the navbar's 1px bottom border. */
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-link[aria-current="page"]::after,
+    .vero-navbar[data-collapse-below="lg"]
+      .vero-navbar-dropdown-trigger[data-active="true"]::after {
+      top: auto;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      width: auto;
+      height: 3px;
+      border-radius: 0;
+    }
+
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-dropdown-panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 12rem;
+      margin-top: theme("spacing.1");
+      padding: theme("spacing.1");
+      border: 1px solid theme("colors.muted.DEFAULT");
+      border-radius: theme("borderRadius.md");
+      background: theme("colors.popover.DEFAULT");
+      box-shadow: theme("boxShadow.md");
+    }
+
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-dropdown-link {
+      padding-block: theme("spacing.3");
+      color: theme("colors.popover.foreground");
+    }
+
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-dropdown-link:hover {
+      background: theme("colors.accent.DEFAULT");
+      color: theme("colors.accent.foreground");
+    }
+
+    .vero-navbar[data-collapse-below="lg"] .vero-navbar-dropdown-link[aria-current="page"] {
+      color: theme("colors.primary.400");
+    }
+  }
+
+  /* "More" is the last nav item, so its panel opens from its right edge. It only shows
+     above the breakpoint, so this needs no media query. */
+  .vero-navbar .vero-navbar-more > .vero-navbar-dropdown-panel {
+    left: auto;
+    right: 0;
+  }
 }

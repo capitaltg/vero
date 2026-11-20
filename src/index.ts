@@ -23,6 +23,7 @@ export * from './components/Image';
 export * from './components/Input';
 export * from './components/Label';
 export * from './components/MultiSelect';
+export * from './components/Navbar';
 export * from './components/Popover';
 export * from './components/Radio';
 export * from './components/RadioGroup';

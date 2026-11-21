@@ -23,9 +23,7 @@ import { NavbarDropdown, NavbarDropdownItem } from '../src/NavbarDropdown';
 import { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from '../src/NavbarProfile';
 
 const meta = {
-  // "(Experimental)" in the title keeps it visible in the sidebar tree even
-  // without opening the docs page.
-  title: 'Actions & Navigation/Navbar (Experimental)',
+  title: 'Actions & Navigation/Navbar',
   component: Navbar,
   parameters: {
     layout: 'fullscreen',
@@ -53,7 +51,7 @@ const meta = {
       },
     },
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'experimental'],
   args: {
     collapseBelow: 'md',
     sticky: false,

@@ -1,3 +1,4 @@
+import { warnExperimental } from '@/lib/experimental';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as React from 'react';
@@ -113,24 +114,6 @@ function useStackClasses(section: TableSection) {
   return stack && current === section ? stack : null;
 }
 
-// One-time dev-mode notice that the table components are experimental. Fired
-// from `Table` because every table — whether composed from the primitives
-// directly or rendered by `DataTable` — mounts one.
-let hasWarnedExperimental = false;
-function warnExperimentalOnce() {
-  // Keep the bare `process.env.NODE_ENV` form: consumers' bundlers replace that
-  // exact expression at build time, which drops the warning from production
-  // bundles (a `typeof process` guard or `?.` would defeat the replacement).
-  if (hasWarnedExperimental || process.env.NODE_ENV === 'production') return;
-  hasWarnedExperimental = true;
-
-  console.warn(
-    '[vero] Table is experimental: `Table`, `DataTable`, and the other table components are ' +
-      'exported for early feedback and may change — or be removed — without a major version ' +
-      'bump. See the Storybook docs for details.',
-  );
-}
-
 /**
  * @experimental Exported for early feedback; the API may change or be
  * removed without a major version bump. See https://capitaltg.github.io/vero/
@@ -157,8 +140,9 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
     },
     ref,
   ) => {
+    // Every table mounts a `Table`, whether composed or rendered by `DataTable`.
     React.useEffect(() => {
-      warnExperimentalOnce();
+      warnExperimental('Table', '`Table`, `DataTable`, and the other table components are');
     }, []);
 
     const scrollRef = React.useRef<HTMLDivElement>(null);

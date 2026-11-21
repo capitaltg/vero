@@ -41,9 +41,6 @@ import { getInitials } from './utils';
 const ProfilePlacementContext = React.createContext<'menu' | 'panel'>('menu');
 
 /**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- *
  * The signed-in user's avatar, opening a menu of account actions. Unlike the nav
  * dropdowns, this is an ARIA menu (Radix DropdownMenu): its items are commands such as
  * "Sign out", navigated with the arrow keys.
@@ -51,6 +48,8 @@ const ProfilePlacementContext = React.createContext<'menu' | 'panel'>('menu');
  * In a navbar with a `NavbarNav`, below the `collapseBelow` breakpoint the avatar is
  * hidden and the name, email and items appear at the bottom of the nav panel instead, as
  * plain buttons and links.
+ *
+ * @experimental
  */
 const NavbarProfile = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
@@ -146,11 +145,10 @@ const NavbarProfile = React.forwardRef<
 NavbarProfile.displayName = 'NavbarProfile';
 
 /**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- *
  * An item in the profile menu. Use `onSelect` for actions; for links, pass `asChild`
  * with an `<a>` or router link as the only child.
+ *
+ * @experimental
  */
 const NavbarProfileItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
@@ -374,29 +372,24 @@ function createToggleItem(control: ToggleControl, displayName: string) {
 }
 
 /**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- *
  * A setting in the profile menu that turns on and off, shown with a switch after its
  * label, e.g. "Dark mode". Choosing it toggles the setting and leaves the menu open. It is
  * announced as a checkable menu item in the menu, and as a switch in the nav panel.
+ *
+ * @experimental
  */
 const NavbarProfileSwitchItem = createToggleItem('switch', 'NavbarProfileSwitchItem');
 
 /**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- *
  * A setting in the profile menu that turns on and off, shown with a checkbox before its
  * label. Choosing it toggles the setting and leaves the menu open. It is announced as a
  * checkable menu item in the menu, and as a checkbox in the nav panel.
+ *
+ * @experimental
  */
 const NavbarProfileCheckboxItem = createToggleItem('checkbox', 'NavbarProfileCheckboxItem');
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
+/** @experimental */
 const NavbarProfileSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   NavbarProfileSeparatorProps

@@ -3,8 +3,8 @@
 Status: **v1 implemented — exported as experimental** · Owner: TBD
 
 > Landed and now **exported as experimental**: the root barrel export in `src/index.ts` is
-> live, and both Storybook pages are visible as `Data & Display/Table (Experimental)` and
-> `Data & Display/DataTable (Experimental)`, with an "Experimental" callout on the docs page.
+> live, and both Storybook pages (`Data & Display/Table` and `Data & Display/DataTable`) carry
+> the `experimental` tag, which shows a sidebar badge, with an "Experimental" callout on the docs page.
 > `@experimental` JSDoc is on every exported symbol (shows on hover in consumers' editors), and
 > `Table` logs a one-time dev-mode `console.warn` on mount. The API may still change, or the
 > components may be removed, without a major version bump — see the promotion checklist in §8.
@@ -323,6 +323,6 @@ Stories: EditableCells, ServerSideData, LoadingStates, DensityToggle.
   apps can opt in to the global augmentation themselves (documented on `DataTableColumnMeta`)._
 - Final home for this PLAN.md before public release (docs site vs delete).
 - Promotion checklist from experimental → stable: remove the `@experimental` JSDoc tags,
-  the `Table` dev-mode `console.warn` (and its filter in `src/test/setup.ts`), the
-  "(Experimental)" Storybook title suffixes and the docs-page callout, and this PLAN.md (or
+  the `warnExperimental('Table', …)` call in `Table`, the `experimental` tag on both story
+  metas and the docs-page callout, and this PLAN.md (or
   relocate it), then bump at least a minor version.

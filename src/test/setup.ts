@@ -7,18 +7,11 @@ import * as matchers from 'vitest-axe/matchers';
 // Extend Vitest's expect with axe matchers
 expect.extend(matchers);
 
-// Silence the one-time "Table is experimental" and "Navbar is experimental" dev
-// warnings so they don't clutter test output (each has dedicated coverage in its
-// component's tests). Remove each when its component is promoted to stable.
-const EXPERIMENTAL_WARNINGS = ['[vero] Table is experimental', '[vero] Navbar is experimental'];
+// Silence the one-time "[vero] <Name> is experimental" dev warnings so they don't
+// clutter test output (warnExperimental has its own tests in src/lib).
 const originalWarn = console.warn;
 vi.spyOn(console, 'warn').mockImplementation((...args: unknown[]) => {
-  const [message] = args;
-  if (
-    typeof message === 'string' &&
-    EXPERIMENTAL_WARNINGS.some(prefix => message.startsWith(prefix))
-  )
-    return;
+  if (typeof args[0] === 'string' && /^\[vero\] \w+ is experimental/.test(args[0])) return;
   originalWarn(...args);
 });
 

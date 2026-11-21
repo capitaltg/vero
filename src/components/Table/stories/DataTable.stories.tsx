@@ -19,11 +19,9 @@ import { people, personColumns } from '../demos/sampleData';
 import { DataTable } from '../src/DataTable';
 
 const meta = {
-  // "(Experimental)" in the title keeps it visible in the sidebar tree even
-  // without opening the docs page.
-  title: 'Data & Display/DataTable (Experimental)',
+  title: 'Data & Display/DataTable',
   component: DataTable,
-  tags: ['autodocs'],
+  tags: ['autodocs', 'experimental'],
   parameters: {
     docs: {
       description: {
@@ -35,7 +33,7 @@ const meta = {
           'renders through the accessible `Table` primitives — with column grouping, row ' +
           'headers (`meta.isRowHeader`), sorting (`aria-sort` + live announcements), and ' +
           'scroll / stacked responsive behavior. The full guide for both components lives ' +
-          'on the [Table docs page](?path=/docs/data-display-table-experimental--docs).',
+          'on the [Table docs page](?path=/docs/data-display-table--docs).',
       },
     },
   },

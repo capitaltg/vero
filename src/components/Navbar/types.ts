@@ -7,10 +7,6 @@ import {
   ReactNode,
 } from 'react';
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export interface NavbarProps extends HTMLAttributes<HTMLElement> {
   /**
    * Below this breakpoint the `NavbarNav` items fold into a panel behind a menu button.
@@ -27,10 +23,6 @@ export interface NavbarProps extends HTMLAttributes<HTMLElement> {
   containerClassName?: string;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export interface NavbarBrandProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
    * Render the child element instead of an `<a>`, merging props onto it. Use this for
@@ -39,10 +31,6 @@ export interface NavbarBrandProps extends AnchorHTMLAttributes<HTMLAnchorElement
   asChild?: boolean;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export interface NavbarNavProps extends HTMLAttributes<HTMLElement> {
   /** The nav landmark's accessible name. Defaults to `Main`. */
   'aria-label'?: string;
@@ -55,10 +43,6 @@ export interface NavbarNavProps extends HTMLAttributes<HTMLElement> {
   moreLabel?: string;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export interface NavbarItemProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   /** Marks the link as the current page (`aria-current="page"`). */
   active?: boolean;
@@ -69,10 +53,6 @@ export interface NavbarItemProps extends AnchorHTMLAttributes<HTMLAnchorElement>
   asChild?: boolean;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export interface NavbarDropdownProps extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
   /** The text of the button that opens the dropdown. */
   label: ReactNode;
@@ -85,16 +65,8 @@ export interface NavbarDropdownProps extends Omit<HTMLAttributes<HTMLLIElement>,
   children: ReactNode;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export type NavbarDropdownItemProps = NavbarItemProps;
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export type NavbarActionsProps = HTMLAttributes<HTMLDivElement>;
 
 interface NavbarActionBaseProps {
@@ -114,20 +86,12 @@ interface NavbarActionBaseProps {
   badgeLabel?: string;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export type NavbarActionProps = NavbarActionBaseProps &
   (
     | ({ href?: undefined } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'>)
     | ({ href: string } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children'>)
   );
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export interface NavbarProfileProps
   extends Omit<ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>, 'children'> {
   /** The signed-in user's name. It names the trigger and heads the menu. */
@@ -150,10 +114,6 @@ export interface NavbarProfileProps
   children: ReactNode;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export interface NavbarProfileItemProps
   extends Omit<ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>, 'disabled'> {
   /** An icon shown before the label. */
@@ -162,10 +122,6 @@ export interface NavbarProfileItemProps
   isDisabled?: boolean;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export interface NavbarProfileToggleItemProps
   extends Omit<
     ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>,
@@ -181,26 +137,12 @@ export interface NavbarProfileToggleItemProps
   isDisabled?: boolean;
 }
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- *
- * A setting shown with a switch, after its label.
- */
+/** A setting shown with a switch, after its label. */
 export type NavbarProfileSwitchItemProps = NavbarProfileToggleItemProps;
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- *
- * A setting shown with a checkbox, before its label.
- */
+/** A setting shown with a checkbox, before its label. */
 export type NavbarProfileCheckboxItemProps = NavbarProfileToggleItemProps;
 
-/**
- * @experimental Exported for early feedback; the API may change or be
- * removed without a major version bump. See https://capitaltg.github.io/vero/
- */
 export type NavbarProfileSeparatorProps = ComponentPropsWithoutRef<
   typeof DropdownMenuPrimitive.Separator
 >;

@@ -94,6 +94,43 @@ const initialNotifications: Notification[] = [
     time: '3 days ago',
     unread: false,
   },
+  {
+    id: 5,
+    kind: 'comment',
+    title: (
+      <>
+        <strong>Sam Chen</strong> replied to you on <strong>Budget review</strong>
+      </>
+    ),
+    preview: '“Agreed. Let’s keep travel flat and move the savings to tooling.”',
+    context: 'Finance',
+    time: '4 days ago',
+    unread: false,
+  },
+  {
+    id: 6,
+    kind: 'invite',
+    title: (
+      <>
+        <strong>Alex Kim</strong> shared <strong>Brand guidelines</strong> with you
+      </>
+    ),
+    context: 'Documents',
+    time: 'Last week',
+    unread: false,
+  },
+  {
+    id: 7,
+    kind: 'export',
+    title: (
+      <>
+        Your <strong>audit log</strong> export is ready
+      </>
+    ),
+    context: 'Reports',
+    time: 'Last week',
+    unread: false,
+  },
 ];
 
 const NotificationRow = ({

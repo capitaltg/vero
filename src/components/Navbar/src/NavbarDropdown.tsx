@@ -18,6 +18,9 @@ import { NavbarDropdownItemProps, NavbarDropdownProps } from '../types';
 import { NavbarOverflowContext, useNavbar } from './context';
 
 /**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
  * A navigation item that discloses a list of links. It follows the ARIA disclosure
  * pattern, as the USWDS header does, rather than the menu pattern: the links stay in the
  * tab order and are announced as links. Opening one dropdown closes the others; Escape,
@@ -243,7 +246,12 @@ const NavbarDisclosure = React.forwardRef<
 );
 NavbarDisclosure.displayName = 'NavbarDisclosure';
 
-/** A link inside a `NavbarDropdown`. */
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * A link inside a `NavbarDropdown`.
+ */
 const NavbarDropdownItem = React.forwardRef<HTMLAnchorElement, NavbarDropdownItemProps>(
   ({ className, active = false, asChild = false, onClick, ...props }, ref) => {
     const { collapseBelow, closeAll } = useNavbar('NavbarDropdownItem');

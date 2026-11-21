@@ -23,13 +23,19 @@ import { NavbarDropdown, NavbarDropdownItem } from '../src/NavbarDropdown';
 import { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from '../src/NavbarProfile';
 
 const meta = {
-  title: 'Actions & Navigation/Navbar',
+  // "(Experimental)" in the title keeps it visible in the sidebar tree even
+  // without opening the docs page.
+  title: 'Actions & Navigation/Navbar (Experimental)',
   component: Navbar,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
+          '⚠️ **Experimental** — exported for early feedback. The API may change, or these ' +
+          'components may be removed, without a major version bump. Each export is tagged ' +
+          '`@experimental`, and the first navbar to mount logs a one-time warning in ' +
+          'development builds.\n\n' +
           'A site header with a brand on the left, primary navigation, and a right-aligned ' +
           'area for actions and the profile menu. Compose `Navbar` from `NavbarBrand`, ' +
           '`NavbarNav` (holding `NavbarItem`s and `NavbarDropdown`s) and `NavbarActions` ' +

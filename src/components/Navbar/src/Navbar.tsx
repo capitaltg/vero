@@ -51,7 +51,27 @@ function useMinWidth(width: number): boolean {
   );
 }
 
+// One-time dev-mode notice that the navbar components are experimental. Fired from
+// `Navbar` because every navbar mounts one.
+let hasWarnedExperimental = false;
+function warnExperimentalOnce() {
+  // Keep the bare `process.env.NODE_ENV` form: consumers' bundlers replace that exact
+  // expression at build time, which drops the warning from production bundles (a
+  // `typeof process` guard or `?.` would defeat the replacement).
+  if (hasWarnedExperimental || process.env.NODE_ENV === 'production') return;
+  hasWarnedExperimental = true;
+
+  console.warn(
+    '[vero] Navbar is experimental: `Navbar` and the other navbar components are exported ' +
+      'for early feedback and may change — or be removed — without a major version bump. ' +
+      'See the Storybook docs for details.',
+  );
+}
+
 /**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
  * A site header with a brand, primary navigation and a right-aligned area for actions and
  * the user's profile menu. Compose it from `NavbarBrand`, `NavbarNav` (holding
  * `NavbarItem`s and `NavbarDropdown`s) and `NavbarActions` (holding `NavbarAction`s and a
@@ -74,6 +94,10 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
     const [profileSlot, setProfileSlot] = React.useState<HTMLElement | null>(null);
     const isExpanded = useMinWidth(BREAKPOINT_WIDTHS[collapseBelow]);
+
+    React.useEffect(() => {
+      warnExperimentalOnce();
+    }, []);
 
     const context = React.useMemo<NavbarContextValue>(
       () => ({
@@ -111,7 +135,12 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 );
 Navbar.displayName = 'Navbar';
 
-/** The logo and product name, usually linking home. */
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * The logo and product name, usually linking home.
+ */
 const NavbarBrand = React.forwardRef<HTMLAnchorElement, NavbarBrandProps>(
   ({ className, asChild = false, ...props }, ref) => {
     useNavbar('NavbarBrand');
@@ -245,6 +274,9 @@ function useVisibleItemCount(
 }
 
 /**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
  * The primary navigation: a `<nav>` landmark holding a list of `NavbarItem`s and
  * `NavbarDropdown`s. Below the navbar's `collapseBelow` breakpoint it shows a menu button
  * at the far right that opens the list in a panel under the bar, followed by the
@@ -337,7 +369,12 @@ const NavbarNav = React.forwardRef<HTMLElement, NavbarNavProps>(
 );
 NavbarNav.displayName = 'NavbarNav';
 
-/** A top-level navigation link. In the "More" dropdown it shows as a dropdown link. */
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * A top-level navigation link. In the "More" dropdown it shows as a dropdown link.
+ */
 const NavbarItem = React.forwardRef<HTMLAnchorElement, NavbarItemProps>(
   ({ className, active = false, asChild = false, onClick, ...props }, ref) => {
     const { collapseBelow, closeAll } = useNavbar('NavbarItem');
@@ -379,7 +416,12 @@ const NavbarItem = React.forwardRef<HTMLAnchorElement, NavbarItemProps>(
 );
 NavbarItem.displayName = 'NavbarItem';
 
-/** The right-aligned area for `NavbarAction`s, a `NavbarProfile` or other controls. */
+/**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
+ * The right-aligned area for `NavbarAction`s, a `NavbarProfile` or other controls.
+ */
 const NavbarActions = React.forwardRef<HTMLDivElement, NavbarActionsProps>(
   ({ className, ...props }, ref) => (
     <div
@@ -398,6 +440,9 @@ function formatBadge(badge: number | string | null | undefined): string | null {
 }
 
 /**
+ * @experimental Exported for early feedback; the API may change or be
+ * removed without a major version bump. See https://capitaltg.github.io/vero/
+ *
  * An icon button for the actions area, such as notifications or help, with an optional
  * count badge. Pass `href` to render a link instead of a button.
  */

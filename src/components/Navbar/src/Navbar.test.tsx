@@ -2,7 +2,7 @@ import { expectNoViolations } from '@/test/utils';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Bell } from 'lucide-react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from 'vitest';
 import { axe } from 'vitest-axe';
 import { NavbarDefault } from '../demos/NavbarDefault';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
@@ -681,6 +681,54 @@ describe('Navbar', () => {
       ['  ', ''],
     ])('%s → %s', (name, expected) => {
       expect(getInitials(name)).toBe(expected);
+    });
+  });
+  describe('experimental warning', () => {
+    const EXPERIMENTAL = '[vero] Navbar is experimental';
+
+    // The "warned once" flag is module state, so load a fresh copy per test.
+    async function loadNavbar() {
+      vi.resetModules();
+      return (await import('./Navbar')).Navbar;
+    }
+
+    let warn: MockInstance<typeof console.warn>;
+
+    function experimentalWarnings() {
+      return warn.mock.calls.filter(
+        ([msg]) => typeof msg === 'string' && msg.startsWith(EXPERIMENTAL),
+      );
+    }
+
+    // A local spy rather than the setup file's: the overflow tests restore all mocks,
+    // which removes that one.
+    beforeEach(() => {
+      warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      warn.mockClear();
+    });
+
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    it('warns once in development, however many navbars mount', async () => {
+      vi.stubEnv('NODE_ENV', 'development');
+      const FreshNavbar = await loadNavbar();
+      render(
+        <>
+          <FreshNavbar aria-label="First" />
+          <FreshNavbar aria-label="Second" />
+        </>,
+      );
+      render(<FreshNavbar aria-label="Third" />);
+      expect(experimentalWarnings()).toHaveLength(1);
+    });
+
+    it('does not warn in production', async () => {
+      vi.stubEnv('NODE_ENV', 'production');
+      const FreshNavbar = await loadNavbar();
+      render(<FreshNavbar aria-label="Only" />);
+      expect(experimentalWarnings()).toHaveLength(0);
     });
   });
 });

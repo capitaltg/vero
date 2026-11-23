@@ -1,10 +1,10 @@
-import { checkboxClasses } from '@/components/Checkbox/src/CheckboxDefault';
-import { switchClasses } from '@/components/Switch/src/Switch';
+import { CheckboxGraphic } from '@/components/Checkbox/graphic';
+import { SwitchGraphic } from '@/components/Switch/graphic';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import { Slot } from '@radix-ui/react-slot';
-import { Check, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import {
@@ -20,7 +20,6 @@ import {
   navbarProfilePanelSeparatorClasses,
   navbarProfilePanelVariants,
   navbarProfileSeparatorClasses,
-  navbarProfileSwitchThumbClasses,
   navbarProfileTriggerClasses,
   navbarProfileTriggerShownVariants,
 } from '../constants';
@@ -256,22 +255,10 @@ type ToggleControl = 'switch' | 'checkbox';
  * another, which assistive technology can't operate.
  */
 function ToggleGraphic({ control, checked }: { control: ToggleControl; checked: boolean }) {
-  const state = checked ? 'checked' : 'unchecked';
-  if (control === 'switch') {
-    return (
-      <span aria-hidden="true" className={cn(switchClasses, 'ml-auto')} data-state={state}>
-        <span className={navbarProfileSwitchThumbClasses} data-state={state} />
-      </span>
-    );
-  }
-  return (
-    <span
-      aria-hidden="true"
-      className={cn(checkboxClasses, 'flex items-center justify-center')}
-      data-state={state}
-    >
-      {checked ? <Check className="size-4" strokeWidth={3} /> : null}
-    </span>
+  return control === 'switch' ? (
+    <SwitchGraphic checked={checked} className="ml-auto" />
+  ) : (
+    <CheckboxGraphic checked={checked} />
   );
 }
 

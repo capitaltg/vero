@@ -1,10 +1,9 @@
 import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { cn } from '@/lib/utils';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import { Check } from 'lucide-react';
 import * as React from 'react';
+import { CheckboxGraphic } from '../graphic';
 import { CheckboxProps } from '../types';
-import { checkboxClasses } from './CheckboxDefault';
 
 export const CheckboxTile = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -55,19 +54,7 @@ export const CheckboxTile = React.forwardRef<
           {...disabledProps}
         />
         <div className="flex items-start gap-3">
-          <div
-            className={cn(
-              checkboxClasses,
-              'pointer-events-none mt-1',
-              isChecked && 'border-primary-400 bg-primary-400',
-            )}
-          >
-            {isChecked ? (
-              <div className="flex h-full w-full items-center justify-center">
-                <Check className="h-4 w-4 text-white" strokeWidth={3} />
-              </div>
-            ) : null}
-          </div>
+          <CheckboxGraphic checked={isChecked === true} className="pointer-events-none mt-1" />
           <div className="pointer-events-none space-y-1">
             {renderLabel()}
             {description ? (

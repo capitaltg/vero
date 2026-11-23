@@ -23,6 +23,9 @@ export * from './components/Image';
 export * from './components/Input';
 export * from './components/Label';
 export * from './components/MultiSelect';
+// Experimental — exported for early feedback. The API may change or be
+// removed without a major version bump.
+export * from './components/Navbar';
 export * from './components/Popover';
 export * from './components/Radio';
 export * from './components/RadioGroup';

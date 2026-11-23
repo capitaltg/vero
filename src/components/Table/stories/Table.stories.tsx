@@ -20,9 +20,8 @@ import {
 } from '../src/Table';
 
 const meta = {
-  // "(Experimental)" in the title keeps it visible in the sidebar tree even
-  // without opening the docs page.
-  title: 'Data & Display/Table (Experimental)',
+  title: 'Data & Display/Table',
+  tags: ['experimental'],
   component: Table,
   parameters: {
     docs: {

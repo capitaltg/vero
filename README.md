@@ -67,11 +67,15 @@ function App() {
 A small number of components are exported ahead of a stable release so we can collect
 early feedback. Their API may change, or the export may be removed, without a major
 version bump — pin your version if you rely on one. Each is marked `@experimental` in its
-JSDoc and its Storybook page is labeled "(Experimental)".
+JSDoc, shows an "Experimental" badge in the Storybook sidebar, and logs a one-time warning
+in development builds.
 
 - **`Table`** and its parts (`TableCaption`, `TableHeader`, `TableBody`, `TableFooter`,
   `TableRow`, `TableHead`, `TableCell`), plus the config-driven **`DataTable`** — see
   [`src/components/Table/PLAN.md`](src/components/Table/PLAN.md) for status and roadmap.
+- **`Navbar`** and its parts (`NavbarBrand`, `NavbarNav`, `NavbarItem`, `NavbarDropdown`,
+  `NavbarDropdownItem`, `NavbarActions`, `NavbarAction`, `NavbarProfile` and the profile
+  items).
   Vero doesn't change `@tanstack/react-table`'s types. Type your columns as
   `DataTableColumnDef<T>[]` to get checking on `DataTable`'s column options (`isRowHeader`,
   `align`, `stackedLabel`); `DataTableColumnMeta` documents how to opt in to them on

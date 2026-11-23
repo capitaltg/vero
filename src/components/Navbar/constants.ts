@@ -204,11 +204,6 @@ gap-2 rounded-sm px-2 py-1.5 text-sm text-inherit no-underline outline-none tran
 focus:bg-accent focus:text-accent-foreground data-[disabled]:cursor-not-allowed
 data-[disabled]:opacity-50 [&_svg]:size-4`;
 
-/* The thumb of the switch drawn in `NavbarProfileSwitchItem`, matching Vero's Switch. */
-export const navbarProfileSwitchThumbClasses = tw`pointer-events-none block size-5 rounded-full
-bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5
-data-[state=unchecked]:translate-x-0 motion-reduce:transition-none`;
-
 export const navbarProfileSeparatorClasses = tw`-mx-1 my-1 h-px bg-muted`;
 
 /* In a navbar with a nav, the avatar menu shows only when expanded; collapsed, the

@@ -3,12 +3,10 @@ import { useAriaDisabled, useAriaLabelled } from '@/hooks';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import { Check } from 'lucide-react';
 import * as React from 'react';
+import { checkboxClasses } from '../constants';
+import { CheckboxCheckMark } from '../graphic';
 import { CheckboxProps } from '../types';
-
-export const checkboxClasses =
-  'peer h-5 w-5 shrink-0 rounded-sm border-2 border-gray-500 ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary-400 data-[state=checked]:bg-primary-400 data-[state=checked]:text-white';
 
 export const CheckboxDefault = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -45,7 +43,7 @@ export const CheckboxDefault = React.forwardRef<
           <CheckboxPrimitive.Indicator
             className={cn('flex items-center justify-center text-current')}
           >
-            <Check className="h-4 w-4" strokeWidth={3} />
+            <CheckboxCheckMark />
           </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
         <div className="mt-[3px] flex flex-col">

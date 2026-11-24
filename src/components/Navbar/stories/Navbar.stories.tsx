@@ -7,6 +7,8 @@ import { NavbarManyItems } from '../demos/NavbarManyItems';
 import sourceManyItems from '../demos/NavbarManyItems.tsx?raw';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
 import { NavbarProfileControls } from '../demos/NavbarProfileControls';
+import { NavbarRouterLinks } from '../demos/NavbarRouterLinks';
+import sourceRouterLinks from '../demos/NavbarRouterLinks.tsx?raw';
 import { NavbarWithActions } from '../demos/NavbarWithActions';
 import sourceWithActions from '../demos/NavbarWithActions.tsx?raw';
 import sourceProfileControls from '../demos/NavbarProfileControls.tsx?raw';
@@ -47,7 +49,8 @@ const meta = {
           'moves into the bottom of the panel, showing its name, email and items. Without ' +
           'a `NavbarNav` there is no panel, so the avatar menu stays.\n\n' +
           'For router links, pass `asChild` to `NavbarBrand`, `NavbarItem`, ' +
-          '`NavbarDropdownItem` or `NavbarProfileItem` with your link as the only child.',
+          '`NavbarDropdownItem` or `NavbarProfileItem` with your link as the only child. ' +
+          'See the Router links story.',
       },
     },
   },
@@ -153,6 +156,27 @@ export const Actions: Story = {
 export const ProfileControls: Story = {
   render: () => <NavbarProfileControls />,
   parameters: withSource(sourceProfileControls),
+};
+
+/**
+ * Router links such as React Router's `NavLink`. Pass `asChild` with the link as the only
+ * child; the Navbar's classes and click handling move onto it.
+ *
+ * - **Set `active` yourself.** The Navbar draws the current page, and marks a dropdown or
+ *   the "More" menu, from `active`, not from the link. Match the current route with
+ *   `matchPath` and `useLocation`, as here. `end: false` keeps a section active on its
+ *   child routes.
+ * - **Give `NavLink` a string `className`, or none.** `asChild` joins class names as
+ *   strings, so a function `className` or `style` doesn't work.
+ * - **With `asChild`, put an icon inside the link**; `NavbarProfileItem`'s `icon` is only
+ *   used without it.
+ *
+ * Click around: the current route changes without a page load. The demo uses a small
+ * stand-in for React Router; in an app, import the same names from `react-router`.
+ */
+export const RouterLinks: Story = {
+  render: () => <NavbarRouterLinks />,
+  parameters: withSource(sourceRouterLinks),
 };
 
 /**

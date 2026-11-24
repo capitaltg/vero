@@ -199,9 +199,12 @@ data-[side=top]:slide-in-from-bottom-2`;
 
 export const navbarProfileLabelClasses = tw`px-2 py-1.5`;
 
+/* Focus shows as a background, not an outline. `focus:outline-none` rather than
+   `outline-none`, so an app's `a:focus { outline }` rule can't add a ring when the item is
+   an `asChild` link. */
 export const navbarProfileItemClasses = tw`relative flex cursor-pointer select-none items-center
-gap-2 rounded-sm px-2 py-1.5 text-sm text-inherit no-underline outline-none transition-colors
-focus:bg-accent focus:text-accent-foreground data-[disabled]:cursor-not-allowed
+gap-2 rounded-sm px-2 py-1.5 text-sm text-inherit no-underline transition-colors focus:bg-accent
+focus:text-accent-foreground focus:outline-none data-[disabled]:cursor-not-allowed
 data-[disabled]:opacity-50 [&_svg]:size-4`;
 
 export const navbarProfileSeparatorClasses = tw`-mx-1 my-1 h-px bg-muted`;

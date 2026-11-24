@@ -8,6 +8,7 @@ import { NavbarDefault } from '../demos/NavbarDefault';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
 import { NavbarProfileControls } from '../demos/NavbarProfileControls';
+import { NavbarRouterLinks } from '../demos/NavbarRouterLinks';
 import { NavbarWithActions } from '../demos/NavbarWithActions';
 import { Navbar, NavbarAction, NavbarActions, NavbarBrand, NavbarItem, NavbarNav } from './Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from './NavbarDropdown';
@@ -20,6 +21,11 @@ describe('Navbar', () => {
   describe('Accessibility', () => {
     it('has no violations for the default navbar', async () => {
       const { container } = render(<NavbarDefault />);
+      expectNoViolations(await axe(container));
+    });
+
+    it('has no violations with router links', async () => {
+      const { container } = render(<NavbarRouterLinks />);
       expectNoViolations(await axe(container));
     });
 
@@ -508,6 +514,35 @@ describe('Navbar', () => {
       expect(updates).toHaveAttribute('aria-checked', 'false');
       // Toggling a setting leaves the panel open.
       expect(screen.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'true');
+    });
+  });
+
+  describe('with router links', () => {
+    it('navigates without a page load and moves the current page with the route', async () => {
+      const user = userEvent.setup();
+      render(<NavbarRouterLinks />);
+      const dashboard = within(getMain()).getByRole('link', { name: 'Dashboard' });
+      const team = within(getMain()).getByRole('link', { name: 'Team' });
+      expect(dashboard).toHaveAttribute('data-active', 'true');
+      expect(screen.getByRole('link', { name: 'Vero' })).not.toHaveAttribute('aria-current');
+
+      await user.click(team);
+      expect(screen.getByText('/team')).toBeInTheDocument();
+      expect(team).toHaveAttribute('aria-current', 'page');
+      expect(team).toHaveAttribute('data-active', 'true');
+      expect(dashboard).not.toHaveAttribute('aria-current');
+      expect(dashboard).toHaveAttribute('data-active', 'false');
+    });
+
+    it('marks the dropdown active on one of its routes', async () => {
+      const user = userEvent.setup();
+      render(<NavbarRouterLinks />);
+      const projects = within(getMain()).getByRole('button', { name: 'Projects' });
+      expect(projects).not.toHaveAttribute('data-active', 'true');
+      await user.click(projects);
+      await user.click(screen.getByRole('link', { name: 'Recent' }));
+      expect(screen.getByText('/projects/recent')).toBeInTheDocument();
+      expect(projects).toHaveAttribute('data-active', 'true');
     });
   });
 

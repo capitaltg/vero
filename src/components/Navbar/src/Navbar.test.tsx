@@ -8,6 +8,8 @@ import { NavbarDefault } from '../demos/NavbarDefault';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
 import { NavbarProfileControls } from '../demos/NavbarProfileControls';
+import { NavbarProfileTriggerBadge } from '../demos/NavbarProfileTriggerBadge';
+import { NavbarProfileTriggerCustom } from '../demos/NavbarProfileTriggerCustom';
 import { NavbarRouterLinks } from '../demos/NavbarRouterLinks';
 import { NavbarWithActions } from '../demos/NavbarWithActions';
 import { Navbar, NavbarAction, NavbarActions, NavbarBrand, NavbarItem, NavbarNav } from './Navbar';
@@ -26,6 +28,14 @@ describe('Navbar', () => {
 
     it('has no violations with router links', async () => {
       const { container } = render(<NavbarRouterLinks />);
+      expectNoViolations(await axe(container));
+    });
+
+    it.each([
+      ['a badge', NavbarProfileTriggerBadge],
+      ['a fully custom trigger', NavbarProfileTriggerCustom],
+    ])('has no violations with %s on the profile trigger', async (_, Demo) => {
+      const { container } = render(<Demo />);
       expectNoViolations(await axe(container));
     });
 
@@ -543,6 +553,56 @@ describe('Navbar', () => {
       await user.click(screen.getByRole('link', { name: 'Recent' }));
       expect(screen.getByText('/projects/recent')).toBeInTheDocument();
       expect(projects).toHaveAttribute('data-active', 'true');
+    });
+  });
+
+  describe('NavbarProfile renderTrigger', () => {
+    const renderTrigger = vi.fn(({ initials, isOpen }: { initials: string; isOpen: boolean }) => (
+      <span data-testid="custom">
+        {initials} {isOpen ? 'open' : 'closed'}
+      </span>
+    ));
+
+    const renderCustom = () =>
+      render(
+        <Navbar>
+          <NavbarActions>
+            <NavbarProfile name="Jane Doe" renderTrigger={renderTrigger}>
+              <NavbarProfileItem>Sign out</NavbarProfileItem>
+            </NavbarProfile>
+          </NavbarActions>
+        </Navbar>,
+      );
+
+    it('renders the custom content in a trigger named by the user', () => {
+      renderCustom();
+      const trigger = screen.getByRole('button', { name: 'Jane Doe' });
+      expect(trigger).toContainElement(screen.getByTestId('custom'));
+      expect(trigger).toHaveTextContent('JD closed');
+      expect(trigger.querySelector('svg')).toBeNull();
+    });
+
+    it('passes the open state and still opens the menu', async () => {
+      const user = userEvent.setup();
+      renderCustom();
+      const trigger = screen.getByRole('button', { name: 'Jane Doe' });
+      await user.click(trigger);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+      expect(trigger).toHaveTextContent('JD open');
+      await user.keyboard('{Escape}');
+      await waitFor(() => expect(trigger).toHaveTextContent('JD closed'));
+    });
+
+    it('turns the default chevron while the menu is open', async () => {
+      const user = userEvent.setup();
+      render(<NavbarMinimal />);
+      const trigger = screen.getByRole('button', { name: 'Alex Kim' });
+      expect(trigger).not.toHaveAttribute('aria-label');
+      const chevron = trigger.querySelector('svg');
+      expect(chevron).not.toHaveClass('rotate-180');
+      await user.click(trigger);
+      await screen.findByRole('menu');
+      expect(chevron).toHaveClass('rotate-180');
     });
   });
 

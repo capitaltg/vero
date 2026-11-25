@@ -30,6 +30,7 @@ export type {
   NavbarProfileCheckboxItemProps,
   NavbarProfileSeparatorProps,
   NavbarProfileSwitchItemProps,
+  NavbarProfileTriggerRenderProps,
   NavbarProfileToggleItemProps,
   NavbarProps,
 } from './types';

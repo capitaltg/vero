@@ -184,8 +184,7 @@ font-bold leading-none text-white ring-2 ring-background`;
 
 export const navbarProfileTriggerClasses = tw`inline-flex shrink-0 cursor-pointer items-center gap-2
 rounded-sm border-0 bg-transparent p-1 text-sm font-medium text-base-600 transition-colors
-hover:bg-base-100 hover:text-base-700 [&>svg]:transition-transform
-[&[data-state=open]>svg]:rotate-180 ${styles.focusRingVisible}`;
+hover:bg-base-100 hover:text-base-700 ${styles.focusRingVisible}`;
 
 export const navbarAvatarClasses = tw`flex size-8 shrink-0 select-none items-center justify-center
 overflow-hidden rounded-full bg-primary-400 text-xs font-bold text-white [&>img]:size-full

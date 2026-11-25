@@ -110,8 +110,29 @@ export interface NavbarProfileProps
   align?: 'start' | 'center' | 'end';
   /** Overrides the configured dropdown z-index for the menu. */
   zIndex?: number;
+  /**
+   * Renders the trigger's content in place of the avatar, name and chevron. The trigger
+   * button, its keyboard handling and the menu stay the same, and the button is named by
+   * `name`, so screen readers announce the user whatever you render. Only the bar's
+   * trigger changes: the small-screen nav panel keeps its standard header.
+   */
+  renderTrigger?: (props: NavbarProfileTriggerRenderProps) => ReactNode;
   /** `NavbarProfileItem`s and `NavbarProfileSeparator`s. */
   children: ReactNode;
+}
+
+/** What `NavbarProfile`'s `renderTrigger` receives. */
+export interface NavbarProfileTriggerRenderProps {
+  /** The `name` prop. */
+  name: string;
+  /** Up to two initials from `name`, as the default avatar shows them. */
+  initials: string;
+  /** The `avatarSrc` prop. */
+  avatarSrc?: string;
+  /** The default avatar: the circle with the image or initials. Use it to keep the standard avatar and add to it. */
+  avatar: ReactNode;
+  /** Whether the menu is open. */
+  isOpen: boolean;
 }
 
 export interface NavbarProfileItemProps

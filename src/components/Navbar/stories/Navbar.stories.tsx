@@ -7,6 +7,10 @@ import { NavbarManyItems } from '../demos/NavbarManyItems';
 import sourceManyItems from '../demos/NavbarManyItems.tsx?raw';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
 import { NavbarProfileControls } from '../demos/NavbarProfileControls';
+import { NavbarProfileTriggerBadge } from '../demos/NavbarProfileTriggerBadge';
+import sourceProfileTriggerBadge from '../demos/NavbarProfileTriggerBadge.tsx?raw';
+import { NavbarProfileTriggerCustom } from '../demos/NavbarProfileTriggerCustom';
+import sourceProfileTriggerCustom from '../demos/NavbarProfileTriggerCustom.tsx?raw';
 import { NavbarRouterLinks } from '../demos/NavbarRouterLinks';
 import sourceRouterLinks from '../demos/NavbarRouterLinks.tsx?raw';
 import { NavbarWithActions } from '../demos/NavbarWithActions';
@@ -156,6 +160,29 @@ export const Actions: Story = {
 export const ProfileControls: Story = {
   render: () => <NavbarProfileControls />,
   parameters: withSource(sourceProfileControls),
+};
+
+/**
+ * Add to the profile trigger. `renderTrigger` replaces the avatar, name and chevron with
+ * your own content, while the button, its keyboard handling and the menu stay the same.
+ * It receives the default `avatar`, so you can keep it and add something, such as this
+ * role badge, alongside `name`, `initials`, `avatarSrc` and `isOpen`. The button is named
+ * by `name`, so screen readers announce the user whatever you render. The small-screen nav
+ * panel keeps its standard header.
+ */
+export const ProfileTriggerBadge: Story = {
+  render: () => <NavbarProfileTriggerBadge />,
+  parameters: withSource(sourceProfileTriggerBadge),
+};
+
+/**
+ * A fully custom profile trigger: `renderTrigger` draws a square photo with a status dot
+ * instead of the standard avatar, falling back to `initials` without a photo, and
+ * outlines the photo while the menu is open with `isOpen`.
+ */
+export const ProfileTriggerCustom: Story = {
+  render: () => <NavbarProfileTriggerCustom />,
+  parameters: withSource(sourceProfileTriggerCustom),
 };
 
 /**

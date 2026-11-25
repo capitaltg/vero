@@ -40,7 +40,8 @@ import { getInitials } from './utils';
 const ProfilePlacementContext = React.createContext<'menu' | 'panel'>('menu');
 
 /**
- * The signed-in user's avatar, opening a menu of account actions. Unlike the nav
+ * The signed-in user's avatar, opening a menu of account actions. Use `renderTrigger` to
+ * render your own trigger content. Unlike the nav
  * dropdowns, this is an ARIA menu (Radix DropdownMenu): its items are commands such as
  * "Sign out", navigated with the arrow keys.
  *
@@ -63,12 +64,14 @@ const NavbarProfile = React.forwardRef<
       showName = true,
       align = 'end',
       zIndex,
+      renderTrigger,
       children,
       ...props
     },
     ref,
   ) => {
     const { collapseBelow, profileSlot } = useNavbar('NavbarProfile');
+    const [isOpen, setIsOpen] = React.useState(false);
     const avatar = (
       <span aria-hidden="true" className={navbarAvatarClasses}>
         {avatarSrc ? <img alt="" src={avatarSrc} /> : getInitials(name)}
@@ -77,9 +80,11 @@ const NavbarProfile = React.forwardRef<
 
     return (
       <>
-        <DropdownMenuPrimitive.Root modal={false}>
+        <DropdownMenuPrimitive.Root modal={false} open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuPrimitive.Trigger
             ref={ref}
+            // A custom trigger may not show the name, so name the button with it.
+            aria-label={renderTrigger ? name : undefined}
             className={cn(
               'vero-navbar-profile',
               navbarProfileTriggerClasses,
@@ -89,9 +94,21 @@ const NavbarProfile = React.forwardRef<
             )}
             {...props}
           >
-            {avatar}
-            <span className={showName ? 'sr-only sm:not-sr-only' : 'sr-only'}>{name}</span>
-            <ChevronDown aria-hidden="true" className="hidden size-4 shrink-0 sm:block" />
+            {renderTrigger ? (
+              renderTrigger({ name, initials: getInitials(name), avatarSrc, avatar, isOpen })
+            ) : (
+              <>
+                {avatar}
+                <span className={showName ? 'sr-only sm:not-sr-only' : 'sr-only'}>{name}</span>
+                <ChevronDown
+                  aria-hidden="true"
+                  className={cn(
+                    'hidden size-4 shrink-0 transition-transform sm:block',
+                    isOpen && 'rotate-180',
+                  )}
+                />
+              </>
+            )}
           </DropdownMenuPrimitive.Trigger>
           <DropdownMenuPrimitive.Portal>
             <DropdownMenuPrimitive.Content

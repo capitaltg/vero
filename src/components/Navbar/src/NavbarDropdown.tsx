@@ -2,7 +2,16 @@ import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronDown } from 'lucide-react';
-import * as React from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import {
   navbarDropdownFloatingPanelClasses,
@@ -28,7 +37,7 @@ import { NavbarOverflowContext, useNavbar } from './context';
  * @experimental
  */
 const NavbarDropdown = React.forwardRef<HTMLLIElement, NavbarDropdownProps>((props, ref) => {
-  const inOverflow = React.useContext(NavbarOverflowContext);
+  const inOverflow = useContext(NavbarOverflowContext);
   return inOverflow ? (
     <NavbarOverflowGroup ref={ref} {...props} />
   ) : (
@@ -44,7 +53,7 @@ NavbarDropdown.displayName = 'NavbarDropdown';
 const NavbarOverflowGroup = React.forwardRef<HTMLLIElement, NavbarDropdownProps>(
   ({ className, label, active = false, children, ...props }, ref) => {
     useNavbar('NavbarDropdown');
-    const labelId = React.useId();
+    const labelId = useId();
     return (
       <li
         ref={ref}
@@ -101,27 +110,27 @@ const NavbarDisclosure = React.forwardRef<
   ) => {
     const { collapseBelow, isExpanded, openDropdown, setOpenDropdown } =
       useNavbar('NavbarDropdown');
-    const id = React.useId();
+    const id = useId();
     const panelId = `${id}-panel`;
     const isOpen = openDropdown === id;
-    const itemRef = React.useRef<HTMLLIElement>(null);
-    const triggerRef = React.useRef<HTMLButtonElement>(null);
-    const panelRef = React.useRef<HTMLUListElement>(null);
-    const [position, setPosition] = React.useState<React.CSSProperties>();
+    const itemRef = useRef<HTMLLIElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const panelRef = useRef<HTMLUListElement>(null);
+    const [position, setPosition] = useState<React.CSSProperties>();
 
     // Whether a node is part of this dropdown: the item, or its panel in the portal.
     const contains = (node: Node | null) =>
       !!node && (!!itemRef.current?.contains(node) || !!panelRef.current?.contains(node));
 
-    React.useImperativeHandle(ref, () => itemRef.current as HTMLLIElement);
+    useImperativeHandle(ref, () => itemRef.current as HTMLLIElement);
 
-    const close = React.useCallback(() => {
+    const close = useCallback(() => {
       setOpenDropdown(null);
     }, [setOpenDropdown]);
 
     // Close on a press outside the dropdown. A pointer listener rather than blur alone,
     // because Safari doesn't focus buttons on click, so blur misses those presses.
-    React.useEffect(() => {
+    useEffect(() => {
       if (!isOpen) return;
       const handlePointerDown = (event: PointerEvent) => {
         const target = event.target as Node;
@@ -133,7 +142,7 @@ const NavbarDisclosure = React.forwardRef<
 
     // Keep the floating panel under its button while it is open. Fixed positioning, updated
     // on resize and on any scroll, so it follows the navbar inside scrolling containers.
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
       if (!isOpen || !isExpanded) return;
       const update = () => {
         const item = itemRef.current;

@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components -- mirrors React Router's exports,
    hooks and components from one module, so the demo's import matches a real app's. */
-import * as React from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 
 /*
  * A tiny stand-in for React Router, so the router demo runs without the dependency. It
@@ -17,7 +17,7 @@ interface RouterState {
 const RouterContext = React.createContext<RouterState | null>(null);
 
 function useRouter(): RouterState {
-  const router = React.useContext(RouterContext);
+  const router = useContext(RouterContext);
   if (!router) throw new Error('Router hooks must be used inside a MemoryRouter.');
   return router;
 }
@@ -30,8 +30,8 @@ export function MemoryRouter({
   initialEntries?: string[];
   children: React.ReactNode;
 }) {
-  const [pathname, setPathname] = React.useState(initialEntries[0] ?? '/');
-  const value = React.useMemo(() => ({ pathname, navigate: setPathname }), [pathname]);
+  const [pathname, setPathname] = useState(initialEntries[0] ?? '/');
+  const value = useMemo(() => ({ pathname, navigate: setPathname }), [pathname]);
   return <RouterContext.Provider value={value}>{children}</RouterContext.Provider>;
 }
 

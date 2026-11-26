@@ -1,8 +1,11 @@
 import { HTMLAttributes } from 'react';
 
 export interface Step {
+  /** A unique id for the step, used as `currentStep`. */
   id: string;
+  /** The step's name, shown under its segment or counter. */
   label: string;
+  /** More detail about the step. */
   description?: string;
 }
 
@@ -10,8 +13,11 @@ type StepId<T extends readonly Step[] | Step[]> = T[number]['id'];
 
 export interface StepIndicatorProps<T extends readonly Step[] | Step[] = readonly Step[]>
   extends HTMLAttributes<HTMLDivElement> {
+  /** The steps, in order. Declare the array `as const` to type `currentStep` by its ids. */
   steps: T;
+  /** The id of the current step. Steps before it show as completed. */
   currentStep: StepId<T>;
+  /** Classes for the outer element, merged after the defaults. */
   className?: string;
   /**
    * Layout orientation of the step indicator.

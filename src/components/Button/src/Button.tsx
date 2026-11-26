@@ -6,6 +6,10 @@ import * as React from 'react';
 import { buttonVariants } from '../constants';
 import { ButtonProps } from '../types';
 
+/**
+ * A button for actions, in six styles and three sizes, with disabled and loading states.
+ * Pass `asChild` to give a link the button's look.
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {

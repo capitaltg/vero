@@ -65,6 +65,11 @@ function StepIndicatorInner<T extends readonly Step[] | Step[]>(
   );
 }
 
+/**
+ * Shows progress through a multi-step process, such as a form split across pages. The
+ * `default` variant follows the USWDS step indicator, with a "Step X of Y" heading and a
+ * segment per step; the `counter` variant shows numbered circles joined by lines.
+ */
 const StepIndicatorBase = React.forwardRef(StepIndicatorInner);
 StepIndicatorBase.displayName = 'StepIndicator';
 

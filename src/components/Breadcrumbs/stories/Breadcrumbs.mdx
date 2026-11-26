@@ -1,0 +1,35 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Breadcrumbs } from '../src/Breadcrumbs';
+import * as BreadcrumbsStories from './Breadcrumbs.stories';
+
+<Meta of={BreadcrumbsStories} />
+
+# Breadcrumbs
+
+<Description of={BreadcrumbsStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the breadcrumbs responds."
+  title="Try it"
+>
+  <Canvas of={BreadcrumbsStories.Playground} />
+  <Controls of={BreadcrumbsStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="The props declared in Vero's types. Standard HTML attributes aren't listed."
+  title="API reference"
+>
+  <ApiEntry of={Breadcrumbs} />
+</DocsSection>

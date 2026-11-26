@@ -3,6 +3,8 @@ import { Bell, LogOut, Settings } from 'lucide-react';
 import { Wordmark } from '../demos/Wordmark';
 import { NavbarCustomMore } from '../demos/NavbarCustomMore';
 import sourceCustomMore from '../demos/NavbarCustomMore.tsx?raw';
+import { NavbarCustomStyles } from '../demos/NavbarCustomStyles';
+import sourceCustomStyles from '../demos/NavbarCustomStyles.tsx?raw';
 import { NavbarDefault } from '../demos/NavbarDefault';
 import sourceDefault from '../demos/NavbarDefault.tsx?raw';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
@@ -143,6 +145,19 @@ export const Minimal: Story = {
 export const ManyItems: Story = {
   render: () => <NavbarManyItems />,
   parameters: withSource(sourceManyItems),
+};
+
+/**
+ * Styling the nav. `NavbarItem` and `NavbarDropdownItem` put `className` on their links.
+ * `NavbarDropdown` takes `triggerClassName` for its button and `panelClassName` for its
+ * panel of links, which floats in a portal above `collapseBelow`; its own `className` goes
+ * on the wrapping `<li>`. Your classes are merged after the defaults, so they win. The
+ * bar's layout (padding, height, the active bar) uses the `collapseBelow` breakpoint, so
+ * override those with the same prefix, such as `md:px-8`.
+ */
+export const CustomStyles: Story = {
+  render: () => <NavbarCustomStyles />,
+  parameters: withSource(sourceCustomStyles),
 };
 
 /**

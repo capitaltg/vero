@@ -1,0 +1,62 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Navbar, NavbarAction, NavbarBrand, NavbarItem, NavbarNav } from '../src/Navbar';
+import { NavbarDropdown, NavbarDropdownItem } from '../src/NavbarDropdown';
+import {
+  NavbarProfile,
+  NavbarProfileCheckboxItem,
+  NavbarProfileItem,
+  NavbarProfileSwitchItem,
+} from '../src/NavbarProfile';
+import * as NavbarStories from './Navbar.stories';
+
+<Meta of={NavbarStories} />
+
+# Navbar
+
+<Description of={NavbarStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the navbar responds."
+  title="Try it"
+>
+  <Canvas of={NavbarStories.Playground} />
+  <Controls of={NavbarStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro={
+    <>
+      Each part's props, as declared in Vero's types. Props inherited from standard HTML attributes
+      or Radix, such as <code>onSelect</code> and <code>asChild</code> on{' '}
+      <code>NavbarProfileItem</code>, aren't listed.
+    </>
+  }
+  title="API reference"
+>
+  <ApiReference
+    components={[
+      Navbar,
+      NavbarBrand,
+      NavbarNav,
+      NavbarItem,
+      NavbarDropdown,
+      NavbarDropdownItem,
+      NavbarAction,
+      NavbarProfile,
+      NavbarProfileItem,
+      NavbarProfileSwitchItem,
+      NavbarProfileCheckboxItem,
+    ]}
+  />
+</DocsSection>

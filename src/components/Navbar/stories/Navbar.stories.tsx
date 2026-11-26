@@ -30,31 +30,11 @@ import {
   NavbarNav,
 } from '../src/Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from '../src/NavbarDropdown';
-import {
-  NavbarProfile,
-  NavbarProfileCheckboxItem,
-  NavbarProfileItem,
-  NavbarProfileSeparator,
-  NavbarProfileSwitchItem,
-} from '../src/NavbarProfile';
+import { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from '../src/NavbarProfile';
 
 const meta = {
   title: 'Actions & Navigation/Navbar',
   component: Navbar,
-  // Each part gets a tab in the props table. NavbarActions and NavbarProfileSeparator
-  // are left out: they take only standard HTML attributes, so their tabs would be empty.
-  subcomponents: {
-    NavbarBrand,
-    NavbarNav,
-    NavbarItem,
-    NavbarDropdown,
-    NavbarDropdownItem,
-    NavbarAction,
-    NavbarProfile,
-    NavbarProfileItem,
-    NavbarProfileSwitchItem,
-    NavbarProfileCheckboxItem,
-  },
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -82,7 +62,8 @@ const meta = {
       },
     },
   },
-  tags: ['autodocs', 'experimental'],
+  // The docs page is Navbar.mdx, so there's no autodocs page.
+  tags: ['experimental'],
   args: {
     collapseBelow: 'md',
     sticky: false,
@@ -136,11 +117,10 @@ const withSource = (code: string) => ({
 });
 
 /**
- * Use the controls to try each option.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
-export const Playground: Story = {
-  tags: ['!autodocs'],
-};
+export const Playground: Story = {};
 
 /**
  * Brand, navigation with dropdowns, and a profile menu.

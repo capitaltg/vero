@@ -26,6 +26,16 @@ import {
 import { NavbarDropdownItemProps, NavbarDropdownProps } from '../types';
 import { NavbarOverflowContext, useNavbar } from './context';
 
+/** The props left for the `<li>`, without the button and panel classes. */
+function omitDropdownClassNames<T extends { triggerClassName?: string; panelClassName?: string }>(
+  props: T,
+): Omit<T, 'triggerClassName' | 'panelClassName'> {
+  const rest = { ...props };
+  delete rest.triggerClassName;
+  delete rest.panelClassName;
+  return rest;
+}
+
 /**
  * A navigation item that discloses a list of links. It follows the ARIA disclosure
  * pattern, as the USWDS header does, rather than the menu pattern: the links stay in the
@@ -48,11 +58,13 @@ NavbarDropdown.displayName = 'NavbarDropdown';
 
 /**
  * A `NavbarDropdown` inside the "More" dropdown: its label heads its links, which are
- * listed in place rather than behind a second button.
+ * listed in place rather than behind a second button. It has no button or panel of its
+ * own, so `triggerClassName` and `panelClassName` aren't used.
  */
 const NavbarOverflowGroup = React.forwardRef<HTMLLIElement, NavbarDropdownProps>(
-  ({ className, label, active = false, children, ...props }, ref) => {
+  ({ className, label, active = false, children, ...rest }, ref) => {
     useNavbar('NavbarDropdown');
+    const props = omitDropdownClassNames(rest);
     const labelId = useId();
     return (
       <li
@@ -93,8 +105,6 @@ function getTabbables(root: ParentNode): HTMLElement[] {
  */
 interface NavbarDisclosureProps extends NavbarDropdownProps {
   panelAlign?: 'start' | 'end';
-  triggerClassName?: string;
-  panelClassName?: string;
   /** Replaces the label and chevron; the button is then named by `label`. */
   renderTrigger?: (props: { isOpen: boolean; active: boolean }) => React.ReactNode;
 }

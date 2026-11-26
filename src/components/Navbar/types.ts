@@ -88,6 +88,18 @@ export interface NavbarDropdownProps extends Omit<HTMLAttributes<HTMLLIElement>,
    * dropdown's items is the current page.
    */
   active?: boolean;
+  /**
+   * Classes for the dropdown's button, merged after the defaults so they win. Its bar
+   * layout (padding, height, the active bar) uses the navbar's `collapseBelow` breakpoint,
+   * so override those with the same prefix, e.g. `md:px-4`. `className` goes on the
+   * wrapping `<li>`.
+   */
+  triggerClassName?: string;
+  /**
+   * Classes for the panel of links, merged after the defaults so they win. Above
+   * `collapseBelow` the panel floats in a portal, so `className` can't reach it.
+   */
+  panelClassName?: string;
   /** `NavbarDropdownItem`s. */
   children: ReactNode;
 }

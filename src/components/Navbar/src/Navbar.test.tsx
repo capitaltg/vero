@@ -5,6 +5,7 @@ import { Bell } from 'lucide-react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 import { NavbarCustomMore } from '../demos/NavbarCustomMore';
+import { NavbarCustomStyles } from '../demos/NavbarCustomStyles';
 import { NavbarDefault } from '../demos/NavbarDefault';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
@@ -43,6 +44,11 @@ describe('Navbar', () => {
 
     it('has no violations with a custom More dropdown', async () => {
       const { container } = render(<NavbarCustomMore />);
+      expectNoViolations(await axe(container));
+    });
+
+    it('has no violations with custom styles', async () => {
+      const { container } = render(<NavbarCustomStyles />);
       expectNoViolations(await axe(container));
     });
 
@@ -677,6 +683,31 @@ describe('Navbar', () => {
     });
   });
 
+  describe('NavbarDropdown classes', () => {
+    it('adds triggerClassName to the button and panelClassName to the panel', () => {
+      render(
+        <Navbar>
+          <NavbarNav>
+            <NavbarDropdown
+              className="item-class"
+              label="Projects"
+              panelClassName="panel-class"
+              triggerClassName="trigger-class"
+            >
+              <NavbarDropdownItem href="/p">All projects</NavbarDropdownItem>
+            </NavbarDropdown>
+          </NavbarNav>
+        </Navbar>,
+      );
+      const trigger = screen.getByRole('button', { name: 'Projects' });
+      expect(trigger).toHaveClass('vero-navbar-dropdown-trigger', 'trigger-class');
+      expect(trigger.closest('li')).toHaveClass('vero-navbar-dropdown', 'item-class');
+      const panel = document.getElementById(trigger.getAttribute('aria-controls') as string);
+      expect(panel).toHaveClass('vero-navbar-dropdown-panel', 'panel-class');
+      expect(trigger.closest('li')).not.toHaveAttribute('triggerClassName');
+    });
+  });
+
   describe('Overflow', () => {
     /* jsdom has no layout, so fake one: every top-level item is 100px wide, "More" is
        80px, the nav is `navWidth` wide and the menu button is hidden (the bar is
@@ -800,6 +831,33 @@ describe('Navbar', () => {
       fakeLayout(300);
       renderNav();
       expect(screen.getByRole('button', { name: 'More' })).toHaveAttribute('data-active', 'true');
+    });
+
+    it('keeps trigger and panel classes off a dropdown group in More', () => {
+      fakeLayout(300);
+      render(
+        <Navbar>
+          <NavbarNav>
+            <NavbarItem href="/a">Alpha</NavbarItem>
+            <NavbarItem href="/b">Bravo</NavbarItem>
+            <NavbarItem href="/c">Charlie</NavbarItem>
+            <NavbarDropdown
+              label="Delta"
+              panelClassName="panel-class"
+              triggerClassName="trigger-class"
+            >
+              <NavbarDropdownItem href="/d1">Delta one</NavbarDropdownItem>
+            </NavbarDropdown>
+          </NavbarNav>
+        </Navbar>,
+      );
+      const group = screen
+        .getByRole('list', { hidden: true, name: 'Delta' })
+        .closest('li') as HTMLElement;
+      expect(group).toHaveClass('vero-navbar-overflow-group');
+      expect(group.outerHTML).not.toMatch(
+        /trigger-class|panel-class|triggerclassname|panelclassname/i,
+      );
     });
 
     it('uses moreLabel for the dropdown', () => {

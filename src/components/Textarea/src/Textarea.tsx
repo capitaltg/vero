@@ -4,6 +4,11 @@ import { cn } from '@/lib/utils';
 import React, { useEffect, useRef } from 'react';
 import { TextareaProps } from '../types';
 
+/**
+ * A multi-line text field: a styled `<textarea>` that takes the usual textarea attributes.
+ * It has no label of its own, so wrap it in a `FormItem`, point a `Label` at its `id`, or
+ * give it an `aria-label`.
+ */
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, isDisabled = false, isGrowable = false, ...props }, ref) => {
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);

@@ -1,7 +1,9 @@
 import { ButtonHTMLAttributes } from 'react';
 
 export interface ComboboxOption {
+  /** The value stored and passed to `onChange`. */
   value: string;
+  /** The text shown in the list and on the trigger. */
   label: string;
 }
 
@@ -14,11 +16,20 @@ type ComboboxFormAttributes = Pick<
 export interface ComboboxProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled'>,
     ComboboxFormAttributes {
+  /** The options to choose from, in order. */
   options: ComboboxOption[];
+  /** The selected option's `value`, or `''` for none. */
   value: string;
+  /**
+   * Called with the chosen option's `value`. Choosing the selected option again clears it,
+   * so this is called with `''`.
+   */
   onChange: (value: string) => void;
+  /** Text on the trigger when nothing is selected. Defaults to `Select an item...`. */
   placeholder?: string;
+  /** Placeholder for the search field in the list. Defaults to `Search items...`. */
   searchPlaceholder?: string;
+  /** Text shown when the search matches no options. Defaults to `No items found`. */
   emptyMessage?: string;
   /**
    * Custom filter function for search. Receives the option's value and current search string.
@@ -26,7 +37,9 @@ export interface ComboboxProps
    * When not provided, default filtering matches by both value and label (case-insensitive substring).
    */
   filter?: (value: string, search: string) => number;
+  /** Classes for the trigger button, merged after the defaults. */
   className?: string;
+  /** Classes for the scrolling options list. */
   listClassName?: string;
   /** Additional class names for the popover content (e.g. to set min-width or width). */
   popoverClassName?: string;
@@ -36,19 +49,19 @@ export interface ComboboxProps
    */
   zIndex?: number;
   /**
-   * Whether the component is disabled.
-   * When true, the combobox cannot be interacted with.
-   * @default false
+   * Disables the combobox. The trigger stays focusable and is marked `aria-disabled`, so
+   * screen reader users can still find it, but it doesn't open. Defaults to `false`.
    */
   isDisabled?: boolean;
   /**
-   * The name attribute for form submission.
-   * This is required for the combobox value to be included in form data.
+   * The name of a hidden input that holds the selected value, so it's submitted with a
+   * form.
    */
   name?: string;
   /**
-   * Whether the combobox is required for form validation.
-   * When true, the form cannot be submitted without a selection.
+   * Adds `required` to the hidden input. Browsers don't validate hidden inputs, so this
+   * doesn't stop a form from submitting, and the trigger doesn't get `aria-required`.
+   * Check the value yourself, and show the requirement and any error with `FormItem`.
    */
   required?: boolean;
   /**

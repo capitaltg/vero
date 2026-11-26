@@ -24,11 +24,10 @@ const meta = {
       },
     },
   },
-  tags: ['autodocs'],
+  // The docs page is Combobox.mdx, so there's no autodocs page.
   argTypes: {
     value: {
       control: 'text',
-      description: 'The selected value',
       table: {
         type: {
           summary: 'string',
@@ -37,7 +36,6 @@ const meta = {
     },
     placeholder: {
       control: 'text',
-      description: 'Placeholder text for the combobox',
       table: {
         type: {
           summary: 'string',
@@ -46,7 +44,6 @@ const meta = {
     },
     searchPlaceholder: {
       control: 'text',
-      description: 'Placeholder text for the search input',
       table: {
         type: {
           summary: 'string',
@@ -55,7 +52,6 @@ const meta = {
     },
     emptyMessage: {
       control: 'text',
-      description: 'Message to display when no options are found',
       table: {
         type: {
           summary: 'string',
@@ -64,7 +60,6 @@ const meta = {
     },
     zIndex: {
       control: 'number',
-      description: 'Z-index for the popover',
       table: {
         type: {
           summary: 'number',
@@ -73,7 +68,6 @@ const meta = {
     },
     isDisabled: {
       control: 'boolean',
-      description: 'Whether the component is disabled',
       table: {
         type: {
           summary: 'boolean',
@@ -82,21 +76,15 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the component',
     },
     listClassName: {
       type: 'string',
-      description: 'Additional class names to apply to the options list',
     },
     popoverClassName: {
       type: 'string',
-      description:
-        'Additional class names for the popover content (e.g. min-w-64 or w-80 to set width or min-width)',
     },
     name: {
       control: 'text',
-      description:
-        'The name attribute for form submission. This is required for the combobox value to be included in form data.',
       type: { name: 'string', required: false },
       table: {
         type: {
@@ -106,8 +94,6 @@ const meta = {
     },
     required: {
       control: 'boolean',
-      description:
-        'Whether the combobox is required for form validation. When true, the form cannot be submitted without a selection.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -117,7 +103,6 @@ const meta = {
     },
     autoFocus: {
       control: 'boolean',
-      description: 'Automatically focuses the combobox when the page loads.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -126,8 +111,6 @@ const meta = {
       },
     },
     filter: {
-      description:
-        "Custom filter function for search. Receives the option's value and search string. Return 0 to hide, positive number to show. When not provided, default matches by both value and label (case-insensitive substring).",
       table: {
         type: {
           summary: '(value: string, search: string) => number',
@@ -149,8 +132,8 @@ const options = [
 ];
 
 /**
- * Interactive playground for the Combobox component.
- * Use the controls to experiment with different props and states.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {
   args: {
@@ -159,8 +142,6 @@ export const Playground: Story = {
     placeholder: 'Select framework...',
     onChange: () => {},
   },
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
 };
 
 /**

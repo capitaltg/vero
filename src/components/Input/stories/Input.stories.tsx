@@ -7,7 +7,7 @@ const meta = {
   title: 'Inputs & Forms/Input',
   component: Input,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Input.mdx, so there's no autodocs page.
   argTypes: {
     type: {
       control: 'select',
@@ -40,7 +40,6 @@ const meta = {
     transform: {
       control: 'select',
       options: ['uppercase', 'lowercase', 'trim', 'none'],
-      description: 'Text transformation to apply to the input value',
       table: {
         type: {
           summary: 'TextTransform | TextTransform[]',
@@ -49,7 +48,6 @@ const meta = {
     },
     isDisabled: {
       control: 'boolean',
-      description: 'Whether the input is disabled',
       table: {
         type: {
           summary: 'boolean',
@@ -73,6 +71,17 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    'aria-label': 'Example input',
+    placeholder: 'Enter text...',
+  },
+};
 
 /**
  * The default state of the Input component.

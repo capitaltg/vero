@@ -292,7 +292,8 @@ export const AnnouncementDebug: Story = {
   render: () => <AutocompleteAnnouncementDebug />,
   // @ts-expect-error - Storybook can't properly infer generic types
   args: {},
-  tags: ['!autodocs'],
+  // A debugging aid: in the sidebar, but not on the docs page.
+  tags: ['docs-hidden'],
   parameters: {
     docs: {
       source: {

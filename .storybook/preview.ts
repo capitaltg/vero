@@ -5,6 +5,14 @@ import './preview.css';
 const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
+    docs: {
+      stories: {
+        // A story tagged `docs-hidden` stays in the sidebar but is left out of its docs
+        // page's Examples, e.g. a debugging aid. (`!autodocs` only hides a story while the
+        // file has an autodocs page; the MDX docs pages don't use one.)
+        filter: (story: { tags?: string[] }) => !story.tags?.includes('docs-hidden'),
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

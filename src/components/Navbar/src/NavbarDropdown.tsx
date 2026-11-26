@@ -91,16 +91,24 @@ function getTabbables(root: ParentNode): HTMLElement[] {
  * The dropdown itself. NavbarNav also uses it for "More", whose panel lines up with the
  * item's right edge (`panelAlign="end"`) because it is the last item.
  */
-const NavbarDisclosure = React.forwardRef<
-  HTMLLIElement,
-  NavbarDropdownProps & { panelAlign?: 'start' | 'end' }
->(
+interface NavbarDisclosureProps extends NavbarDropdownProps {
+  panelAlign?: 'start' | 'end';
+  triggerClassName?: string;
+  panelClassName?: string;
+  /** Replaces the label and chevron; the button is then named by `label`. */
+  renderTrigger?: (props: { isOpen: boolean; active: boolean }) => React.ReactNode;
+}
+
+const NavbarDisclosure = React.forwardRef<HTMLLIElement, NavbarDisclosureProps>(
   (
     {
       className,
       label,
       active = false,
       panelAlign = 'start',
+      triggerClassName,
+      panelClassName,
+      renderTrigger,
       children,
       onKeyDown,
       onBlur,
@@ -213,6 +221,7 @@ const NavbarDisclosure = React.forwardRef<
         className={cn(
           'vero-navbar-dropdown-panel',
           isExpanded ? navbarDropdownFloatingPanelClasses : navbarDropdownPanelClasses,
+          panelClassName,
         )}
         hidden={!isOpen}
         id={panelId}
@@ -234,18 +243,30 @@ const NavbarDisclosure = React.forwardRef<
           ref={triggerRef}
           aria-controls={panelId}
           aria-expanded={isOpen}
+          // Custom content may be an icon alone, so name the button with the label.
+          aria-label={renderTrigger && typeof label === 'string' ? label : undefined}
           className={cn(
             'vero-navbar-dropdown-trigger',
             navbarLinkClasses,
             navbarTopLinkVariants({ collapseBelow }),
             navbarDropdownTriggerClasses,
+            triggerClassName,
           )}
           data-active={active}
           type="button"
           onClick={() => setOpenDropdown(isOpen ? null : id)}
         >
-          {label}
-          <ChevronDown aria-hidden="true" className="size-4 shrink-0" />
+          {renderTrigger ? (
+            renderTrigger({ isOpen, active })
+          ) : (
+            <>
+              {label}
+              <ChevronDown
+                aria-hidden="true"
+                className={cn('size-4 shrink-0 transition-transform', isOpen && 'rotate-180')}
+              />
+            </>
+          )}
         </button>
         {isExpanded && typeof document !== 'undefined' ? createPortal(panel, document.body) : panel}
       </li>

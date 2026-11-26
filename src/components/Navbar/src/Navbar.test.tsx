@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { Bell } from 'lucide-react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
+import { NavbarCustomMore } from '../demos/NavbarCustomMore';
 import { NavbarDefault } from '../demos/NavbarDefault';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
 import { NavbarMinimal } from '../demos/NavbarMinimal';
@@ -15,6 +16,7 @@ import { NavbarWithActions } from '../demos/NavbarWithActions';
 import { Navbar, NavbarAction, NavbarActions, NavbarBrand, NavbarItem, NavbarNav } from './Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from './NavbarDropdown';
 import { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from './NavbarProfile';
+import { NavbarNavProps } from '../types';
 import { getInitials } from './utils';
 
 const getMain = () => screen.getByRole('navigation', { name: 'Main' });
@@ -36,6 +38,11 @@ describe('Navbar', () => {
       ['a fully custom trigger', NavbarProfileTriggerCustom],
     ])('has no violations with %s on the profile trigger', async (_, Demo) => {
       const { container } = render(<Demo />);
+      expectNoViolations(await axe(container));
+    });
+
+    it('has no violations with a custom More dropdown', async () => {
+      const { container } = render(<NavbarCustomMore />);
       expectNoViolations(await axe(container));
     });
 
@@ -700,10 +707,10 @@ describe('Navbar', () => {
       });
     };
 
-    const renderNav = () =>
+    const renderNav = (navProps: Partial<NavbarNavProps> = {}) =>
       render(
         <Navbar>
-          <NavbarNav>
+          <NavbarNav {...navProps}>
             <NavbarItem href="/a">Alpha</NavbarItem>
             <NavbarItem href="/b">Bravo</NavbarItem>
             <NavbarItem active href="/c">
@@ -744,6 +751,49 @@ describe('Navbar', () => {
       expect(screen.getByRole('list', { name: 'Delta' })).toContainElement(
         screen.getByRole('link', { name: 'Delta one' }),
       );
+    });
+
+    it('renders custom More content, named by moreLabel', async () => {
+      const user = userEvent.setup();
+      const renderMoreTrigger = vi.fn(() => <span data-testid="dots">…</span>);
+      fakeLayout(300);
+      renderNav({ moreLabel: 'More pages', renderMoreTrigger });
+      const more = screen.getByRole('button', { name: 'More pages' });
+      expect(more).toContainElement(screen.getByTestId('dots'));
+      expect(more.querySelector('svg')).toBeNull();
+      expect(renderMoreTrigger).toHaveBeenLastCalledWith({
+        label: 'More pages',
+        isOpen: false,
+        active: true,
+      });
+      await user.click(more);
+      expect(renderMoreTrigger).toHaveBeenLastCalledWith({
+        label: 'More pages',
+        isOpen: true,
+        active: true,
+      });
+      expect(screen.getByRole('link', { name: 'Charlie' })).toBeVisible();
+    });
+
+    it('adds moreTriggerClassName to the button and morePanelClassName to the panel', () => {
+      fakeLayout(300);
+      renderNav({ moreTriggerClassName: 'text-red-600', morePanelClassName: 'min-w-64' });
+      const more = screen.getByRole('button', { name: 'More' });
+      expect(more).toHaveClass('vero-navbar-dropdown-trigger', 'text-red-600');
+      const panel = document.getElementById(more.getAttribute('aria-controls') as string);
+      expect(panel).toHaveClass('vero-navbar-dropdown-panel', 'vero-navbar-more-panel', 'min-w-64');
+    });
+
+    it('turns the default chevron while the dropdown is open', async () => {
+      const user = userEvent.setup();
+      fakeLayout(300);
+      renderNav();
+      const more = screen.getByRole('button', { name: 'More' });
+      expect(more).not.toHaveAttribute('aria-label');
+      const chevron = more.querySelector('svg');
+      expect(chevron).not.toHaveClass('rotate-180');
+      await user.click(more);
+      expect(chevron).toHaveClass('rotate-180');
     });
 
     it('marks More as active when the current page is inside it', () => {

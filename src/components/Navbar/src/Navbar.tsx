@@ -281,6 +281,9 @@ const NavbarNav = React.forwardRef<HTMLElement, NavbarNavProps>(
       'aria-label': ariaLabel = 'Main',
       toggleLabel = 'Menu',
       moreLabel = 'More',
+      renderMoreTrigger,
+      moreTriggerClassName,
+      morePanelClassName,
       ...props
     },
     ref,
@@ -344,6 +347,14 @@ const NavbarNav = React.forwardRef<HTMLElement, NavbarNavProps>(
                 className="vero-navbar-more"
                 label={moreLabel}
                 panelAlign="end"
+                panelClassName={cn('vero-navbar-more-panel', morePanelClassName)}
+                renderTrigger={
+                  renderMoreTrigger
+                    ? ({ isOpen, active }) =>
+                        renderMoreTrigger({ label: moreLabel, isOpen, active })
+                    : undefined
+                }
+                triggerClassName={moreTriggerClassName}
               >
                 <NavbarOverflowContext.Provider value={true}>
                   {overflow}

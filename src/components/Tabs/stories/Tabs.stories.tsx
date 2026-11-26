@@ -11,12 +11,10 @@ const meta = {
   title: 'Actions & Navigation/Tabs',
   component: Tabs,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Tabs.mdx, so there's no autodocs page.
   argTypes: {
     value: {
       control: 'text',
-      description:
-        'The controlled value of the active tab. When provided, the component becomes a controlled component.',
       table: {
         type: {
           summary: 'string',
@@ -25,18 +23,38 @@ const meta = {
     },
     defaultValue: {
       control: 'text',
-      description: 'The default value of the active tab when the component is uncontrolled.',
       table: {
         type: {
           summary: 'string',
         },
       },
     },
+    orientation: {
+      control: 'radio',
+      options: ['horizontal', 'vertical'],
+    },
+    activationMode: {
+      control: 'radio',
+      options: ['manual', 'automatic'],
+    },
   },
 } satisfies Meta<typeof Tabs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    defaultValue: 'account',
+    orientation: 'horizontal',
+    activationMode: 'manual',
+  },
+  render: args => <TabsDefault {...args} />,
+};
 
 /**
  * The default state of the Tabs component.

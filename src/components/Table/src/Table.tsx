@@ -1,7 +1,7 @@
 import { warnExperimental } from '@/lib/experimental';
 import { styles } from '@/lib/styles';
 import { cn } from '@/lib/utils';
-import * as React from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   tableCaptionClasses,
   tableCellVariants,
@@ -26,9 +26,9 @@ import type {
  * scrollable — avoiding a phantom tab stop on tables that fit.
  */
 function useHorizontalOverflow(ref: React.RefObject<HTMLElement>) {
-  const [overflowing, setOverflowing] = React.useState(false);
+  const [overflowing, setOverflowing] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
@@ -74,9 +74,8 @@ const TableSectionContext = React.createContext<TableSection | null>(null);
  * the stacked label element when the table is stacked and the cell has one.
  */
 function useCellStyles(kind: 'th' | 'td', label: React.ReactNode) {
-  const { variant, striped, density, stickyHeader, stack, stackedStyle } =
-    React.useContext(TableContext);
-  const section = React.useContext(TableSectionContext);
+  const { variant, striped, density, stickyHeader, stack, stackedStyle } = useContext(TableContext);
+  const section = useContext(TableSectionContext);
 
   const stacked = stack && section === 'body' ? stack : null;
   const headings = stackedStyle === 'headers';
@@ -109,8 +108,8 @@ function useCellStyles(kind: 'th' | 'td', label: React.ReactNode) {
 
 /** The stacked classes for a row or section, or null when they don't apply. */
 function useStackClasses(section: TableSection) {
-  const { stack } = React.useContext(TableContext);
-  const current = React.useContext(TableSectionContext);
+  const { stack } = useContext(TableContext);
+  const current = useContext(TableSectionContext);
   return stack && current === section ? stack : null;
 }
 
@@ -141,15 +140,15 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
     ref,
   ) => {
     // Every table mounts a `Table`, whether composed or rendered by `DataTable`.
-    React.useEffect(() => {
+    useEffect(() => {
       warnExperimental('Table', '`Table`, `DataTable`, and the other table components are');
     }, []);
 
-    const scrollRef = React.useRef<HTMLDivElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
     const overflowing = useHorizontalOverflow(scrollRef);
 
     const stacked = responsive === 'stack';
-    const context = React.useMemo<TableContextValue>(
+    const context = useMemo<TableContextValue>(
       () => ({
         variant: variant ?? 'bordered',
         striped: striped ?? false,
@@ -242,7 +241,7 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, TableSectionProps>
   ({ className, ...props }, ref) => {
     // The header sets the section rather than sitting in one, so it reads the
     // table's stacked classes directly.
-    const { stack } = React.useContext(TableContext);
+    const { stack } = useContext(TableContext);
     return (
       <TableSectionContext.Provider value="head">
         <thead ref={ref} className={cn('vero-table-header', stack?.header, className)} {...props} />

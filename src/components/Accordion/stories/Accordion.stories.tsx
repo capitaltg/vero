@@ -5,7 +5,7 @@ const meta = {
   title: 'Data & Display/Accordion',
   component: Accordion,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Accordion.mdx, so there's no autodocs page.
   args: {
     mode: 'single',
     variant: 'default',
@@ -15,8 +15,6 @@ const meta = {
     mode: {
       control: 'select',
       options: ['multiple', 'single'],
-      description:
-        'The mode of the accordion. Determines how many sections can be expanded at one time',
       table: {
         defaultValue: {
           summary: 'single',
@@ -29,7 +27,6 @@ const meta = {
     variant: {
       control: 'select',
       options: ['default', 'primary', 'success', 'danger', 'warning'],
-      description: 'The visual style variant of the accordion',
       table: {
         defaultValue: {
           summary: 'default',
@@ -42,7 +39,6 @@ const meta = {
     caretPosition: {
       control: 'radio',
       options: ['left', 'right'],
-      description: 'The position of the caret icon',
       table: {
         defaultValue: {
           summary: 'right',
@@ -54,7 +50,6 @@ const meta = {
     },
     items: {
       control: 'object',
-      description: 'The items to be displayed in the accordion',
       type: { name: 'boolean', required: true },
       table: {
         type: {
@@ -62,9 +57,12 @@ const meta = {
         },
       },
     },
+    // A fixed `value` would stop the sections opening, and `defaultValue` only applies on
+    // the first render, so neither gets a control.
+    value: { control: false },
+    defaultValue: { control: false },
     isBordered: {
       control: 'boolean',
-      description: 'Whether to show borders around the content area',
       table: {
         type: {
           summary: 'boolean',
@@ -73,7 +71,6 @@ const meta = {
     },
     isCollapsible: {
       control: 'boolean',
-      description: 'Whether the accordion can be fully collapsed (only applies to single mode)',
       table: {
         type: {
           summary: 'boolean',
@@ -83,8 +80,6 @@ const meta = {
     headingLevel: {
       control: 'select',
       options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-      description:
-        'The HTML heading level for each accordion item header. Uses Radix Header with asChild so the trigger is wrapped in the specified heading element.',
       table: {
         defaultValue: {
           summary: 'h3',
@@ -96,15 +91,12 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the accordion',
     },
     triggerClassName: {
       type: 'string',
-      description: 'Additional class names to apply to the accordion trigger',
     },
     contentClassName: {
       type: 'string',
-      description: 'Additional class names to apply to the accordion content',
     },
   },
 } satisfies Meta<typeof Accordion>;
@@ -190,6 +182,16 @@ const longContentItems = [
     ),
   },
 ];
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    items: exampleItems,
+  },
+};
 
 /**
  * The default state of the Accordion component.

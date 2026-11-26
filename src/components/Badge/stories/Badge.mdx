@@ -1,0 +1,35 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Badge } from '../src/Badge';
+import * as BadgeStories from './Badge.stories';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+<Description of={BadgeStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the badge responds."
+  title="Try it"
+>
+  <Canvas of={BadgeStories.Playground} />
+  <Controls of={BadgeStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="The props declared in Vero's types. Standard HTML attributes aren't listed."
+  title="API reference"
+>
+  <ApiEntry of={Badge} />
+</DocsSection>

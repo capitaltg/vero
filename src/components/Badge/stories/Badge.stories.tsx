@@ -5,7 +5,7 @@ const meta = {
   title: 'Data & Display/Badge',
   component: Badge,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Badge.mdx, so there's no autodocs page.
   args: {
     variant: 'default',
     tone: 'dark',
@@ -15,7 +15,6 @@ const meta = {
     variant: {
       control: 'select',
       options: ['default', 'primary', 'success', 'danger', 'warning', 'info', 'outline'],
-      description: 'The visual style variant of the badge',
       table: {
         defaultValue: {
           summary: 'default',
@@ -28,8 +27,6 @@ const meta = {
     tone: {
       control: 'inline-radio',
       options: ['dark', 'light'],
-      description:
-        'The color weight of the badge. `dark` is a solid semantic fill; `light` is a tinted background with a 1px border in the same semantic color. Has no effect on the `outline` variant.',
       table: {
         defaultValue: {
           summary: 'dark',
@@ -42,7 +39,6 @@ const meta = {
     size: {
       control: 'inline-radio',
       options: ['default', 'lg'],
-      description: 'The size of the badge',
       table: {
         defaultValue: {
           summary: 'default',
@@ -63,13 +59,22 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the badge',
     },
   },
 } satisfies Meta<typeof Badge>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    children: 'Badge',
+  },
+};
 
 /**
  * The default state of the Badge component.

@@ -2,6 +2,12 @@ import { cn } from '@/lib/utils';
 import React, { useState } from 'react';
 import { ImageProps } from '../types';
 
+/**
+ * An `<img>` in a wrapper that shows a pulsing placeholder while the image loads. It loads
+ * lazily by default, can switch to a `fallback` image if the source fails, and can be shaped
+ * with rounded corners or as a circle. Other props, such as `width` and `height`, go to the
+ * `<img>`.
+ */
 const Image = React.forwardRef<HTMLImageElement, ImageProps>(
   ({ src, alt, fallback, isLazy = true, shape = 'square', className, onError, ...props }, ref) => {
     const [hasError, setHasError] = useState(false);

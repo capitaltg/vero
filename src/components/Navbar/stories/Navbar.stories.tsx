@@ -30,11 +30,31 @@ import {
   NavbarNav,
 } from '../src/Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from '../src/NavbarDropdown';
-import { NavbarProfile, NavbarProfileItem, NavbarProfileSeparator } from '../src/NavbarProfile';
+import {
+  NavbarProfile,
+  NavbarProfileCheckboxItem,
+  NavbarProfileItem,
+  NavbarProfileSeparator,
+  NavbarProfileSwitchItem,
+} from '../src/NavbarProfile';
 
 const meta = {
   title: 'Actions & Navigation/Navbar',
   component: Navbar,
+  // Each part gets a tab in the props table. NavbarActions and NavbarProfileSeparator
+  // are left out: they take only standard HTML attributes, so their tabs would be empty.
+  subcomponents: {
+    NavbarBrand,
+    NavbarNav,
+    NavbarItem,
+    NavbarDropdown,
+    NavbarDropdownItem,
+    NavbarAction,
+    NavbarProfile,
+    NavbarProfileItem,
+    NavbarProfileSwitchItem,
+    NavbarProfileCheckboxItem,
+  },
   parameters: {
     layout: 'fullscreen',
     docs: {

@@ -41,30 +41,25 @@ const meta = {
     variant: {
       control: 'radio',
       options: ['bordered', 'borderless'],
-      description: 'Grid line style.',
     },
-    striped: { control: 'boolean', description: 'Alternate row background.' },
+    striped: { control: 'boolean' },
     density: {
       control: 'radio',
       options: ['default', 'compact'],
-      description: 'Cell padding density.',
     },
     responsive: {
       control: 'radio',
       options: ['scroll', 'stack', 'none'],
-      description: 'How the table adapts to narrow viewports.',
     },
     stackBreakpoint: {
       control: 'radio',
       options: ['sm', 'md', 'lg'],
-      description: 'Breakpoint below which a stacked table becomes cards.',
     },
     stackedStyle: {
       control: 'radio',
       options: ['default', 'headers'],
-      description: 'How each card is presented when stacked.',
     },
-    stickyHeader: { control: 'boolean', description: 'Pin the header row while the body scrolls.' },
+    stickyHeader: { control: 'boolean' },
   },
 } satisfies Meta<typeof Table>;
 

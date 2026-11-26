@@ -129,6 +129,21 @@ export interface TableProps
   extends Omit<TableHTMLAttributes<HTMLTableElement>, 'aria-label' | 'aria-labelledby'>,
     TableVariantProps {
   /**
+   * The grid lines: `bordered` draws a line around every cell, `borderless` keeps only the
+   * lines between rows. Defaults to `bordered`.
+   */
+  variant?: 'bordered' | 'borderless' | null;
+  /** Shades every other body row. Defaults to `false`. */
+  striped?: boolean | null;
+  /** The cell padding and text size: `default` or `compact`. Defaults to `default`. */
+  density?: 'default' | 'compact' | null;
+  /**
+   * Pins the header row to the top of the scrolling area while the rows scroll past it. Pair it
+   * with `responsive="none"`, so the scroll wrapper doesn't become the sticky container.
+   * Defaults to `false`.
+   */
+  stickyHeader?: boolean | null;
+  /**
    * How the table adapts to narrow viewports.
    * - `scroll` (default): wrap the table in a keyboard-focusable horizontal
    *   scroll region.
@@ -151,11 +166,11 @@ export interface TableProps
   stackedStyle?: TableStackedStyle;
   /**
    * The table's `<caption>` and accessible name. A convenience for the common
-   * case; compose {@link TableCaption} yourself when the caption needs its own
+   * case; compose `TableCaption` yourself when the caption needs its own
    * markup or has to sit somewhere specific.
    */
   caption?: ReactNode;
-  /** Visually hide {@link caption} while keeping it available to screen readers. */
+  /** Visually hide `caption` while keeping it available to screen readers. */
   captionHidden?: boolean;
   /**
    * Accessible name for the scroll region (used when `responsive="scroll"`).
@@ -220,7 +235,7 @@ export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
   /**
    * Label shown above this cell's value when the table is stacked — normally
    * its column header. Rendered only while the table is stacked and below its
-   * breakpoint. {@link DataTable} fills it in from the column definitions.
+   * breakpoint. `DataTable` fills it in from the column definitions.
    */
   label?: ReactNode;
 }

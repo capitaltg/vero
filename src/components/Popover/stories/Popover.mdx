@@ -1,0 +1,45 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Popover, PopoverContent, PopoverTrigger } from '../src/Popover';
+import * as PopoverStories from './Popover.stories';
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+<Description of={Popover} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the popover responds."
+  title="Try it"
+>
+  <Canvas of={PopoverStories.Playground} />
+  <Controls of={PopoverStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro={
+    <>
+      Each part's props, as declared in Vero's types. Props inherited from standard HTML attributes
+      or Radix, such as <code>onEscapeKeyDown</code> and <code>collisionPadding</code> on{' '}
+      <code>PopoverContent</code>, aren't listed. See the{' '}
+      <a href="https://www.radix-ui.com/primitives/docs/components/popover#api-reference">
+        Radix Popover API reference
+      </a>{' '}
+      for those.
+    </>
+  }
+  title="API reference"
+>
+  <ApiReference components={[Popover, PopoverTrigger, PopoverContent]} />
+</DocsSection>

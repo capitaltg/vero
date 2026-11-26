@@ -13,11 +13,10 @@ const meta = {
   title: 'Overlays & Feedback/Popover',
   component: PopoverContent,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Popover.mdx, so there's no autodocs page.
   argTypes: {
     hasArrow: {
       control: 'boolean',
-      description: 'Whether to show an arrow pointing to the trigger',
       table: {
         type: {
           summary: 'boolean',
@@ -27,7 +26,6 @@ const meta = {
     side: {
       control: 'select',
       options: ['top', 'bottom', 'left', 'right'],
-      description: 'The side of the trigger element where the popover appears',
       table: {
         defaultValue: {
           summary: 'bottom',
@@ -40,7 +38,6 @@ const meta = {
     align: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'The alignment of the popover relative to the trigger',
       table: {
         defaultValue: {
           summary: 'center',
@@ -52,7 +49,6 @@ const meta = {
     },
     sideOffset: {
       control: 'number',
-      description: 'The distance in pixels between the popover and the trigger',
       table: {
         defaultValue: {
           summary: '4',
@@ -64,7 +60,6 @@ const meta = {
     },
     zIndex: {
       control: 'number',
-      description: 'Z-index for the popover',
       table: {
         type: {
           summary: 'number',
@@ -80,6 +75,20 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    hasArrow: true,
+    side: 'bottom',
+    align: 'center',
+    sideOffset: 4,
+  },
+  render: args => <PopoverWithArrow {...args} />,
+};
 
 /**
  * A popover with an arrow pointer.

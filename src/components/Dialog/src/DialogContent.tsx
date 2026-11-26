@@ -17,6 +17,11 @@ const OPEN_LAYER_SELECTOR = [
   '[data-radix-popper-content-wrapper]',
 ].join(',');
 
+/**
+ * The dialog itself, rendered in a portal over a dimmed overlay, with a close (X) button in
+ * its corner. Escape or a click outside closes it. When it opens, focus moves to the first
+ * interactive element inside it. Give it a `DialogTitle` so screen readers can name it.
+ */
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
@@ -88,6 +93,6 @@ const DialogContent = React.forwardRef<
     </DialogPortal>
   );
 });
-DialogContent.displayName = DialogPrimitive.Content.displayName;
+DialogContent.displayName = 'DialogContent';
 
 export { DialogContent };

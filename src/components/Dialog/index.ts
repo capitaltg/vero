@@ -7,6 +7,7 @@ export { DialogOverlay } from './src/DialogOverlay';
 export { DialogTitle } from './src/DialogTitle';
 
 export type {
+  DialogCloseProps,
   DialogContentProps,
   DialogDescriptionProps,
   DialogFooterProps,

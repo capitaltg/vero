@@ -6,6 +6,13 @@ import { useId } from 'react';
 import { Radio } from '../../Radio';
 import { RadioGroupProps } from '../types';
 
+/**
+ * A set of radios for choosing one option, built on Radix Radio Group
+ * (`role="radiogroup"`). Pass `options` to render the radios, or `Radio` children for a
+ * custom layout. Arrow keys move between radios and select them. The group has no
+ * accessible name of its own, so pass `aria-labelledby` with the id of its visible label,
+ * or `aria-label`.
+ */
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   RadioGroupProps

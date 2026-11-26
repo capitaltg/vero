@@ -1,0 +1,36 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { CheckboxGroup } from '../src/CheckboxGroup';
+import { Checkbox } from '../../Checkbox';
+import * as CheckboxGroupStories from './CheckboxGroup.stories';
+
+<Meta of={CheckboxGroupStories} />
+
+# CheckboxGroup
+
+<Description of={CheckboxGroupStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the checkbox group responds."
+  title="Try it"
+>
+  <Canvas of={CheckboxGroupStories.Playground} />
+  <Controls of={CheckboxGroupStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="Each component's props, as declared in Vero's types. Standard HTML attributes and Radix props aren't listed."
+  title="API reference"
+>
+  <ApiReference components={[CheckboxGroup, Checkbox]} />
+</DocsSection>

@@ -48,15 +48,15 @@ const meta = {
       </RadioGroupPrimitive.Root>
     ),
   ],
-  tags: ['autodocs'],
+  // The docs page is Radio.mdx, so there's no autodocs page.
 } satisfies Meta<typeof Radio>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Interactive playground for the Radio component.
- * Use the controls to experiment with different props and states.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {
   args: {
@@ -64,8 +64,6 @@ export const Playground: Story = {
     id: 'radio-playground',
     value: 'option-playground',
   },
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
 };
 
 /**

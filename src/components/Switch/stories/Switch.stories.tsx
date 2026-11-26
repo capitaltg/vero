@@ -26,23 +26,21 @@ const meta = {
       action: 'checked changed',
     },
   },
-  tags: ['autodocs'],
+  // The docs page is Switch.mdx, so there's no autodocs page.
 } satisfies Meta<typeof Switch>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Interactive playground for the Switch component.
- * Use the controls to experiment with different props and states.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {
   args: {
     label: 'Airplane Mode',
     id: 'airplane-mode',
   },
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
 };
 
 /**

@@ -4,6 +4,12 @@ import React, { useCallback } from 'react';
 import { Switch } from '../../Switch';
 import { SwitchGroupProps } from '../types';
 
+/**
+ * A set of switches, each turning one setting on or off. Pass `options` with `value` and
+ * `onChange`, or `Switch` children for a custom layout. The group renders a plain `div`
+ * with no role or name, so put it in a `fieldset` with a `legend`, or pass
+ * `role="group"` and `aria-labelledby`, to name it for screen readers.
+ */
 const SwitchGroup = React.forwardRef<HTMLDivElement, SwitchGroupProps>(
   (
     {

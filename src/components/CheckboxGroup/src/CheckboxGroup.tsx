@@ -5,6 +5,12 @@ import { useId } from 'react';
 import { Checkbox } from '../../Checkbox';
 import { CheckboxGroupProps } from '../types';
 
+/**
+ * A set of checkboxes for choosing any number of options. Pass `options` with `value` and
+ * `onChange`, or `Checkbox` children for a custom layout. The group renders a plain `div`
+ * with no role or name, so put it in a `fieldset` with a `legend`, or pass
+ * `role="group"` and `aria-labelledby`, to name it for screen readers.
+ */
 const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps>(
   (
     {

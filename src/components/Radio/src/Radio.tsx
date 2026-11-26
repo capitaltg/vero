@@ -6,6 +6,12 @@ import { RadioButton } from './RadioButton';
 import { RadioDefault } from './RadioDefault';
 import { RadioTile } from './RadioTile';
 
+/**
+ * One option in a `RadioGroup`, built on Radix Radio Group (`role="radio"`). It must be
+ * inside a `RadioGroup`, which tracks the selected value and moves focus between radios
+ * with the arrow keys. It comes in three styles: a circle with a label, a tile and a
+ * toggle button.
+ */
 const Radio = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>, RadioProps>(
   (
     {

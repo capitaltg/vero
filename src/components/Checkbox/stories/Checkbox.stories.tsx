@@ -33,23 +33,21 @@ const meta = {
       options: ['default', 'tile', 'button'],
     },
   },
-  tags: ['autodocs'],
+  // The docs page is Checkbox.mdx, so there's no autodocs page.
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Interactive playground for the Checkbox component.
- * Use the controls to experiment with different props and states.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {
   args: {
     label: 'Accept terms and conditions',
     id: 'checkbox-playground',
   },
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
 };
 
 /**

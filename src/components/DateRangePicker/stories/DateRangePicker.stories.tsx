@@ -16,11 +16,10 @@ const meta = {
   title: 'Data & Display/DateRangePicker',
   component: DateRangePicker,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is DateRangePicker.mdx, so there's no autodocs page.
   argTypes: {
     placeholder: {
       control: 'object',
-      description: 'Placeholder text for the start and end date inputs',
       table: {
         type: {
           summary: '{ from?: string, to?: string }',
@@ -29,7 +28,6 @@ const meta = {
     },
     zIndex: {
       control: 'number',
-      description: 'Z-index for the popover',
       table: {
         type: {
           summary: 'number',
@@ -38,7 +36,6 @@ const meta = {
     },
     isDisabled: {
       control: 'boolean',
-      description: 'Whether the component is disabled',
       table: {
         type: {
           summary: 'boolean',
@@ -47,7 +44,6 @@ const meta = {
     },
     minDate: {
       control: 'date',
-      description: 'The earliest date a user can select, inclusive. Days before this are disabled.',
       table: {
         type: {
           summary: 'Date',
@@ -56,7 +52,6 @@ const meta = {
     },
     maxDate: {
       control: 'date',
-      description: 'The latest date a user can select, inclusive. Days after this are disabled.',
       table: {
         type: {
           summary: 'Date',
@@ -65,8 +60,6 @@ const meta = {
     },
     excludeDates: {
       control: false,
-      description:
-        'Days to exclude from selection inside the allowed window, as a `Date[]` or a `(date: Date) => boolean` predicate. Excluded days are disabled in the calendar. Unlike `minDate`/`maxDate`, this does not affect which months can be navigated to.',
       table: {
         type: {
           summary: 'Date[] | ((date: Date) => boolean)',
@@ -75,8 +68,6 @@ const meta = {
     },
     startMonth: {
       control: 'date',
-      description:
-        '**Deprecated** -- prefer `minDate`. Limits which months the user can navigate to, at month granularity; every day in the boundary month stays selectable. Still honoured, and takes precedence over the month derived from `minDate`, for the uncommon case of browsing a wider range than can be selected.',
       table: {
         category: 'Deprecated',
         type: {
@@ -86,8 +77,6 @@ const meta = {
     },
     endMonth: {
       control: 'date',
-      description:
-        '**Deprecated** -- prefer `maxDate`. Limits which months the user can navigate to, at month granularity; every day in the boundary month stays selectable. Still honoured, and takes precedence over the month derived from `maxDate`, for the uncommon case of browsing a wider range than can be selected.',
       table: {
         category: 'Deprecated',
         type: {
@@ -97,12 +86,9 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the component',
     },
     name: {
       control: 'text',
-      description:
-        'The name attribute for form submission. This is required for the date range picker value to be included in form data.',
       type: { name: 'string', required: false },
       table: {
         type: {
@@ -112,8 +98,6 @@ const meta = {
     },
     required: {
       control: 'boolean',
-      description:
-        'Whether the date range picker is required for form validation. When true, the form cannot be submitted without a date range selection.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -123,7 +107,6 @@ const meta = {
     },
     autoFocus: {
       control: 'boolean',
-      description: 'Automatically focuses the date range picker when the page loads.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -138,8 +121,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Interactive playground for the DateRangePicker component.
- * Use the controls to experiment with different props and states.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {
   args: {
@@ -150,8 +133,6 @@ export const Playground: Story = {
       to: 'End date',
     },
   },
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
 };
 
 /**

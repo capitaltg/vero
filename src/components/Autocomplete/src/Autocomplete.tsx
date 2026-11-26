@@ -439,6 +439,11 @@ function AutocompleteInner<T>(
   );
 }
 
+/**
+ * A searchable select. The trigger button opens a popover with a search input and a list of
+ * options, filtered from `options` or fetched with `loadOptions`. It follows the ARIA combobox
+ * pattern and announces the result count and the highlighted option to screen readers.
+ */
 const AutocompleteBase = React.forwardRef(AutocompleteInner);
 AutocompleteBase.displayName = 'Autocomplete';
 

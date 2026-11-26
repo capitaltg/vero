@@ -10,6 +10,11 @@ import { Calendar } from '../../Calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../Popover';
 import { DateRangePickerProps } from '../types';
 
+/**
+ * A button that opens a two-month calendar in a popover for picking a start and end date.
+ * Limit the choices with `minDate`, `maxDate` and `excludeDates`. Set `name` to submit the
+ * range with a form.
+ */
 const DateRangePicker = React.forwardRef<HTMLButtonElement, DateRangePickerProps>(
   (
     {

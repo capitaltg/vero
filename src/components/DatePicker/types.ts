@@ -10,6 +10,7 @@ type DatePickerFormAttributes = Pick<
 export interface DatePickerProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled' | 'value'>,
     DatePickerFormAttributes {
+  /** The selected date. Leave it unset for no selection. */
   value?: Date;
   /**
    * The earliest date a user can select, inclusive.
@@ -51,14 +52,28 @@ export interface DatePickerProps
    * where it takes precedence over the month derived from `maxDate`.
    */
   endMonth?: Date;
+  /**
+   * Called with the picked date, which closes the calendar. It's called with `undefined` when
+   * the selected day is clicked again.
+   */
   onChange: (date?: Date) => void;
+  /** The text on the button when no date is selected. Defaults to `Pick a date`. */
   placeholder?: string;
+  /** Classes for the trigger button, merged after the defaults. */
   className?: string;
+  /**
+   * The calendar popover's z-index. Defaults to the `popover` value from `configureZIndex`,
+   * which starts at `50`.
+   */
   zIndex?: number;
+  /**
+   * Disables the button. It stays focusable and is marked `aria-disabled`, but the calendar
+   * doesn't open. Defaults to `false`.
+   */
   isDisabled?: boolean;
   /**
-   * The name attribute for form submission.
-   * This is required for the date picker value to be included in form data.
+   * The name for form submission. When set, a hidden input submits the date as
+   * `yyyy-MM-dd`, or an empty string when none is selected.
    */
   name?: string;
   /**

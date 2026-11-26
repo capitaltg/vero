@@ -9,6 +9,10 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import React, { useState } from 'react';
 import { DatePickerProps } from '../types';
 
+/**
+ * A button that opens a calendar in a popover for picking one date. Limit the choices with
+ * `minDate`, `maxDate` and `excludeDates`. Set `name` to submit the date with a form.
+ */
 const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
   (
     {

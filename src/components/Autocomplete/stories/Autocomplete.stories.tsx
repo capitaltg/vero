@@ -20,11 +20,10 @@ const meta = {
   title: 'Data & Display/Autocomplete',
   component: Autocomplete,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Autocomplete.mdx, so there's no autodocs page.
   argTypes: {
     value: {
       control: 'text',
-      description: 'The selected value',
       table: {
         type: {
           summary: 'string',
@@ -33,7 +32,6 @@ const meta = {
     },
     placeholder: {
       control: 'text',
-      description: 'Placeholder text for the input',
       table: {
         type: {
           summary: 'string',
@@ -42,7 +40,6 @@ const meta = {
     },
     emptyMessage: {
       control: 'text',
-      description: 'Message to display when no options are found',
       table: {
         type: {
           summary: 'string',
@@ -51,7 +48,6 @@ const meta = {
     },
     loadingMessage: {
       control: 'text',
-      description: 'Message to display while loading options',
       table: {
         type: {
           summary: 'string',
@@ -60,7 +56,6 @@ const meta = {
     },
     errorMessage: {
       control: 'text',
-      description: 'Message to display when async fetch fails',
       table: {
         type: {
           summary: 'string',
@@ -69,7 +64,6 @@ const meta = {
     },
     maxSuggestions: {
       control: 'number',
-      description: 'Maximum number of suggestions to display',
       table: {
         type: {
           summary: 'number',
@@ -78,7 +72,6 @@ const meta = {
     },
     debounceMs: {
       control: 'number',
-      description: 'Debounce delay for async searches (in milliseconds)',
       table: {
         type: {
           summary: 'number',
@@ -87,7 +80,6 @@ const meta = {
     },
     minSearch: {
       control: 'number',
-      description: 'Minimum characters before triggering async search',
       table: {
         type: {
           summary: 'number',
@@ -96,7 +88,6 @@ const meta = {
     },
     zIndex: {
       control: 'number',
-      description: 'Z-index for the popover',
       table: {
         type: {
           summary: 'number',
@@ -105,7 +96,6 @@ const meta = {
     },
     isDisabled: {
       control: 'boolean',
-      description: 'Whether the component is disabled',
       table: {
         type: {
           summary: 'boolean',
@@ -114,16 +104,12 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the component',
     },
     listClassName: {
       type: 'string',
-      description: 'Additional class names to apply to the options list',
     },
     name: {
       control: 'text',
-      description:
-        'The name attribute for form submission. This is required for the autocomplete value to be included in form data.',
       type: { name: 'string', required: false },
       table: {
         type: {
@@ -133,8 +119,6 @@ const meta = {
     },
     required: {
       control: 'boolean',
-      description:
-        'Whether the autocomplete is required for form validation. When true, the form cannot be submitted without a selection.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -144,7 +128,6 @@ const meta = {
     },
     autoFocus: {
       control: 'boolean',
-      description: 'Automatically focuses the autocomplete when the page loads.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -159,8 +142,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Interactive playground for the Autocomplete component.
- * Use the controls to experiment with different props and states.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {
   args: {
@@ -171,8 +154,6 @@ export const Playground: Story = {
     onChange: () => {},
     placeholder: 'Search...',
   } as unknown as Story['args'],
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
 };
 
 /**

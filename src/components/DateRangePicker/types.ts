@@ -2,7 +2,9 @@ import { ExcludeDates } from '@/lib/date-bounds';
 import { ButtonHTMLAttributes } from 'react';
 
 export interface DateRange {
+  /** The first day of the range. */
   from?: Date;
+  /** The last day of the range. */
   to?: Date;
 }
 
@@ -15,14 +17,34 @@ type DateRangePickerFormAttributes = Pick<
 export interface DateRangePickerProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'disabled' | 'value'>,
     DateRangePickerFormAttributes {
+  /** The selected range, as `{ from, to }`. Pass `{}` for no selection. */
   value: DateRange;
+  /**
+   * Called with the new range on each click in the calendar. The first click sets `from`; the
+   * next click on a later day sets `to`. Clicking an earlier day, clicking after a complete
+   * range, or picking a range that would include an excluded day starts a new range.
+   * Clicking `from` again before picking an end clears the range.
+   */
   onChange: (range: DateRange) => void;
+  /**
+   * The text on the button when no range is selected. Only `from` is shown; `to` isn't used.
+   * Defaults to `{ from: 'Pick start date', to: 'Pick end date' }`.
+   */
   placeholder?: {
     from?: string;
     to?: string;
   };
+  /** Classes for the wrapper around the trigger button, merged after the defaults. */
   className?: string;
+  /**
+   * The calendar popover's z-index. Defaults to the `popover` value from `configureZIndex`,
+   * which starts at `50`.
+   */
   zIndex?: number;
+  /**
+   * Disables the button. It stays focusable and is marked `aria-disabled`, but the calendar
+   * doesn't open. Defaults to `false`.
+   */
   isDisabled?: boolean;
   /**
    * The earliest date a user can select, inclusive.
@@ -65,8 +87,8 @@ export interface DateRangePickerProps
    */
   endMonth?: Date;
   /**
-   * The name attribute for form submission.
-   * This is required for the date range picker value to be included in form data.
+   * The name for form submission. When set, a hidden input submits the range as
+   * `yyyy-MM-dd,yyyy-MM-dd`, just the start date when there's no end, or an empty string.
    */
   name?: string;
   /**

@@ -6,6 +6,10 @@ import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 import { SelectTriggerProps } from '../types';
 
+/**
+ * The button that opens the list, with a chevron. Put a `SelectValue` inside it. It has the
+ * `combobox` role, and Radix sets `aria-expanded` and `aria-controls` on it.
+ */
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   SelectTriggerProps
@@ -34,6 +38,6 @@ const SelectTrigger = React.forwardRef<
     </SelectPrimitive.Trigger>
   );
 });
-SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
+SelectTrigger.displayName = 'SelectTrigger';
 
 export { SelectTrigger };

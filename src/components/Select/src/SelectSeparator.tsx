@@ -3,6 +3,7 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 import * as React from 'react';
 import { SelectSeparatorProps } from '../types';
 
+/** A line between items or groups. */
 const SelectSeparator = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Separator>,
   SelectSeparatorProps
@@ -13,6 +14,6 @@ const SelectSeparator = React.forwardRef<
     {...props}
   />
 ));
-SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
+SelectSeparator.displayName = 'SelectSeparator';
 
 export { SelectSeparator };

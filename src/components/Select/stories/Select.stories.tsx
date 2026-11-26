@@ -5,6 +5,8 @@ import { SelectDefault } from '../demos/SelectDefault';
 import sourceCodeDefault from '../demos/SelectDefault.tsx?raw';
 import { SelectDisabled } from '../demos/SelectDisabled';
 import sourceCodeDisabled from '../demos/SelectDisabled.tsx?raw';
+import { SelectFromParts } from '../demos/SelectFromParts';
+import sourceCodeFromParts from '../demos/SelectFromParts.tsx?raw';
 import { SelectWithLongLabel } from '../demos/SelectWithLongLabel';
 import sourceCodeWithLongLabel from '../demos/SelectWithLongLabel.tsx?raw';
 import { SelectWithManyOptions } from '../demos/SelectWithManyOptions';
@@ -20,28 +22,22 @@ const meta = {
   argTypes: {
     value: {
       control: 'text',
-      description: 'Currently selected value',
       type: { name: 'string', required: false },
     },
     onChange: {
-      description: 'Callback when selection changes',
       type: { name: 'function', required: true },
       action: 'selection changed',
     },
     options: {
       control: 'object',
-      description: 'Array of select options',
       type: { name: 'array', value: { name: 'object', value: {} }, required: true },
     },
     placeholder: {
       control: 'text',
-      description: 'Placeholder text when no value is selected',
       type: { name: 'string', required: false },
     },
     name: {
       control: 'text',
-      description:
-        'The name attribute for form submission. This is required for the select value to be included in form data.',
       type: { name: 'string', required: false },
       table: {
         type: {
@@ -51,8 +47,6 @@ const meta = {
     },
     required: {
       control: 'boolean',
-      description:
-        'Whether the select is required for form validation. When true, the form cannot be submitted without a selection.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -62,7 +56,6 @@ const meta = {
     },
     autoFocus: {
       control: 'boolean',
-      description: 'Automatically focuses the select when the page loads.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -72,7 +65,6 @@ const meta = {
     },
     isDisabled: {
       control: 'boolean',
-      description: 'When true, the select cannot be opened or changed.',
       type: { name: 'boolean', required: false },
       table: {
         type: {
@@ -81,7 +73,7 @@ const meta = {
       },
     },
   },
-  tags: ['autodocs'],
+  // The docs page is Select.mdx, so there's no autodocs page.
 } satisfies Meta<typeof Select>;
 
 export default meta;
@@ -96,8 +88,8 @@ const options = [
 ];
 
 /**
- * Interactive playground for the Select component.
- * Use the controls to experiment with different props and states.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {
   args: {
@@ -106,8 +98,6 @@ export const Playground: Story = {
     onChange: () => {},
     placeholder: 'Select a fruit...',
   },
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
 };
 
 /**
@@ -258,6 +248,29 @@ export const WithLongLabel: Story = {
     docs: {
       source: {
         code: sourceCodeWithLongLabel,
+        language: 'tsx',
+      },
+    },
+  },
+};
+
+/**
+ * A select built from the parts, with groups, labels, a separator and a disabled item. Use
+ * the parts when `Select`'s `options` can't describe what you need. Otherwise use `Select`,
+ * which puts the same parts together for you. With the parts, pass `hasValue` to
+ * `SelectTrigger` yourself so the placeholder is muted.
+ */
+export const FromParts: Story = {
+  render: () => <SelectFromParts />,
+  args: {
+    options,
+    value: '',
+    onChange: () => {},
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeFromParts,
         language: 'tsx',
       },
     },

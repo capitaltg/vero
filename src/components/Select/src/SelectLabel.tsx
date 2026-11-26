@@ -3,6 +3,7 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 import * as React from 'react';
 import { SelectLabelProps } from '../types';
 
+/** A heading for a `SelectGroup`. It can't be chosen. */
 const SelectLabel = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Label>,
   SelectLabelProps
@@ -13,6 +14,6 @@ const SelectLabel = React.forwardRef<
     {...props}
   />
 ));
-SelectLabel.displayName = SelectPrimitive.Label.displayName;
+SelectLabel.displayName = 'SelectLabel';
 
 export { SelectLabel };

@@ -2,15 +2,41 @@ import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import * as React from 'react';
-import type { SelectProps } from '../types';
+import type { SelectProps, SelectRootProps, SelectValueProps } from '../types';
 import { SelectContent } from './SelectContent';
 import { SelectItem } from './SelectItem';
 import { SelectTrigger } from './SelectTrigger';
 
-const SelectRoot = SelectPrimitive.Root;
-const SelectGroup = SelectPrimitive.Group;
-const SelectValue = SelectPrimitive.Value;
+// SelectRoot and SelectValue pass everything through to Radix. They're thin components, not
+// re-exports, so Storybook can read their props for the docs.
 
+/**
+ * Holds the state for a select built from the parts. Put a `SelectTrigger` and a
+ * `SelectContent` inside it. It manages its own value unless you pass `value` and
+ * `onValueChange`.
+ */
+const SelectRoot = (props: SelectRootProps) => <SelectPrimitive.Root {...props} />;
+SelectRoot.displayName = 'SelectRoot';
+
+/** Groups related items under a `SelectLabel`. */
+const SelectGroup = SelectPrimitive.Group;
+
+/**
+ * Shows the chosen item's text inside `SelectTrigger`, or the placeholder when nothing is
+ * chosen.
+ */
+const SelectValue = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Value>,
+  SelectValueProps
+>((props, ref) => <SelectPrimitive.Value ref={ref} {...props} />);
+SelectValue.displayName = 'SelectValue';
+
+/**
+ * A dropdown for choosing one option from a list. The trigger is a combobox button that opens a
+ * listbox, so it works with the keyboard and screen readers. Pass `options`, `value` and
+ * `onChange`. To group options, add separators or disable some options, build it from the
+ * parts instead, starting with `SelectRoot`.
+ */
 const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
   (
     {
@@ -55,7 +81,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
 );
 Select.displayName = 'Select';
 
-/** @deprecated Use `Select` instead. */
+/** @deprecated `SingleSelect` is an older name for `Select`. Use `Select` instead. */
 const SingleSelect = Select;
 
 export { Select, SelectGroup, SelectRoot, SelectValue, SingleSelect };

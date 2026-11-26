@@ -24,9 +24,11 @@ import {
   navbarProfileTriggerShownVariants,
 } from '../constants';
 import {
+  NavbarProfileCheckboxItemProps,
   NavbarProfileItemProps,
   NavbarProfileProps,
   NavbarProfileSeparatorProps,
+  NavbarProfileSwitchItemProps,
   NavbarProfileToggleItemProps,
 } from '../types';
 import { useNavbar } from './context';
@@ -305,75 +307,80 @@ function ToggleContent({
   );
 }
 
-function createToggleItem(control: ToggleControl, displayName: string) {
-  const Item = React.forwardRef<
-    React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
-    NavbarProfileToggleItemProps
-  >(
-    (
-      {
-        className,
-        icon,
-        isChecked,
-        onCheckedChange,
-        isDisabled = false,
-        onSelect,
-        children,
-        ...props
-      },
-      ref,
-    ) => {
-      const placement = useContext(ProfilePlacementContext);
-      useNavbar(displayName);
+type ToggleItemElement = React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>;
 
-      if (placement === 'panel') {
-        return (
-          <li>
-            <button
-              aria-checked={isChecked}
-              className={cn(
-                'vero-navbar-profile-panel-item',
-                navbarLinkClasses,
-                navbarProfilePanelItemClasses,
-                className,
-              )}
-              disabled={isDisabled}
-              role={control}
-              type="button"
-              onClick={() => onCheckedChange(!isChecked)}
-            >
-              <ToggleContent checked={isChecked} control={control} icon={icon}>
-                {children}
-              </ToggleContent>
-            </button>
-          </li>
-        );
-      }
-
-      return (
-        <DropdownMenuPrimitive.CheckboxItem
-          ref={ref}
-          checked={isChecked}
-          className={cn('vero-navbar-profile-item', navbarProfileItemClasses, className)}
-          disabled={isDisabled}
-          onCheckedChange={checked => onCheckedChange(checked === true)}
-          onSelect={event => {
-            onSelect?.(event);
-            // Keep the menu open, so people can see the setting change.
-            event.preventDefault();
-          }}
-          {...props}
-        >
-          <ToggleContent checked={isChecked} control={control} icon={icon}>
-            {children}
-          </ToggleContent>
-        </DropdownMenuPrimitive.CheckboxItem>
-      );
-    },
-  );
-  Item.displayName = displayName;
-  return Item;
+interface ToggleItemProps extends NavbarProfileToggleItemProps {
+  control: ToggleControl;
+  displayName: string;
 }
+
+// The switch and checkbox items share this; each public item is a thin wrapper, so
+// Storybook's docgen can read its props.
+const ToggleItem = React.forwardRef<ToggleItemElement, ToggleItemProps>(
+  (
+    {
+      control,
+      displayName,
+      className,
+      icon,
+      isChecked,
+      onCheckedChange,
+      isDisabled = false,
+      onSelect,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const placement = useContext(ProfilePlacementContext);
+    useNavbar(displayName);
+
+    if (placement === 'panel') {
+      return (
+        <li>
+          <button
+            aria-checked={isChecked}
+            className={cn(
+              'vero-navbar-profile-panel-item',
+              navbarLinkClasses,
+              navbarProfilePanelItemClasses,
+              className,
+            )}
+            disabled={isDisabled}
+            role={control}
+            type="button"
+            onClick={() => onCheckedChange(!isChecked)}
+          >
+            <ToggleContent checked={isChecked} control={control} icon={icon}>
+              {children}
+            </ToggleContent>
+          </button>
+        </li>
+      );
+    }
+
+    return (
+      <DropdownMenuPrimitive.CheckboxItem
+        ref={ref}
+        checked={isChecked}
+        className={cn('vero-navbar-profile-item', navbarProfileItemClasses, className)}
+        disabled={isDisabled}
+        onCheckedChange={checked => onCheckedChange(checked === true)}
+        onSelect={event => {
+          onSelect?.(event);
+          // Keep the menu open, so people can see the setting change.
+          event.preventDefault();
+        }}
+        {...props}
+      >
+        <ToggleContent checked={isChecked} control={control} icon={icon}>
+          {children}
+        </ToggleContent>
+      </DropdownMenuPrimitive.CheckboxItem>
+    );
+  },
+);
+ToggleItem.displayName = 'NavbarProfileToggleItem';
 
 /**
  * A setting in the profile menu that turns on and off, shown with a switch after its
@@ -382,7 +389,12 @@ function createToggleItem(control: ToggleControl, displayName: string) {
  *
  * @experimental
  */
-const NavbarProfileSwitchItem = createToggleItem('switch', 'NavbarProfileSwitchItem');
+const NavbarProfileSwitchItem = React.forwardRef<ToggleItemElement, NavbarProfileSwitchItemProps>(
+  (props, ref) => (
+    <ToggleItem ref={ref} control="switch" displayName="NavbarProfileSwitchItem" {...props} />
+  ),
+);
+NavbarProfileSwitchItem.displayName = 'NavbarProfileSwitchItem';
 
 /**
  * A setting in the profile menu that turns on and off, shown with a checkbox before its
@@ -391,7 +403,13 @@ const NavbarProfileSwitchItem = createToggleItem('switch', 'NavbarProfileSwitchI
  *
  * @experimental
  */
-const NavbarProfileCheckboxItem = createToggleItem('checkbox', 'NavbarProfileCheckboxItem');
+const NavbarProfileCheckboxItem = React.forwardRef<
+  ToggleItemElement,
+  NavbarProfileCheckboxItemProps
+>((props, ref) => (
+  <ToggleItem ref={ref} control="checkbox" displayName="NavbarProfileCheckboxItem" {...props} />
+));
+NavbarProfileCheckboxItem.displayName = 'NavbarProfileCheckboxItem';
 
 /** @experimental */
 const NavbarProfileSeparator = React.forwardRef<

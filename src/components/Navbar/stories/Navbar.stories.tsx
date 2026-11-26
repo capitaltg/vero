@@ -62,7 +62,8 @@ const meta = {
       },
     },
   },
-  tags: ['autodocs', 'experimental'],
+  // The docs page is Navbar.mdx, so there's no autodocs page.
+  tags: ['experimental'],
   args: {
     collapseBelow: 'md',
     sticky: false,
@@ -116,11 +117,10 @@ const withSource = (code: string) => ({
 });
 
 /**
- * Use the controls to try each option.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
-export const Playground: Story = {
-  tags: ['!autodocs'],
-};
+export const Playground: Story = {};
 
 /**
  * Brand, navigation with dropdowns, and a profile menu.

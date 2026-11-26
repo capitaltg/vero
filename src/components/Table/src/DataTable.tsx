@@ -10,7 +10,7 @@ import {
   type SortingState,
 } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react';
-import * as React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type { DataTableColumnMeta, DataTableProps } from '../types';
 import {
   Table,
@@ -89,11 +89,11 @@ function DataTableInner<TData>(
   const ariaLabelProp = props['aria-label'];
   const ariaLabelledby = props['aria-labelledby'];
 
-  const [internalSorting, setInternalSorting] = React.useState<SortingState>(initialSorting ?? []);
+  const [internalSorting, setInternalSorting] = useState<SortingState>(initialSorting ?? []);
   const isControlled = controlledSorting !== undefined;
   const sorting = isControlled ? controlledSorting : internalSorting;
 
-  const handleSortingChange: OnChangeFn<SortingState> = React.useCallback(
+  const handleSortingChange: OnChangeFn<SortingState> = useCallback(
     updater => {
       if (!isControlled) {
         setInternalSorting(prev => (typeof updater === 'function' ? updater(prev) : updater));
@@ -115,9 +115,9 @@ function DataTableInner<TData>(
   });
 
   // Announce sort changes to screen readers via a polite live region.
-  const [announcement, setAnnouncement] = React.useState('');
-  const hasMounted = React.useRef(false);
-  React.useEffect(() => {
+  const [announcement, setAnnouncement] = useState('');
+  const hasMounted = useRef(false);
+  useEffect(() => {
     if (!enableSorting) return;
     // Don't announce the initial (possibly pre-sorted) state on mount.
     if (!hasMounted.current) {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { NavbarProps } from '../types';
 
 export interface NavbarContextValue {
@@ -31,7 +31,7 @@ export const NavbarContext = React.createContext<NavbarContextValue | null>(null
 export const NavbarOverflowContext = React.createContext(false);
 
 export function useNavbar(component: string): NavbarContextValue {
-  const context = React.useContext(NavbarContext);
+  const context = useContext(NavbarContext);
   if (!context) {
     throw new Error(`${component} must be used within a Navbar.`);
   }

@@ -2,7 +2,18 @@ import { warnExperimental } from '@/lib/experimental';
 import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import { Slot } from '@radix-ui/react-slot';
-import * as React from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 import {
   navbarActionsClasses,
   navbarActionClasses,
@@ -36,7 +47,7 @@ const BREAKPOINT_WIDTHS = { sm: 640, md: 768, lg: 1024 } as const;
 /** Whether the viewport is at least `width` pixels wide, kept up to date as it resizes. */
 function useMinWidth(width: number): boolean {
   const query = `(min-width: ${width}px)`;
-  const subscribe = React.useCallback(
+  const subscribe = useCallback(
     (onChange: () => void) => {
       if (typeof window === 'undefined' || !window.matchMedia) return () => {};
       const list = window.matchMedia(query);
@@ -45,7 +56,7 @@ function useMinWidth(width: number): boolean {
     },
     [query],
   );
-  return React.useSyncExternalStore(
+  return useSyncExternalStore(
     subscribe,
     () => typeof window !== 'undefined' && !!window.matchMedia?.(query).matches,
     () => false,
@@ -73,16 +84,16 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     },
     ref,
   ) => {
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
-    const [profileSlot, setProfileSlot] = React.useState<HTMLElement | null>(null);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+    const [profileSlot, setProfileSlot] = useState<HTMLElement | null>(null);
     const isExpanded = useMinWidth(BREAKPOINT_WIDTHS[collapseBelow]);
 
-    React.useEffect(() => {
+    useEffect(() => {
       warnExperimental('Navbar', '`Navbar` and the other navbar components are');
     }, []);
 
-    const context = React.useMemo<NavbarContextValue>(
+    const context = useMemo<NavbarContextValue>(
       () => ({
         collapseBelow,
         isExpanded,
@@ -194,10 +205,10 @@ function useVisibleItemCount(
   },
 ): number {
   const { navRef, listRef, toggleRef } = refs;
-  const [visibleCount, setVisibleCount] = React.useState(count);
-  const widths = React.useRef<number[]>([]);
-  const moreWidth = React.useRef<number | null>(null);
-  const lastCount = React.useRef(count);
+  const [visibleCount, setVisibleCount] = useState(count);
+  const widths = useRef<number[]>([]);
+  const moreWidth = useRef<number | null>(null);
+  const lastCount = useRef(count);
 
   if (lastCount.current !== count) {
     lastCount.current = count;
@@ -205,7 +216,7 @@ function useVisibleItemCount(
     if (visibleCount !== count) setVisibleCount(count);
   }
 
-  const update = React.useCallback(() => {
+  const update = useCallback(() => {
     const nav = navRef.current;
     const list = listRef.current;
     const toggle = toggleRef.current;
@@ -241,9 +252,9 @@ function useVisibleItemCount(
 
   // Re-fit after every render, before paint, so items never flash in the wrong place.
   // Setting the same count again doesn't re-render, so this settles.
-  React.useLayoutEffect(update);
+  useLayoutEffect(update);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const nav = navRef.current;
     if (!nav || typeof ResizeObserver === 'undefined') return;
     const observer = new ResizeObserver(() => update());
@@ -276,12 +287,12 @@ const NavbarNav = React.forwardRef<HTMLElement, NavbarNavProps>(
   ) => {
     const { collapseBelow, mobileOpen, setMobileOpen, openDropdown, setProfileSlot } =
       useNavbar('NavbarNav');
-    const navId = React.useId();
-    const toggleRef = React.useRef<HTMLButtonElement>(null);
-    const navRef = React.useRef<HTMLElement>(null);
-    const listRef = React.useRef<HTMLUListElement>(null);
+    const navId = useId();
+    const toggleRef = useRef<HTMLButtonElement>(null);
+    const navRef = useRef<HTMLElement>(null);
+    const listRef = useRef<HTMLUListElement>(null);
 
-    React.useImperativeHandle(ref, () => navRef.current as HTMLElement);
+    useImperativeHandle(ref, () => navRef.current as HTMLElement);
 
     const items = React.Children.toArray(children).filter(React.isValidElement);
     const visibleCount = useVisibleItemCount(items.length, { navRef, listRef, toggleRef });
@@ -356,7 +367,7 @@ NavbarNav.displayName = 'NavbarNav';
 const NavbarItem = React.forwardRef<HTMLAnchorElement, NavbarItemProps>(
   ({ className, active = false, asChild = false, onClick, ...props }, ref) => {
     const { collapseBelow, closeAll } = useNavbar('NavbarItem');
-    const inOverflow = React.useContext(NavbarOverflowContext);
+    const inOverflow = useContext(NavbarOverflowContext);
     if (inOverflow) {
       return (
         <NavbarDropdownItem

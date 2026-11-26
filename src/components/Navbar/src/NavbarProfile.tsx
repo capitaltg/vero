@@ -5,7 +5,7 @@ import { getZIndex } from '@/lib/z-index';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronDown } from 'lucide-react';
-import * as React from 'react';
+import React, { useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   navbarAvatarClasses,
@@ -71,7 +71,7 @@ const NavbarProfile = React.forwardRef<
     ref,
   ) => {
     const { collapseBelow, profileSlot } = useNavbar('NavbarProfile');
-    const [isOpen, setIsOpen] = React.useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const avatar = (
       <span aria-hidden="true" className={navbarAvatarClasses}>
         {avatarSrc ? <img alt="" src={avatarSrc} /> : getInitials(name)}
@@ -170,7 +170,7 @@ const NavbarProfileItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   NavbarProfileItemProps
 >((props, ref) => {
-  const placement = React.useContext(ProfilePlacementContext);
+  const placement = useContext(ProfilePlacementContext);
   return placement === 'panel' ? (
     <NavbarProfilePanelItem {...props} />
   ) : (
@@ -323,7 +323,7 @@ function createToggleItem(control: ToggleControl, displayName: string) {
       },
       ref,
     ) => {
-      const placement = React.useContext(ProfilePlacementContext);
+      const placement = useContext(ProfilePlacementContext);
       useNavbar(displayName);
 
       if (placement === 'panel') {
@@ -398,7 +398,7 @@ const NavbarProfileSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   NavbarProfileSeparatorProps
 >(({ className, ...props }, ref) => {
-  const placement = React.useContext(ProfilePlacementContext);
+  const placement = useContext(ProfilePlacementContext);
   useNavbar('NavbarProfileSeparator');
   if (placement === 'panel') {
     return <li aria-hidden="true" className={navbarProfilePanelSeparatorClasses} />;

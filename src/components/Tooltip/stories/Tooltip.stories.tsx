@@ -10,7 +10,7 @@ const meta = {
   title: 'Overlays & Feedback/Tooltip',
   component: Tooltip,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Tooltip.mdx, so there's no autodocs page.
   decorators: [
     Story => (
       <TooltipProvider delayDuration={0}>
@@ -19,9 +19,11 @@ const meta = {
     ),
   ],
   argTypes: {
+    children: {
+      control: false,
+    },
     content: {
       control: 'text',
-      description: 'The tooltip content',
       table: {
         type: {
           summary: 'ReactNode',
@@ -31,7 +33,6 @@ const meta = {
     side: {
       control: 'select',
       options: ['top', 'bottom', 'left', 'right'],
-      description: 'The side of the trigger element where the tooltip appears',
       table: {
         type: {
           summary: 'top | bottom | left | right',
@@ -41,7 +42,6 @@ const meta = {
     align: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: 'The alignment of the tooltip relative to the trigger',
       table: {
         type: {
           summary: 'start | center | end',
@@ -50,7 +50,6 @@ const meta = {
     },
     offset: {
       control: 'number',
-      description: 'The distance in pixels between the tooltip and the trigger',
       table: {
         type: {
           summary: 'number',
@@ -59,7 +58,6 @@ const meta = {
     },
     hasArrow: {
       control: 'boolean',
-      description: 'Whether to show an arrow pointing to the trigger',
       table: {
         defaultValue: {
           summary: 'true',
@@ -71,7 +69,6 @@ const meta = {
     },
     open: {
       control: 'boolean',
-      description: 'Controlled open state of the tooltip',
       table: {
         type: {
           summary: 'boolean',
@@ -80,7 +77,6 @@ const meta = {
     },
     defaultOpen: {
       control: 'boolean',
-      description: 'The initial open state when uncontrolled',
       table: {
         defaultValue: {
           summary: 'false',
@@ -91,7 +87,6 @@ const meta = {
       },
     },
     onOpenChange: {
-      description: 'Callback fired when the open state changes',
       table: {
         type: {
           summary: '(open: boolean) => void',
@@ -100,7 +95,6 @@ const meta = {
     },
     zIndex: {
       control: 'number',
-      description: 'Z-index for the tooltip',
       table: {
         type: {
           summary: 'number',
@@ -109,13 +103,27 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the tooltip',
     },
   },
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    content: 'This is a tooltip',
+    side: 'top',
+    align: 'center',
+    offset: 2,
+    hasArrow: true,
+    children: <Button variant="primary">Hover me</Button>,
+  },
+};
 
 /**
  * The default state of the Tooltip component.

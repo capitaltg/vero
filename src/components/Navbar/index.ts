@@ -24,6 +24,7 @@ export type {
   NavbarDropdownItemProps,
   NavbarDropdownProps,
   NavbarItemProps,
+  NavbarMoreTriggerRenderProps,
   NavbarNavProps,
   NavbarProfileItemProps,
   NavbarProfileProps,

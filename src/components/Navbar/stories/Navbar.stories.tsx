@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Bell, LogOut, Settings } from 'lucide-react';
 import { Wordmark } from '../demos/Wordmark';
+import { NavbarCustomMore } from '../demos/NavbarCustomMore';
+import sourceCustomMore from '../demos/NavbarCustomMore.tsx?raw';
 import { NavbarDefault } from '../demos/NavbarDefault';
 import sourceDefault from '../demos/NavbarDefault.tsx?raw';
 import { NavbarManyItems } from '../demos/NavbarManyItems';
@@ -141,6 +143,21 @@ export const Minimal: Story = {
 export const ManyItems: Story = {
   render: () => <NavbarManyItems />,
   parameters: withSource(sourceManyItems),
+};
+
+/**
+ * A custom "More" dropdown. `renderMoreTrigger` replaces the label and chevron, here with
+ * an icon; it receives `label`, `isOpen` and `active`. The button keeps its layout, active
+ * bar and focus ring, and is named by `moreLabel`, so an icon-only button still has an
+ * accessible name. `moreTriggerClassName` styles the button and `morePanelClassName` the
+ * panel, which renders in a portal and also has the `vero-navbar-more-panel` class. The
+ * button's bar layout uses the `collapseBelow` breakpoint, so override its padding or
+ * height with the same prefix, such as `md:px-4`.
+ * If every item fits and "More" doesn't appear, narrow the window.
+ */
+export const CustomMore: Story = {
+  render: () => <NavbarCustomMore />,
+  parameters: withSource(sourceCustomMore),
 };
 
 /**

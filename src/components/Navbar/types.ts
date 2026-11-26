@@ -41,6 +41,33 @@ export interface NavbarNavProps extends HTMLAttributes<HTMLElement> {
    * `collapseBelow` breakpoint. Defaults to `More`.
    */
   moreLabel?: string;
+  /**
+   * Renders the "More" button's content in place of its label and chevron, e.g. an icon.
+   * The button, its keyboard handling and the dropdown stay the same, and the button is
+   * named by `moreLabel`, so an icon-only button still has an accessible name.
+   */
+  renderMoreTrigger?: (props: NavbarMoreTriggerRenderProps) => ReactNode;
+  /**
+   * Classes for the "More" button, merged after the defaults so they win. Its bar layout
+   * (padding, height, the active bar) uses the `collapseBelow` breakpoint, so override
+   * those with the same prefix, e.g. `md:px-4`.
+   */
+  moreTriggerClassName?: string;
+  /**
+   * Classes for the "More" dropdown's panel, merged after the defaults so they win. The
+   * panel also has the `vero-navbar-more-panel` class.
+   */
+  morePanelClassName?: string;
+}
+
+/** What `NavbarNav`'s `renderMoreTrigger` receives. */
+export interface NavbarMoreTriggerRenderProps {
+  /** The `moreLabel` prop. */
+  label: string;
+  /** Whether the "More" dropdown is open. */
+  isOpen: boolean;
+  /** Whether the current page is one of the items in "More". */
+  active: boolean;
 }
 
 export interface NavbarItemProps extends AnchorHTMLAttributes<HTMLAnchorElement> {

@@ -154,8 +154,7 @@ export const navbarDropdownLinkVariants = cva(
   },
 );
 
-export const navbarDropdownTriggerClasses = tw`cursor-pointer border-0 bg-transparent
-[&>svg]:transition-transform [&[aria-expanded=true]>svg]:rotate-180`;
+export const navbarDropdownTriggerClasses = tw`cursor-pointer border-0 bg-transparent`;
 
 /* No `display` utility here: it would override the `hidden` attribute that closes the panel.
    Collapsed, the panel expands in place inside the nav panel. */

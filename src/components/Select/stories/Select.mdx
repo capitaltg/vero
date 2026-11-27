@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Select, SelectRoot, SelectValue } from '../src/Select';
 import { SelectContent } from '../src/SelectContent';
 import { SelectItem } from '../src/SelectItem';
@@ -11,6 +16,56 @@ import * as SelectStories from './Select.stories';
 # Select
 
 <Description of={SelectStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a select, which of Vero's other list inputs to use instead, and how to set one up.
+      Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/select/">USWDS select guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To choose one option from a list of about 7 to 15**, when there isn't room to show them all.
+- **Use it sparingly.** A select hides its options until it's opened, and many users find it
+  harder to use than a list of radio buttons.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Fewer than seven options:** use a [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs), so
+  every option is visible.
+- **More than about 15 options**, or users know what they're looking for: use an input they can
+  search. [Autocomplete](?path=/docs/data-display-autocomplete--docs) searches a list you pass in,
+  or fetches options as the user types, and has the best screen reader support of the searchable
+  inputs. [Combobox](?path=/docs/inputs-forms-combobox--docs) takes the same `value` and `label`
+  options as Select, but has more open accessibility issues.
+- **More than one option can be chosen:** use a
+  [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs), or a
+  [MultiSelect](?path=/docs/inputs-forms-multiselect--docs) for a long list.
+- **Moving to another page:** use links, such as the
+  [Navbar](?path=/docs/actions-navigation-navbar--docs), not a select.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Give it a visible label.** Don't rely on the placeholder: "Select a state" disappears once a
+  state is chosen. See [Your responsibility](#accessibility-your-responsibility).
+- **Order options logically**, such as alphabetically or by how often they're chosen.
+- **Use a good default.** If most users choose the same option, pass it as the `value`.
+- **Don't act on a change.** Don't submit the form or go to another page when an option is chosen.
+  Users often change their choice, and screen reader users hear each option as they move through
+  the list. Use a submit button.
+- **Avoid dependent options.** Don't change one select's options based on another field.
+- **Keep option labels short.** A long label is cut off with an ellipsis in the trigger.
+- **Group long lists** with `SelectGroup` and `SelectLabel`, built from the parts, as in the From
+  Parts example.
+- **Test it with your users.** Usability experts call the select the "UI of last resort".
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -30,6 +85,56 @@ import * as SelectStories from './Select.stories';
 </DocsSection>
 
 <DocsSection
+  id="accessibility"
+  intro="What the select handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It follows the
+  [WAI-ARIA select-only combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/).**
+  The trigger is a `combobox` with `aria-expanded` and `aria-controls`, and it opens a `listbox` of
+  `option`s. Screen readers announce the label and the chosen option separately.
+- **Keyboard:** Enter, Space or Down Arrow opens the list. Up and Down Arrow move between options,
+  Home and End jump to the first and last, and typing jumps to a matching option. Enter chooses the
+  option, closes the list and returns focus to the trigger. Escape closes it without a change.
+  While the list is open, Tab stays in it.
+- **A `<label>` names it.** Give the select an `id` and point a `FormItem` or a `<label htmlFor>`
+  at it. `FormItem`'s `aria-describedby` is added to any you pass.
+- **`required` works.** Inside a form, the select renders a hidden native `<select required>`, so
+  the browser blocks submission with no option chosen, and the trigger gets `aria-required`.
+- **When disabled it stays focusable** and is marked `aria-disabled`, so screen reader users can
+  still find it. Clicks, Enter, Space and the arrow keys don't open it. (`disabled` on `SelectRoot`
+  removes it from the tab order instead.)
+- **Focus is visible:** a ring around the trigger, and an outline in Windows High Contrast mode.
+- **Contrast:** the trigger's border is 6.7:1 against white and the placeholder text 5.3:1. The
+  highlighted option's text is 5.1:1 against its background.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Always give it a visible label**, with `FormItem` or a `<label htmlFor>`, and an `id` on the
+  select. The placeholder isn't a label.
+- **Mark a required select in two places.** Pass `required`, and show the requirement in the label,
+  such as "(required)" or `FormItem`'s `isRequired`. `isRequired` only adds an asterisk
+  ([#211](https://github.com/capitaltg/vero/issues/211)), and `required` alone only reaches screen
+  reader users and the browser.
+- **Link error messages** with `FormItem`'s `errorText`, which sets `aria-describedby` and
+  `aria-invalid` on the select.
+- **Expect no clear highlight in Windows High Contrast mode.** For now, the highlighted option looks
+  almost the same as the others in that mode
+  ([#252](https://github.com/capitaltg/vero/issues/252)). Where that matters and the list is short,
+  prefer a RadioGroup.
+- **Test it in your page.** Run the
+  [USWDS select accessibility tests](https://designsystem.digital.gov/components/select/accessibility-tests/)
+  on your own form, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Select](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Select+NOT+selected+NOT+selects).
+
+</DocsSection>
+
+<DocsSection
   id="api-reference"
   intro={
     <>
@@ -40,10 +145,11 @@ import * as SelectStories from './Select.stories';
       </a>{' '}
       for those. Use <code>Select</code> for a plain list of options. Use the parts, starting with{' '}
       <code>SelectRoot</code>, when you need groups, labels, separators or disabled items, as in the
-      From Parts example. <code>SelectGroup</code>, <code>SelectLabel</code> and{' '}
-      <code>SelectSeparator</code> take only standard HTML attributes, so they have no entry.{' '}
-      <code>SingleSelect</code> is an older name for <code>Select</code>, kept so existing code
-      still works; use <code>Select</code> instead.
+      From Parts example. With the parts, pass <code>zIndex</code> to <code>SelectContent</code>,
+      which has no default (<a href="https://github.com/capitaltg/vero/issues/254">#254</a>).{' '}
+      <code>SelectGroup</code>, <code>SelectLabel</code> and <code>SelectSeparator</code> take only
+      standard HTML attributes, so they have no entry. <code>SingleSelect</code> is an older name
+      for <code>Select</code>, kept so existing code still works; use <code>Select</code> instead.
     </>
   }
   title="API reference"

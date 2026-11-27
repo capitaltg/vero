@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
 import * as TabsStories from './Tabs.stories';
 
@@ -8,6 +13,55 @@ import * as TabsStories from './Tabs.stories';
 # Tabs
 
 <Description of={TabsStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use tabs and how to label and arrange them. USWDS has no tabs component, so this
+      guidance is Vero's own. The keyboard behavior follows the{' '}
+      <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/">WAI-ARIA tabs pattern</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To switch between related views in one place**, such as the sections of an account's
+  settings, when users need only one at a time.
+- **When the content splits into a few groups** that each have a short, clear name.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Users need to compare panels or read them all:** show the content on the page under
+  headings, or use an [Accordion](?path=/docs/data-display-accordion--docs), which can show
+  several sections at once.
+- **Moving to another page:** use links, such as a
+  [Navbar](?path=/docs/actions-navigation-navbar--docs). Tabs change content in place; they
+  don't navigate.
+- **Steps in a process:** use a
+  [StepIndicator](?path=/docs/actions-navigation-stepindicator--docs).
+- **Too many sections for one row:** use an Accordion or a side navigation. The tab list
+  doesn't wrap or scroll.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Keep labels short and distinct**, one or two words each, so users can tell the panels apart
+  at a glance.
+- **Order tabs by how often they're used**, and open the most-used one first with
+  `defaultValue`.
+- **Don't split one form across tabs.** Errors in a hidden panel are easy to miss.
+- **Keep the default `activationMode="manual"` when showing a panel is slow**, for example when
+  it loads data: users can arrow past tabs without loading each one. `automatic` suits panels
+  that show instantly, and saves a key press.
+- **Avoid disabled tabs.** Hide a tab that doesn't apply, or keep it and explain in its panel
+  why it's empty. If you do disable one, see
+  [Your responsibility](#accessibility-your-responsibility).
+- **For vertical tabs**, set `orientation="vertical"` so Up and Down move between them, and lay
+  out the list yourself with `className`: the prop doesn't change the layout.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +78,64 @@ import * as TabsStories from './Tabs.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the tabs handle for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **They're tabs to assistive technology.** `TabsList` is a `tablist` with `aria-orientation`,
+  each `TabsTrigger` is a `tab` with `aria-selected` and `aria-controls`, and each `TabsContent`
+  is a `tabpanel` named by its tab through `aria-labelledby`. Hidden panels use the `hidden`
+  attribute, so screen readers skip them.
+- **Keyboard:** Tab moves into the list, onto the selected tab, and Tab again moves to the
+  panel. Left and Right (Up and Down when vertical) move between tabs and wrap at the ends.
+  Home and End move to the first and last tab. With the default `manual` activation, Enter or
+  Space shows the focused tab's panel; with `automatic`, it shows as soon as the tab gets
+  focus.
+- **The panel is focusable**, so keyboard users can reach a panel that has no links or fields
+  of its own.
+- **A disabled tab stays focusable** and is marked `aria-disabled`, so screen reader users can
+  still find it and hear that it's unavailable. Clicks don't select it (but see
+  [Your responsibility](#accessibility-your-responsibility)).
+- **Focus is visible:** a 3px ring, 3.2:1 against white. In forced colors (Windows High
+  Contrast) it shows as an outline.
+- **Contrast:** unselected labels are 5.3:1 against white, and the selected tab's white label
+  is 6.7:1 on its fill.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Name the tab list.** Pass `aria-label` to `TabsList`, or `aria-labelledby` pointing to a
+  visible heading, so screen readers say what the tabs are for:
+
+  ```tsx
+  <TabsList aria-label="Account settings">…</TabsList>
+  ```
+
+- **Name each tab after its panel's content**, so the tab makes sense when read on its own.
+- **Avoid `isDisabled` for now.** Once a disabled tab has focus, the arrow keys can't move off
+  it ([#216](https://github.com/capitaltg/vero/issues/216)). With `activationMode="automatic"`,
+  arrowing onto it also selects it and shows its panel
+  ([#231](https://github.com/capitaltg/vero/issues/231)).
+- **Add a selected-tab cue other than the fill where users rely on Windows High Contrast
+  mode.** In that mode the selected tab looks the same as the others
+  ([#232](https://github.com/capitaltg/vero/issues/232)). An underline survives it, e.g.
+  `className="data-[state=active]:underline"` on each `TabsTrigger`.
+- **Keep focus and contrast when you restyle.** If you change the tabs' colors with
+  `className`, keep the focus ring, keep labels at 4.5:1, and keep the selected tab clearly
+  different from the others.
+- **Test it in your page.** USWDS has no tabs tests, so check the keyboard behavior above in
+  your own layout, and do a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Tabs](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Tabs),
+and [#216](https://github.com/capitaltg/vero/issues/216), which is titled after RadioGroup,
+where it was found.
+
 </DocsSection>
 
 <DocsSection

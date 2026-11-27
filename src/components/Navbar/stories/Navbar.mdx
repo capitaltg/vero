@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Navbar, NavbarAction, NavbarBrand, NavbarItem, NavbarNav } from '../src/Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from '../src/NavbarDropdown';
 import {
@@ -17,6 +22,50 @@ import * as NavbarStories from './Navbar.stories';
 <Description of={NavbarStories} />
 
 <DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use the navbar and how to organize its links. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/header/">USWDS header guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **As the header on every page of a site or app**, holding the brand, the main sections and
+  the user's account menu. Keep it in the same place on every page.
+- **For a modest number of main sections**, each with at most a handful of subpages in a
+  dropdown.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Many sections or a deep hierarchy:** add a side navigation for the lower levels, rather than
+  long dropdowns.
+- **Switching views within a page:** use [Tabs](?path=/docs/actions-navigation-tabs--docs).
+- **Showing where a page sits in the hierarchy:** use
+  [Breadcrumbs](?path=/docs/actions-navigation-breadcrumbs--docs) below the navbar.
+- **Commands, such as Sign out:** put them in the `NavbarProfile` menu. `NavbarNav` and its
+  dropdowns are for links to pages.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Put the important sections at the top level**, ordered by demand, with the most-used first.
+  Items that don't fit move into "More", where they're harder to find, so keep the list short.
+- **Use short, plain labels.** Avoid jargon and internal names.
+- **Organize by what users come to do**, not by your organization's structure.
+- **Keep dropdowns short.** USWDS suggests six links or fewer. Dropdowns open on click, not on
+  hover, as USWDS recommends.
+- **Mark the current page.** Set `active` on its `NavbarItem` or `NavbarDropdownItem`, and on
+  the `NavbarDropdown` that holds it.
+- **Use familiar icons for `NavbarAction`s**, such as a bell for notifications. The `label` is
+  read by screen readers but not shown.
+- **Test your navigation with users**, and again after you change it.
+
+</DocsSection>
+
+<DocsSection
   id="try-it"
   intro="Change the values below to see how the navbar responds."
   title="Try it"
@@ -31,6 +80,75 @@ import * as NavbarStories from './Navbar.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the navbar handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **Landmarks and lists:** `Navbar` is a `<header>`, and `NavbarNav` is a `<nav>` named "Main"
+  (change it with `aria-label`). Its items are a list, so screen readers announce how many
+  there are.
+- **The current page** is marked `aria-current="page"` by `active`, and shown by bold text, a
+  bar and a background. The bold text remains in forced colors (Windows High Contrast).
+- **Nav dropdowns:** the button reports `aria-expanded`, and Enter or Space opens it. Tab moves
+  through its links in order, then on to the next item. Escape closes it and returns focus to
+  the button, and tabbing away or clicking outside closes it. Only one is open at a time.
+- **Profile menu:** Enter, Space or Down opens it with focus on the first item. Up, Down, Home
+  and End move between items, and Escape closes it and returns focus to the avatar button.
+  Switch and checkbox items are checkable menu items with `aria-checked`, and choosing one
+  leaves the menu open. Disabled items are skipped and can't be chosen.
+- **Small screens:** the menu button is named by `toggleLabel` ("Menu") and reports
+  `aria-expanded`. The panel follows it in focus order and isn't a focus trap: it's part of the
+  page, not an overlay. Escape inside the panel closes an open dropdown first, then the panel,
+  and returns focus to the button. The profile items become plain buttons and links in a list
+  named "Account", and its switch and checkbox items become a `switch` and a `checkbox`.
+- **Actions:** a `NavbarAction` is named by its `label`, with the badge count added, e.g.
+  "Notifications (3 unread)" with `badgeLabel`. The icon and the visible badge are hidden from
+  screen readers.
+- **Focus is visible** on every link and button: a 3px ring, 3.2:1 against white, shown as an
+  outline in forced colors. Profile menu items show focus with a background instead.
+- **Contrast:** link text is 9.7:1 against white, and the current page's text 6.2:1 on its
+  background.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Add a skip link** before the navbar that jumps to your main content, so keyboard users
+  don't have to tab through the whole navbar on every page.
+- **Give each `<nav>` a different name** when the page has more than one, such as a footer
+  nav: keep "Main" for this one.
+- **Name the brand.** A logo image needs `alt` text, such as the product name.
+- **Write a clear `label` for every `NavbarAction`**, and pass `badgeLabel` to say what the
+  count means, e.g. "3 unread".
+- **Name popovers opened from an action.** In the Actions example, the notifications panel is
+  named by its heading through `aria-labelledby`.
+- **Translate the built-in labels** for other languages with `aria-label`, `toggleLabel` and
+  `moreLabel`.
+- **Prefer `NavbarProfileCheckboxItem` to `NavbarProfileSwitchItem` for now.** The switch's
+  off state has 1.25:1 contrast ([#205](https://github.com/capitaltg/vero/issues/205)), and on
+  and off look the same in Windows High Contrast mode
+  ([#206](https://github.com/capitaltg/vero/issues/206)). The checkbox's checkmark shows in
+  both.
+- **Keep small-screen actions few.** Below `collapseBelow`, actions in the bar come after the
+  menu button and the open panel in focus order, though they're shown before the button
+  ([#233](https://github.com/capitaltg/vero/issues/233)).
+- **Close the panel with the menu button or from inside the panel.** For now, Escape does
+  nothing while the menu button itself has focus
+  ([#234](https://github.com/capitaltg/vero/issues/234)).
+- **Test it in your page.** Run the
+  [USWDS header accessibility tests](https://designsystem.digital.gov/components/header/accessibility-tests/)
+  on your own site, including a screen reader pass and a check at 400% zoom.
+
+For an accessibility review, see
+[all open accessibility issues for Navbar](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Navbar),
+and [#205](https://github.com/capitaltg/vero/issues/205) and
+[#206](https://github.com/capitaltg/vero/issues/206), which are titled after Switch, where they
+were found.
+
 </DocsSection>
 
 <DocsSection

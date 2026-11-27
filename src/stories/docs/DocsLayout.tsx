@@ -16,20 +16,15 @@ interface DocsSectionProps {
 }
 
 /**
- * A top-level section of a docs page (Try it, Examples, API reference), set apart
- * from the sections around it by a rule, extra space and a larger title.
+ * A top-level section of a docs page (Guidance, Try it, Examples, Accessibility, API
+ * reference). Its heading uses the docs pages' h2 style from `.storybook/preview.css`,
+ * whose hairline and space above set the section apart, the same as a markdown `##`.
  */
 export const DocsSection = ({ id, title, intro, className, children }: DocsSectionProps) => (
-  <section
-    aria-labelledby={id}
-    className={`mt-20 border-t-2 border-gray-300 pt-10 ${className ?? ''}`}
-  >
-    {/* Storybook's own h2 style, so it sits under the page title, without its bottom
-        border: the section's top rule already separates it. */}
-    <h2 className="!mb-0 !mt-0 !border-b-0 !pb-0 !font-bold" id={id}>
-      {title}
-    </h2>
-    {intro ? <p className="mb-8 mt-3 max-w-3xl text-base text-gray-600">{intro}</p> : null}
+  // A subheading straight after the intro needs no space of its own above it.
+  <section aria-labelledby={id} className={`[&>p:first-of-type+h3]:!mt-0 ${className ?? ''}`}>
+    <h2 id={id}>{title}</h2>
+    {intro ? <p className="!mb-7 !mt-2.5 max-w-3xl">{intro}</p> : null}
     <SectionIdContext.Provider value={id}>{children}</SectionIdContext.Provider>
   </section>
 );
@@ -43,11 +38,6 @@ interface DocsSubheadingProps {
   children: ReactNode;
 }
 
-// `> a` is Storybook's anchor-link icon; the margin centers it on the heading, as for the
-// example headings. HeaderMdx passes `className` on to the heading, but its props type
-// doesn't declare it, so it goes in through a spread.
-const centeredIcon = { className: '[&>a]:mt-2.5' };
-
 /**
  * A heading inside a DocsSection, with an explicit id. It looks like a markdown `###`
  * heading, link icon included, but its id is prefixed with the section's id. That keeps
@@ -57,16 +47,16 @@ const centeredIcon = { className: '[&>a]:mt-2.5' };
 export const DocsSubheading = ({ id, children }: DocsSubheadingProps) => {
   const sectionId = useContext(SectionIdContext);
   return (
-    <HeaderMdx as="h3" id={sectionId ? `${sectionId}-${id}` : id} {...centeredIcon}>
+    <HeaderMdx as="h3" id={sectionId ? `${sectionId}-${id}` : id}>
       {children}
     </HeaderMdx>
   );
 };
 
 /**
- * The story file's stories, with extra space between them. Each story's heading is a
- * little larger and heavier than Storybook's, under a small "Example" label. Tailwind
- * can't see classes written in MDX, so the styles live here.
+ * The story file's stories, with space between them. Each story's heading uses the docs
+ * pages' h3 style, under a small "Example" label. Tailwind can't see classes written in
+ * MDX, so the styles live here.
  *
  * The first story in the file is left out: it's the playground, shown under "Try it".
  */
@@ -78,13 +68,13 @@ export const DocsExamples = () => (
       // The "Example" label, before the heading rather than in it, so screen readers
       // don't announce it as part of the heading. The `/ ""` hides it from them.
       "[&_.sb-anchor]:before:mb-0.5 [&_.sb-anchor]:before:block [&_.sb-anchor]:before:font-mono [&_.sb-anchor]:before:text-[11px] [&_.sb-anchor]:before:font-medium [&_.sb-anchor]:before:uppercase [&_.sb-anchor]:before:tracking-[0.08em] [&_.sb-anchor]:before:text-gray-500 [&_.sb-anchor]:before:content-['Example'_/_'']",
-      // The heading.
-      '[&_.sb-anchor>h3]:!mt-0 [&_.sb-anchor>h3]:!text-[22px] [&_.sb-anchor>h3]:!font-extrabold [&_.sb-anchor>h3]:!tracking-[-0.01em] [&_.sb-anchor>h3]:!text-gray-900',
-      // `h3 > a` is Storybook's anchor-link icon; the margin centers it on the heading.
-      '[&_.sb-anchor_h3>a]:mt-3',
+      // The heading sits right under its label.
+      '[&_.sb-anchor>h3]:!mt-0',
     ].join(' ')}
   >
-    <Stories includePrimary={false} title="" />
+    {/* Our "Examples" heading replaces Storybook's. A string title, even an empty one, renders
+        an <h2>; an element is rendered as it is, so an empty fragment renders nothing. */}
+    <Stories includePrimary={false} title={<></>} />
   </div>
 );
 
@@ -131,7 +121,7 @@ export const ApiEntry = ({ of }: { of: Documented }) => {
     >
       <div
         className="border-b border-gray-200 bg-gray-50 px-5 py-4 [&_p]:!mb-0 [&_p]:!mt-1.5
-          [&_p]:text-sm [&_p]:text-gray-600"
+          [&_p]:!text-sm [&_p]:text-gray-600"
       >
         <span
           aria-hidden="true"

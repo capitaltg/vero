@@ -15,27 +15,62 @@
   }
 }
 
-/* Styling for anchor tags inside headings */
-/* Target Storybook docs container for higher specificity */
-.sbdocs {
-  > h2 {
-    @apply mt-12;
-  }
+/*
+ * Docs page typography, after the Vue.js docs: semibold headings set apart by space and
+ * a faint hairline rather than by size, and larger body text. Applies to every docs page:
+ * the shared DocsSection headings and markdown `##` / `###` alike.
+ *
+ * Storybook's own docs styles sit inside `:where()`, so these win without `!important`.
+ * Component previews are wrapped in `.sb-unstyled`, and table cells (the props tables and
+ * markdown tables) keep their own text size, so neither picks these up.
+ */
+.sbdocs-content h2:not(.sb-unstyled, .sb-unstyled *) {
+  margin: 64px 0 0;
+  border-top: 1px solid rgb(60 60 60 / 0.12);
+  border-bottom: 0;
+  padding: 28px 0 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
 
-  > h3 {
-    @apply mt-8;
-  }
+.sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) {
+  margin: 32px 0 12px;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
 
-  > h1 > a,
-  > h2 > a {
-    @apply mt-3;
-  }
+.sbdocs-content h2:not(.sb-unstyled, .sb-unstyled *) + h3 {
+  margin-top: 16px;
+}
 
-  > h3 > a {
-    @apply mt-2;
-  }
+.sbdocs-content :is(p, li):not(.sb-unstyled, .sb-unstyled *, :is(td, th) *) {
+  font-size: 16px;
+  line-height: 1.7;
+}
 
-  > h3 + p {
-    @apply mt-2;
-  }
+/* Lists are tighter than prose: less leading, a smaller indent, and no extra space under a
+   heading (the heading's own margin is enough). */
+.sbdocs-content li:not(.sb-unstyled, .sb-unstyled *, :is(td, th) *) {
+  line-height: 1.5;
+}
+
+.sbdocs-content :is(ul, ol):not(.sb-unstyled, .sb-unstyled *, :is(td, th) *) {
+  padding-left: 22px;
+}
+
+.sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) + :is(ul, ol) {
+  margin-top: 0;
+}
+
+/* Storybook's anchor-link icon, floated before each heading: centered on the first line. */
+.sbdocs-content h2:not(.sb-unstyled, .sb-unstyled *) > a:first-child {
+  margin-top: 13px;
+}
+
+.sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) > a:first-child {
+  margin-top: 9px;
 }

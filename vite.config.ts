@@ -1,15 +1,12 @@
 import react from '@vitejs/plugin-react';
+import { copyFileSync } from 'fs';
 import path from 'path';
 import copy from 'rollup-plugin-copy';
 import { defineConfig } from 'vite';
-import clean from 'vite-plugin-clean';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   plugins: [
-    clean({
-      targetFiles: ['dist'], // Delete the `dist` folder
-    }),
     react(),
     dts({
       include: ['src/**/*.{ts,tsx}'],
@@ -17,6 +14,9 @@ export default defineConfig({
       rollupTypes: true,
       outDir: 'dist/types',
       tsconfigPath: './tsconfig.app.json',
+      // The same types as a .d.cts, for the `require` condition: in a "type": "module"
+      // package, TypeScript treats a .d.ts as ESM, which a CommonJS project can't require.
+      afterBuild: () => copyFileSync('dist/types/index.d.ts', 'dist/types/index.d.cts'),
     }),
   ],
   build: {
@@ -28,7 +28,6 @@ export default defineConfig({
         components: path.resolve(__dirname, 'src/styles/components.css'),
         utilities: path.resolve(__dirname, 'src/styles/utilities.css'),
       },
-      name: 'ui',
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,
     },
@@ -61,6 +60,8 @@ export default defineConfig({
       },
     },
     cssCodeSplit: true,
+    // public/ holds the dev app's favicon; keep it out of the library build.
+    copyPublicDir: false,
     // Don't ship sourcemaps in the published package (devtools-only, and they
     // dominate the tarball size).
     sourcemap: false,

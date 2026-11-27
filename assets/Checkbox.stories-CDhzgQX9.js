@@ -1,0 +1,322 @@
+import{j as e}from"./jsx-runtime-DSvmvvsx.js";import{r as t}from"./index-B0WjJBI_.js";import{C as o}from"./Checkbox-CGle5Tbu.js";const ie=()=>{const[s,c]=t.useState(!0);return t.useEffect(()=>{c(!0)},[]),e.jsxs("div",{className:"space-y-4",children:[e.jsx(o,{id:"checkbox-checked",isChecked:s,label:"Checked checkbox",onCheckedChange:()=>c(!s)}),e.jsxs("p",{className:"text-sm text-muted-foreground",children:["Checkbox ",s?"is checked":"is unchecked"]})]})};ie.__docgenInfo={description:"",methods:[],displayName:"CheckboxChecked"};const be=`import { useEffect, useState } from 'react';
+import { Checkbox } from '../src/Checkbox';
+
+export const CheckboxChecked = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsChecked(true);
+  }, []);
+
+  return (
+    <div className="space-y-4">
+      <Checkbox
+        id="checkbox-checked"
+        isChecked={isChecked}
+        label="Checked checkbox"
+        onCheckedChange={() => setIsChecked(!isChecked)}
+      />
+      <p className="text-sm text-muted-foreground">
+        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
+      </p>
+    </div>
+  );
+};
+`,de=()=>{const[s,c]=t.useState(!1);return e.jsxs("div",{className:"space-y-4",children:[e.jsx(o,{id:"checkbox-default",isChecked:s,label:"Accept terms and conditions",onCheckedChange:()=>c(!s)}),e.jsxs("p",{className:"text-sm text-muted-foreground",children:["Checkbox ",s?"is checked":"is unchecked"]})]})};de.__docgenInfo={description:"",methods:[],displayName:"CheckboxDefault"};const xe=`import { useState } from 'react';
+import { Checkbox } from '../src/Checkbox';
+
+export const CheckboxDefault = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  return (
+    <div className="space-y-4">
+      <Checkbox
+        id="checkbox-default"
+        isChecked={isChecked}
+        label="Accept terms and conditions"
+        onCheckedChange={() => setIsChecked(!isChecked)}
+      />
+      <p className="text-sm text-muted-foreground">
+        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
+      </p>
+    </div>
+  );
+};
+`,ae=()=>{const[s,c]=t.useState(!1);return e.jsxs("div",{className:"space-y-4",children:[e.jsx(o,{id:"checkbox-disabled",isChecked:s,isDisabled:!0,label:"Disabled checkbox",onCheckedChange:()=>c(!s)}),e.jsxs("p",{className:"text-sm text-muted-foreground",children:["Checkbox ",s?"is checked":"is unchecked"]})]})};ae.__docgenInfo={description:"",methods:[],displayName:"CheckboxDisabled"};const pe=`import { useState } from 'react';
+import { Checkbox } from '../src/Checkbox';
+
+export const CheckboxDisabled = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  return (
+    <div className="space-y-4">
+      <Checkbox
+        id="checkbox-disabled"
+        isChecked={isChecked}
+        isDisabled={true}
+        label="Disabled checkbox"
+        onCheckedChange={() => setIsChecked(!isChecked)}
+      />
+      <p className="text-sm text-muted-foreground">
+        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
+      </p>
+    </div>
+  );
+};
+`,re=()=>{const[s,c]=t.useState(!0);return t.useEffect(()=>{c(!0)},[]),e.jsxs("div",{className:"space-y-4",children:[e.jsx(o,{id:"checkbox-disabled-checked",isChecked:s,isDisabled:!0,label:"Disabled checked checkbox",onCheckedChange:()=>c(!s)}),e.jsxs("p",{className:"text-sm text-muted-foreground",children:["Checkbox ",s?"is checked":"is unchecked"]})]})};re.__docgenInfo={description:"",methods:[],displayName:"CheckboxDisabledChecked"};const Ce=`import { useEffect, useState } from 'react';
+import { Checkbox } from '../src/Checkbox';
+
+export const CheckboxDisabledChecked = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsChecked(true);
+  }, []);
+
+  return (
+    <div className="space-y-4">
+      <Checkbox
+        id="checkbox-disabled-checked"
+        isChecked={isChecked}
+        isDisabled={true}
+        label="Disabled checked checkbox"
+        onCheckedChange={() => setIsChecked(!isChecked)}
+      />
+      <p className="text-sm text-muted-foreground">
+        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
+      </p>
+    </div>
+  );
+};
+`,ne=()=>{const[s,c]=t.useState(!1);return e.jsxs("div",{className:"space-y-4",children:[e.jsx(o,{description:"This is a description for the tile checkbox option",id:"checkbox-tile",isChecked:s,label:"Tile Checkbox",variant:"tile",onCheckedChange:()=>c(!s)}),e.jsxs("p",{className:"text-sm text-muted-foreground",children:["Checkbox ",s?"is checked":"is unchecked"]})]})};ne.__docgenInfo={description:"",methods:[],displayName:"CheckboxTile"};const ue=`import { useState } from 'react';
+import { Checkbox } from '../src/Checkbox';
+
+export const CheckboxTile = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  return (
+    <div className="space-y-4">
+      <Checkbox
+        description="This is a description for the tile checkbox option"
+        id="checkbox-tile"
+        isChecked={isChecked}
+        label="Tile Checkbox"
+        variant="tile"
+        onCheckedChange={() => setIsChecked(!isChecked)}
+      />
+      <p className="text-sm text-muted-foreground">
+        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
+      </p>
+    </div>
+  );
+};
+`,he=()=>{const[s,c]=t.useState(!1);return e.jsxs("div",{className:"space-y-4",children:[e.jsx(o,{description:"This tile checkbox option is disabled",id:"checkbox-tile-disabled",isChecked:s,isDisabled:!0,label:"Disabled Tile Checkbox",variant:"tile",onCheckedChange:()=>c(!s)}),e.jsxs("p",{className:"text-sm text-muted-foreground",children:["Checkbox ",s?"is checked":"is unchecked"]})]})};he.__docgenInfo={description:"",methods:[],displayName:"CheckboxTileDisabled"};const me=`import { useState } from 'react';
+import { Checkbox } from '../src/Checkbox';
+
+export const CheckboxTileDisabled = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  return (
+    <div className="space-y-4">
+      <Checkbox
+        description="This tile checkbox option is disabled"
+        id="checkbox-tile-disabled"
+        isChecked={isChecked}
+        isDisabled={true}
+        label="Disabled Tile Checkbox"
+        variant="tile"
+        onCheckedChange={() => setIsChecked(!isChecked)}
+      />
+      <p className="text-sm text-muted-foreground">
+        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
+      </p>
+    </div>
+  );
+};
+`,le=()=>{const[s,c]=t.useState(!0);return t.useEffect(()=>{c(!0)},[]),e.jsxs("div",{className:"space-y-4",children:[e.jsx(o,{description:"This tile checkbox option is selected",id:"checkbox-tile-selected",isChecked:s,label:"Selected Tile Checkbox",variant:"tile",onCheckedChange:()=>c(!s)}),e.jsxs("p",{className:"text-sm text-muted-foreground",children:["Checkbox ",s?"is checked":"is unchecked"]})]})};le.__docgenInfo={description:"",methods:[],displayName:"CheckboxTileSelected"};const ge=`import { useEffect, useState } from 'react';
+import { Checkbox } from '../src/Checkbox';
+
+export const CheckboxTileSelected = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsChecked(true);
+  }, []);
+
+  return (
+    <div className="space-y-4">
+      <Checkbox
+        description="This tile checkbox option is selected"
+        id="checkbox-tile-selected"
+        isChecked={isChecked}
+        label="Selected Tile Checkbox"
+        variant="tile"
+        onCheckedChange={() => setIsChecked(!isChecked)}
+      />
+      <p className="text-sm text-muted-foreground">
+        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
+      </p>
+    </div>
+  );
+};
+`,ke=()=>{const[s,c]=t.useState(!1);return e.jsxs("div",{className:"space-y-4",children:[e.jsx(o,{description:"This is a helpful description that provides additional context about this checkbox option.",id:"checkbox-with-description",isChecked:s,label:"Checkbox with description",onCheckedChange:()=>c(!s)}),e.jsxs("p",{className:"text-sm text-muted-foreground",children:["Checkbox ",s?"is checked":"is unchecked"]})]})};ke.__docgenInfo={description:"",methods:[],displayName:"CheckboxWithDescription"};const fe=`import { useState } from 'react';
+import { Checkbox } from '../src/Checkbox';
+
+export const CheckboxWithDescription = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  return (
+    <div className="space-y-4">
+      <Checkbox
+        description="This is a helpful description that provides additional context about this checkbox option."
+        id="checkbox-with-description"
+        isChecked={isChecked}
+        label="Checkbox with description"
+        onCheckedChange={() => setIsChecked(!isChecked)}
+      />
+      <p className="text-sm text-muted-foreground">
+        Checkbox {isChecked ? 'is checked' : 'is unchecked'}
+      </p>
+    </div>
+  );
+};
+`,De={title:"Inputs & Forms/Checkbox",component:o,parameters:{},argTypes:{isChecked:{control:"boolean"},isDisabled:{control:"boolean"},variant:{control:"radio",options:["default","tile","button"]}}},i={args:{label:"Accept terms and conditions",id:"checkbox-playground"}},d={render:()=>e.jsx(de,{}),args:{label:"Accept terms and conditions",id:"checkbox-default"},parameters:{docs:{source:{code:xe,language:"tsx"}}}},a={render:()=>e.jsx(ie,{}),args:{label:"Checked checkbox",id:"checkbox-checked",isChecked:!0},parameters:{docs:{source:{code:be,language:"tsx"}}}},r={render:()=>e.jsx(ae,{}),args:{label:"Disabled checkbox",id:"checkbox-disabled",isDisabled:!0},parameters:{docs:{source:{code:pe,language:"tsx"}}}},n={render:()=>e.jsx(re,{}),args:{label:"Disabled checked checkbox",id:"checkbox-disabled-checked",isChecked:!0,isDisabled:!0},parameters:{docs:{source:{code:Ce,language:"tsx"}}}},h={render:()=>e.jsx(ne,{}),args:{label:"Tile Checkbox",description:"This is a description for the tile checkbox option",id:"checkbox-tile",variant:"tile"},parameters:{docs:{source:{code:ue,language:"tsx"}}}},l={render:()=>e.jsx(le,{}),args:{label:"Selected Tile Checkbox",description:"This tile checkbox option is selected",id:"checkbox-tile-selected",variant:"tile",isChecked:!0},parameters:{docs:{source:{code:ge,language:"tsx"}}}},k={render:()=>e.jsx(he,{}),args:{label:"Disabled Tile Checkbox",description:"This tile checkbox option is disabled",id:"checkbox-tile-disabled",variant:"tile",isDisabled:!0},parameters:{docs:{source:{code:me,language:"tsx"}}}},b={render:()=>e.jsx(ke,{}),args:{label:"Checkbox with description",description:"This is a helpful description that provides additional context about this checkbox option.",id:"checkbox-with-description"},parameters:{docs:{source:{code:fe,language:"tsx"}}}};var x,p,C,u,m;i.parameters={...i.parameters,docs:{...(x=i.parameters)==null?void 0:x.docs,source:{originalSource:`{
+  args: {
+    label: 'Accept terms and conditions',
+    id: 'checkbox-playground'
+  }
+}`,...(C=(p=i.parameters)==null?void 0:p.docs)==null?void 0:C.source},description:{story:`Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+first story, since the Examples section skips the first one.`,...(m=(u=i.parameters)==null?void 0:u.docs)==null?void 0:m.description}}};var g,f,D,T,S;d.parameters={...d.parameters,docs:{...(g=d.parameters)==null?void 0:g.docs,source:{originalSource:`{
+  render: () => <CheckboxDefault />,
+  args: {
+    label: 'Accept terms and conditions',
+    id: 'checkbox-default'
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDefault,
+        language: 'tsx'
+      }
+    }
+  }
+}`,...(D=(f=d.parameters)==null?void 0:f.docs)==null?void 0:D.source},description:{story:`The default state of the Checkbox component.
+Shows a basic checkbox with a label and interactive state.`,...(S=(T=d.parameters)==null?void 0:T.docs)==null?void 0:S.description}}};var v,y,N,j,I;a.parameters={...a.parameters,docs:{...(v=a.parameters)==null?void 0:v.docs,source:{originalSource:`{
+  render: () => <CheckboxChecked />,
+  args: {
+    label: 'Checked checkbox',
+    id: 'checkbox-checked',
+    isChecked: true
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeChecked,
+        language: 'tsx'
+      }
+    }
+  }
+}`,...(N=(y=a.parameters)==null?void 0:y.docs)==null?void 0:N.source},description:{story:`A checkbox in its checked state.
+Demonstrates the appearance of a selected checkbox.`,...(I=(j=a.parameters)==null?void 0:j.docs)==null?void 0:I.description}}};var w,_,E,A,W;r.parameters={...r.parameters,docs:{...(w=r.parameters)==null?void 0:w.docs,source:{originalSource:`{
+  render: () => <CheckboxDisabled />,
+  args: {
+    label: 'Disabled checkbox',
+    id: 'checkbox-disabled',
+    isDisabled: true
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabled,
+        language: 'tsx'
+      }
+    }
+  }
+}`,...(E=(_=r.parameters)==null?void 0:_.docs)==null?void 0:E.source},description:{story:`A disabled checkbox.
+Shows how the checkbox appears when it's not interactive.`,...(W=(A=r.parameters)==null?void 0:A.docs)==null?void 0:W.description}}};var P,O,z,F,M;n.parameters={...n.parameters,docs:{...(P=n.parameters)==null?void 0:P.docs,source:{originalSource:`{
+  render: () => <CheckboxDisabledChecked />,
+  args: {
+    label: 'Disabled checked checkbox',
+    id: 'checkbox-disabled-checked',
+    isChecked: true,
+    isDisabled: true
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeDisabledChecked,
+        language: 'tsx'
+      }
+    }
+  }
+}`,...(z=(O=n.parameters)==null?void 0:O.docs)==null?void 0:z.source},description:{story:`A disabled checkbox in its checked state.
+Demonstrates a non-interactive checkbox that's already selected.`,...(M=(F=n.parameters)==null?void 0:F.docs)==null?void 0:M.description}}};var R,U,q,B,G;h.parameters={...h.parameters,docs:{...(R=h.parameters)==null?void 0:R.docs,source:{originalSource:`{
+  render: () => <CheckboxTile />,
+  args: {
+    label: 'Tile Checkbox',
+    description: 'This is a description for the tile checkbox option',
+    id: 'checkbox-tile',
+    variant: 'tile'
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeTile,
+        language: 'tsx'
+      }
+    }
+  }
+}`,...(q=(U=h.parameters)==null?void 0:U.docs)==null?void 0:q.source},description:{story:`Checkbox with tile styling.
+Shows a larger checkbox option with a title and description.`,...(G=(B=h.parameters)==null?void 0:B.docs)==null?void 0:G.description}}};var H,J,K,L,Q;l.parameters={...l.parameters,docs:{...(H=l.parameters)==null?void 0:H.docs,source:{originalSource:`{
+  render: () => <CheckboxTileSelected />,
+  args: {
+    label: 'Selected Tile Checkbox',
+    description: 'This tile checkbox option is selected',
+    id: 'checkbox-tile-selected',
+    variant: 'tile',
+    isChecked: true
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeTileSelected,
+        language: 'tsx'
+      }
+    }
+  }
+}`,...(K=(J=l.parameters)==null?void 0:J.docs)==null?void 0:K.source},description:{story:`Selected tile checkbox.
+Demonstrates how a tile checkbox option appears when selected.`,...(Q=(L=l.parameters)==null?void 0:L.docs)==null?void 0:Q.description}}};var V,X,Y,Z,$;k.parameters={...k.parameters,docs:{...(V=k.parameters)==null?void 0:V.docs,source:{originalSource:`{
+  render: () => <CheckboxTileDisabled />,
+  args: {
+    label: 'Disabled Tile Checkbox',
+    description: 'This tile checkbox option is disabled',
+    id: 'checkbox-tile-disabled',
+    variant: 'tile',
+    isDisabled: true
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeTileDisabled,
+        language: 'tsx'
+      }
+    }
+  }
+}`,...(Y=(X=k.parameters)==null?void 0:X.docs)==null?void 0:Y.source},description:{story:`Disabled tile checkbox.
+Shows how a tile checkbox option appears when it's not interactive.`,...($=(Z=k.parameters)==null?void 0:Z.docs)==null?void 0:$.description}}};var ee,se,ce,te,oe;b.parameters={...b.parameters,docs:{...(ee=b.parameters)==null?void 0:ee.docs,source:{originalSource:`{
+  render: () => <CheckboxWithDescription />,
+  args: {
+    label: 'Checkbox with description',
+    description: 'This is a helpful description that provides additional context about this checkbox option.',
+    id: 'checkbox-with-description'
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: sourceCodeWithDescription,
+        language: 'tsx'
+      }
+    }
+  }
+}`,...(ce=(se=b.parameters)==null?void 0:se.docs)==null?void 0:ce.source},description:{story:`Checkbox with description in default variant.
+Shows a standard checkbox with a description below the label.`,...(oe=(te=b.parameters)==null?void 0:te.docs)==null?void 0:oe.description}}};const Te=["Playground","Default","Checked","Disabled","DisabledChecked","Tile","TileSelected","TileDisabled","WithDescription"],Ne=Object.freeze(Object.defineProperty({__proto__:null,Checked:a,Default:d,Disabled:r,DisabledChecked:n,Playground:i,Tile:h,TileDisabled:k,TileSelected:l,WithDescription:b,__namedExportsOrder:Te,default:De},Symbol.toStringTag,{value:"Module"}));export{Ne as C,i as P};

@@ -11,6 +11,11 @@ import {
 } from '../constants';
 import { AlertProps } from '../types';
 
+/**
+ * A status message in one of four variants: success, warning, danger or info. It has
+ * `role="alert"`, so screen readers announce it when it appears. Add a heading, hide the
+ * icon or make it closable as needed.
+ */
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   (
     {

@@ -8,7 +8,7 @@ const meta = {
   title: 'Overlays & Feedback/Alert',
   component: Alert,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Alert.mdx, so there's no autodocs page.
   args: {
     size: 'default',
     headingLevel: 'h2',
@@ -19,7 +19,6 @@ const meta = {
     variant: {
       control: 'select',
       options: ['success', 'warning', 'danger', 'info'],
-      description: 'The visual style variant of the alert',
       table: {
         type: {
           summary: 'success | warning | danger | info',
@@ -29,7 +28,6 @@ const meta = {
     size: {
       control: 'select',
       options: ['sm', 'default'],
-      description: 'The size of the alert',
       table: {
         type: {
           summary: 'sm | default',
@@ -39,7 +37,6 @@ const meta = {
     headingLevel: {
       control: 'select',
       options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-      description: 'The HTML heading level for the alert heading',
       table: {
         type: {
           summary: 'h1 | h2 | h3 | h4 | h5 | h6',
@@ -48,7 +45,6 @@ const meta = {
     },
     heading: {
       control: 'text',
-      description: 'The heading text for the alert',
       table: {
         type: {
           summary: 'string',
@@ -57,7 +53,6 @@ const meta = {
     },
     hasIcon: {
       control: 'boolean',
-      description: 'Whether to show the status icon',
       table: {
         type: {
           summary: 'boolean',
@@ -66,7 +61,6 @@ const meta = {
     },
     isClosable: {
       control: 'boolean',
-      description: 'Whether the alert can be dismissed',
       table: {
         type: {
           summary: 'boolean',
@@ -75,7 +69,6 @@ const meta = {
     },
     children: {
       control: 'text',
-      description: 'The content of the alert',
       table: {
         type: {
           summary: 'ReactNode',
@@ -87,6 +80,18 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    variant: 'info',
+    heading: 'Information',
+    children: 'Update available: A new version has been released.',
+  },
+};
 
 /**
  * A success alert with standard sizing.

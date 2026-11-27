@@ -7,11 +7,10 @@ const meta = {
   title: 'Data & Display/Image',
   component: Image,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Image.mdx, so there's no autodocs page.
   argTypes: {
     src: {
       control: 'text',
-      description: 'The source URL of the image',
       table: {
         type: {
           summary: 'string',
@@ -20,7 +19,6 @@ const meta = {
     },
     alt: {
       control: 'text',
-      description: 'Alternative text for the image',
       table: {
         type: {
           summary: 'string',
@@ -29,7 +27,6 @@ const meta = {
     },
     fallback: {
       control: 'text',
-      description: 'Fallback image URL to display if the main image fails to load',
       table: {
         type: {
           summary: 'string',
@@ -38,7 +35,6 @@ const meta = {
     },
     isLazy: {
       control: 'boolean',
-      description: 'Whether to enable lazy loading (defaults to true)',
       table: {
         defaultValue: {
           summary: 'true',
@@ -51,7 +47,6 @@ const meta = {
     shape: {
       control: 'select',
       options: ['square', 'rounded', 'circle'],
-      description: 'The shape of the image',
       table: {
         type: {
           summary: 'square | rounded | circle',
@@ -78,13 +73,27 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the image',
     },
   },
 } satisfies Meta<typeof Image>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    src: 'https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg',
+    alt: 'A beautiful landscape',
+    shape: 'square',
+    isLazy: true,
+    width: 800,
+    height: 400,
+  },
+};
 
 /**
  * The default state of the Image component.

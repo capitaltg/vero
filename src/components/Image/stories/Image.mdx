@@ -1,0 +1,35 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Image } from '../src/Image';
+import * as ImageStories from './Image.stories';
+
+<Meta of={ImageStories} />
+
+# Image
+
+<Description of={ImageStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the image responds."
+  title="Try it"
+>
+  <Canvas of={ImageStories.Playground} />
+  <Controls of={ImageStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="The props declared in Vero's types. Standard img attributes, such as width and height, aren't listed."
+  title="API reference"
+>
+  <ApiEntry of={Image} />
+</DocsSection>

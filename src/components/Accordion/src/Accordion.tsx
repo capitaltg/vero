@@ -61,6 +61,11 @@ const AccordionItems = ({
   </>
 );
 
+/**
+ * A stack of collapsible sections, built from an `items` array. In `single` mode one section
+ * is open at a time; in `multiple` mode any number can be. Built on Radix Accordion, so it
+ * follows the WAI-ARIA accordion pattern, with arrow-key navigation between triggers.
+ */
 const Accordion = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Root>,
   AccordionProps

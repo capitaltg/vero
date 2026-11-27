@@ -1,0 +1,35 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Accordion } from '../src/Accordion';
+import * as AccordionStories from './Accordion.stories';
+
+<Meta of={AccordionStories} />
+
+# Accordion
+
+<Description of={AccordionStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the accordion responds."
+  title="Try it"
+>
+  <Canvas of={AccordionStories.Playground} />
+  <Controls of={AccordionStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="The props declared in Vero's types. Standard HTML attributes and Radix Accordion props, such as dir and orientation, aren't listed."
+  title="API reference"
+>
+  <ApiEntry of={Accordion} />
+</DocsSection>

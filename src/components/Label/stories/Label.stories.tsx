@@ -5,11 +5,10 @@ const meta = {
   title: 'Inputs & Forms/Label',
   component: Label,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Label.mdx, so there's no autodocs page.
   argTypes: {
     htmlFor: {
       control: 'text',
-      description: 'The ID of the form element this label is associated with',
       table: {
         type: {
           summary: 'string',
@@ -18,7 +17,6 @@ const meta = {
     },
     children: {
       control: 'text',
-      description: 'The label text',
       table: {
         type: {
           summary: 'ReactNode',
@@ -27,13 +25,22 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the label',
     },
   },
 } satisfies Meta<typeof Label>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    children: 'Label',
+  },
+};
 
 /**
  * The default state of the Label component.

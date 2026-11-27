@@ -1,0 +1,35 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Combobox } from '../src/Combobox';
+import * as ComboboxStories from './Combobox.stories';
+
+<Meta of={ComboboxStories} />
+
+# Combobox
+
+<Description of={ComboboxStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the combobox responds."
+  title="Try it"
+>
+  <Canvas of={ComboboxStories.Playground} />
+  <Controls of={ComboboxStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="The props declared in Vero's types. Standard HTML attributes aren't listed."
+  title="API reference"
+>
+  <ApiEntry of={Combobox} />
+</DocsSection>

@@ -16,6 +16,14 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '../../Popover';
 import { MultiSelectProps } from '../types';
 
+/**
+ * A searchable multi-select: a trigger showing the selected options as removable chips,
+ * which opens a popover with a search field and a list of options. The search matches each
+ * option's `value`, not its label. The trigger is a `div` with `role="button"`, which a
+ * `<label for>` can't name, so pass `aria-labelledby` with the label's id, or
+ * `aria-label`. A `FormItem` with a string label gives the label the id
+ * `form-item-{id}-label`.
+ */
 const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
   (
     {

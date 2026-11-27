@@ -19,12 +19,10 @@ const meta = {
   title: 'Inputs & Forms/FormItem',
   component: FormItem,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is FormItem.mdx, so there's no autodocs page.
   argTypes: {
     label: {
       control: 'text',
-      description:
-        'The label for the form item. If a string is provided, it will be wrapped in a `<Label>` component. If a ReactNode is provided, it will be rendered as-is.',
       table: {
         type: {
           summary: 'ReactNode',
@@ -33,8 +31,6 @@ const meta = {
     },
     labelSlot: {
       control: 'text',
-      description:
-        'An optional slot to display next to the label, such as an info icon with a tooltip or popover.',
       table: {
         type: {
           summary: 'ReactNode',
@@ -43,8 +39,6 @@ const meta = {
     },
     elementId: {
       control: 'text',
-      description:
-        'The ID used to generate the label, hint, and error IDs for accessibility. If not provided, the ID of the top-level child element will be used if available. This ID must be unique on the page and must be used as the `id` attribute of the child form element so that it can be assocated with the label.',
       table: {
         type: {
           summary: 'string',
@@ -53,8 +47,6 @@ const meta = {
     },
     hintText: {
       control: 'text',
-      description:
-        'Hint text to display below the label and above the form element. When provided, FormItem automatically injects `aria-describedby` pointing to the hint element into the child form control.',
       table: {
         type: {
           summary: 'string',
@@ -63,8 +55,6 @@ const meta = {
     },
     errorText: {
       control: 'text',
-      description:
-        'Error text to display below the form element. When provided, FormItem automatically injects `aria-invalid="true"` and `aria-describedby` pointing to the error element into the child form control, so screen readers announce the error without any additional wiring.',
       table: {
         type: {
           summary: 'string',
@@ -73,8 +63,6 @@ const meta = {
     },
     isRequired: {
       control: 'boolean',
-      description:
-        'Whether the form item is required. If true, an asterisk (*) will be displayed next to the label.',
       table: {
         type: {
           summary: 'boolean',
@@ -83,13 +71,25 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional classes to apply to the form item container.',
     },
   },
 } satisfies Meta<typeof FormItem>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    label: 'Email',
+    hintText: "We'll only use it to send receipts",
+    elementId: 'playground-email',
+    children: <Input id="playground-email" placeholder="Enter your email" type="email" />,
+  },
+};
 
 /**
  * The default state of the FormItem component.

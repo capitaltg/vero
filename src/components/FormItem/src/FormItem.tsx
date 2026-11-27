@@ -4,6 +4,11 @@ import * as React from 'react';
 import { Label } from '../../Label';
 import { FormItemProps } from '../types';
 
+/**
+ * Wraps one form field with its label, hint and error text, and links them to the field
+ * with `for`, `aria-describedby` and `aria-invalid`. Give the field an `id`; FormItem
+ * reads it from the child, or from `elementId`.
+ */
 const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
   (
     {

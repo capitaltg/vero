@@ -2,7 +2,9 @@ import { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
 export interface FormItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /**
-   * The label for the form item. If a string is provided, it will be wrapped in a `<Label>` component. If a ReactNode is provided, it will be rendered as-is.
+   * The field's label. A string is rendered as a `Label` pointing at the field with `for`,
+   * with the id `form-item-{id}-label`. Any other node is rendered as is, so you must
+   * label the field yourself.
    */
   label?: ReactNode;
   /**
@@ -10,11 +12,15 @@ export interface FormItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chi
    */
   labelSlot?: ReactNode;
   /**
-   * Hint text to display below the label and above the form element.
+   * Hint text under the label. FormItem adds its id to the field's `aria-describedby`. It's
+   * only shown when `label` is set.
    */
   hintText?: string;
   /**
-   * Error text to display below the form element. If provided, the form item will be styled to indicate an error.
+   * Error text under the field. When it's set, FormItem adds its id to the field's
+   * `aria-describedby`, sets `aria-invalid` on the field and styles the field as an error.
+   * It isn't announced when it appears; move focus to the field or use a live region if
+   * users need to hear it right away.
    */
   errorText?: string;
   /**
@@ -22,15 +28,20 @@ export interface FormItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chi
    */
   className?: string;
   /**
-   * The ID used to generate the label, hint, and error IDs for accessibility. If not provided, the ID of the top-level child element will be used if available. This ID must be unique on the page and must be used as the `id` attribute of the child form element so that it can be assocated with the label.
+   * The id of the field, used for the label's `for` and to build the label, hint and error
+   * ids. Defaults to the child's `id`. FormItem throws an error if neither is set. It
+   * doesn't set the child's `id`, so the two must match.
    */
   elementId?: string;
   /**
-   * The form element associated with this form item, such as an input or select.
+   * The field, such as an `Input` or `Select`. FormItem adds `aria-describedby` and
+   * `aria-invalid` to it, keeping any `aria-describedby` it already has.
    */
   children: ReactElement;
   /**
-   * Whether the form item is required. If true, an asterisk (*) will be displayed next to the label.
+   * Shows a red asterisk after a string label, as part of the label text. It doesn't mark
+   * the field as required, so set `required` or `aria-required` on the field too. Defaults
+   * to `false`.
    */
   isRequired?: boolean;
 }

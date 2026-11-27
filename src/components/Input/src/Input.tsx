@@ -4,6 +4,11 @@ import { cn } from '@/lib/utils';
 import * as React from 'react';
 import { InputProps } from '../types';
 
+/**
+ * A single-line text field: a styled `<input>` that takes the usual input attributes. It
+ * has no label of its own, so wrap it in a `FormItem`, point a `Label` at its `id`, or
+ * give it an `aria-label`.
+ */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, transform = 'none', isDisabled = false, onChange, ...props }, ref) => {
     const disabledProps = useAriaDisabled({ isDisabled });

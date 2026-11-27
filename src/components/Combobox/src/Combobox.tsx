@@ -24,6 +24,11 @@ function defaultFilter(value: string, search: string, keywords?: string[]): numb
   return 0;
 }
 
+/**
+ * A searchable single-select: a button that opens a popover with a search field and a list
+ * of options. The trigger is a `<button>` with `aria-expanded`, so a `Label` or `FormItem`
+ * label can name it through its `id`.
+ */
 const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(
   (
     {

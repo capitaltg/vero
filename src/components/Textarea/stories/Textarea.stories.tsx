@@ -5,7 +5,7 @@ const meta = {
   title: 'Inputs & Forms/Textarea',
   component: Textarea,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Textarea.mdx, so there's no autodocs page.
   argTypes: {
     placeholder: {
       control: 'text',
@@ -27,7 +27,6 @@ const meta = {
     },
     isDisabled: {
       control: 'boolean',
-      description: 'Whether the textarea is disabled',
       table: {
         type: {
           summary: 'boolean',
@@ -36,7 +35,6 @@ const meta = {
     },
     isGrowable: {
       control: 'boolean',
-      description: 'Whether the textarea should grow automatically as content is added',
       table: {
         type: {
           summary: 'boolean',
@@ -78,6 +76,17 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    'aria-label': 'Example textarea',
+    placeholder: 'Type your message here...',
+  },
+};
 
 /**
  * The default state of the Textarea component.

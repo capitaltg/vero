@@ -1,0 +1,35 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { FormItem } from '../src/FormItem';
+import * as FormItemStories from './FormItem.stories';
+
+<Meta of={FormItemStories} />
+
+# FormItem
+
+<Description of={FormItemStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the form item responds."
+  title="Try it"
+>
+  <Canvas of={FormItemStories.Playground} />
+  <Controls of={FormItemStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="The props declared in Vero's types. Standard HTML attributes aren't listed."
+  title="API reference"
+>
+  <ApiEntry of={FormItem} />
+</DocsSection>

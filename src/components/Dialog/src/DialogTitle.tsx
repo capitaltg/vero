@@ -4,6 +4,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as React from 'react';
 import { DialogTitleProps } from '../types';
 
+/** The dialog's heading. It names the dialog for screen readers. */
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   DialogTitleProps
@@ -18,6 +19,6 @@ const DialogTitle = React.forwardRef<
     {...props}
   />
 ));
-DialogTitle.displayName = DialogPrimitive.Title.displayName;
+DialogTitle.displayName = 'DialogTitle';
 
 export { DialogTitle };

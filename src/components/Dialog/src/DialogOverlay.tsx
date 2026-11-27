@@ -4,6 +4,10 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as React from 'react';
 import { DialogOverlayProps } from '../types';
 
+/**
+ * The dimmed layer behind the dialog. `DialogContent` already renders one, so you rarely need
+ * it on its own.
+ */
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   DialogOverlayProps
@@ -23,6 +27,6 @@ const DialogOverlay = React.forwardRef<
     />
   );
 });
-DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
+DialogOverlay.displayName = 'DialogOverlay';
 
 export { DialogOverlay };

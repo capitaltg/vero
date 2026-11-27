@@ -1,0 +1,48 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from '../src/Dialog';
+import { DialogOverlay } from '../src/DialogOverlay';
+import * as DialogStories from './Dialog.stories';
+
+<Meta of={DialogStories} />
+
+# Dialog
+
+<Description of={DialogStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the dialog responds."
+  title="Try it"
+>
+  <Canvas of={DialogStories.Playground} />
+  <Controls of={DialogStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro={
+    <>
+      Each part's props, as declared in Vero's types. Props inherited from standard HTML attributes
+      or Radix aren't listed; see the{' '}
+      <a href="https://www.radix-ui.com/primitives/docs/components/dialog#api-reference">
+        Radix Dialog API reference
+      </a>{' '}
+      for those. <code>DialogHeader</code>, <code>DialogFooter</code>, <code>DialogTitle</code> and{' '}
+      <code>DialogDescription</code> take only standard HTML attributes, so they have no entry.{' '}
+      <code>DialogPortal</code> is Radix's <code>Dialog.Portal</code> as is, and{' '}
+      <code>DialogContent</code> already renders it.
+    </>
+  }
+  title="API reference"
+>
+  <ApiReference components={[Dialog, DialogTrigger, DialogContent, DialogClose, DialogOverlay]} />
+</DocsSection>

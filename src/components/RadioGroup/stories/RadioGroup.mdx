@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { RadioGroup } from '../src/RadioGroup';
 import { Radio } from '../../Radio';
 import * as RadioGroupStories from './RadioGroup.stories';
@@ -9,6 +14,59 @@ import * as RadioGroupStories from './RadioGroup.stories';
 # RadioGroup
 
 <Description of={RadioGroupStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a radio group and how to write and arrange its options. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/radio-buttons/">
+        USWDS radio buttons guidance
+      </a>
+      .
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To let users choose exactly one option from a short list**, such as a shipping speed or a
+  payment method. Every option is visible at once, so users can compare them before choosing.
+- **When the options rule each other out.** Choosing one clears the one chosen before.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **More than one option can be chosen:** use a
+  [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs).
+- **A single yes-or-no choice**, such as accepting terms: use one
+  [Checkbox](?path=/docs/inputs-forms-checkbox--docs).
+- **Users may need to choose nothing:** once a radio is selected, it can't be cleared. Use
+  checkboxes, or add an option such as "None of the above".
+- **A long list, or little space:** consider a [Select](?path=/docs/inputs-forms-select--docs).
+- **A setting that takes effect immediately**, such as turning notifications on: use a
+  [Switch](?path=/docs/inputs-forms-switch--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Name the group.** Ask the question the options answer, such as "How should we contact you?".
+  See [Your responsibility](#accessibility-your-responsibility).
+- **List options vertically.** Keep the default `orientation="vertical"`: in a row, it's harder to
+  tell which label goes with which circle. Use `columns` to spread a long list across columns.
+- **Make the labels selectable.** Clicking an option's label selects it in a group built from
+  `options`. `Radio` children need an `id` for this (see
+  [Your responsibility](#accessibility-your-responsibility)).
+- **Preselect an option only when you have a reason to**, such as data showing most users choose
+  it. A default can nudge users toward an answer, and once a radio is selected, users can't go
+  back to having none.
+- **Order options logically**, such as by how often they're chosen, or alphabetically.
+- **Give touch users large enough targets.** The `tile` style makes the whole card clickable.
+- **Use one style per group.** Don't mix `default` and `tile` radios. A group built from
+  `options` already uses one style for every option.
+- **Use the `button` style only for short options**, such as a view switcher in a toolbar, and see
+  [Your responsibility](#accessibility-your-responsibility) before you choose it.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -25,6 +83,72 @@ import * as RadioGroupStories from './RadioGroup.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the group handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a radio group to assistive technology** (`role="radiogroup"`), and each option is a radio
+  (`role="radio"` with `aria-checked`), named by its label through `aria-labelledby`. An option's
+  `description` is linked with `aria-describedby`.
+- **Keyboard:** the group is a single Tab stop. Tab moves focus to the selected radio, or to the
+  first one when none is selected, and Tab again leaves the group. The arrow keys move to the next
+  or previous radio and select it, wrapping at the ends. Space selects the focused radio.
+- **Each option gets a unique id**, built from the group's `id` and the option's `value`, so its
+  label is linked to it and clicking the label selects it.
+- **Disabled options stay focusable** and are marked `aria-disabled`, so screen reader users can
+  still find them and hear that they're unavailable. Clicks and Space don't select them (but see
+  [#216](https://github.com/capitaltg/vero/issues/216)).
+- **`required` sets `aria-required`** on the group, so screen readers announce it.
+- **Contrast:** the unselected circle's border is 4.8:1 against white and the selected circle 6.7:1,
+  above the 3:1 that WCAG requires for form controls.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Name the group.** The group has the `radiogroup` role but no name unless you give it one, so
+  screen readers announce each option without the question it answers. Wrap it in a `fieldset`
+  with a `legend`:
+
+  ```tsx
+  <fieldset>
+    <legend>How should we contact you?</legend>
+    <RadioGroup onChange={setContact} options={contactOptions} value={contact} />
+  </fieldset>
+  ```
+
+  Or pass `aria-labelledby` pointing to a visible heading, or `aria-label`.
+
+- **Give each group a different `id`** when two groups on a page share option values, so their
+  radios don't get the same ids.
+- **Show requirements and errors yourself.** `required` only reaches screen reader users, so put
+  the requirement in the legend text too, such as "(required)". The group has no error prop: put
+  the error text next to the group and link it to the group with `aria-describedby`.
+- **Pass an `id` to `Radio` children.** Without one, clicking a child's label doesn't select it
+  ([#200](https://github.com/capitaltg/vero/issues/200)). Groups built from `options` aren't
+  affected.
+- **Avoid disabled options where you can.** Leave out an option that doesn't apply, or say in its
+  `description` why it's unavailable. For now, the arrow keys get stuck on a disabled radio, and
+  keyboard users can only leave it with Tab
+  ([#216](https://github.com/capitaltg/vero/issues/216)).
+- **Prefer the `default` style where keyboard users need to see focus.** For now, the `tile` and
+  `button` styles show no focus indicator
+  ([#198](https://github.com/capitaltg/vero/issues/198)).
+- **Avoid the `button` style where users rely on Windows High Contrast mode.** Its selected state
+  is shown by color only, and doesn't show at all in that mode
+  ([#199](https://github.com/capitaltg/vero/issues/199)).
+- **Test it in your page.** Run the
+  [USWDS radio buttons accessibility tests](https://designsystem.digital.gov/components/radio-buttons/accessibility-tests/)
+  on your own form, including a screen reader pass: these checks can't cover your labels and
+  layout.
+
+For an accessibility review, see
+[all open accessibility issues for Radio and RadioGroup](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+%28in%3Atitle+Radio+OR+in%3Atitle+RadioGroup%29).
+
 </DocsSection>
 
 <DocsSection

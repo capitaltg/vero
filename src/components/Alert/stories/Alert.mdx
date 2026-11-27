@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Alert } from '../src/Alert';
 import * as AlertStories from './Alert.stories';
 
@@ -8,6 +13,48 @@ import * as AlertStories from './Alert.stories';
 # Alert
 
 <Description of={AlertStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use an alert and how to write one. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/alert/">USWDS alert guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To tell users about the system's status**, such as an error, a warning or an update, whether
+  or not they need to act on it.
+- **To confirm a result or ask for a correction**, such as "Your application was submitted" or
+  "Fix the errors below".
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **An action that destroys the user's work**, such as deleting an account: ask for confirmation
+  in a [Dialog](?path=/docs/overlays-feedback-dialog--docs), not an alert.
+- **An error in one field of a long form:** show it next to the field too, not only in an alert
+  at the top.
+- **Short help for one control:** use a [Tooltip](?path=/docs/overlays-feedback-tooltip--docs)
+  or text next to the control.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Pick the variant by what happened:** `danger` for a failure, `warning` for something that may
+  need action, `success` for a completed action, and `info` for anything else.
+- **Keep the heading short**, one line at most, and put the details in the message.
+- **Say what to do next.** If users have to act, tell them how, in plain language.
+- **Be polite.** Don't blame the user for an error.
+- **Use alerts sparingly.** Too many get ignored. Show only the ones that matter to what the user
+  is doing now.
+- **Let users dismiss alerts that aren't essential**, with `isClosable`. The alert doesn't hide
+  itself: remove it in `onClose`.
+- **Don't hide an alert and reveal it later.** Add it to the page when it applies.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +71,56 @@ import * as AlertStories from './Alert.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the alert handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's an alert to assistive technology** (`role="alert"`), so screen readers announce it when
+  it's added to the page, interrupting what they're reading. With a `heading`, the heading names
+  the alert through `aria-labelledby`.
+- **The heading is a real heading**, an `h2` by default, so screen reader users can find it in the
+  page's headings list.
+- **The icon is hidden from screen readers** (`aria-hidden`), so it isn't read as an image.
+- **The close button is a native button named "Close".** Tab reaches it, Enter and Space press it,
+  and it shows a focus ring.
+- **Contrast:** the text is at least 15:1 against each variant's background, and the close icon
+  6.2:1.
+- **In forced colors** (Windows High Contrast), the text, icon, left border and the close button's
+  focus outline stay visible.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Choose the role.** Every alert has `role="alert"`, which interrupts the user. That's right for
+  errors and urgent messages that appear after something the user did. For others, pass your own
+  `role` ([#162](https://github.com/capitaltg/vero/issues/162)):
+  - `role="status"` for a message that shouldn't interrupt, such as a success message;
+  - `role="region"` with an `aria-label` for a standing notice that's part of the page when it
+    loads. Screen readers don't reliably announce alerts that are there on page load anyway.
+- **Add the alert when it applies**, rather than rendering it hidden and showing it later.
+- **Say the type in words.** Color and the icon don't reach screen reader users, and the
+  `warning` and `info` icons are only 2:1 against their backgrounds. Start the heading or message
+  with a word such as "Error" or "Warning".
+- **Choose `headingLevel`** to fit the page's heading structure. It defaults to `h2`.
+- **Remove a closed alert and move focus.** The close button only calls `onClose`. Remove the alert
+  there, and move focus somewhere sensible, such as the control that showed the alert. Otherwise
+  focus is lost when the button disappears
+  ([#165](https://github.com/capitaltg/vero/issues/165)).
+- **Don't put actions that need an answer in an alert**, such as "Delete account?" with Cancel and
+  Delete buttons. Use a [Dialog](?path=/docs/overlays-feedback-dialog--docs), which moves focus
+  to the question.
+- **Test it in your page.** Run the
+  [USWDS alert accessibility tests](https://designsystem.digital.gov/components/alert/accessibility-tests/)
+  on your own page, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Alert](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Alert).
+
 </DocsSection>
 
 <DocsSection

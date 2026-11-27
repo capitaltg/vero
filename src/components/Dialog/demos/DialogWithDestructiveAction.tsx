@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button';
-import { Dialog, DialogContent, DialogTrigger } from '../src/Dialog';
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from '../src/Dialog';
 import { DialogDescription } from '../src/DialogDescription';
 import { DialogFooter } from '../src/DialogFooter';
 import { DialogHeader } from '../src/DialogHeader';
@@ -19,7 +19,9 @@ export const DialogWithDestructiveAction = () => (
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
-        <Button>Cancel</Button>
+        <DialogClose asChild>
+          <Button>Cancel</Button>
+        </DialogClose>
         <Button variant="danger">Delete Account</Button>
       </DialogFooter>
     </DialogContent>

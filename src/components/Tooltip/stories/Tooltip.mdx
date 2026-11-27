@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Tooltip, TooltipProvider } from '../src/Tooltip';
 import * as TooltipStories from './Tooltip.stories';
 
@@ -8,6 +13,44 @@ import * as TooltipStories from './Tooltip.stories';
 # Tooltip
 
 <Description of={TooltipStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a tooltip and what to put in it. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/tooltip/">USWDS tooltip guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For brief, helpful information that isn't essential**, such as what an icon button does or a
+  keyboard shortcut.
+- **To give users confidence about an interaction**, such as "Copies the link to your clipboard".
+- **As a last resort where space is tight**, after looking for a way to keep the text visible.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Information users need to complete the task:** put it on the page, as visible text or a
+  field's description. Tooltips don't show on touch screens.
+- **Anything longer than a short phrase**, or content with links or buttons: use a
+  [Popover](?path=/docs/overlays-feedback-popover--docs).
+- **Text that repeats the trigger's visible label**, or explains something already obvious: leave
+  the tooltip out.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Keep it short**, about 44 characters or fewer.
+- **Use tooltips only on elements that look interactive**, such as buttons and links, so users
+  find them.
+- **Use them consistently** across similar controls, such as every icon button in a toolbar.
+- **Place it with `side` and `align`** so it doesn't cover what the user is working on.
+- **Wrap your app in one `TooltipProvider`.** Every `Tooltip` needs one above it.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +67,53 @@ import * as TooltipStories from './Tooltip.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the tooltip handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+It follows the [WAI-ARIA tooltip pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/).
+
+- **It's a tooltip to assistive technology** (`role="tooltip"`). While it's open, the trigger points
+  to it with `aria-describedby`, so screen readers read it as the trigger's description.
+- **It opens on hover and on keyboard focus**, right away by default, and closes when the trigger
+  loses focus or the pointer leaves.
+- **The pointer can move onto the tooltip** without it closing, so users who magnify the screen
+  can read it.
+- **Escape closes it** when it was opened by keyboard focus (but see
+  [Your responsibility](#accessibility-your-responsibility)).
+- **It never takes focus**, so it doesn't change the Tab order.
+- **Contrast:** the text is 17.2:1 against the tooltip's background.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Put it on an element that can take focus**, such as a `Button` or a link. On a `span` or an
+  icon, keyboard users can't open it.
+- **Don't put it on a disabled button.** A disabled button can't be focused or hovered, so the
+  tooltip never shows. Explain why it's disabled in visible text instead.
+- **Name icon buttons yourself.** The tooltip is a description, not a name: give the button an
+  `aria-label` too, usually with the same text.
+- **Keep essential information out of tooltips.** They don't open on touch screens.
+- **Don't put links or buttons in a tooltip.** It closes when focus leaves the trigger, so keyboard
+  users can't reach them. Use a Popover.
+- **Place tooltips where they don't cover what users need.** For now, Escape doesn't close a
+  tooltip while the pointer is over it, so mouse users have to move the pointer away
+  ([#228](https://github.com/capitaltg/vero/issues/228)).
+- **Avoid tooltips over other text where users rely on Windows High Contrast mode.** For now, a
+  tooltip has no visible edge in that mode and blends into the page
+  ([#229](https://github.com/capitaltg/vero/issues/229)).
+- **Test it in your page.** Run the
+  [USWDS tooltip accessibility tests](https://designsystem.digital.gov/components/tooltip/accessibility-tests/)
+  on your own page, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Tooltip](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Tooltip).
+
 </DocsSection>
 
 <DocsSection

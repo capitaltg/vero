@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { FormItem } from '../src/FormItem';
 import * as FormItemStories from './FormItem.stories';
 
@@ -8,6 +13,54 @@ import * as FormItemStories from './FormItem.stories';
 # FormItem
 
 <Description of={FormItemStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      How to label a field and write its hint, required marker and error text. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/form/">USWDS form guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For every single form field** that needs a label: an
+  [Input](?path=/docs/inputs-forms-input--docs), a
+  [Textarea](?path=/docs/inputs-forms-textarea--docs), a
+  [Select](?path=/docs/inputs-forms-select--docs) and the other field components. FormItem lays
+  out the label, hint and error text the same way for each, and links them to the field.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **A group of checkboxes, radio buttons or switches:** they need a `fieldset` and `legend`, not a
+  label. See [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs) and
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+- **A single checkbox, radio button or switch:** it has its own `label` prop.
+- **A label you lay out yourself:** use a [Label](?path=/docs/inputs-forms-label--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Keep labels short and specific.** "Email address", not "Please enter your email address
+  below".
+- **Put instructions in `hintText`, not in the label or the placeholder.** Hints stay visible
+  while users type. Use them for formats and examples, such as "For example, 12/31/1990".
+- **Mark required fields with `isRequired`**, and explain the asterisk once, at the top of the
+  form: "Fields marked with an asterisk (\*) are required." Or mark the optional fields instead,
+  with "(optional)" in the label. A form with one field needs neither.
+- **Write errors that say how to fix the problem.** "Enter an email address, like
+  name@example.com", not "Invalid input". Show them after users leave the field or submit the
+  form, not while they're typing.
+- **Keep the error next to its field.** FormItem puts it right under the field, where screen
+  magnifier users will find it.
+- **Lay forms out in a single column**, in the same order in the code as on screen.
+- **Use `labelSlot` for short help**, such as an info button with a
+  [Tooltip](?path=/docs/overlays-feedback-tooltip--docs). Put anything users need in order to answer
+  in `hintText`, where everyone sees it.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +77,60 @@ import * as FormItemStories from './FormItem.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the form item handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **A string `label` names the field.** It renders a `<label>` whose `for` is the field's `id`, so
+  screen readers announce it and clicking it focuses the field.
+- **Hint and error text are linked to the field** with `aria-describedby`, hint first, so screen
+  readers read them after the label. Any `aria-describedby` the field already has is kept.
+- **`errorText` marks the field invalid** with `aria-invalid`. The error is shown as text under
+  the field, not by color alone, and the field's border turns red.
+- **It needs an id to link to.** Without an `elementId` or an `id` on the child, it throws an
+  error.
+- **Contrast** (in the USWDS theme), against white: label text is 17.7:1, hint text 5.3:1, and
+  error text and the error border 7.0:1.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Put the `id` on the field.** FormItem reads the child's `id`, and `elementId` doesn't set it:
+  if you pass `elementId` without a matching `id` on the child, the label isn't linked and nothing
+  warns you ([#163](https://github.com/capitaltg/vero/issues/163)).
+
+  ```tsx
+  <FormItem hintText="For example, name@example.com" label="Email">
+    <Input autoComplete="email" id="email" type="email" />
+  </FormItem>
+  ```
+
+- **Set `required` or `aria-required` on the field.** `isRequired` only adds an asterisk to the
+  label, which screen readers read as "star"
+  ([#211](https://github.com/capitaltg/vero/issues/211)).
+- **Make errors heard.** The error isn't announced when it appears
+  ([#212](https://github.com/capitaltg/vero/issues/212)). On submit, move focus to the first
+  invalid field, or to an error summary that links to each one. For errors shown on blur, also
+  announce them with your own `aria-live="polite"` region.
+- **Set a `label` when you use `hintText`.** Without a label, the hint isn't shown, and the field's
+  `aria-describedby` points at an element that doesn't exist
+  ([#210](https://github.com/capitaltg/vero/issues/210)).
+- **Link a custom label yourself.** When `label` isn't a string, FormItem renders it as is: give it
+  a `<label htmlFor>` or point the field's `aria-labelledby` at it.
+- **Give buttons in `labelSlot` a name.** An icon-only button needs an `aria-label`, such as
+  "Password requirements".
+- **Test it in your page.** Run the
+  [USWDS text input accessibility tests](https://designsystem.digital.gov/components/text-input/accessibility-tests/)
+  on your own form, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for FormItem](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+FormItem).
+
 </DocsSection>
 
 <DocsSection

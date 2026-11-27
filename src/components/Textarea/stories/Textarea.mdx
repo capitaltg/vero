@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Textarea } from '../src/Textarea';
 import * as TextareaStories from './Textarea.stories';
 
@@ -8,6 +13,49 @@ import * as TextareaStories from './Textarea.stories';
 # Textarea
 
 <Description of={TextareaStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a multi-line text field and how to size it. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/text-input/">
+        USWDS text input guidance
+      </a>
+      , which covers text areas too. The <a href="?path=/docs/inputs-forms-input--docs">Input</a>{' '}
+      page has more guidance that applies to both.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For free-form answers longer than a line or two**, such as comments, a description of a
+  problem, or the reason for a request.
+- **When users may want to paste in a long answer**, such as a list or a paragraph from another
+  document.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Short answers**, such as a name or an email address: use an
+  [Input](?path=/docs/inputs-forms-input--docs).
+- **A choice from a fixed list:** use a [Select](?path=/docs/inputs-forms-select--docs) or a
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Give every textarea a visible label**, with a
+  [FormItem](?path=/docs/inputs-forms-formitem--docs).
+- **Size it to the answer you expect.** The height tells users how much to write. Set `rows`, or a
+  height with `className`. It's at least 5rem tall.
+- **Use `isGrowable` when answers vary a lot in length.** The textarea grows to fit the text, so
+  users don't have to scroll inside it. It also removes the resize handle.
+- **Say if there's a length limit**, in `hintText`, and show how much is left as users type.
+  Don't rely on `maxLength` alone: it silently cuts off pasted text.
+- **Don't use placeholder text in place of a hint.** It disappears as soon as users type.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +72,54 @@ import * as TextareaStories from './Textarea.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the textarea handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a native `<textarea>`**, so it's a multi-line text box to assistive technology, and it
+  takes every standard attribute, such as `rows`, `required` and `aria-describedby`.
+- **Focus is visible:** a 3px ring in the focus color, set off from the field by a 3px gap, shows
+  when it's reached by keyboard. In Windows High Contrast mode an outline shows instead.
+- **When disabled with `isDisabled` it stays focusable** and is marked `aria-disabled`, so screen
+  reader users can still find it and hear that it's unavailable. Clicks don't focus it, and
+  typing, pasting and dropping text are blocked.
+- **Contrast** (in the USWDS theme): the border is 6.7:1 against white, above the 3:1 that WCAG
+  requires for form controls, and placeholder text is 5.3:1. The focus ring is 3.2:1.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Label it.** The textarea has no label of its own. Wrap it in a
+  [FormItem](?path=/docs/inputs-forms-formitem--docs) with a string `label`, or point a
+  [Label](?path=/docs/inputs-forms-label--docs) at its `id`. Placeholder text isn't a label.
+- **Give it an `id`, and match FormItem's `elementId` to it** if you set one. FormItem doesn't set
+  the id, so a mismatch leaves the textarea unlabeled
+  ([#163](https://github.com/capitaltg/vero/issues/163)).
+- **Mark required fields on the textarea.** Set `required` or `aria-required`. FormItem's
+  `isRequired` only adds an asterisk to the label
+  ([#211](https://github.com/capitaltg/vero/issues/211)).
+- **Make errors heard.** FormItem's `errorText` is linked to the textarea, but it isn't announced
+  when it appears ([#212](https://github.com/capitaltg/vero/issues/212)). Show errors on submit and
+  move focus to the first invalid field or an error summary.
+- **Announce a character count politely**, if you add one: put it in an `aria-live="polite"`
+  region that updates after a pause in typing, not on every keystroke, and link it with
+  `aria-describedby`.
+- **Prefer `readOnly` to `isDisabled`** when users need to review or copy the text: a disabled
+  textarea blocks the arrow keys and copying. Say why a field is disabled, in its hint text.
+- **Check border contrast if you use the light or dark theme.** There the border is below the 3:1
+  WCAG requires ([#125](https://github.com/capitaltg/vero/issues/125)).
+- **Test it in your page.** Run the
+  [USWDS text input accessibility tests](https://designsystem.digital.gov/components/text-input/accessibility-tests/)
+  on your own form, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Textarea and FormItem](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Textarea+OR+FormItem).
+
 </DocsSection>
 
 <DocsSection

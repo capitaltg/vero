@@ -70,7 +70,7 @@ export const WithHtmlFor: Story = {
 export const Required: Story = {
   args: {
     children: 'Required Field',
-    className: 'after:content-["*"] after:ml-0.5 after:text-red-500',
+    className: 'after:content-["*"] after:ml-0.5 after:text-destructive',
   },
 };
 

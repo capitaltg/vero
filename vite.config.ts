@@ -30,7 +30,7 @@ export default defineConfig({
       },
       name: 'ui',
       formats: ['es', 'cjs'],
-      fileName: format => `index.${format === 'es' ? 'js' : 'cjs'}`,
+      fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
       plugins: [
@@ -49,6 +49,16 @@ export default defineConfig({
       // lucide / date-fns / etc. into the library bundle. Relative imports, the
       // `@/` alias, and resolved absolute paths (our own source + CSS) stay in.
       external: id => !id.startsWith('.') && !path.isAbsolute(id) && !id.startsWith('@/'),
+      // Keep one output file per source module, so a consumer's bundler drops the files it
+      // doesn't import. In a single bundled file, top-level statements such as
+      // `Checkbox.displayName = 'Checkbox'` count as side effects and keep every component.
+      output: {
+        preserveModules: true,
+        preserveModulesRoot: 'src',
+        // Keep the CSS at the top of dist (dist/index.css), where the package's root CSS
+        // entry files import it from, rather than under dist/styles/.
+        assetFileNames: asset => path.basename(asset.names[0] ?? '[name][extname]'),
+      },
     },
     cssCodeSplit: true,
     // Don't ship sourcemaps in the published package (devtools-only, and they

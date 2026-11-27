@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Radio } from '../src/Radio';
 import * as RadioStories from './Radio.stories';
 
@@ -8,6 +13,47 @@ import * as RadioStories from './Radio.stories';
 # Radio
 
 <Description of={RadioStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use radios as children of a group, and how to set them up. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/radio-buttons/">
+        USWDS radio buttons guidance
+      </a>
+      .
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **A radio is always one option in a
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs)**, which has the full guidance for
+  choosing one option from a list. It doesn't work on its own.
+- **Use `Radio` children when you need a custom layout**, such as content between options. For
+  everything else, pass `options` to the group.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **A single yes-or-no choice**, such as accepting terms: use a
+  [Checkbox](?path=/docs/inputs-forms-checkbox--docs). A lone radio can't be cleared once it's
+  selected.
+- **A setting that takes effect immediately:** use a
+  [Switch](?path=/docs/inputs-forms-switch--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Select a radio with the group's `value`.** A radio's `isChecked` has no effect
+  ([#207](https://github.com/capitaltg/vero/issues/207)).
+- **Make the label selectable.** Clicking the label selects the radio, when it has an `id` (see
+  [Your responsibility](#accessibility-your-responsibility)).
+- **Use one style per group.** Don't mix `default` and `tile` radios: a few tiles among plain
+  radios can look like recommended options.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +70,55 @@ import * as RadioStories from './Radio.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the radio handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a radio to assistive technology** (`role="radio"` with `aria-checked`), named by its
+  `label` through `aria-labelledby`. Its `description` is linked with `aria-describedby`.
+- **Keyboard:** inside its group, the arrow keys move to the next or previous radio and select it,
+  and Space selects the focused radio. See
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+- **It must have a name.** Without a `label` or an `aria-label`, it throws an error, so an unnamed
+  radio can't ship unnoticed (but see [#164](https://github.com/capitaltg/vero/issues/164)).
+- **When disabled it stays focusable** and is marked `aria-disabled`, so screen reader users can
+  still find it and hear that it's unavailable. Clicks and Space don't select it.
+- **Contrast:** the unselected circle's border is 4.8:1 against white and the selected circle
+  6.7:1, above the 3:1 that WCAG requires for form controls.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Prefer a visible `label`.** Use `aria-label` only when the purpose is clear from what's around
+  the radio.
+- **Name the group the radios are in.** See
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+- **Pass an `id`.** Without one, clicking the label doesn't select the radio
+  ([#200](https://github.com/capitaltg/vero/issues/200)).
+- **Link error messages to the group, not to a radio.** If you do pass your own
+  `aria-describedby` to a radio, don't combine it with `description`: only one of the two is
+  announced ([#201](https://github.com/capitaltg/vero/issues/201)).
+- **Avoid disabled radios where you can.** For now, the arrow keys get stuck on a disabled radio,
+  and keyboard users can only leave it with Tab
+  ([#216](https://github.com/capitaltg/vero/issues/216)).
+- **Prefer the `default` style where keyboard users need to see focus.** For now, the `tile` and
+  `button` styles show no focus indicator
+  ([#198](https://github.com/capitaltg/vero/issues/198)).
+- **Avoid the `button` style where users rely on Windows High Contrast mode.** Its selected state
+  is shown by color only, and doesn't show at all in that mode
+  ([#199](https://github.com/capitaltg/vero/issues/199)).
+- **Test it in your page.** Run the
+  [USWDS radio buttons accessibility tests](https://designsystem.digital.gov/components/radio-buttons/accessibility-tests/)
+  on your own form, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Radio and RadioGroup](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Radio+OR+RadioGroup).
+
 </DocsSection>
 
 <DocsSection

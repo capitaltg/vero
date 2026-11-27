@@ -1,0 +1,35 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Autocomplete } from '../src/Autocomplete';
+import * as AutocompleteStories from './Autocomplete.stories';
+
+<Meta of={AutocompleteStories} />
+
+# Autocomplete
+
+<Description of={AutocompleteStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the autocomplete responds."
+  title="Try it"
+>
+  <Canvas of={AutocompleteStories.Playground} />
+  <Controls of={AutocompleteStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="The props declared in Vero's types. Other button attributes aren't listed."
+  title="API reference"
+>
+  <ApiEntry of={Autocomplete} />
+</DocsSection>

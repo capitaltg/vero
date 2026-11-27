@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { CheckboxGroup } from '../src/CheckboxGroup';
 import { Checkbox } from '../../Checkbox';
 import * as CheckboxGroupStories from './CheckboxGroup.stories';
@@ -9,6 +14,52 @@ import * as CheckboxGroupStories from './CheckboxGroup.stories';
 # CheckboxGroup
 
 <Description of={CheckboxGroupStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a checkbox group and how to write and arrange its options. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/checkbox/">USWDS checkbox guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To let users choose any number of options from a list**, including none. Checkboxes show
+  what's selected at a glance, and each one is easy to uncheck.
+- For a single yes-or-no choice, such as accepting terms, use one
+  [Checkbox](?path=/docs/inputs-forms-checkbox--docs) on its own.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Only one option can be chosen:** use a [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+- **A setting that takes effect immediately**, such as turning notifications on or off: use a
+  [SwitchGroup](?path=/docs/inputs-forms-switchgroup--docs).
+- **A long list**, where checkboxes would take up too much space: consider a
+  [MultiSelect](?path=/docs/inputs-forms-multiselect--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Name the group.** Say what the options are for, and add "Select all that apply" so it's clear
+  that more than one can be chosen. See [Your responsibility](#accessibility-your-responsibility).
+- **List options vertically.** Keep the default `orientation="vertical"`: in a row, it's harder to
+  tell which label goes with which box. Use `columns` to spread a long list across columns.
+- **Use positive statements.** Write "Email me about new features", not "Don't email me about new
+  features". Checking a box to turn something off is confusing.
+- **Make each label clear when checked and when unchecked.** If a label can't do both, use two
+  radio buttons with their own labels instead.
+- **Order options logically**, such as by how often they're chosen, or alphabetically.
+- **Give touch users large enough targets.** The `tile` style makes the whole card clickable.
+- **Use one style per group.** Don't mix `default` and `tile` checkboxes: a few tiles among plain
+  checkboxes can look like recommended options. A group built from `options` already uses one
+  style for every option.
+- **Use the `button` style only for short options**, such as filters in a compact toolbar, and see
+  [Your responsibility](#accessibility-your-responsibility) before you choose it.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -25,6 +76,65 @@ import * as CheckboxGroupStories from './CheckboxGroup.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the group handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **Each option is a checkbox to assistive technology** (`role="checkbox"` with `aria-checked`),
+  named by its label through `aria-labelledby`. Its `description` is linked with
+  `aria-describedby`.
+- **Keyboard:** Tab and Shift+Tab move between options, and Space checks or unchecks the focused
+  one, as with native checkboxes.
+- **Each option gets a unique id**, built from the group's `id` and the option's `id`, so its label
+  is linked to it and clicking the label toggles it.
+- **Disabled options stay focusable** and are marked `aria-disabled`, so screen reader users can
+  still find them and hear that they're unavailable. Clicks and Space don't change them.
+- **Contrast:** the unchecked box's border is 4.8:1 against white and the checked fill 7.1:1, above
+  the 3:1 that WCAG requires for form controls.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Name the group.** The group renders a plain `div` with no role or name
+  ([#161](https://github.com/capitaltg/vero/issues/161)), so screen readers announce each option
+  without the question it answers. Wrap it in a `fieldset` with a `legend`:
+
+  ```tsx
+  <fieldset>
+    <legend>Which topics interest you? Select all that apply.</legend>
+    <CheckboxGroup onChange={setTopics} options={topics} value={selected} />
+  </fieldset>
+  ```
+
+  Or pass `role="group"` and `aria-labelledby` pointing to a visible heading.
+
+- **Give each group a different `id`** when two groups on a page share option ids, so their
+  checkboxes don't get the same ids.
+- **Show requirements and errors yourself.** The group has no `required` or error props. Put the
+  requirement in the legend text, and link any error message to the group with
+  `aria-describedby`.
+- **Pass an `id` to `Checkbox` children.** Without one, clicking a child's label doesn't toggle it
+  ([#200](https://github.com/capitaltg/vero/issues/200)). Groups built from `options` aren't
+  affected.
+- **Prefer the `default` style where keyboard users need to see focus.** For now, the `tile` and
+  `button` styles show no focus indicator
+  ([#198](https://github.com/capitaltg/vero/issues/198)).
+- **Avoid the `button` style where users rely on Windows High Contrast mode.** Its checked state is
+  shown by color only, and doesn't show at all in that mode
+  ([#199](https://github.com/capitaltg/vero/issues/199)).
+- **Test it in your page.** Run the
+  [USWDS checkbox accessibility tests](https://designsystem.digital.gov/components/checkbox/accessibility-tests/)
+  on your own form, including a screen reader pass: these checks can't cover your labels and
+  layout.
+
+For an accessibility review, see
+[all open accessibility issues for Checkbox and CheckboxGroup](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+Checkbox).
+
 </DocsSection>
 
 <DocsSection

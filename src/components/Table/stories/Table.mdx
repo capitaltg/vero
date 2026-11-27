@@ -1,5 +1,5 @@
 import { Canvas, Controls, Meta } from '@storybook/blocks';
-import { ApiReference, DocsSection } from '../../../stories/docs/DocsLayout';
+import { ApiReference, DocsSection, DocsSubheading } from '../../../stories/docs/DocsLayout';
 import { Table, TableCaption, TableCell, TableHead } from '../src/Table';
 import * as DataTableStories from './DataTable.stories';
 import * as TableStories from './Table.stories';
@@ -57,6 +57,60 @@ Don't mix the two inside one table: either compose the primitives yourself, or d
 `caption` / `footer` / `emptyState` slots).
 
 <Canvas of={TableStories.Default} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a table and how to make it easy to read. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/table/">USWDS table guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For data people compare across rows and columns**, such as statistics, budgets or case
+  counts.
+- **For directories**: lists of people, offices or resources where every item has the same
+  fields.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Data that isn't tabular:** use a list, or a description list (`<dl>`) for label and value
+  pairs.
+- **Trends and relationships:** a chart may show them more clearly. A table of the same data is
+  still a useful alternative to the chart.
+- **Page layout:** don't use a table to lay out a page or a dashboard. Use CSS grid or flexbox.
+- **Long text:** keep cells short. Content that runs to paragraphs belongs under headings or in
+  an [Accordion](?path=/docs/data-display-accordion--docs).
+- **Items with different fields:** use a list or cards.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Keep it plain.** The default bordered style is enough. Extra decoration makes data harder to
+  scan.
+- **Always have a header row**, with short labels that say what each column holds. When one
+  column identifies each row, such as a name, make it the row header (`meta.isRowHeader`, or
+  `<TableHead scope="row">`).
+- **Keep each column consistent.** Use one unit and one format per column, so values compare
+  easily. Put the unit in the header, such as "Salary (USD)", rather than in every cell.
+- **Right-align numbers** (`meta: { align: 'right' }`, or `text-right` on the primitives) so the
+  digits line up. For amounts, percentages and counts, add `tabular-nums` so every digit has the
+  same width. Phone numbers, ZIP codes and dates don't need either.
+- **Say where the data comes from.** Put the source and the last-updated date in the caption,
+  especially for data that changes often.
+- **Plan for small screens.** Any table with more than two columns needs a narrow-screen plan.
+  The default horizontal scroll suits numeric tables with many columns; `responsive="stack"`
+  suits directories and record-style data. See [Responsive behavior](#responsive-behavior).
+- **Use as few columns as you can.** People scan down a column more easily than across a row.
+  Drop columns people don't need, or swap rows and columns.
+- **Sort long tables** when the order matters to people, such as alphabetical or by amount.
+  Don't count on sorting in a stacked table: the header row and its sort buttons are hidden while
+  the table is stacked.
+
+</DocsSection>
 
 ## Quick start
 
@@ -473,8 +527,8 @@ is only rendered while the table is stacked.
 </table>
 
 Two things to know before choosing this mode. Below the breakpoint the header row is hidden, so
-the grid's row/column semantics give way to the card layout and the per-cell labels carry the
-meaning — that also means sortable headers are only reachable at wider widths. It suits
+cells lose their column headers and the per-cell labels carry the meaning (see
+[Accessibility](#accessibility-built-in)) — that also means sortable headers are only reachable at wider widths. It suits
 record-style data; for wide numeric tables, `responsive="scroll"` keeps the grid intact.
 
 ### Cards with headings
@@ -496,7 +550,8 @@ context. USWDS advises against combining it with scrollable or stacked variants.
 ## Sorting
 
 Sortable headers render a real `<button>`; the `<th>` carries `aria-sort`, and each change is
-announced through a polite live region. Sorting cycles ascending → descending → unsorted.
+announced through a polite live region. Each click cycles through the two directions and back to
+unsorted. Text columns start ascending; number columns start descending (TanStack's default).
 
 <Canvas of={DataTableStories.Sortable} />
 
@@ -666,20 +721,85 @@ rows inside — so most markup ports across unchanged.
   </tbody>
 </table>
 
-## Accessibility
+<DocsSection
+  id="accessibility"
+  intro="What Table and DataTable handle for you and what you need to add."
+  title="Accessibility"
+>
 
-- Every table has an accessible name — a `<caption>`, `captionHidden`, or `aria-label`.
-- Column headers are `<th scope="col">`, group headers `scope="colgroup"`, and the column marked
-  `meta.isRowHeader` renders `<th scope="row">`.
-- Sortable headers are buttons inside the `<th>`; the `<th>` carries
-  `aria-sort="ascending | descending | none"` and changes are announced politely.
-- The scroll container becomes `role="region"` with `tabindex="0"` and a visible focus ring only
-  when it actually scrolls, so keyboard users can reach off-screen columns without a phantom tab
-  stop on tables that fit.
-- Stacked mode labels every cell with its column header, so the data stays perceivable once the
-  header row is hidden.
-- Every state above is covered by `vitest-axe`. Stacked mode trades table semantics for the card
-  layout by design — a manual screen-reader pass is still worth doing for your specific content.
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a native HTML table**, so assistive technology gets table, row, header and cell roles,
+  and screen readers' table navigation works.
+- **Headers are associated with their cells.** `TableHead` defaults to `scope="col"`. In
+  `DataTable`, spanning group headers get `scope="colgroup"` and the right `colSpan`, and the
+  column marked `meta.isRowHeader` renders `<th scope="row">`. The empty corner cells that keep
+  grouped columns aligned are `aria-hidden` cells, not empty headers.
+- **The caption names the table.** `caption` renders a `<caption>`, which is the table's
+  accessible name. `captionHidden` hides it visually but keeps it for screen readers. An
+  `aria-label` or `aria-labelledby` you pass goes on the `<table>`.
+- **Sortable headers are buttons** (`DataTable` with `enableSorting`). Each is a `<button>`
+  inside the `<th>`, named by the header text; the arrow icons are hidden from screen readers.
+  The `<th>` carries `aria-sort` (`ascending`, `descending` or `none`), and each change is
+  announced through a polite live region, such as "Sorted by Role, ascending". The initial sort
+  isn't announced on load.
+- **Keyboard:** Tab reaches each sort button, and Enter or Space changes the sort.
+- **A scrolling table is reachable by keyboard.** When the table overflows its container, the
+  wrapper becomes a focusable `role="region"`, named by your `aria-label` or a plain-text
+  `caption`, and the arrow keys scroll it. A table that fits adds no tab stop.
+- **Focus is visible** on the sort buttons and the scroll region: a 3px ring outside a 3px white
+  gap, 3.2:1 against the gap. In forced colors (Windows High Contrast) the ring becomes a
+  system-colored outline.
+- **Stacked tables keep their cell structure.** In Chromium, a stacked table is still a table
+  with rows and cells, but the header row is hidden, so cells have no column headers. Each cell's
+  label is part of its text instead, so a cell reads "Role Engineer". With
+  `stackedStyle="headers"`, the first cell of each card is read without a label. We checked this
+  in Chromium only; other browsers may expose stacked tables differently.
+- **Contrast:** text is 13.8:1 on the header and striped-row background and 16.5:1 on the page
+  background; the empty-state text is 5.1:1. Grid lines are 6.4:1 against the page, and the
+  faded icon on unsorted columns 3.1:1 against the header.
+- **Forced colors:** text, grid lines, sort icons and focus stay visible. Striping and header
+  shading are dropped, as expected in that mode.
+- **Tested with `vitest-axe`**: basic, grouped, row-group, style variant and stacked tables, and
+  `DataTable` with a caption, sorting, grouped columns, stacking, card headings and the empty
+  state.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Give every table a name.** Prefer a visible `caption`. If a heading beside the table already
+  names it, pass `captionHidden`, or use `aria-labelledby` pointing at the heading. If the
+  caption isn't plain text (JSX), also pass `aria-label`: otherwise a table that scrolls gets a
+  focusable wrapper with no name.
+- **Mark one row header per row** when a column identifies the row: `meta.isRowHeader` in
+  `DataTable`, or `<TableHead scope="row">` with the primitives.
+- **With the primitives, write the header scopes yourself.** Spanning column headers need
+  `scope="colgroup"` and a `colSpan`. Keep to two levels of headers; tables with more need `id`
+  on each header and `headers` on each cell, which Vero doesn't add.
+- **Use plain-text headers on sortable columns.** When a header is JSX, the sort announcement
+  uses the column's id instead of its label
+  ([#209](https://github.com/capitaltg/vero/issues/209)).
+- **Expect single-column sorting.** Holding Shift while sorting adds a second sort column, but
+  only the first is announced and both headers report a sort state
+  ([#208](https://github.com/capitaltg/vero/issues/208)).
+- **Label every cell when the table stacks.** `DataTable` fills in labels from the headers.
+  With the primitives, pass `label` on each body cell. In a table with grouped columns, a card
+  shows only the leaf header, so set `meta.stackedLabel` (or `label`) to include the group, such
+  as "Q1 revenue". Don't stack a table people need to sort.
+- **Check a sticky header against your layout.** In our check, focused links in the rows
+  scrolled clear of the pinned header, but a fixed navbar or another sticky element on your page
+  can still cover focused content.
+- **Name links and buttons in cells for their row.** Write "Edit Ada Lovelace", or add visually
+  hidden text, rather than a column of identical "Edit" links.
+- **Show empty values in words for screen readers.** Use visually hidden text, as in
+  [Empty values](#empty-values), not `aria-label` on a `<span>`.
+- **Test it in your page.** Run the
+  [USWDS table accessibility tests](https://designsystem.digital.gov/components/table/accessibility-tests/)
+  on your own tables, including a screen reader pass, especially for stacked tables.
+
+For an accessibility review, see
+[all open accessibility issues for Table and DataTable](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+%28in%3Atitle+Table+OR+in%3Atitle+DataTable%29).
+
+</DocsSection>
 
 <DocsSection
   id="api-reference"

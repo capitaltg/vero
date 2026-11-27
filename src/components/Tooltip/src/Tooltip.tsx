@@ -4,15 +4,25 @@ import { getZIndex } from '@/lib/z-index';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
-import { TooltipProps } from '../types';
+import { TooltipProps, TooltipProviderProps } from '../types';
 
-function TooltipProvider({
-  delayDuration = 0,
-  ...props
-}: Readonly<React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Provider>>) {
+/**
+ * Sets the open delay and hover behavior for the tooltips inside it. Every `Tooltip` needs a
+ * `TooltipProvider` above it, or it throws. Wrap your app in one, near the root. Add another
+ * around a subtree to give its tooltips different settings.
+ *
+ * Tooltips open right away by default: Vero sets `delayDuration` to `0`, where Radix uses
+ * 700ms.
+ */
+function TooltipProvider({ delayDuration = 0, ...props }: TooltipProviderProps) {
   return <TooltipPrimitive.Provider delayDuration={delayDuration} {...props} />;
 }
 
+/**
+ * A short label that appears when the pointer rests on its trigger or the trigger gets
+ * keyboard focus. Pass the trigger as `children` and the label as `content`. Built on Radix
+ * Tooltip, which follows the ARIA tooltip pattern. It needs a `TooltipProvider` above it.
+ */
 const Tooltip = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Content>, TooltipProps>(
   (
     {

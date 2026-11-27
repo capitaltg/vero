@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Label } from '../src/Label';
 import * as LabelStories from './Label.stories';
 
@@ -8,6 +13,44 @@ import * as LabelStories from './Label.stories';
 # Label
 
 <Description of={LabelStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a Label on its own. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/form/">USWDS form guidance</a>, which has
+      no separate label page. The{' '}
+      <a href="?path=/docs/inputs-forms-formitem--docs">FormItem</a> page has the full guidance for
+      labels, hints and errors.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **When you lay out a field yourself** and FormItem's layout doesn't fit, such as a label beside
+  its field in a compact filter bar.
+- In most forms, use a [FormItem](?path=/docs/inputs-forms-formitem--docs) instead. It renders a
+  Label for you and links the hint and error text too.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **A field with hint or error text:** use a
+  [FormItem](?path=/docs/inputs-forms-formitem--docs), which links them to the field.
+- **A name for a group of checkboxes or radio buttons:** use a `fieldset` and `legend`. See
+  [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs).
+- **A single checkbox, radio button or switch:** use its own `label` prop.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Keep labels short and specific**, such as "Email address".
+- **Put the label above or before its field**, in the same order in the code as on screen.
+- **Mark required fields the same way across the form**, and explain the marker once at the top.
+  The Required example adds an asterisk with CSS.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +67,40 @@ import * as LabelStories from './Label.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the label handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a native `<label>`**, so with `htmlFor` set to a field's `id` it gives the field its
+  accessible name, and clicking it focuses the field.
+- **Contrast** (in the USWDS theme): the label text is 17.7:1 against white.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Point it at the field.** Set `htmlFor` to the field's `id`, or wrap the field in the Label.
+  Without either, the label is only text, and the field has no name.
+- **Check how to label fields that aren't native inputs.** A `<label>` names native fields, such
+  as an [Input](?path=/docs/inputs-forms-input--docs) or
+  [Textarea](?path=/docs/inputs-forms-textarea--docs). Fields such as Select and Combobox are
+  built on a button, so check their pages for how to label them.
+- **Mark required fields on the field**, with `required` or `aria-required`. An asterisk in the
+  label is read as "star", and doesn't tell screen reader users the field is required.
+- **Link hints and errors yourself** with `aria-describedby` on the field, or use a
+  [FormItem](?path=/docs/inputs-forms-formitem--docs), which does it for you.
+- **Use enough contrast for a required marker.** Red text needs 4.5:1, like the
+  `text-destructive` color the Required example uses.
+
+Searching issue titles for "Label" also matches other components' label issues. For an accessibility
+review, see
+[all open accessibility issues for FormItem](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+FormItem),
+which renders Label.
+
 </DocsSection>
 
 <DocsSection

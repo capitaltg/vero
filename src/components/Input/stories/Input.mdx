@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Input } from '../src/Input';
 import * as InputStories from './Input.stories';
 
@@ -8,6 +13,59 @@ import * as InputStories from './Input.stories';
 # Input
 
 <Description of={InputStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a single-line text field and how to set it up. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/text-input/">
+        USWDS text input guidance
+      </a>
+      .
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For short, free-form answers** that vary from user to user, such as a name, an email address
+  or a reference number.
+- **When users already know the answer** and typing it is quicker than picking it, such as a
+  date of birth.
+- **When users may want to paste the answer**, such as a code from an email.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Answers longer than a line or two:** use a [Textarea](?path=/docs/inputs-forms-textarea--docs).
+- **A choice from a fixed list:** use a [Select](?path=/docs/inputs-forms-select--docs), a
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs), or a
+  [Combobox](?path=/docs/inputs-forms-combobox--docs) for a long list.
+- **A date that users look up rather than know:** use a
+  [DatePicker](?path=/docs/data-display-datepicker--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Give every input a visible label.** Wrap it in a [FormItem](?path=/docs/inputs-forms-formitem--docs),
+  which adds the label, hint and error text and links them to the input.
+- **Don't use placeholder text in place of a label or hint.** It disappears as soon as users
+  type, and it's hard to read for many people. Put instructions and examples in `hintText`.
+- **Size the field to the answer it expects.** The input fills its container. Set a width with
+  `className`, such as `max-w-[13ex]` for a ZIP code, so the field hints at how much to type.
+- **Set `type` and `autoComplete`.** `type="email"` or `type="tel"` brings up the right keyboard on
+  phones, and `autoComplete="email"` lets browsers fill in known details.
+- **Use one field for one value.** Don't split a phone number or Social Security number across
+  several inputs: the extra labels confuse screen reader users, and pasting breaks.
+- **Show errors only after users have finished with the field**, on blur or on submit, not while
+  they're still typing.
+- **Use `transform` sparingly.** It changes text as users type: `uppercase` and `lowercase` move
+  the caret to the end when users edit mid-text
+  ([#213](https://github.com/capitaltg/vero/issues/213)), and `trim` removes spaces between words
+  ([#214](https://github.com/capitaltg/vero/issues/214)). Use `trim` only for values without
+  spaces, such as an email address, or trim the value yourself when you save it.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +82,57 @@ import * as InputStories from './Input.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the input handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a native `<input>`**, so it's a text box to assistive technology, and it takes every
+  standard attribute, such as `type`, `autoComplete`, `required` and `aria-describedby`.
+- **Focus is visible:** a 3px ring in the focus color, set off from the field by a 3px gap, shows
+  when it's reached by keyboard. In Windows High Contrast mode an outline shows instead.
+- **When disabled with `isDisabled` it stays focusable** and is marked `aria-disabled`, so screen
+  reader users can still find it and hear that it's unavailable. Clicks don't focus it, and
+  typing, pasting and dropping text are blocked.
+- **Contrast** (in the USWDS theme): the border is 6.7:1 against white, above the 3:1 that WCAG
+  requires for form controls, and placeholder text is 5.3:1. The focus ring is 3.2:1.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Label it.** The input has no label of its own. Wrap it in a
+  [FormItem](?path=/docs/inputs-forms-formitem--docs) with a string `label`, or point a
+  [Label](?path=/docs/inputs-forms-label--docs) at its `id`. Use `aria-label` only when the purpose
+  is clear from what's around it, such as a search field next to a Search button. Placeholder text
+  isn't a label.
+- **Give it an `id`, and match FormItem's `elementId` to it** if you set one. FormItem doesn't set
+  the id, so a mismatch leaves the input unlabeled
+  ([#163](https://github.com/capitaltg/vero/issues/163)).
+- **Mark required fields on the input.** Set `required` or `aria-required`. FormItem's
+  `isRequired` only adds an asterisk to the label
+  ([#211](https://github.com/capitaltg/vero/issues/211)).
+- **Set `autoComplete` on fields that collect the user's own details**, such as `name`, `email` or
+  `postal-code`, so browsers and assistive tools can fill them in (WCAG SC 1.3.5).
+- **Make errors heard.** FormItem's `errorText` is linked to the input, but it isn't announced
+  when it appears ([#212](https://github.com/capitaltg/vero/issues/212)). Show errors on submit and
+  move focus to the first invalid field or an error summary.
+- **Prefer `readOnly` to `isDisabled`** when users need to review or copy a value: a disabled input
+  blocks the arrow keys and copying. Say why a field is disabled, in its hint text. Don't rely on
+  `isDisabled` to protect the value: text inserted by dictation or an input method still gets in,
+  so check it when the form is submitted.
+- **Check border contrast if you use the light or dark theme.** There the border is below the 3:1
+  WCAG requires ([#125](https://github.com/capitaltg/vero/issues/125)).
+- **Test it in your page.** Run the
+  [USWDS text input accessibility tests](https://designsystem.digital.gov/components/text-input/accessibility-tests/)
+  on your own form, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Input and FormItem](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+%28in%3Atitle+Input+OR+in%3Atitle+FormItem%29).
+
 </DocsSection>
 
 <DocsSection

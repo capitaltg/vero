@@ -2,6 +2,51 @@
 
 @tailwind base;
 @tailwind components;
+
+/* Docs page text, after the Vue.js docs. Skips component previews (.sb-unstyled) and table
+   cells. It sits before the utilities so Tailwind classes in DocsLayout.tsx can override it. */
+.sbdocs-content :where(:not(.sb-unstyled, .sb-unstyled *, td *, th *)) {
+  &:is(h2, h3) {
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  &:is(h2) {
+    border-top: 1px solid rgb(60 60 60 / 0.12);
+    border-bottom: 0;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  &:is(h3) {
+    margin: 32px 0 12px;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+  &:is(p, li) {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  &:is(li) {
+    line-height: 1.5;
+  }
+  &:is(ul, ol) {
+    margin-top: 12px;
+    padding-left: 22px;
+  }
+  /* Storybook's link icon, centered on the heading */
+  &:is(h2) > a:first-child {
+    margin-top: 13px;
+  }
+  &:is(h3) > a:first-child {
+    margin-top: 9px;
+  }
+}
+
+/* Two classes: Storybook zeroes the first h2's spacing with a :first-of-type rule. */
+.sbdocs.sbdocs-content h2:where(:not(.sb-unstyled, .sb-unstyled *)) {
+  margin: 64px 0 0;
+  padding: 28px 0 0;
+}
+
 @tailwind utilities;
 
 /* Example of app-specific base styles */
@@ -13,64 +58,4 @@
   body {
     @apply bg-gray-50 text-gray-900;
   }
-}
-
-/*
- * Docs page typography, after the Vue.js docs: semibold headings set apart by space and
- * a faint hairline rather than by size, and larger body text. Applies to every docs page:
- * the shared DocsSection headings and markdown `##` / `###` alike.
- *
- * Storybook's own docs styles sit inside `:where()`, so these win without `!important`.
- * Component previews are wrapped in `.sb-unstyled`, and table cells (the props tables and
- * markdown tables) keep their own text size, so neither picks these up.
- */
-.sbdocs-content h2:not(.sb-unstyled, .sb-unstyled *) {
-  margin: 64px 0 0;
-  border-top: 1px solid rgb(60 60 60 / 0.12);
-  border-bottom: 0;
-  padding: 28px 0 0;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: -0.02em;
-}
-
-.sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) {
-  margin: 32px 0 12px;
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-}
-
-.sbdocs-content h2:not(.sb-unstyled, .sb-unstyled *) + h3 {
-  margin-top: 16px;
-}
-
-.sbdocs-content :is(p, li):not(.sb-unstyled, .sb-unstyled *, :is(td, th) *) {
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-/* Lists are tighter than prose: less leading, a smaller indent, and no extra space under a
-   heading (the heading's own margin is enough). */
-.sbdocs-content li:not(.sb-unstyled, .sb-unstyled *, :is(td, th) *) {
-  line-height: 1.5;
-}
-
-.sbdocs-content :is(ul, ol):not(.sb-unstyled, .sb-unstyled *, :is(td, th) *) {
-  padding-left: 22px;
-}
-
-.sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) + :is(ul, ol) {
-  margin-top: 0;
-}
-
-/* Storybook's anchor-link icon, floated before each heading: centered on the first line. */
-.sbdocs-content h2:not(.sb-unstyled, .sb-unstyled *) > a:first-child {
-  margin-top: 13px;
-}
-
-.sbdocs-content h3:not(.sb-unstyled, .sb-unstyled *) > a:first-child {
-  margin-top: 9px;
 }

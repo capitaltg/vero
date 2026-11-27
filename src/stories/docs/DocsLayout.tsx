@@ -21,10 +21,11 @@ interface DocsSectionProps {
  * whose hairline and space above set the section apart, the same as a markdown `##`.
  */
 export const DocsSection = ({ id, title, intro, className, children }: DocsSectionProps) => (
-  // A subheading straight after the intro needs no space of its own above it.
-  <section aria-labelledby={id} className={`[&>p:first-of-type+h3]:!mt-0 ${className ?? ''}`}>
+  // The intro's spacing is set from the section: Storybook's paragraph style outranks a
+  // class on the paragraph itself.
+  <section aria-labelledby={id} className={`[&>h2+p]:mb-8 [&>h2+p]:mt-2.5 ${className ?? ''}`}>
     <h2 id={id}>{title}</h2>
-    {intro ? <p className="!mb-7 !mt-2.5 max-w-3xl">{intro}</p> : null}
+    {intro ? <p className="max-w-3xl">{intro}</p> : null}
     <SectionIdContext.Provider value={id}>{children}</SectionIdContext.Provider>
   </section>
 );
@@ -69,7 +70,7 @@ export const DocsExamples = () => (
       // don't announce it as part of the heading. The `/ ""` hides it from them.
       "[&_.sb-anchor]:before:mb-0.5 [&_.sb-anchor]:before:block [&_.sb-anchor]:before:font-mono [&_.sb-anchor]:before:text-[11px] [&_.sb-anchor]:before:font-medium [&_.sb-anchor]:before:uppercase [&_.sb-anchor]:before:tracking-[0.08em] [&_.sb-anchor]:before:text-gray-500 [&_.sb-anchor]:before:content-['Example'_/_'']",
       // The heading sits right under its label.
-      '[&_.sb-anchor>h3]:!mt-0',
+      '[&_.sb-anchor>h3]:mt-0',
     ].join(' ')}
   >
     {/* Our "Examples" heading replaces Storybook's. A string title, even an empty one, renders
@@ -120,8 +121,8 @@ export const ApiEntry = ({ of }: { of: Documented }) => {
       className={`mt-8 overflow-hidden rounded-md border border-gray-200 ${flatTableClasses}`}
     >
       <div
-        className="border-b border-gray-200 bg-gray-50 px-5 py-4 [&_p]:!mb-0 [&_p]:!mt-1.5
-          [&_p]:!text-sm [&_p]:text-gray-600"
+        className="border-b border-gray-200 bg-gray-50 px-5 py-4 [&_p]:mb-0 [&_p]:mt-1.5
+          [&_p]:text-sm [&_p]:text-gray-600"
       >
         <span
           aria-hidden="true"

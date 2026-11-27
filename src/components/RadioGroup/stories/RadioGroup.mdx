@@ -1,0 +1,36 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { RadioGroup } from '../src/RadioGroup';
+import { Radio } from '../../Radio';
+import * as RadioGroupStories from './RadioGroup.stories';
+
+<Meta of={RadioGroupStories} />
+
+# RadioGroup
+
+<Description of={RadioGroupStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the radio group responds."
+  title="Try it"
+>
+  <Canvas of={RadioGroupStories.Playground} />
+  <Controls of={RadioGroupStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="Each component's props, as declared in Vero's types. Standard HTML attributes and Radix props aren't listed."
+  title="API reference"
+>
+  <ApiReference components={[RadioGroup, Radio]} />
+</DocsSection>

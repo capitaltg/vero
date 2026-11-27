@@ -1,0 +1,36 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { SwitchGroup } from '../src/SwitchGroup';
+import { Switch } from '../../Switch';
+import * as SwitchGroupStories from './SwitchGroup.stories';
+
+<Meta of={SwitchGroupStories} />
+
+# SwitchGroup
+
+<Description of={SwitchGroupStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the switch group responds."
+  title="Try it"
+>
+  <Canvas of={SwitchGroupStories.Playground} />
+  <Controls of={SwitchGroupStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="Each component's props, as declared in Vero's types. Standard HTML attributes and Radix props aren't listed."
+  title="API reference"
+>
+  <ApiReference components={[SwitchGroup, Switch]} />
+</DocsSection>

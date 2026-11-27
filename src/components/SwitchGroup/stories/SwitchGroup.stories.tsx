@@ -33,22 +33,18 @@ const meta = {
   argTypes: {
     value: {
       control: 'object',
-      description: 'Array of selected switch IDs',
       type: { name: 'array', value: { name: 'string' }, required: false },
     },
     onChange: {
-      description: 'Callback when selection changes',
       type: { name: 'function', required: true },
     },
     options: {
       control: 'object',
-      description: 'Array of switch options',
       type: { name: 'array', value: { name: 'object', value: {} }, required: true },
     },
     orientation: {
       control: 'radio',
       options: ['horizontal', 'vertical'],
-      description: 'Layout orientation of the switch group',
       type: { name: 'string', required: false },
       table: {
         type: { summary: 'horizontal | vertical' },
@@ -57,13 +53,10 @@ const meta = {
     columns: {
       control: 'radio',
       options: [1, 2, 3, 4],
-      description: 'Number of columns in the grid (only applies when orientation is vertical)',
       type: { name: 'number', required: false },
     },
     isDisabled: {
       control: 'boolean',
-      description:
-        'Disables the entire group. Individual options can also be disabled via `option.isDisabled`. Applies only in `options` mode; when passing `children`, the group does not disable them — set `isDisabled` on each Switch yourself.',
       type: { name: 'boolean', required: false },
       table: {
         type: { summary: 'boolean' },
@@ -71,15 +64,15 @@ const meta = {
       },
     },
   },
-  tags: ['autodocs'],
+  // The docs page is SwitchGroup.mdx, so there's no autodocs page.
 } satisfies Meta<typeof SwitchGroup>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Interactive playground for the SwitchGroup component.
- * Use the controls to experiment with different props and states.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {
   args: {
@@ -87,8 +80,6 @@ export const Playground: Story = {
     value: [],
     onChange: () => {},
   },
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
 };
 
 /**

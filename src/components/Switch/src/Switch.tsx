@@ -9,6 +9,11 @@ import { useId } from 'react';
 import { switchClasses, switchThumbClasses } from '../constants';
 import { SwitchProps } from '../types';
 
+/**
+ * A toggle for a setting that takes effect right away, built on Radix Switch
+ * (`role="switch"`), with its label beside it. It's controlled, so pass `isChecked` and
+ * update it from `onCheckedChange`.
+ */
 const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, SwitchProps>(
   (
     {
@@ -56,6 +61,6 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
     );
   },
 );
-Switch.displayName = SwitchPrimitives.Root.displayName;
+Switch.displayName = 'Switch';
 
 export { Switch };

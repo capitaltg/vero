@@ -96,7 +96,10 @@ const getDescription = (component: Documented) =>
 
 // Removes Storybook's frame around the props table's rows (edge-cell borders, corner
 // radius, shadow and outer margin), keeping the lines between rows, so the entry's box is
-// the only frame.
+// the only frame. These need `!`: Storybook's table styles use doubled classes
+// (`.css-x.css-x td`) and, for the corners, `tbody > tr:first-of-type > td:first-of-type`,
+// which outrank a Tailwind class. Matching them without `!` would mean copying Storybook's
+// selectors, which break if it changes its markup.
 const flatTableClasses = [
   '[&_.docblock-argstable]:!m-0',
   '[&_.docblock-argstable_tbody]:![filter:none]',

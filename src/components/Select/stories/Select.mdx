@@ -1,0 +1,54 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Select, SelectRoot, SelectValue } from '../src/Select';
+import { SelectContent } from '../src/SelectContent';
+import { SelectItem } from '../src/SelectItem';
+import { SelectTrigger } from '../src/SelectTrigger';
+import * as SelectStories from './Select.stories';
+
+<Meta of={SelectStories} />
+
+# Select
+
+<Description of={SelectStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the select responds."
+  title="Try it"
+>
+  <Canvas of={SelectStories.Playground} />
+  <Controls of={SelectStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro={
+    <>
+      Each part's props, as declared in Vero's types. Props inherited from standard HTML attributes
+      or Radix aren't listed; see the{' '}
+      <a href="https://www.radix-ui.com/primitives/docs/components/select#api-reference">
+        Radix Select API reference
+      </a>{' '}
+      for those. Use <code>Select</code> for a plain list of options. Use the parts, starting with{' '}
+      <code>SelectRoot</code>, when you need groups, labels, separators or disabled items, as in the
+      From Parts example. <code>SelectGroup</code>, <code>SelectLabel</code> and{' '}
+      <code>SelectSeparator</code> take only standard HTML attributes, so they have no entry.{' '}
+      <code>SingleSelect</code> is an older name for <code>Select</code>, kept so existing code
+      still works; use <code>Select</code> instead.
+    </>
+  }
+  title="API reference"
+>
+  <ApiReference
+    components={[Select, SelectRoot, SelectTrigger, SelectValue, SelectContent, SelectItem]}
+  />
+</DocsSection>

@@ -3,6 +3,10 @@ import * as SelectPrimitive from '@radix-ui/react-select';
 import * as React from 'react';
 import { SelectContentProps } from '../types';
 
+/**
+ * The list of items, rendered in a portal. Arrow keys move between items, typing jumps to a
+ * matching item, Enter or Space picks one, and Escape closes the list.
+ */
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   SelectContentProps
@@ -39,6 +43,6 @@ const SelectContent = React.forwardRef<
     </SelectPrimitive.Content>
   </SelectPrimitive.Portal>
 ));
-SelectContent.displayName = SelectPrimitive.Content.displayName;
+SelectContent.displayName = 'SelectContent';
 
 export { SelectContent };

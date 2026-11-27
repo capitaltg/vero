@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import * as React from 'react';
 import { SelectItemProps } from '../types';
 
+/** One option in the list. A check mark shows next to the chosen item. */
 const SelectItem = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Item>, SelectItemProps>(
   ({ className, children, ...props }, ref) => (
     <SelectPrimitive.Item
@@ -26,6 +27,6 @@ const SelectItem = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Item
     </SelectPrimitive.Item>
   ),
 );
-SelectItem.displayName = SelectPrimitive.Item.displayName;
+SelectItem.displayName = 'SelectItem';
 
 export { SelectItem };

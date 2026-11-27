@@ -10,7 +10,9 @@ export type {
   SelectLabelProps,
   SelectOption,
   SelectProps,
+  SelectRootProps,
   SelectSeparatorProps,
   SelectTriggerProps,
+  SelectValueProps,
   SingleSelectProps,
 } from './types';

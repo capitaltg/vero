@@ -41,7 +41,7 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "commitlint": "commitlint --edit",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "node scripts/storybook.mjs",
     "build-storybook": "storybook build",
     "test": "vitest run",
     "test:watch": "vitest",

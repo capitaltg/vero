@@ -1,0 +1,40 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
+import * as TabsStories from './Tabs.stories';
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+<Description of={TabsStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the tabs respond."
+  title="Try it"
+>
+  <Canvas of={TabsStories.Playground} />
+  <Controls of={TabsStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro={
+    <>
+      Each part's props, as declared in Vero's types. Props inherited from standard HTML attributes
+      or Radix, such as <code>asChild</code> and <code>dir</code>, aren't listed.
+    </>
+  }
+  title="API reference"
+>
+  <ApiReference components={[Tabs, TabsList, TabsTrigger, TabsContent]} />
+</DocsSection>

@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { DateRangePicker } from '../src/DateRangePicker';
 import * as DateRangePickerStories from './DateRangePicker.stories';
 
@@ -8,6 +13,50 @@ import * as DateRangePickerStories from './DateRangePicker.stories';
 # DateRangePicker
 
 <Description of={DateRangePickerStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a date range picker and how to make the two steps clear. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/date-range-picker/">
+        USWDS date range picker guidance
+      </a>
+      .
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To pick a start and an end date**, such as a trip, a leave request or a reporting period,
+  where seeing two months side by side helps.
+- [DatePicker](?path=/docs/data-display-datepicker--docs) has the full guidance for date pickers.
+  It applies here too.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **A single date:** use a [DatePicker](?path=/docs/data-display-datepicker--docs).
+- **The day of the week doesn't matter, or users need to type the dates:** use two sets of text
+  fields, one for the start and one for the end. The picker has no text field to type into.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Say that two dates are needed.** The first click sets the start and the second the end, but
+  the trigger only shows `placeholder.from`, so nothing prompts for the end date
+  ([#226](https://github.com/capitaltg/vero/issues/226)). Use hint text such as "Pick a check-in
+  date, then a check-out date".
+- **Know how a new click changes the range.** Clicking a day before the start, or any day after a
+  complete range, starts a new range. Clicking the start again clears it.
+- **Explain excluded dates.** A range can't span a day in `excludeDates`: picking an end date
+  across one starts a new range from that day instead. Say so in hint text, such as "Your stay
+  can't include a weekend".
+- **The calendar stays open after both dates are picked**, so users can check the range. Escape,
+  or clicking outside, closes it.
+- **Don't submit the form or start another action when the range is complete.**
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +73,65 @@ import * as DateRangePickerStories from './DateRangePicker.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the date range picker handles for you and what you need to add. The calendar works as in DatePicker; the differences are below."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **The trigger is a button** with `aria-haspopup="dialog"` and `aria-expanded`. Its text, the
+  placeholder or the picked dates, is its name unless you label it.
+- **Opening the calendar moves focus into it**, to the start date, or to today when no range is
+  picked. Focus stays in the calendar until it closes.
+- **Keyboard in the calendar** is the same as in
+  [DatePicker](?path=/docs/data-display-datepicker--docs#accessibility-built-in): arrows, Home and
+  End, and Page Up and Page Down move between days, across both months. Enter or Space picks the
+  focused day and keeps the calendar open. Escape closes it and returns focus to the trigger.
+- **Each month is a grid** (`role="grid"`) named by its month and year. Each day is a button named
+  with its full date, and every day in the range is marked `aria-selected`.
+- **Unavailable days are disabled**, and the arrow keys skip them.
+- **When disabled, the trigger stays focusable** and is marked `aria-disabled`. Clicks, Enter and
+  Space don't open the calendar.
+- **It passes your `aria-describedby` and `aria-labelledby` to the trigger**, as DatePicker does.
+- **Contrast:** the trigger's border is 6.7:1 against white and the placeholder text 5.3:1. The
+  start and end days' fill and the focus ring on days are 6.7:1. Days between them have dark blue
+  text, 5.1:1 on their light blue fill; that fill is only 1.23:1 against white
+  ([#125](https://github.com/capitaltg/vero/issues/125)).
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Give it a label that includes the dates.** As with DatePicker, a plain `<label for>` replaces
+  the trigger's text as its name ([#225](https://github.com/capitaltg/vero/issues/225)). Point
+  `aria-labelledby` at the label and at the trigger, as in
+  [DatePicker's example](?path=/docs/data-display-datepicker--docs#accessibility-your-responsibility).
+- **Tell users to pick two dates**, in the label or hint text. The trigger doesn't prompt for the
+  end date ([#226](https://github.com/capitaltg/vero/issues/226)).
+- **Check for a complete range yourself.** A range with only a start date submits as one date. For
+  now, `required` doesn't stop the form from submitting, and the trigger isn't marked
+  `aria-required` ([#224](https://github.com/capitaltg/vero/issues/224)). Put "(required)" in the
+  label text, check both dates on submit, and show the error with FormItem's `errorText`.
+- **Explain unavailable and excluded dates in hint text.** Disabled days are skipped and not
+  explained, and a range that would include an excluded day silently restarts.
+- **Make the label say what the dates are for.** For now, the calendar dialog has no name of its
+  own ([#220](https://github.com/capitaltg/vero/issues/220)).
+- **Expect the month and year buttons to be hard to reach by voice**
+  ([#223](https://github.com/capitaltg/vero/issues/223)). The previous and next month buttons and
+  the arrow keys still work.
+- **Show the picked range outside the calendar where users rely on Windows High Contrast mode.**
+  For now, the range isn't visible in the calendar in that mode
+  ([#222](https://github.com/capitaltg/vero/issues/222)). The trigger still shows the dates as
+  text.
+- **Test it in your page.** Run the
+  [USWDS date range picker accessibility tests](https://designsystem.digital.gov/components/date-range-picker/accessibility-tests/)
+  on your own form, including a screen reader pass. Skip the steps for the text fields.
+
+For an accessibility review, see
+[all open accessibility issues for DatePicker and DateRangePicker](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+%28in%3Atitle+DatePicker+OR+in%3Atitle+DateRangePicker%29).
+
 </DocsSection>
 
 <DocsSection

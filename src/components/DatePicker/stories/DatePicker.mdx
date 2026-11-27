@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { DatePicker } from '../src/DatePicker';
 import * as DatePickerStories from './DatePicker.stories';
 
@@ -8,6 +13,60 @@ import * as DatePickerStories from './DatePicker.stories';
 # DatePicker
 
 <Description of={DatePickerStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a date picker, and when a text field works better. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/date-picker/">
+        USWDS date picker guidance
+      </a>
+      .
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To schedule or record an event**, such as an appointment, where seeing a calendar helps.
+- **When the day of the week matters**, such as picking a weekday for a delivery.
+- **For dates close to today.** The calendar opens on the selected date, or on today's date, so
+  nearby dates take a few key presses or clicks.
+- For a start and an end date, use a
+  [DateRangePicker](?path=/docs/data-display-daterangepicker--docs).
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Dates users know or can look up**, such as a date of birth or a passport's issue date: use text
+  fields, such as separate month, day and year [Inputs](?path=/docs/inputs-forms-input--docs).
+  Paging back decades in a calendar is slow.
+- **The day of the week doesn't matter:** text fields are usually quicker.
+- **Users need to type the date.** Vero's date picker is pick-only: there's no text field to type
+  into. USWDS recommends always letting users type a date, because some people find that faster or
+  easier. Where that matters, use text fields with a format hint, such as "MM/DD/YYYY".
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Say what the date is for in a visible label**, such as "Appointment date". See
+  [Your responsibility](#accessibility-your-responsibility) for how to link it.
+- **Use the placeholder as an instruction, not as the label.** It's replaced by the date once one
+  is picked.
+- **Limit the choices with `minDate`, `maxDate` and `excludeDates`** rather than rejecting a date
+  after it's picked. Unavailable days are disabled in the calendar.
+- **Explain the limits in hint text**, such as "Weekdays in the next 30 days". The calendar doesn't
+  say why a day is unavailable.
+- **Set `minDate` and `maxDate` for dates far from today.** They also set the years in the
+  calendar's year list. Without them, the list covers this year and the 23 before it, so a future
+  year can only be reached month by month.
+- **Don't submit the form or start another action when a date is picked.** Users may pick the
+  wrong day, and screen reader users can lose their place.
+- **Disable the picker only when no date can be chosen**, and say how to make it available.
+- **The picked date is shown with the month name**, such as "March 14, 2024", so it can't be
+  misread as day-month or month-day.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +83,98 @@ import * as DatePickerStories from './DatePicker.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the date picker handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **The trigger is a button** with `aria-haspopup="dialog"` and `aria-expanded`. Its text, the
+  placeholder or the picked date, is its name unless you label it.
+- **Opening the calendar moves focus into it**, to the selected day, or to today when no date is
+  picked. Focus stays in the calendar until it closes.
+- **Keyboard in the calendar**, as in the
+  [WAI-ARIA date picker example](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/):
+  - Left and Right arrows move by day, Up and Down by week.
+  - Home and End move to the start and end of the week.
+  - Page Up and Page Down move by month; with Shift, by year.
+  - Enter or Space picks the focused day, closes the calendar and returns focus to the trigger.
+  - Escape closes the calendar and returns focus to the trigger.
+  - Tab moves between the previous and next month buttons, the month and year buttons, and the
+    days.
+- **The calendar is a grid** (`role="grid"`) named by its month and year. Each day is a button
+  named with its full date, such as "Thursday, March 14th, 2024". The selected day adds
+  "selected" and is marked `aria-selected`; today's date starts with "Today".
+- **Unavailable days are disabled**, and the arrow keys skip them.
+- **When disabled, the trigger stays focusable** and is marked `aria-disabled`, so screen reader
+  users can still find it. Clicks, Enter and Space don't open the calendar.
+- **It passes your `aria-describedby` and `aria-labelledby` to the trigger.** In a
+  [FormItem](?path=/docs/inputs-forms-formitem--docs), the hint and error are added to your own
+  `aria-describedby`, and an error sets `aria-invalid`.
+- **Contrast:** the trigger's border is 6.7:1 against white and the placeholder text 5.3:1. The
+  selected day's fill and the focus ring on days are 6.7:1. Days from the next and previous months
+  are 4.5:1.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Give it a label that includes the date.** A plain `<label for>`, such as FormItem's string
+  `label`, replaces the trigger's text as its name, so screen reader users hear "Start date" but
+  not the picked date ([#225](https://github.com/capitaltg/vero/issues/225)). Point
+  `aria-labelledby` at the label and at the trigger itself:
+
+  ```tsx
+  <FormItem
+    hintText="Weekdays in the next 30 days."
+    label={
+      <Label htmlFor="start" id="start-label">
+        Start date
+      </Label>
+    }
+  >
+    <DatePicker
+      aria-labelledby="start-label start"
+      id="start"
+      maxDate={maxDate}
+      minDate={minDate}
+      value={start}
+      onChange={setStart}
+    />
+  </FormItem>
+  ```
+
+  The trigger's name is then "Start date Pick a date", and "Start date" plus the date once one is
+  picked.
+
+- **Validate required dates yourself.** For now, `required` doesn't stop the form from
+  submitting, and its `aria-required` isn't announced on a button
+  ([#224](https://github.com/capitaltg/vero/issues/224)). Put "(required)" in the label text, check
+  for a date on submit, and show the error with FormItem's `errorText`.
+- **Explain unavailable dates in hint text.** Disabled days are skipped and not explained.
+- **Make the label say what the date is for.** For now, the calendar dialog has no name of its own
+  ([#220](https://github.com/capitaltg/vero/issues/220)), so screen readers announce only "dialog"
+  when it opens.
+- **Expect the month and year buttons to be hard to reach by voice.** For now, their names are
+  "Select calendar month" and "Select calendar year", not the month and year they show
+  ([#223](https://github.com/capitaltg/vero/issues/223)). The previous and next month buttons and
+  the arrow keys still work.
+- **Show the picked date outside the calendar where users rely on Windows High Contrast mode.**
+  For now, the selected day isn't visible in the calendar in that mode
+  ([#222](https://github.com/capitaltg/vero/issues/222)). The trigger still shows the date as text.
+- **Offer typed entry where users need it.** The picker has no text field. Some users, including
+  some screen reader and voice users, find typing a date easier: use text fields instead, as in
+  [When to use something else](#guidance-when-to-use-something-else).
+- **Test it in your page.** Run the
+  [USWDS date picker accessibility tests](https://designsystem.digital.gov/components/date-picker/accessibility-tests/)
+  on your own form, including a screen reader pass. They're written for USWDS's typed-entry
+  picker, so skip the steps for the text field.
+
+For an accessibility review, see
+[all open accessibility issues for DatePicker and DateRangePicker](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+%28in%3Atitle+DatePicker+OR+in%3Atitle+DateRangePicker%29).
+
 </DocsSection>
 
 <DocsSection

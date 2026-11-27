@@ -1,4 +1,6 @@
 import { Canvas, Controls, Meta } from '@storybook/blocks';
+import { ApiReference, DocsSection } from '../../../stories/docs/DocsLayout';
+import { Table, TableCaption, TableCell, TableHead } from '../src/Table';
 import * as DataTableStories from './DataTable.stories';
 import * as TableStories from './Table.stories';
 
@@ -123,7 +125,8 @@ The children are thin wrappers over the native elements: `TableCaption` (`<capti
 `hidden` for a screen-reader-only caption), `TableHeader` (`<thead>`), `TableBody` (`<tbody>` —
 use several for row-group sections), `TableFooter` (`<tfoot>`), `TableRow` (`<tr>`), `TableHead`
 (`<th>`, with `scope` defaulting to `col`) and `TableCell` (`<td>`). Both cell components accept a
-`label`, shown above the value while the table is stacked.
+`label`, shown above the value while the table is stacked. The [API reference](#api-reference) at
+the end of this page lists the props of `Table`, `TableCaption`, `TableHead` and `TableCell`.
 
 ## `DataTable` props
 
@@ -677,3 +680,19 @@ rows inside — so most markup ports across unchanged.
   header row is hidden.
 - Every state above is covered by `vitest-axe`. Stacked mode trades table semantics for the card
   layout by design — a manual screen-reader pass is still worth doing for your specific content.
+
+<DocsSection
+  id="api-reference"
+  intro={
+    <>
+      The props declared in Vero's types for <code>Table</code> and the parts that take props of
+      their own. Standard HTML attributes aren't listed. <code>TableHeader</code>,{' '}
+      <code>TableBody</code>, <code>TableFooter</code> and <code>TableRow</code> take only standard
+      HTML attributes, so they have no entry. <code>DataTable</code>'s props are in the table under{' '}
+      <code>DataTable</code> props above.
+    </>
+  }
+  title="API reference"
+>
+  <ApiReference components={[Table, TableCaption, TableHead, TableCell]} />
+</DocsSection>

@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Popover, PopoverContent, PopoverTrigger } from '../src/Popover';
 import * as PopoverStories from './Popover.stories';
 
@@ -8,6 +13,52 @@ import * as PopoverStories from './Popover.stories';
 # Popover
 
 <Description of={Popover} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a popover instead of a dialog or a tooltip. USWDS has no popover component, so this
+      guidance is Vero's own. The popover's panel is a non-modal dialog; see the{' '}
+      <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/">WAI-ARIA dialog pattern</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For a few controls or details tied to one button**, such as a small settings form, a color
+  picker or extra detail about an item, where the user stays on the page and carries on after.
+- **When the content needs to be clicked or typed into.** A popover stays open until it's
+  dismissed, and focus moves into it.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **A decision the user must make before going on**, or anything that should block the page: use
+  a [Dialog](?path=/docs/overlays-feedback-dialog--docs).
+- **A short label or hint shown on hover or focus**, with nothing to click: use a
+  [Tooltip](?path=/docs/overlays-feedback-tooltip--docs).
+- **A list of actions:** use a
+  [DropdownButton](?path=/docs/actions-navigation-dropdownbutton--docs), which is a menu with
+  arrow-key navigation.
+- **Choosing from a list of options:** use a [Select](?path=/docs/inputs-forms-select--docs),
+  [Combobox](?path=/docs/inputs-forms-combobox--docs) or
+  [MultiSelect](?path=/docs/inputs-forms-multiselect--docs).
+- **Content users need to complete the task:** put it on the page, where it's always visible.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Make the trigger say what it opens**, such as "Color: Blue" or "Filter", so users know what to
+  expect.
+- **Keep the content small.** If it needs a long form or scrolling, use a Dialog or a page.
+- **Close it when the job is done**, such as after picking a color, by controlling `open` with
+  `onOpenChange`. Users can also close it with Escape or a click outside.
+- **Place it with `side` and `align`** so it doesn't cover what users need to see while using it.
+- **Set stacking with `zIndex`, not `style`.** For now, passing `style` drops the z-index
+  ([#230](https://github.com/capitaltg/vero/issues/230)).
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +75,47 @@ import * as PopoverStories from './Popover.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the popover handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **The trigger says it opens a dialog**, with `aria-haspopup="dialog"` and `aria-expanded`, and
+  `aria-controls` while it's open.
+- **The panel is a dialog to assistive technology** (`role="dialog"`), but it has no name until you
+  give it one (see [Your responsibility](#accessibility-your-responsibility)).
+- **Focus moves in when it opens**, to the first field, button or link, or to the panel itself when
+  it has none.
+- **Tab and Shift+Tab cycle inside the popover**, even when it isn't modal. Escape is the keyboard
+  way out.
+- **Escape closes it and returns focus to the trigger.** Inside a Dialog, Escape closes only the
+  popover.
+- **A click outside closes it.**
+- **Contrast:** the text is 17.2:1 against the panel.
+- **In forced colors** (Windows High Contrast), the panel's border stays visible.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Name the panel.** Pass `aria-labelledby`, pointing to a heading inside the popover, or an
+  `aria-label` to `PopoverContent`, so screen readers say what the dialog is for.
+- **Give the trigger a clear name**, including the current value where there is one, such as
+  "Color: Blue".
+- **Use it for content, not for menus or option lists.** The panel has no menu or listbox roles and
+  no arrow-key navigation. Use DropdownButton, Select or Combobox for those.
+- **Don't put the only copy of essential information in a popover.** Users have to find the trigger
+  and open it to see it.
+- **Keep `modal` at its default (`false`)** unless the rest of the page must be blocked. A modal
+  popover hides the rest of the page from screen readers; if you need that, consider a Dialog.
+- **Test it in your page** with a keyboard and a screen reader. USWDS has no popover tests to run.
+
+For an accessibility review, see
+[all open accessibility issues for Popover](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Popover).
+
 </DocsSection>
 
 <DocsSection

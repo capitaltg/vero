@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from '../src/Dialog';
 import { DialogOverlay } from '../src/DialogOverlay';
 import * as DialogStories from './Dialog.stories';
@@ -9,6 +14,49 @@ import * as DialogStories from './Dialog.stories';
 # Dialog
 
 <Description of={DialogStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a dialog and how to keep it focused. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/modal/">USWDS modal guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To confirm a decision that needs full attention**, usually one that can't be undone, such as
+  "Delete this account?". Offer a clear choice, such as Cancel and Delete account.
+- **To ask a question the user must answer before going on.**
+- **To show optional information without leaving a task**, such as a privacy policy during sign-up.
+  Closing it is usually the only action.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Look for something less disruptive first.** A dialog blocks the page, so treat it as a last
+  resort.
+- **A process with several steps:** use its own page.
+- **An error, warning or success message:** show it next to the field it's about, or in an
+  [Alert](?path=/docs/overlays-feedback-alert--docs) at the top of the page.
+- **A few controls or details tied to one button**, where the rest of the page doesn't need to be
+  blocked: use a [Popover](?path=/docs/overlays-feedback-popover--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Open a dialog only when the user asks for it.** Exceptions are warnings such as a session about
+  to expire.
+- **Make the title say what's being decided**, and label buttons with what they do: "Delete
+  account", not "Yes".
+- **Put a Cancel button in a `DialogClose`**, so it closes the dialog. A plain button in the footer
+  doesn't.
+- **Keep it short.** If the content needs scrolling, move it to its own page.
+- **Keep the page stable.** Closing the dialog shouldn't reload or change the page behind it.
+- **Keep interactions simple.** A few buttons or fields are fine; a long form isn't.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -25,6 +73,62 @@ import * as DialogStories from './Dialog.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the dialog handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+It follows the [WAI-ARIA modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+- **It's a dialog to assistive technology** (`role="dialog"`), named by its `DialogTitle` through
+  `aria-labelledby`. Its `DialogDescription` is linked with `aria-describedby`, together with any
+  `aria-describedby` you pass.
+- **The trigger says it opens a dialog**, with `aria-haspopup="dialog"` and `aria-expanded`, and
+  `aria-controls` while it's open.
+- **Focus moves in when it opens**, to the first field, button or link. The close (X) button comes
+  last, so it gets focus only when there's nothing else.
+- **Focus stays inside.** Tab and Shift+Tab cycle through the dialog's controls, and the rest of the
+  page is hidden from screen readers (`aria-hidden`).
+- **Escape closes it**, as do the close button and a click outside.
+- **Focus returns to the trigger** when it closes, however it closes.
+- **The close button is a native button named "Close"**, with a focus ring. Its icon is 6.6:1
+  against the dialog's background.
+- **In forced colors** (Windows High Contrast), the dialog's border and the close button's focus
+  outline stay visible.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Always include a `DialogTitle`.** Without one the dialog has no name, and nothing warns you. If
+  it can't have a visible title, pass an `aria-label` to `DialogContent`.
+- **Keep `DialogDescription` short.** Screen readers read it when the dialog opens; put longer
+  content in the body.
+- **Check where focus starts.** In a confirmation, put the safe choice, such as Cancel, before the
+  destructive one, so it gets focus first. When the dialog starts with text that users need to read
+  first, use `onOpenAutoFocus` to focus the title or first paragraph instead, after giving it
+  `tabIndex={-1}`.
+- **Pass `role="alertdialog"` to `DialogContent`** for a confirmation that interrupts the user and
+  needs an answer, such as "Discard your changes?".
+- **Keep Escape and the close button working.** You can stop Escape with `onEscapeKeyDown`, but
+  users expect it to close the dialog.
+- **Send focus somewhere sensible if the trigger is gone** when the dialog closes, such as after
+  deleting the row that opened it. Use `onCloseAutoFocus` to move it.
+- **Keep the content short enough to fit the screen.** For now, a dialog taller than the viewport is
+  cut off and can't be scrolled, which also happens when users zoom in
+  ([#237](https://github.com/capitaltg/vero/issues/237)).
+- **Keep `modal` at its default (`true`).** A non-modal dialog doesn't hide the rest of the page
+  from screen readers.
+- **Test it in your page.** Run the
+  [USWDS modal accessibility tests](https://designsystem.digital.gov/components/modal/accessibility-tests/)
+  on your own dialog, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Dialog](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Dialog).
+
 </DocsSection>
 
 <DocsSection

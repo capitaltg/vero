@@ -12,7 +12,7 @@ interface DocsSectionProps {
 }
 
 /**
- * A top-level section of a docs page (Try it, Examples, API reference), set apart
+ * A top-level section of a docs page (Try it, Examples, API Reference), set apart
  * from the sections around it by a rule, extra space and a larger title.
  */
 export const DocsSection = ({ id, title, intro, className, children }: DocsSectionProps) => (

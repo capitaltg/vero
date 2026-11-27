@@ -1,5 +1,9 @@
-import { ArgTypes, Markdown, Stories } from '@storybook/blocks';
+import { ArgTypes, HeaderMdx, Markdown, Stories } from '@storybook/blocks';
+import { createContext, useContext } from 'react';
 import type { ComponentType, ReactNode } from 'react';
+
+// The id of the DocsSection a heading is in, used to prefix the heading's id.
+const SectionIdContext = createContext<string | undefined>(undefined);
 
 interface DocsSectionProps {
   /** The anchor id, also used to label the section. */
@@ -26,9 +30,38 @@ export const DocsSection = ({ id, title, intro, className, children }: DocsSecti
       {title}
     </h2>
     {intro ? <p className="mb-8 mt-3 max-w-3xl text-base text-gray-600">{intro}</p> : null}
-    {children}
+    <SectionIdContext.Provider value={id}>{children}</SectionIdContext.Provider>
   </section>
 );
+
+interface DocsSubheadingProps {
+  /**
+   * The heading's id within its section. It's prefixed with the section's id, so
+   * `built-in` in the Accessibility section becomes `accessibility-built-in`.
+   */
+  id: string;
+  children: ReactNode;
+}
+
+// `> a` is Storybook's anchor-link icon; the margin centers it on the heading, as for the
+// example headings. HeaderMdx passes `className` on to the heading, but its props type
+// doesn't declare it, so it goes in through a spread.
+const centeredIcon = { className: '[&>a]:mt-2.5' };
+
+/**
+ * A heading inside a DocsSection, with an explicit id. It looks like a markdown `###`
+ * heading, link icon included, but its id is prefixed with the section's id. That keeps
+ * ids unique on pages that have their own headings with the same text, makes shared links
+ * say which section they point to, and keeps links working if the heading is reworded.
+ */
+export const DocsSubheading = ({ id, children }: DocsSubheadingProps) => {
+  const sectionId = useContext(SectionIdContext);
+  return (
+    <HeaderMdx as="h3" id={sectionId ? `${sectionId}-${id}` : id} {...centeredIcon}>
+      {children}
+    </HeaderMdx>
+  );
+};
 
 /**
  * The story file's stories, with extra space between them. Each story's heading is a
@@ -41,7 +74,7 @@ export const DocsExamples = () => (
   <div
     className={[
       // Space between stories. Each story is wrapped in a `.sb-anchor`.
-      '[&_.sb-anchor+.sb-anchor]:mt-12 [&_.sb-anchor+.sb-anchor]:pt-10',
+      '[&_.sb-anchor+.sb-anchor]:mt-8 [&_.sb-anchor+.sb-anchor]:pt-4',
       // The "Example" label, before the heading rather than in it, so screen readers
       // don't announce it as part of the heading. The `/ ""` hides it from them.
       "[&_.sb-anchor]:before:mb-0.5 [&_.sb-anchor]:before:block [&_.sb-anchor]:before:font-mono [&_.sb-anchor]:before:text-[11px] [&_.sb-anchor]:before:font-medium [&_.sb-anchor]:before:uppercase [&_.sb-anchor]:before:tracking-[0.08em] [&_.sb-anchor]:before:text-gray-500 [&_.sb-anchor]:before:content-['Example'_/_'']",

@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Checkbox } from '../src/Checkbox';
 import * as CheckboxStories from './Checkbox.stories';
 
@@ -8,6 +13,45 @@ import * as CheckboxStories from './Checkbox.stories';
 # Checkbox
 
 <Description of={CheckboxStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a single checkbox and how to word it. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/checkbox/">USWDS checkbox guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For a single yes-or-no choice**, such as accepting terms or opting in to emails. Unchecked
+  means no; checked means yes.
+- For several related options, use a
+  [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs), which has the full guidance for
+  lists of checkboxes.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **A setting that takes effect immediately**, such as turning notifications on: use a
+  [Switch](?path=/docs/inputs-forms-switch--docs).
+- **The label can't make both states clear:** use two radio buttons with their own labels, in a
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Use a positive statement.** Write "Email me about new features", not "Don't email me about new
+  features".
+- **Make the label clear when checked and when unchecked.** "I agree to the terms" works; "Terms"
+  doesn't.
+- **Don't put a single checkbox in a `fieldset`.** A fieldset and legend are for groups.
+- **Give touch users a large enough target.** Clicking the label toggles the checkbox, when it has
+  an `id` (see [Your responsibility](#accessibility-your-responsibility)). The `tile` style makes the whole card
+  clickable.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +68,51 @@ import * as CheckboxStories from './Checkbox.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the checkbox handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a checkbox to assistive technology** (`role="checkbox"` with `aria-checked`), named by its
+  `label` through `aria-labelledby`. Its `description` is linked with `aria-describedby`.
+- **Keyboard:** Tab reaches it, and Space checks or unchecks it, as with a native checkbox.
+- **It must have a name.** Without a `label` or an `aria-label`, it throws an error, so an unnamed
+  checkbox can't ship unnoticed (but see [#164](https://github.com/capitaltg/vero/issues/164)).
+- **When disabled it stays focusable** and is marked `aria-disabled`, so screen reader users can
+  still find it and hear that it's unavailable. Clicks and Space don't change it.
+- **`required` sets `aria-required`**, so screen readers announce it.
+- **Contrast:** the unchecked box's border is 4.8:1 against white and the checked fill 7.1:1, above
+  the 3:1 that WCAG requires for form controls.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Prefer a visible `label`.** Use `aria-label` only when the purpose is clear from what's around
+  the checkbox, such as a row checkbox in a table.
+- **Pass an `id`.** Without one, clicking the label doesn't toggle the checkbox
+  ([#200](https://github.com/capitaltg/vero/issues/200)).
+- **Show a requirement in the label text too**, such as "(required)": `aria-required` only reaches
+  screen reader users.
+- **Link error messages yourself.** The checkbox has no error prop. Put the error text next to it
+  and link it with `aria-describedby`. For now, don't combine this with `description`: only one of
+  the two is announced ([#201](https://github.com/capitaltg/vero/issues/201)).
+- **Prefer the `default` style where keyboard users need to see focus.** For now, the `tile` and
+  `button` styles show no focus indicator
+  ([#198](https://github.com/capitaltg/vero/issues/198)).
+- **Avoid the `button` style where users rely on Windows High Contrast mode.** Its checked state is
+  shown by color only, and doesn't show at all in that mode
+  ([#199](https://github.com/capitaltg/vero/issues/199)).
+- **Test it in your page.** Run the
+  [USWDS checkbox accessibility tests](https://designsystem.digital.gov/components/checkbox/accessibility-tests/)
+  on your own form, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Checkbox and CheckboxGroup](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Checkbox+OR+CheckboxGroup).
+
 </DocsSection>
 
 <DocsSection

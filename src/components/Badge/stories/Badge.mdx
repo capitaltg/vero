@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Badge } from '../src/Badge';
 import * as BadgeStories from './Badge.stories';
 
@@ -8,6 +13,47 @@ import * as BadgeStories from './Badge.stories';
 # Badge
 
 <Description of={BadgeStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a badge and how to word it. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/tag/">USWDS tag guidance</a>, USWDS's
+      name for a badge.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To label an item's status or category**, such as "Approved" or "Draft" in a table row.
+- **To show a count**, such as the number of unread messages next to a link.
+- **To draw attention to new or important content**, such as "New" next to a recently added
+  feature.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Users can click it:** use a [Button](?path=/docs/actions-navigation-button--docs). A badge
+  isn't interactive: it can't be focused and has no button role.
+- **It's a message users need to read or act on:** use an
+  [Alert](?path=/docs/overlays-feedback-alert--docs).
+- **To highlight new content on a page users expect to change often**, such as a news feed: putting
+  the new items first may be enough. Bold text or a background color can also mark them.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Don't put badges where they look like buttons.** Users often mistake them for buttons,
+  especially next to real ones. Test with users if you're unsure.
+- **Keep the text short**: one or two words, or a number.
+- **Use each variant for one meaning across your app**, such as `success` for "Approved"
+  everywhere, so users learn what the colors mean.
+- **Don't overdo it.** If everything has a badge, nothing stands out.
+- **Use the `light` tone for a quieter badge**, such as in a dense table, and `dark` where it needs
+  to stand out.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +70,45 @@ import * as BadgeStories from './Badge.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the badge handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's plain text to assistive technology.** The badge is a `<div>` with no role, so screen
+  readers read its text where it appears, like any other text. Its variant and color aren't
+  announced.
+- **It isn't focusable**, so it doesn't add a stop for keyboard users.
+- **Contrast:** the text is at least 4.6:1 against the badge's background in every variant and
+  tone, above the 4.5:1 that WCAG requires for small text. The lowest are the `dark` `success` and
+  `danger` badges; every `light` badge is at least 5.6:1.
+- **In Windows High Contrast mode** every badge shows as an outlined pill with its text, so badges
+  stay visible, but all variants look the same.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Put the meaning in the text, not just the color.** Write "Approved" or "Overdue", not a colored
+  badge with a vague word. Screen readers don't announce the color, some users can't tell the colors
+  apart, and in Windows High Contrast mode every variant looks the same.
+- **Give counts some context.** A badge reading "3" next to "Messages" is read as "Messages 3". Add
+  visually hidden text, such as "unread" in a span with Tailwind's `sr-only` class, so it's clear
+  what the number means.
+- **Announce badges that change while the page is open**, such as a count that goes up. The badge
+  has no live region: put the change in an `aria-live` region, or announce it some other way.
+- **Check the contrast of custom colors** passed in `className`: text needs 4.5:1 against the
+  badge's background.
+- **Test it in your page.** Run the
+  [USWDS tag accessibility tests](https://designsystem.digital.gov/components/tag/accessibility-tests/)
+  on your own page, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Badge](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Badge).
+
 </DocsSection>
 
 <DocsSection

@@ -350,6 +350,7 @@ export const AccordionExpansion: Story = {
  */
 export const DefaultOpen: Story = {
   args: {
+    mode: 'multiple',
     items: exampleItems,
     defaultValue: ['item-1', 'item-2'],
   },

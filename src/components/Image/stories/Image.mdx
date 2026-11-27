@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Image } from '../src/Image';
 import * as ImageStories from './Image.stories';
 
@@ -8,6 +13,48 @@ import * as ImageStories from './Image.stories';
 # Image
 
 <Description of={ImageStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use the Image component and how to describe images. USWDS has no image component, so
+      this guidance is Vero's own. For writing alt text, see the{' '}
+      <a href="https://www.w3.org/WAI/tutorials/images/">W3C images tutorial</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For photos and illustrations that load from a URL**, where a placeholder while loading, a
+  fallback image or lazy loading helps.
+- **For avatars and thumbnails**, with `shape="circle"` or `shape="rounded"`.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Icons:** use an icon component, such as one from `lucide-react`, which Vero uses. An icon
+  doesn't need a loading placeholder.
+- **Text:** use real text, not a picture of it. Text in an image can't be resized, restyled or
+  translated, and screen readers can't read it.
+- **A purely decorative background:** use a CSS background image.
+- **Charts and diagrams:** alt text can't hold all their detail. Give the same information as text
+  or a table next to them.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Pass `width` and `height`.** The browser uses their ratio to reserve the image's space while it
+  loads, so the page doesn't jump. The image fills the width of its wrapper; size the wrapper with
+  `className`.
+- **Turn `isLazy` off for images near the top of the page**, such as a hero image, so they load
+  straight away. Lazy loading suits images further down.
+- **Pick a `fallback` that works wherever the image is used**, such as a neutral placeholder or a
+  default avatar.
+- **Check how the image crops.** It's cropped to fill its wrapper, so a wrapper with a different
+  shape, or `shape="circle"`, can cut off the edges.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +71,45 @@ import * as ImageStories from './Image.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the image handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a native `<img>`**, so screen readers announce it as an image, named by its `alt`.
+- **`alt` is required by its type**, so TypeScript flags an image without one.
+- **`alt=""` marks an image as decorative.** It's left out of the accessibility tree, so screen
+  readers skip it.
+- **The loading placeholder is hidden from screen readers** (`aria-hidden`).
+- **When the `fallback` is shown, the `alt` stays the same**, so screen readers announce the `alt`
+  you wrote for the original image.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Write alt text that says what the image shows or does**, in the context of the page. Keep it
+  short, and don't start with "Image of": screen readers already say it's an image.
+- **Pass `alt=""` for decorative images**, and for images whose content is already in the text next
+  to them, such as a photo beside the person's name.
+- **Make sure the alt text still fits when the fallback is shown.** If the fallback is a generic
+  placeholder, the original image's alt text describes something users can't see. If that matters,
+  change `alt` in your `onError` handler.
+- **Give images a `fallback` where you can.** For now, an image that fails to load with no
+  `fallback`, or whose fallback also fails, shows the loading placeholder forever, and screen
+  readers can't reach its alt text. While an image loads, its alt text is hidden from them too
+  ([#215](https://github.com/capitaltg/vero/issues/215)).
+- **Put text and data from images in the page too.** If an image holds text or figures users need,
+  repeat them as text.
+- **Test it in your page** with a screen reader, checking that each image's alt text makes sense
+  where it's read.
+
+For an accessibility review, see
+[all open accessibility issues for Image](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Image).
+
 </DocsSection>
 
 <DocsSection

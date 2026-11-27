@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Autocomplete } from '../src/Autocomplete';
 import * as AutocompleteStories from './Autocomplete.stories';
 
@@ -8,6 +13,63 @@ import * as AutocompleteStories from './Autocomplete.stories';
 # Autocomplete
 
 <Description of={AutocompleteStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use an autocomplete, which of Vero's other list inputs to use instead, and how to set
+      one up. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/combo-box/">USWDS combo box guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To choose one option from a long list**, more than about 15, where typing a few letters is
+  faster than scrolling.
+- **When the options come from a server**, such as searching for a person or a library. Pass
+  `loadOptions`, and it fetches matches as the user types.
+- **When options need more than a line of text**, such as a name with an email address. Use
+  `renderOption` and `renderValue`.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **About 7 to 15 options:** use a [Select](?path=/docs/inputs-forms-select--docs). Fewer than
+  seven: use a [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs). USWDS found problems with
+  combo boxes in testing with assistive technology users, and suggests a select where one will do.
+- **A static list of `value` and `label` options:**
+  [Combobox](?path=/docs/inputs-forms-combobox--docs) takes them directly, but Autocomplete with
+  `options` reads back the chosen option and the number of matches to screen readers, which
+  Combobox doesn't yet do. Prefer Autocomplete where screen reader users are a priority.
+- **More than one option can be chosen:** use a
+  [MultiSelect](?path=/docs/inputs-forms-multiselect--docs), or a
+  [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs) for a short list.
+- **The field asks for the user's own details**, such as their name or country: use an
+  [Input](?path=/docs/inputs-forms-input--docs) with `autoComplete`, so browsers can fill it in
+  (see [Your responsibility](#accessibility-your-responsibility)).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Give it a visible label.** The placeholder on the trigger disappears once an option is chosen.
+- **Pass `getOptionValue` and `getOptionLabel`.** Without `getOptionValue`, every option's value is
+  an empty string. The search on static `options` matches the label from `getOptionLabel`.
+- **Use option labels users will type**, and include familiar alternatives, such as "District of
+  Columbia (DC)".
+- **Say how many letters start a search.** With `loadOptions`, nothing is fetched until the user
+  types `minSearch` characters (2 by default). Say so in hint text, such as "Type at least 2
+  letters".
+- **Word the messages for your data.** Set `emptyMessage`, `loadingMessage` and `errorMessage`,
+  such as "No libraries found". Only the first `maxSuggestions` matches (10 by default) are shown,
+  so a message such as "Type more to narrow the list" helps with large sets.
+- **Use a good default.** If most users choose the same option, pass it as the `value`.
+- **Don't act on a change.** Don't submit the form or go to another page when an option is chosen.
+  Use a submit button.
+- **Avoid dependent options.** Don't change one field's options based on another field.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +86,69 @@ import * as AutocompleteStories from './Autocomplete.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the autocomplete handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **The trigger is a button** with `aria-expanded` and `aria-haspopup="listbox"`. It opens a
+  popover with a search field and a list. The search field follows the
+  [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/): a `combobox`
+  that controls a `listbox` of `option`s, with `aria-activedescendant` on the highlighted option.
+  The search field is named by the `placeholder`.
+- **The label and the chosen option are both read.** With a `FormItem` or `<label htmlFor>`, the
+  trigger's name is the label, the chosen option and "selected", such as "Country Mexico
+  selected". Your own `aria-labelledby` is combined the same way.
+- **Changes are announced.** A polite live region reads the number of matches and how to browse
+  them, the highlighted option, the chosen option, and the loading, empty and error messages. In
+  the list, the chosen option has hidden "(current selection)" text, and each option has its
+  position (`aria-posinset` and `aria-setsize`).
+- **Keyboard:** Enter, Space or Down Arrow opens the list and moves focus to the search field.
+  Up and Down Arrow move the highlight. Enter chooses the highlighted option, closes the list and
+  returns focus to the trigger. Escape closes it without a change. Delete or Backspace on the
+  trigger clears the value, and the Clear button returns focus to the trigger.
+- **`FormItem`'s `aria-describedby`** is added to any you pass.
+- **When disabled it stays focusable** and is marked `aria-disabled`, so screen reader users can
+  still find it. Clicks, Enter, Space and the arrow keys don't open it.
+- **Focus is visible:** a ring around the trigger, and an outline in Windows High Contrast mode.
+- **Contrast:** the trigger's border is 6.7:1 against white and the placeholder text 5.3:1. The
+  highlighted option's text is 5.1:1 against its background.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Always give it a visible label**, with `FormItem` or a `<label htmlFor>`, and an `id` on the
+  autocomplete. Avoid a bare `aria-label`: it replaces the whole name, so the chosen option isn't
+  read.
+- **Write the `placeholder` as an instruction**, such as "Search for a library". It also names the
+  search field, so screen reader users hear it when the list opens.
+- **Pass `getOptionLabel` with `renderOption`.** The announcements use `getOptionLabel` (or the
+  value), not what `renderOption` draws.
+- **Validate a required autocomplete yourself.** `required` doesn't stop the form from submitting
+  ([#126](https://github.com/capitaltg/vero/issues/126)). Show the requirement in the label, check
+  the value on submit, and show the error with `FormItem`'s `errorText`, which sets
+  `aria-describedby` and `aria-invalid`.
+- **Don't use it for the user's own details.** There's no way to set an `autocomplete` token, so
+  browsers can't fill it in ([#127](https://github.com/capitaltg/vero/issues/127)).
+- **Tell keyboard users how to leave the list** if they're likely to be new to it. For now, Tab
+  doesn't close the open list or move on; Escape or choosing an option does
+  ([#253](https://github.com/capitaltg/vero/issues/253)).
+- **Expect no visible highlight in Windows High Contrast mode.** For now, the highlighted option
+  looks the same as the others in that mode
+  ([#252](https://github.com/capitaltg/vero/issues/252)).
+- **Test it in your page.** Run the
+  [USWDS combo box accessibility tests](https://designsystem.digital.gov/components/combo-box/accessibility-tests/)
+  on your own form, including a screen reader pass. The live region's announcements can sound
+  different in each screen reader.
+
+For an accessibility review, see
+[all open accessibility issues for Autocomplete](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Autocomplete).
+Earlier audit findings are tracked in [#123](https://github.com/capitaltg/vero/issues/123).
+
 </DocsSection>
 
 <DocsSection

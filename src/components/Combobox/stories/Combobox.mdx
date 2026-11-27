@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Combobox } from '../src/Combobox';
 import * as ComboboxStories from './Combobox.stories';
 
@@ -8,6 +13,58 @@ import * as ComboboxStories from './Combobox.stories';
 # Combobox
 
 <Description of={ComboboxStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a combobox, which of Vero's other list inputs to use instead, and how to set one
+      up. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/combo-box/">USWDS combo box guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To choose one option from a long list**, more than about 15, where typing a few letters is
+  faster than scrolling, such as a country or a state.
+- **When space is limited** and the list is too long for radio buttons.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Screen reader users are a priority:** prefer
+  [Autocomplete](?path=/docs/data-display-autocomplete--docs) with a static `options` list. It
+  searches the same way, and it reads back the chosen option and the number of matches, which
+  Combobox doesn't yet do (see [Your responsibility](#accessibility-your-responsibility)). USWDS
+  also found problems with combo boxes in testing with assistive technology users, and suggests a
+  select for now.
+- **Options come from a server**, or need custom rendering such as a name with an email address:
+  use [Autocomplete](?path=/docs/data-display-autocomplete--docs), with `loadOptions` and
+  `renderOption`.
+- **About 7 to 15 options:** use a [Select](?path=/docs/inputs-forms-select--docs). Fewer than
+  seven: use a [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+- **More than one option can be chosen:** use a
+  [MultiSelect](?path=/docs/inputs-forms-multiselect--docs), or a
+  [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs) for a short list.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Give it a visible label.** The placeholder on the trigger disappears once an option is chosen.
+- **Use option labels users will type.** The search matches each option's `label` and `value`, so
+  include familiar alternatives, such as "District of Columbia (DC)". Use `filter` for anything
+  more.
+- **Word the search for your data.** Set `searchPlaceholder` and `emptyMessage`, such as "Search
+  countries" and "No countries found", instead of the generic defaults.
+- **Choosing the chosen option again clears it**, and calls `onChange` with `''`. If a value is
+  required, check for it.
+- **Use a good default.** If most users choose the same option, pass it as the `value`.
+- **Don't act on a change.** Don't submit the form or go to another page when an option is chosen.
+  Use a submit button.
+- **Avoid dependent options.** Don't change one field's options based on another field.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +81,65 @@ import * as ComboboxStories from './Combobox.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the combobox handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **The trigger is a button** with `aria-expanded` and `aria-haspopup`. It opens a popover with a
+  search field and a list. The search field follows the
+  [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/): a `combobox`
+  that controls a `listbox` of `option`s, with `aria-activedescendant` on the highlighted option.
+- **Keyboard:** Enter or Space opens the list and moves focus to the search field. Typing filters
+  the list, and Up and Down Arrow move the highlight. Enter chooses the highlighted option, closes
+  the list and returns focus to the trigger. Escape closes it without a change and returns focus
+  to the trigger. Down Arrow on the trigger doesn't open the list.
+- **A `<label>` names it.** Give the combobox an `id` and point a `FormItem` or a `<label htmlFor>`
+  at it. `FormItem`'s `aria-describedby` is added to any you pass.
+- **When disabled it stays focusable** and is marked `aria-disabled`, so screen reader users can
+  still find it. Clicks, Enter, Space and the arrow keys don't open it.
+- **Focus is visible:** a ring around the trigger, and an outline in Windows High Contrast mode.
+- **Contrast:** the trigger's border is 6.7:1 against white and the placeholder text 5.3:1. The
+  highlighted option's text is 5.1:1 against its background.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Always give it a visible label**, with `FormItem` or a `<label htmlFor>`, and an `id` on the
+  combobox.
+- **Know what screen reader users miss.** For now:
+
+  - with a label, the trigger's name is just the label, so the chosen option isn't read
+    ([#244](https://github.com/capitaltg/vero/issues/244));
+  - the search field has no accessible name
+    ([#246](https://github.com/capitaltg/vero/issues/246));
+  - the list doesn't say which option is chosen
+    ([#247](https://github.com/capitaltg/vero/issues/247)).
+
+  Where screen reader users are a priority, prefer Autocomplete or Select.
+
+- **Validate a required combobox yourself.** `required` doesn't stop the form from submitting, and
+  the trigger isn't marked required
+  ([#245](https://github.com/capitaltg/vero/issues/245)). Show the requirement in the label, check
+  the value on submit, and show the error with `FormItem`'s `errorText`, which sets
+  `aria-describedby` and `aria-invalid`.
+- **Tell keyboard users how to leave the list** if they're likely to be new to it. For now, Tab
+  doesn't close the open list or move on; Escape or choosing an option does
+  ([#253](https://github.com/capitaltg/vero/issues/253)).
+- **Expect no visible highlight in Windows High Contrast mode.** For now, the highlighted option
+  looks the same as the others in that mode
+  ([#252](https://github.com/capitaltg/vero/issues/252)).
+- **Test it in your page.** Run the
+  [USWDS combo box accessibility tests](https://designsystem.digital.gov/components/combo-box/accessibility-tests/)
+  on your own form, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Combobox](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Combobox).
+
 </DocsSection>
 
 <DocsSection

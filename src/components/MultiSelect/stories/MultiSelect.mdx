@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { MultiSelect } from '../src/MultiSelect';
 import * as MultiSelectStories from './MultiSelect.stories';
 
@@ -8,6 +13,54 @@ import * as MultiSelectStories from './MultiSelect.stories';
 # MultiSelect
 
 <Description of={MultiSelectStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a multi-select and which of Vero's other list inputs to use instead. USWDS has no
+      multi-select component, and its{' '}
+      <a href="https://designsystem.digital.gov/components/select/">select guidance</a> recommends
+      checkboxes for choosing several options, so this guidance is written for Vero.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To choose several options from a long list**, more than about 15, where checkboxes would take
+  up too much space, such as tagging a record with topics.
+- **When users know what they're looking for** and can find it by typing.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **A short list:** use a [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs). Every
+  option is visible, checkboxes are familiar, and it's better supported by screen readers (see
+  [Your responsibility](#accessibility-your-responsibility)).
+- **Only one option can be chosen:** use a [Select](?path=/docs/inputs-forms-select--docs) for up
+  to about 15 options, or [Autocomplete](?path=/docs/data-display-autocomplete--docs) or
+  [Combobox](?path=/docs/inputs-forms-combobox--docs) for a longer list.
+- **Options come from a server as the user types:** MultiSelect needs every option up front.
+  Autocomplete can fetch options, but chooses only one.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Say that more than one can be chosen.** Add "Select all that apply" to the label or hint text.
+- **Make each option's `value` contain its label.** The search matches values, not labels
+  ([#249](https://github.com/capitaltg/vero/issues/249)), so with `value: 'mx'` and
+  `label: 'Mexico'`, typing "Mexico" finds nothing. Values such as `'mexico'` work.
+- **Keep option labels short.** Each chosen option shows as a chip on the trigger, and the trigger
+  grows as chips wrap.
+- **Order options logically**, such as alphabetically or by how often they're chosen.
+- **Word the search for your data.** Set `searchPlaceholder` and `emptyMessage`, such as "Search
+  topics" and "No topics found".
+- **Check limits yourself.** If users must choose at least one, or no more than a few, check on
+  submit and say so in the label.
+- **Don't act on a change.** The list stays open as options are chosen. Wait for a submit button
+  before doing anything with the values.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +77,77 @@ import * as MultiSelectStories from './MultiSelect.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the multi-select handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **The trigger is a button** (`role="button"`) with `aria-expanded` and `aria-haspopup`. It opens
+  a popover with a search field and a list. The search field follows the
+  [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/): a `combobox`
+  that controls a `listbox` of `option`s, with `aria-activedescendant` on the highlighted option.
+- **Keyboard:** Enter or Space opens the list and moves focus to the search field. Typing filters
+  the list, and Up and Down Arrow move the highlight. Enter chooses or unchooses the highlighted
+  option and keeps the list open. Escape or Tab closes it and returns focus to the trigger.
+- **Each chip has a remove button**, named "Remove" and the option's label. Tab reaches it, and
+  Enter or Space removes the option. Focus then moves to the next chip, or to the trigger when
+  none is left.
+- **When disabled the trigger stays focusable** and is marked `aria-disabled`, so screen reader
+  users can still find it. Clicks, Enter, Space and the arrow keys don't open it.
+- **Focus is visible** on the trigger and on each remove button, including in Windows High
+  Contrast mode.
+- **Contrast:** the trigger's border is 6.7:1 against white, chip text 13.8:1 and the remove icon
+  3.1:1 against the chip. A chosen option's box is 6.7:1.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Name it with `aria-labelledby`.** The trigger isn't a `<button>`, so a `<label htmlFor>` can't
+  name it ([#248](https://github.com/capitaltg/vero/issues/248)). Point `aria-labelledby` at the
+  label's id. `FormItem` gives a string label the id `form-item-{id}-label`:
+
+  ```tsx
+  <FormItem hintText="Select all that apply." label="Topics">
+    <MultiSelect
+      aria-labelledby="form-item-topics-label"
+      id="topics"
+      onChange={setTopics}
+      options={topics}
+      value={selected}
+    />
+  </FormItem>
+  ```
+
+- **Prefer a CheckboxGroup where screen reader users are a priority.** For now, the search field
+  has no accessible name ([#246](https://github.com/capitaltg/vero/issues/246)), the list doesn't
+  say which options are chosen ([#247](https://github.com/capitaltg/vero/issues/247)), and the
+  remove buttons are nested inside the trigger, where some screen readers may not reach them
+  ([#248](https://github.com/capitaltg/vero/issues/248)).
+- **Validate a required multi-select yourself.** `required` doesn't stop the form from submitting,
+  and the trigger isn't marked required
+  ([#245](https://github.com/capitaltg/vero/issues/245)). Show the requirement in the label, check
+  the value on submit, and show the error with `FormItem`'s `errorText`, which sets
+  `aria-describedby` and `aria-invalid`.
+- **Ignore changes while disabled.** For now, keyboard users can still remove chips from a disabled
+  multi-select ([#250](https://github.com/capitaltg/vero/issues/250)), so don't update your state
+  in `onChange` while `isDisabled` is set.
+- **Expect weak cues in the list.** For now, the empty boxes next to unchosen options are 2.3:1
+  against white, below the 3:1 WCAG requires
+  ([#251](https://github.com/capitaltg/vero/issues/251)), and the highlighted option looks the same
+  as the others in Windows High Contrast mode
+  ([#252](https://github.com/capitaltg/vero/issues/252)).
+- **Test it in your page,** with the keyboard and a screen reader. USWDS has no multi-select, so
+  there are no USWDS accessibility tests to follow; the
+  [USWDS combo box accessibility tests](https://designsystem.digital.gov/components/combo-box/accessibility-tests/)
+  cover most of the same ground.
+
+For an accessibility review, see
+[all open accessibility issues for MultiSelect](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+MultiSelect).
+
 </DocsSection>
 
 <DocsSection

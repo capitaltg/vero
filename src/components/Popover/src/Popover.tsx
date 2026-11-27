@@ -3,12 +3,30 @@ import { cn } from '@/lib/utils';
 import { getZIndex } from '@/lib/z-index';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import * as React from 'react';
-import { PopoverContentProps } from '../types';
+import { PopoverContentProps, PopoverProps, PopoverTriggerProps } from '../types';
 
-const Popover = PopoverPrimitive.Root;
-const PopoverTrigger = PopoverPrimitive.Trigger;
+/**
+ * Floating content, such as a small form or extra detail, that opens from a trigger and
+ * stays open until dismissed. Compose `Popover` from a `PopoverTrigger` and a
+ * `PopoverContent`. Built on Radix Popover: focus moves into the popover when it opens, and
+ * Escape or a click outside closes it.
+ */
+const Popover = (props: PopoverProps) => <PopoverPrimitive.Root {...props} />;
+Popover.displayName = 'Popover';
+
+/** The button that opens and closes the popover. Pass `asChild` to use your own button. */
+const PopoverTrigger = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Trigger>,
+  PopoverTriggerProps
+>((props, ref) => <PopoverPrimitive.Trigger ref={ref} {...props} />);
+PopoverTrigger.displayName = 'PopoverTrigger';
+
 const PopoverArrow = PopoverPrimitive.Arrow;
 
+/**
+ * The popover's panel, rendered in a portal and positioned against the trigger. Use `side`,
+ * `align` and `sideOffset` to place it.
+ */
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   PopoverContentProps
@@ -37,6 +55,6 @@ const PopoverContent = React.forwardRef<
     </PopoverPrimitive.Portal>
   );
 });
-PopoverContent.displayName = PopoverPrimitive.Content.displayName;
+PopoverContent.displayName = 'PopoverContent';
 
 export { Popover, PopoverContent, PopoverTrigger };

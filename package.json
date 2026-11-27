@@ -3,7 +3,7 @@
   "version": "1.23.1",
   "description": "Accessible, modern, open source React component library inspired by USWDS built with Radix UI",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "sideEffects": [
@@ -19,16 +19,22 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./tailwind.config.js": "./dist/tailwind.config.js",
     "./preflight.css": "./preflight.css",
     "./index.css": "./index.css",
     "./theme.css": "./theme.css",
     "./components.css": "./components.css",
-    "./utilities.css": "./utilities.css"
+    "./utilities.css": "./utilities.css",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "npm run storybook",
@@ -137,7 +143,6 @@
     "typescript": "~5.4.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.2.2",
-    "vite-plugin-clean": "^2.0.1",
     "vite-plugin-dts": "^4.5.3",
     "vitest": "^4.0.14",
     "vitest-axe": "^0.1.0"

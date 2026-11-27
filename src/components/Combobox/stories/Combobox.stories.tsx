@@ -132,7 +132,7 @@ const options = [
 ];
 
 /**
- * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * Use the controls to try each option. The docs page shows it under "Try It"; keep it the
  * first story, since the Examples section skips the first one.
  */
 export const Playground: Story = {

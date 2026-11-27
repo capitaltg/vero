@@ -12,7 +12,7 @@ interface DocsSectionProps {
 }
 
 /**
- * A top-level section of a docs page (Try it, Examples, API Reference), set apart
+ * A top-level section of a docs page (Try It, Examples, API Reference), set apart
  * from the sections around it by a rule, extra space and a larger title.
  */
 export const DocsSection = ({ id, title, intro, className, children }: DocsSectionProps) => (
@@ -35,7 +35,7 @@ export const DocsSection = ({ id, title, intro, className, children }: DocsSecti
  * little larger and heavier than Storybook's, under a small "Example" label. Tailwind
  * can't see classes written in MDX, so the styles live here.
  *
- * The first story in the file is left out: it's the playground, shown under "Try it".
+ * The first story in the file is left out: it's the playground, shown under "Try It".
  */
 export const DocsExamples = () => (
   <div

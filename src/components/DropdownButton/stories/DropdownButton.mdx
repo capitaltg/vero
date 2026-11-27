@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { DropdownButton } from '../src/DropdownButton';
 import * as DropdownButtonStories from './DropdownButton.stories';
 
@@ -8,6 +13,58 @@ import * as DropdownButtonStories from './DropdownButton.stories';
 # DropdownButton
 
 <Description of={DropdownButtonStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a dropdown button and how to write its menu. USWDS has no matching component, so
+      this guidance is Vero's own. The component follows the{' '}
+      <a href="https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/">
+        WAI-ARIA menu button pattern
+      </a>
+      .
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To group related actions** that would crowd the page as separate buttons, such as Edit,
+  Duplicate and Delete on a table row.
+- **For secondary actions**, where hiding them behind one button keeps the main action clear.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **One or two actions:** use separate [Buttons](?path=/docs/actions-navigation-button--docs).
+  Actions in a menu are harder to find than actions on the page.
+- **The main action on a page**, such as Submit: use a `primary`
+  [Button](?path=/docs/actions-navigation-button--docs). Don't hide it in a menu.
+- **Going to other pages:** use links, or the
+  [Navbar](?path=/docs/actions-navigation-navbar--docs). Menu items are actions, with an `onClick`
+  and no `href`, so they can't be opened in a new tab.
+- **Choosing a value in a form:** use a [Select](?path=/docs/inputs-forms-select--docs) or a
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs). A menu runs an action; it doesn't hold a
+  value.
+- **Showing content or a small form:** use a
+  [Popover](?path=/docs/overlays-feedback-popover--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Label the button with what the menu holds**, such as "Actions" or "Export". The chevron that
+  shows it opens a menu is added for you.
+- **Keep the menu short**, and group related items with `'separator'`.
+- **Lead each item with a verb**, such as "Download PDF", and keep the wording short.
+- **Put destructive items last**, after a separator, and ask for confirmation before acting on
+  them.
+- **Give every item a different `label`.** Items are keyed by their label.
+- **Leave out items that never apply** in the current context. Disable an item only when it can
+  become available, and explain why it isn't, nearby or in the item's label.
+- **Use icons on all items or none**, so the labels line up.
+- **Use `align="end"`** for a button near the right edge, so the menu opens inward.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +81,59 @@ import * as DropdownButtonStories from './DropdownButton.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the dropdown button handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **The button tells assistive technology it opens a menu**, with `aria-haspopup="menu"` and
+  `aria-expanded`, and points to the open menu with `aria-controls`. Its name is its text: the
+  chevron is hidden from screen readers.
+- **The menu is an ARIA menu** (`role="menu"`), named by the button through `aria-labelledby`.
+  Each item is a `menuitem`.
+- **Keyboard on the button:** Enter, Space and Down Arrow open the menu and focus the first item.
+- **Keyboard in the menu:** Up and Down Arrow move between items, without wrapping; Home and End
+  go to the first and last item; typing a letter moves to the next item starting with it. Enter
+  or Space chooses the focused item and closes the menu. Escape closes it without choosing.
+  Either way, focus returns to the button.
+- **Tab doesn't leave an open menu.** The WAI-ARIA pattern closes the menu on Tab; this one keeps
+  focus in it until Escape or a choice. Clicking outside also closes it.
+- **Disabled items stay focusable** and are marked `aria-disabled`, as the WAI-ARIA pattern
+  recommends, so screen reader users can hear that they're unavailable. Clicks, Enter and Space
+  don't call their `onClick` or close the menu.
+- **A disabled button stays focusable** and is marked `aria-disabled`. Clicks, Enter, Space and
+  Down Arrow don't open the menu.
+- **Focus is visible:** the button has [Button's](?path=/docs/actions-navigation-button--docs)
+  focus ring, and the focused item a light blue background with blue text (5.1:1). In forced
+  colors (Windows High Contrast), both show a solid outline.
+- **Contrast:** the button's text and border match
+  [Button's variants](?path=/docs/actions-navigation-button--docs).
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Name an icon-only button.** If `children` is only an icon, pass an `aria-label` that says
+  what the menu is for, such as `aria-label="Row actions"`. On a table row, include the row in
+  the name, such as "Actions for invoice 1042", so screen reader users can tell the buttons
+  apart.
+- **Explain disabled items.** `aria-disabled` says an item is unavailable, not why.
+- **Manage focus when an action removes the button**, such as Delete on a table row. Focus
+  returns to the button, so if it's gone, move focus to a sensible place, such as the next row
+  or the table's heading.
+- **Announce the result of an action** that has no visible effect where focus is, such as
+  "Copied to clipboard", with a live region, such as an
+  [Alert](?path=/docs/overlays-feedback-alert--docs).
+- **Test it in your page.** USWDS has no tests for this component. Check it against the
+  [WAI-ARIA menu button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/) with a
+  keyboard and a screen reader.
+
+For an accessibility review, see
+[all open accessibility issues for DropdownButton](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+DropdownButton).
+
 </DocsSection>
 
 <DocsSection

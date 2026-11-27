@@ -2,6 +2,23 @@ import type { Preview } from '@storybook/react';
 import '../src/styles/index.css';
 import './preview.css';
 
+// Open links to other sites (USWDS, GitHub issues, MDN) in a new tab, so reading one
+// doesn't replace Storybook. Storybook's preview frame otherwise sends every link to the top
+// window. A click handler covers every kind of link on a docs page: markdown, `<a>` in MDX,
+// and links in component descriptions.
+document.addEventListener(
+  'click',
+  event => {
+    const link = (event.target as Element | null)?.closest?.('a[href]');
+    if (!(link instanceof HTMLAnchorElement)) return;
+    const url = new URL(link.href, window.location.href);
+    if (!/^https?:$/.test(url.protocol) || url.origin === window.location.origin) return;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  },
+  true,
+);
+
 const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },

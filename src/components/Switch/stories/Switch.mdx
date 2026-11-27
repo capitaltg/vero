@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Switch } from '../src/Switch';
 import * as SwitchStories from './Switch.stories';
 
@@ -8,6 +13,48 @@ import * as SwitchStories from './Switch.stories';
 # Switch
 
 <Description of={SwitchStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a single switch and how to word it. USWDS has no switch component, so this
+      guidance is Vero's own. The{' '}
+      <a href="https://www.w3.org/WAI/ARIA/apg/patterns/switch/">WAI-ARIA switch pattern</a>{' '}
+      describes how a switch behaves.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For a single setting that takes effect immediately**, such as turning notifications on, with
+  no Save or Submit button.
+- For several related settings, use a
+  [SwitchGroup](?path=/docs/inputs-forms-switchgroup--docs), which has the full guidance for sets
+  of switches.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **The choice is submitted with a form**, such as accepting terms: use a
+  [Checkbox](?path=/docs/inputs-forms-checkbox--docs).
+- **The two states aren't on and off**, such as "Monthly" and "Yearly": use a
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs), so each state has its own label.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Apply the change right away, and show that it worked.** If saving can fail, turn the switch
+  back and say what went wrong.
+- **Label the setting, not the action.** Write "Email notifications", not "Turn on email
+  notifications". The switch shows whether it's on.
+- **Keep the label the same in both states.** Don't change "Notifications on" to "Notifications
+  off": the label and the switch would then disagree about what's on.
+- **Keep the label short.** Put any explanation in text next to the switch, not in the label: the
+  whole label becomes the switch's name, which screen readers read every time it's focused.
+- **Clicking the label toggles the switch**, which gives touch users a larger target.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +71,55 @@ import * as SwitchStories from './Switch.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the switch handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a switch to assistive technology** (a `button` with `role="switch"` and `aria-checked`),
+  named by its visible label, a `<label>` linked to the switch. Without an `id`, it gets a
+  generated one, so the label is always linked and clicking it toggles the switch.
+- **Keyboard:** Tab reaches it, and Space or Enter turns it on or off, as the WAI-ARIA switch
+  pattern describes.
+- **It must have a name.** Without a `label` or an `aria-label`, it throws an error, so an unnamed
+  switch can't ship unnoticed (but see [#164](https://github.com/capitaltg/vero/issues/164)).
+- **When disabled it stays focusable** and is marked `aria-disabled`, so screen reader users can
+  still find it and hear that it's unavailable. Clicks, label clicks, Space and Enter don't change
+  it.
+- **`required` sets `aria-required`**, so screen readers announce it.
+- **Your `aria-describedby` is passed through** to the switch unchanged.
+- **Focus is visible:** a focused switch gets a 3px ring, which stays visible in Windows High
+  Contrast mode.
+- **Contrast when on:** the track is 6.7:1 against white and the thumb 6.7:1 against the track,
+  above the 3:1 that WCAG requires for form controls. The off state is lower; see below.
+- **Reduced motion:** the thumb doesn't slide when the user has asked for reduced motion.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Prefer a visible `label`.** Use `aria-label` only when the purpose is clear from what's around
+  the switch, such as a row in a table of settings.
+- **Show a requirement in the label text too**, such as "(required)": `aria-required` only reaches
+  screen reader users.
+- **Link explanations and errors yourself.** The switch has no description or error prop. Put the
+  text next to it and link it with `aria-describedby`.
+- **Announce failures.** If a change can't be saved, turn the switch back and show the error where
+  screen readers announce it, such as in an [Alert](?path=/docs/overlays-feedback-alert--docs).
+- **Show the state in text where it matters.** For now, an off switch is hard to see: its track
+  has 1.25:1 contrast against white ([#205](https://github.com/capitaltg/vero/issues/205)). In
+  Windows High Contrast mode, on and off look the same
+  ([#206](https://github.com/capitaltg/vero/issues/206)).
+- **Test it in your page.** USWDS has no switch tests. Check it against the
+  [WAI-ARIA switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/) in your own page,
+  including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Switch and SwitchGroup](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Switch+OR+SwitchGroup).
+
 </DocsSection>
 
 <DocsSection

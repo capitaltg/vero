@@ -7,7 +7,7 @@ export const SwitchWithCustomLabel = () => {
   return (
     <div className="space-y-4">
       <Switch
-        id="dark-mode"
+        id="switch-dark-mode"
         isChecked={isChecked}
         label={
           <div className="flex flex-col">

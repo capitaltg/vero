@@ -7,7 +7,7 @@ export const SwitchDisabled = () => {
   return (
     <div className="space-y-4">
       <Switch
-        id="disabled"
+        id="switch-disabled"
         isChecked={isChecked}
         isDisabled={true}
         label="Disabled switch"

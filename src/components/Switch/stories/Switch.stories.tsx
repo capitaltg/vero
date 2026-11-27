@@ -39,7 +39,7 @@ type Story = StoryObj<typeof meta>;
 export const Playground: Story = {
   args: {
     label: 'Airplane Mode',
-    id: 'airplane-mode',
+    id: 'switch-playground',
   },
 };
 
@@ -51,7 +51,7 @@ export const Default: Story = {
   render: () => <SwitchDefault />,
   args: {
     label: 'Airplane Mode',
-    id: 'airplane-mode',
+    id: 'switch-airplane-mode',
   },
   parameters: {
     docs: {
@@ -71,7 +71,7 @@ export const Checked: Story = {
   render: () => <SwitchChecked />,
   args: {
     label: 'Notifications',
-    id: 'notifications',
+    id: 'switch-notifications',
     isChecked: true,
   },
   parameters: {
@@ -92,7 +92,7 @@ export const Disabled: Story = {
   render: () => <SwitchDisabled />,
   args: {
     label: 'Disabled switch',
-    id: 'disabled',
+    id: 'switch-disabled',
     isDisabled: true,
   },
   parameters: {
@@ -113,7 +113,7 @@ export const DisabledChecked: Story = {
   render: () => <SwitchDisabledChecked />,
   args: {
     label: 'Disabled checked switch',
-    id: 'disabled-checked',
+    id: 'switch-disabled-checked',
     isChecked: true,
     isDisabled: true,
   },
@@ -140,7 +140,7 @@ export const WithCustomLabel: Story = {
         <span className="text-sm text-muted-foreground">Enable dark mode theme</span>
       </div>
     ),
-    id: 'dark-mode',
+    id: 'switch-dark-mode',
   },
   parameters: {
     docs: {

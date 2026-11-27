@@ -68,7 +68,7 @@ export const DocsExamples = () => (
       '[&_.sb-anchor+.sb-anchor]:mt-8 [&_.sb-anchor+.sb-anchor]:pt-4',
       // The "Example" label, before the heading rather than in it, so screen readers
       // don't announce it as part of the heading. The `/ ""` hides it from them.
-      "[&_.sb-anchor]:before:mb-0.5 [&_.sb-anchor]:before:block [&_.sb-anchor]:before:font-mono [&_.sb-anchor]:before:text-[11px] [&_.sb-anchor]:before:font-medium [&_.sb-anchor]:before:uppercase [&_.sb-anchor]:before:tracking-[0.08em] [&_.sb-anchor]:before:text-gray-500 [&_.sb-anchor]:before:content-['Example'_/_'']",
+      "[&_.sb-anchor]:before:mb-0.5 [&_.sb-anchor]:before:block [&_.sb-anchor]:before:font-mono [&_.sb-anchor]:before:text-[0.6875rem] [&_.sb-anchor]:before:font-medium [&_.sb-anchor]:before:uppercase [&_.sb-anchor]:before:tracking-[0.08em] [&_.sb-anchor]:before:text-gray-500 [&_.sb-anchor]:before:content-['Example'_/_'']",
       // The heading sits right under its label.
       '[&_.sb-anchor>h3]:mt-0',
     ].join(' ')}
@@ -129,7 +129,7 @@ export const ApiEntry = ({ of }: { of: Documented }) => {
       >
         <span
           aria-hidden="true"
-          className="sb-unstyled mb-0.5 block font-mono text-[11px] font-medium uppercase
+          className="sb-unstyled mb-0.5 block font-mono text-[0.6875rem] font-medium uppercase
             tracking-[0.08em] text-gray-500"
         >
           Component

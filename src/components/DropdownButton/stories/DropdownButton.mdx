@@ -1,0 +1,35 @@
+import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
+import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import { DropdownButton } from '../src/DropdownButton';
+import * as DropdownButtonStories from './DropdownButton.stories';
+
+<Meta of={DropdownButtonStories} />
+
+# DropdownButton
+
+<Description of={DropdownButtonStories} />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the dropdown button responds."
+  title="Try it"
+>
+  <Canvas of={DropdownButtonStories.Playground} />
+  <Controls of={DropdownButtonStories.Playground} />
+</DocsSection>
+
+<DocsSection
+  id="examples"
+  intro="Common setups, each with its source. Use Show code to copy one."
+  title="Examples"
+>
+  <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="api-reference"
+  intro="The props declared in Vero's types. Standard HTML attributes and Radix DropdownMenu trigger props aren't listed."
+  title="API reference"
+>
+  <ApiEntry of={DropdownButton} />
+</DocsSection>

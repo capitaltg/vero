@@ -13,17 +13,15 @@ const meta = {
   title: 'Actions & Navigation/Button',
   component: Button,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Button.mdx, so there's no autodocs page.
   argTypes: {
     variant: {
       control: 'select',
       options: ['default', 'primary', 'danger', 'link', 'input', 'ghost'],
-      description: 'The visual style variant of the button',
     },
     size: {
       options: ['default', 'sm', 'lg'],
       control: 'radio',
-      description: 'The size of the button',
     },
     className: {
       type: 'string',
@@ -31,7 +29,6 @@ const meta = {
     },
     isLoading: {
       type: 'boolean',
-      description: 'Shows a loading spinner instead of the button text',
       control: 'boolean',
     },
   },
@@ -39,6 +36,17 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    children: 'Button',
+    variant: 'default',
+  },
+};
 
 /**
  * The default button style.

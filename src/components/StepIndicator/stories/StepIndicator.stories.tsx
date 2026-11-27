@@ -30,7 +30,7 @@ const meta = {
   title: 'Actions & Navigation/StepIndicator',
   component: StepIndicator,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is StepIndicator.mdx, so there's no autodocs page.
   args: {
     currentStep: 'profile',
     headingLevel: 'h4',
@@ -44,7 +44,6 @@ const meta = {
     variant: {
       control: 'radio',
       options: ['default', 'counter'],
-      description: 'Visual variant of the step indicator',
       type: { name: 'string', required: false },
       table: {
         defaultValue: {
@@ -73,18 +72,14 @@ const meta = {
     currentStep: {
       control: 'select',
       options: steps.map(s => s.id),
-      description: 'ID of the current step',
       type: { name: 'string', required: true },
     },
     steps: {
       control: 'object',
-      description: 'Array of step objects',
       type: { name: 'array', value: { name: 'object', value: {} }, required: true },
     },
     showCurrentAsCompleted: {
       control: 'boolean',
-      description:
-        'If true, the current step will be shown as completed instead of current. Useful for showing the final step as completed when the process is finished.',
       type: { name: 'boolean', required: false },
       table: {
         defaultValue: {
@@ -98,7 +93,6 @@ const meta = {
     headingLevel: {
       control: 'select',
       options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-      description: 'The heading level for the step indicator header. Defaults to h4.',
       type: { name: 'string', required: false },
       table: {
         defaultValue: {
@@ -111,8 +105,6 @@ const meta = {
     },
     showLabels: {
       control: 'boolean',
-      description:
-        'If false, labels will not be shown below the segments or counter list. Defaults to true.',
       type: { name: 'boolean', required: false },
       table: {
         defaultValue: {
@@ -130,13 +122,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Playground - Use the controls below to customize the StepIndicator.
- * All props can be adjusted to see how the component responds.
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
  */
-export const Playground: Story = {
-  // Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
-};
+export const Playground: Story = {};
 
 /**
  * Interactive demo of the StepIndicator component.

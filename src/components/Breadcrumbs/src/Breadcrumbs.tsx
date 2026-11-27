@@ -4,6 +4,10 @@ import { ChevronRight } from 'lucide-react';
 import * as React from 'react';
 import { BreadcrumbsProps } from '../types';
 
+/**
+ * A trail of links showing where the current page sits in the site's hierarchy. It renders
+ * a `<nav>` landmark named "Breadcrumb" holding an ordered list.
+ */
 const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
   ({ items, separator = <ChevronRight className="h-4 w-4" />, className, ...props }, ref) => {
     return (

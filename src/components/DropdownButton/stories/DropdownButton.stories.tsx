@@ -6,31 +6,43 @@ const meta = {
   title: 'Actions & Navigation/DropdownButton',
   component: DropdownButton,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is DropdownButton.mdx, so there's no autodocs page.
   argTypes: {
     variant: {
       control: 'select',
       options: ['default', 'primary', 'danger', 'link', 'input', 'ghost'],
-      description: 'The visual style variant of the dropdown button',
     },
     size: {
       options: ['default', 'sm', 'lg'],
       control: 'radio',
-      description: 'The size of the dropdown button',
     },
     items: {
       control: 'object',
-      description: 'The items to be displayed in the dropdown button',
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the dropdown button',
     },
   },
 } satisfies Meta<typeof DropdownButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    children: 'Actions',
+    items: [
+      { label: 'Profile', onClick: () => console.log('Profile clicked') },
+      { label: 'Settings', onClick: () => console.log('Settings clicked') },
+      'separator',
+      { label: 'Sign out', onClick: () => console.log('Sign out clicked') },
+    ],
+  },
+};
 
 /**
  * The default state of the DropdownButton component.

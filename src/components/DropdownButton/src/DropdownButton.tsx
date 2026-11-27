@@ -7,6 +7,10 @@ import * as React from 'react';
 import { DropdownButtonProps } from '../types';
 import { DropdownMenuItem } from './DropdownMenuItem';
 
+/**
+ * A button that opens a menu of actions, such as "Edit" or "Delete". The menu is an ARIA
+ * menu (Radix DropdownMenu), navigated with the arrow keys.
+ */
 const DropdownButton = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
   DropdownButtonProps

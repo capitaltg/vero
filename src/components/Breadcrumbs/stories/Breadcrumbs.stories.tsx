@@ -6,11 +6,10 @@ const meta = {
   title: 'Actions & Navigation/Breadcrumbs',
   component: Breadcrumbs,
   parameters: {},
-  tags: ['autodocs'],
+  // The docs page is Breadcrumbs.mdx, so there's no autodocs page.
   argTypes: {
     items: {
       control: 'object',
-      description: 'Array of breadcrumb items with label and optional href',
       table: {
         type: {
           summary: 'BreadcrumbItem[]',
@@ -19,7 +18,6 @@ const meta = {
     },
     separator: {
       control: 'text',
-      description: 'Custom separator between breadcrumb items',
       table: {
         type: {
           summary: 'ReactNode',
@@ -28,13 +26,26 @@ const meta = {
     },
     className: {
       type: 'string',
-      description: 'Additional class names to apply to the breadcrumbs',
     },
   },
 } satisfies Meta<typeof Breadcrumbs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/**
+ * Use the controls to try each option. The docs page shows it under "Try it"; keep it the
+ * first story, since the Examples section skips the first one.
+ */
+export const Playground: Story = {
+  args: {
+    items: [
+      { label: 'Home', href: '/' },
+      { label: 'Documents', href: '/documents' },
+      { label: 'Current Page' },
+    ],
+  },
+};
 
 /**
  * The default state of the Breadcrumbs component.

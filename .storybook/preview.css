@@ -2,6 +2,51 @@
 
 @tailwind base;
 @tailwind components;
+
+/* Docs page text, after the Vue.js docs. Skips component previews (.sb-unstyled) and table
+   cells. It sits before the utilities so Tailwind classes in DocsLayout.tsx can override it. */
+.sbdocs-content :where(:not(.sb-unstyled, .sb-unstyled *, td *, th *)) {
+  &:is(h2, h3) {
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  &:is(h2) {
+    border-top: 1px solid rgb(60 60 60 / 0.12);
+    border-bottom: 0;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  &:is(h3) {
+    margin: 2rem 0 0.75rem;
+    font-size: 1.1875rem;
+    letter-spacing: -0.01em;
+  }
+  &:is(p, li) {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  &:is(li) {
+    line-height: 1.5;
+  }
+  &:is(ul, ol) {
+    margin-top: 0.75rem;
+    padding-left: 1.375rem;
+  }
+  /* Storybook's link icon, centered on the heading */
+  &:is(h2) > a:first-child {
+    margin-top: 0.8125rem;
+  }
+  &:is(h3) > a:first-child {
+    margin-top: 0.5625rem;
+  }
+}
+
+/* Two classes: Storybook zeroes the first h2's spacing with a :first-of-type rule. */
+.sbdocs.sbdocs-content h2:where(:not(.sb-unstyled, .sb-unstyled *)) {
+  margin: 4rem 0 0;
+  padding: 1.75rem 0 0;
+}
+
 @tailwind utilities;
 
 /* Example of app-specific base styles */
@@ -12,30 +57,5 @@
 
   body {
     @apply bg-gray-50 text-gray-900;
-  }
-}
-
-/* Styling for anchor tags inside headings */
-/* Target Storybook docs container for higher specificity */
-.sbdocs {
-  > h2 {
-    @apply mt-12;
-  }
-
-  > h3 {
-    @apply mt-8;
-  }
-
-  > h1 > a,
-  > h2 > a {
-    @apply mt-3;
-  }
-
-  > h3 > a {
-    @apply mt-2;
-  }
-
-  > h3 + p {
-    @apply mt-2;
   }
 }

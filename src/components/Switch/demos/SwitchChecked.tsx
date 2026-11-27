@@ -11,7 +11,7 @@ export const SwitchChecked = () => {
   return (
     <div className="space-y-4">
       <Switch
-        id="notifications"
+        id="switch-notifications"
         isChecked={isChecked}
         label="Notifications"
         onCheckedChange={() => setIsChecked(!isChecked)}

@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiReference, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiReference,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { SwitchGroup } from '../src/SwitchGroup';
 import { Switch } from '../../Switch';
 import * as SwitchGroupStories from './SwitchGroup.stories';
@@ -9,6 +14,55 @@ import * as SwitchGroupStories from './SwitchGroup.stories';
 # SwitchGroup
 
 <Description of={SwitchGroupStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a switch group and how to word and arrange its switches. USWDS has no switch
+      component, so this guidance is Vero's own. The{' '}
+      <a href="https://www.w3.org/WAI/ARIA/apg/patterns/switch/">WAI-ARIA switch pattern</a>{' '}
+      describes how a switch behaves.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To turn several related settings on or off**, such as notification preferences on a settings
+  page. Each switch works on its own.
+- **When each change takes effect immediately**, with no Save or Submit button. That's what users
+  expect from a switch, as with a light switch.
+- For a single setting, use one [Switch](?path=/docs/inputs-forms-switch--docs) on its own.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **The choices are submitted with a form**, and only take effect when the user presses Submit:
+  use a [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs).
+- **Only one option can be chosen:** use a
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+- **The two states aren't on and off**, such as "Monthly" and "Yearly": use a RadioGroup, so each
+  state has its own label.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Name the group.** Say what the settings are for, such as "Notifications". See
+  [Your responsibility](#accessibility-your-responsibility).
+- **Apply each change right away, and show that it worked.** If saving can fail, turn the switch
+  back and say what went wrong. Don't make users press Save after using a switch.
+- **Label the setting, not the action.** Write "Email notifications", not "Turn on email
+  notifications". The switch shows whether it's on.
+- **Keep the label the same in both states.** Don't change "Notifications on" to "Notifications
+  off": the label and the switch would then disagree about what's on.
+- **Keep labels short.** Put any explanation in text next to the switch, not in the label: the
+  whole label becomes the switch's name, which screen readers read every time it's focused.
+- **List switches vertically.** Keep the default `orientation="vertical"`: in a row, it's harder to
+  tell which label goes with which switch. Use `columns` to spread a long list across columns.
+- **Order switches logically**, such as by how often they're used, with related settings next to
+  each other.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -25,6 +79,65 @@ import * as SwitchGroupStories from './SwitchGroup.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the group handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **Each option is a switch to assistive technology** (a `button` with `role="switch"` and
+  `aria-checked`), named by its visible label, a `<label>` linked to the switch.
+- **Keyboard:** Tab and Shift+Tab move between switches, and Space or Enter turns the focused one
+  on or off, as the WAI-ARIA switch pattern describes.
+- **Clicking the label toggles the switch.** Each label is linked to its switch by id. Options use
+  their `id`, and `Switch` children without an `id` get a generated one.
+- **Disabled switches stay focusable** and are marked `aria-disabled`, so screen reader users can
+  still find them and hear that they're unavailable. Clicks, label clicks, Space and Enter don't
+  change them. The group's `isDisabled` disables every option.
+- **Focus is visible:** a focused switch gets a 3px ring, which stays visible in Windows High
+  Contrast mode.
+- **Contrast when on:** the track is 6.7:1 against white and the thumb 6.7:1 against the track,
+  above the 3:1 that WCAG requires for form controls. The off state is lower; see below.
+- **Reduced motion:** the thumb doesn't slide when the user has asked for reduced motion.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Name the group.** The group renders a plain `div` with no role or name
+  ([#161](https://github.com/capitaltg/vero/issues/161)), so screen readers announce each switch
+  without the topic it belongs to. Wrap it in a `fieldset` with a `legend`:
+
+  ```tsx
+  <fieldset>
+    <legend>Notifications</legend>
+    <SwitchGroup onChange={setEnabled} options={notifications} value={enabled} />
+  </fieldset>
+  ```
+
+  Or pass `role="group"` and `aria-labelledby` pointing to a visible heading.
+
+- **Make each option's `id` unique on the page.** It's used as the switch's id as is. If two
+  groups share option ids, the labels all point to the first group's switches, and the other
+  switches have no name ([#227](https://github.com/capitaltg/vero/issues/227)).
+- **Link explanations and errors yourself.** The group and its switches have no description or
+  error props. Put the text next to the switch and link it with `aria-describedby`: on a `Switch`
+  child, or on the group for a message about the whole group.
+- **Announce failures.** If a change can't be saved, turn the switch back and show the error where
+  screen readers announce it, such as in an [Alert](?path=/docs/overlays-feedback-alert--docs).
+- **Show the state in text where it matters.** For now, an off switch is hard to see: its track
+  has 1.25:1 contrast against white ([#205](https://github.com/capitaltg/vero/issues/205)). In
+  Windows High Contrast mode, on and off look the same
+  ([#206](https://github.com/capitaltg/vero/issues/206)).
+- **Test it in your page.** USWDS has no switch tests. Check the group against the
+  [WAI-ARIA switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/) in your own page,
+  including a screen reader pass: these checks can't cover your labels and layout.
+
+For an accessibility review, see
+[all open accessibility issues for Switch and SwitchGroup](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+%28in%3Atitle+Switch+OR+in%3Atitle+SwitchGroup%29).
+
 </DocsSection>
 
 <DocsSection

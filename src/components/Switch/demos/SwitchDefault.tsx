@@ -7,7 +7,7 @@ export const SwitchDefault = () => {
   return (
     <div className="space-y-4">
       <Switch
-        id="airplane-mode"
+        id="switch-airplane-mode"
         isChecked={isChecked}
         label="Airplane Mode"
         onCheckedChange={() => setIsChecked(!isChecked)}

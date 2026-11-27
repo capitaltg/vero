@@ -10,7 +10,10 @@ export interface DropdownItem {
   label: string;
   /** An icon shown before the label. */
   icon?: ReactNode;
-  /** Disables the item. Disabled items are skipped by the keyboard. */
+  /**
+   * Disables the item. It stays focusable and is marked `aria-disabled`, but choosing it
+   * does nothing.
+   */
   isDisabled?: boolean;
   /** Called when the item is chosen, by click or keyboard. The menu then closes. */
   onClick?: () => void;

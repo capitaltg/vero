@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { Button } from '../src/Button';
 import * as ButtonStories from './Button.stories';
 
@@ -8,6 +13,64 @@ import * as ButtonStories from './Button.stories';
 # Button
 
 <Description of={ButtonStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a button, which style to choose and how to word it. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/button/">USWDS button guidance</a>.
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **To let users take an action**, such as submitting a form, saving changes or opening a
+  dialog. A button does something on the current page, or sends data.
+- **For the most important actions on a page**, styled so they stand out.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **Going to another page:** use a link. If the link needs the button's look, such as a "Start
+  your application" link, render an `<a>` with `asChild`:
+  `<Button asChild><a href="/apply">Start your application</a></Button>`. Screen readers then
+  announce it as a link, and it behaves like one: it opens with Enter, can open in a new tab and
+  is listed with the page's links.
+- **Several related actions** that would crowd the page: group them in a
+  [DropdownButton](?path=/docs/actions-navigation-dropdownbutton--docs).
+- **A choice or a setting**, such as picking one option or turning something on: use a
+  [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs),
+  [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs) or
+  [Switch](?path=/docs/inputs-forms-switch--docs). Their `button` style looks like a row of
+  buttons but keeps the right role and checked state.
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Choose the `variant` by how important the action is:**
+  - `primary` for the main action, such as Submit or Save. Use one per form or dialog, so it's
+    clear which action is expected.
+  - `default` (outlined) for secondary actions, such as Cancel or Back.
+  - `danger` for actions that destroy data, such as Delete. Ask for confirmation before acting.
+  - `link` for less important actions that should look like a link, such as "Edit" next to a
+    summary. It's still a button, so use it for actions, not for going to another page.
+  - `ghost` for compact controls where a border would be noise, such as icon buttons in a
+    toolbar or a calendar header.
+  - `input` for a button that sits among form fields and opens a picker, as DatePicker and
+    Autocomplete do. It's styled like a field.
+- **Lead with a verb and keep it short.** Write "Save draft", not "Draft". The label should say
+  what happens when it's pressed.
+- **Use sentence case**: "Save and continue", not "Save And Continue".
+- **Don't use too many buttons on a page.** When everything stands out, nothing does.
+- **Set `type="button"` on buttons inside a form that don't submit it.** Button renders a native
+  `<button>`, which submits its form by default.
+- **Use `isLoading` for actions that take a moment**, such as saving. It shows a spinner, keeps
+  the width and blocks further clicks, so the action isn't sent twice.
+- **Make unavailable actions understandable.** If a button is disabled, say why nearby, or leave
+  it enabled and explain what's missing when it's pressed.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +87,67 @@ import * as ButtonStories from './Button.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the button handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **It's a native `<button>`**, so it has the button role, is in the tab order, and Enter and
+  Space press it. With `asChild`, the child element keeps its own role, so an `<a>` stays a
+  link.
+- **Focus is visible on every variant:** a 3px ring with a 3px white gap, 3.2:1 against white. In
+  forced colors (Windows High Contrast), a solid outline takes its place.
+- **When disabled it stays focusable** and is marked `aria-disabled`, so screen reader users can
+  still find it and hear that it's unavailable. Clicks, Enter and Space don't call `onClick`.
+- **While loading it stays focusable**, so focus isn't lost when an action starts. It's marked
+  `aria-disabled` and `aria-busy`, and the spinner is hidden from screen readers. But see
+  [#217](https://github.com/capitaltg/vero/issues/217) under
+  [Your responsibility](#accessibility-your-responsibility).
+- **Contrast:** the text is 6.7:1 on the `default`, `primary` and `link` variants, 4.6:1 on
+  `danger` (white on red, bold) and 17.7:1 on `input` and `ghost`, all above the 4.5:1 that WCAG
+  requires. The `default` and `primary` borders are 6.7:1 against white.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Name icon-only buttons.** A button with only an icon has no name unless you give it one. Add
+  an `aria-label` that says what it does, and keep the icon hidden from screen readers (lucide
+  icons are hidden by default):
+
+  ```tsx
+  <Button aria-label="Close" variant="ghost">
+    <X aria-hidden="true" className="h-4 w-4" />
+  </Button>
+  ```
+
+  Add a [Tooltip](?path=/docs/overlays-feedback-tooltip--docs) so sighted users can see the name
+  too.
+
+- **Use a link for navigation**, with `asChild`, as in
+  [When to use something else](#guidance-when-to-use-something-else). A button that changes the
+  page in `onClick` isn't announced as a link and can't be opened in a new tab.
+- **Give a loading button a name.** For now, a button loses its accessible name while
+  `isLoading` is set, so screen readers announce a button with no label
+  ([#217](https://github.com/capitaltg/vero/issues/217)). Until that's fixed, pass an
+  `aria-label` while it loads, such as `aria-label={isLoading ? 'Saving' : undefined}`.
+- **Announce the result of a long action.** A spinner isn't announced, and screen readers don't
+  announce `aria-busy` changes on a button. When the action finishes, show a message in a live
+  region, such as an [Alert](?path=/docs/overlays-feedback-alert--docs), or move focus to what
+  changed.
+- **Don't rely on color alone.** The `danger` variant's red means nothing to a screen reader user
+  or someone who can't see red, so the label itself must say what happens, such as "Delete
+  file".
+- **Test it in your page.** Run the
+  [USWDS button accessibility tests](https://designsystem.digital.gov/components/button/accessibility-tests/)
+  on your own page, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for Button](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+Button).
+
 </DocsSection>
 
 <DocsSection

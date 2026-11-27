@@ -1,5 +1,10 @@
 import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
-import { ApiEntry, DocsExamples, DocsSection } from '../../../stories/docs/DocsLayout';
+import {
+  ApiEntry,
+  DocsExamples,
+  DocsSection,
+  DocsSubheading,
+} from '../../../stories/docs/DocsLayout';
 import { StepIndicator } from '../src/StepIndicator';
 import * as StepIndicatorStories from './StepIndicator.stories';
 
@@ -8,6 +13,51 @@ import * as StepIndicatorStories from './StepIndicator.stories';
 # StepIndicator
 
 <Description of={StepIndicatorStories} />
+
+<DocsSection
+  id="guidance"
+  intro={
+    <>
+      When to use a step indicator and how to set it up. Adapted from the{' '}
+      <a href="https://designsystem.digital.gov/components/step-indicator/">
+        USWDS step indicator guidance
+      </a>
+      .
+    </>
+  }
+  title="Guidance"
+>
+
+<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+
+- **For a form or process split across pages** that groups into three or more high-level steps.
+- **When users move through the steps in order**, with back and next buttons.
+
+<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+
+- **The number of steps can change** based on the user's answers: a step indicator that grows or
+  shrinks is confusing. Show only the heading, or no indicator.
+- **Users can complete steps in any order:** use a list of sections with their status, or
+  [Tabs](?path=/docs/actions-navigation-tabs--docs).
+- **A short form with fewer than three steps:** leave it out.
+- **Showing where a page sits in a site:** use
+  [Breadcrumbs](?path=/docs/actions-navigation-breadcrumbs--docs).
+
+<DocsSubheading id="usability">Usability guidance</DocsSubheading>
+
+- **Keep step labels short**, one or two words, such as "Profile" or "Review". Keep any
+  `description` to a few words too.
+- **Provide navigation separately.** The step indicator isn't interactive: put back and next
+  buttons below the form, as in the interactive example.
+- **Keep the default `variant`** for the USWDS look, with a segment per step. The `counter`
+  variant shows numbered circles, with a check on completed steps.
+- **Set `headingLevel`** so the "Step X of Y" heading fits your page's outline. It defaults to
+  `h4`.
+- **Expect only the heading on narrow screens.** Below 768px, the `default` variant hides its
+  segments and labels and shows only the heading.
+- **Use `showCurrentAsCompleted`** on a final confirmation page, so every step shows as done.
+
+</DocsSection>
 
 <DocsSection
   id="try-it"
@@ -24,6 +74,49 @@ import * as StepIndicatorStories from './StepIndicator.stories';
   title="Examples"
 >
   <DocsExamples />
+</DocsSection>
+
+<DocsSection
+  id="accessibility"
+  intro="What the step indicator handles for you and what you need to add."
+  title="Accessibility"
+>
+
+<DocsSubheading id="built-in">Built in</DocsSubheading>
+
+- **Each step's status is in text, not only color.** Each step has visually hidden text saying
+  it's "completed" or "not completed", and the current step is marked `aria-current="step"`.
+- **The steps are an ordered list** named "Steps", inside a region named "Step indicator". Pass
+  your own `aria-label` to rename the region.
+- **The heading reads "Step 2 of 4 Profile"** to screen readers: a visually hidden "Step" comes
+  before the number. Its level is set by `headingLevel`.
+- **Nothing in it is focusable.** It shows progress only, so keyboard users don't tab through
+  it.
+- **On narrow screens**, the `default` variant's list is hidden from screen readers as well as
+  visually, so only the heading is announced.
+- **Contrast:** labels are 17.2:1 against white for completed steps, 6.7:1 for the current step
+  and 5.3:1 for steps not started. The current and completed segments are 6.7:1 and 9.6:1.
+  Segments for steps not started are light gray (1.25:1), but their status is also given in text.
+
+<DocsSubheading id="your-responsibility">Your responsibility</DocsSubheading>
+
+- **Set `headingLevel`** to fit the headings around it. The default `h4` is rarely right.
+- **Tell users the step changed.** When users move to the next step, update the page's `<title>`
+  (for example, "Profile – step 2 of 4") and move focus to the step's heading or the top of the
+  form, so screen reader users know where they are.
+- **Prefer the `counter` variant where users rely on Windows High Contrast mode.** For now, the
+  `default` variant's segments disappear in that mode
+  ([#219](https://github.com/capitaltg/vero/issues/219)). The labels and the heading stay.
+- **Keep labels short.** For now, screen readers read each step's label twice when labels are
+  shown ([#221](https://github.com/capitaltg/vero/issues/221)).
+- **Give each step indicator a distinct `aria-label`** if a page has more than one.
+- **Test it in your page.** Run the
+  [USWDS step indicator accessibility tests](https://designsystem.digital.gov/components/step-indicator/accessibility-tests/)
+  on your own form, including a screen reader pass.
+
+For an accessibility review, see
+[all open accessibility issues for StepIndicator](https://github.com/capitaltg/vero/issues?q=is%3Aopen+label%3Aa11y+in%3Atitle+StepIndicator).
+
 </DocsSection>
 
 <DocsSection

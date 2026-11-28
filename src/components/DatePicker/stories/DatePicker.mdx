@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { DatePicker } from '../src/DatePicker';
 import * as DatePickerStories from './DatePicker.stories';
@@ -26,9 +28,12 @@ import * as DatePickerStories from './DatePicker.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To schedule or record an event**, such as an appointment, where seeing a calendar helps.
 - **When the day of the week matters**, such as picking a weekday for a delivery.
@@ -37,7 +42,9 @@ import * as DatePickerStories from './DatePicker.stories';
 - For a start and an end date, use a
   [DateRangePicker](?path=/docs/data-display-daterangepicker--docs).
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Dates users know or can look up**, such as a date of birth or a passport's issue date: use text
   fields, such as separate month, day and year [Inputs](?path=/docs/inputs-forms-input--docs).
@@ -46,6 +53,10 @@ import * as DatePickerStories from './DatePicker.stories';
 - **Users need to type the date.** Vero's date picker is pick-only: there's no text field to type
   into. USWDS recommends always letting users type a date, because some people find that faster or
   easier. Where that matters, use text fields with a format hint, such as "MM/DD/YYYY".
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

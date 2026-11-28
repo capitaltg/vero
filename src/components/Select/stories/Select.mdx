@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Select, SelectRoot, SelectValue } from '../src/Select';
 import { SelectContent } from '../src/SelectContent';
@@ -27,15 +29,20 @@ import * as SelectStories from './Select.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To choose one option from a list of about 7 to 15**, when there isn't room to show them all.
 - **Use it sparingly.** A select hides its options until it's opened, and many users find it
   harder to use than a list of radio buttons.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Fewer than seven options:** use a [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs), so
   every option is visible.
@@ -49,6 +56,10 @@ import * as SelectStories from './Select.stories';
   [MultiSelect](?path=/docs/inputs-forms-multiselect--docs) for a long list.
 - **Moving to another page:** use links, such as the
   [Navbar](?path=/docs/actions-navigation-navbar--docs), not a select.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

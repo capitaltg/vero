@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { StepIndicator } from '../src/StepIndicator';
 import * as StepIndicatorStories from './StepIndicator.stories';
@@ -26,14 +28,19 @@ import * as StepIndicatorStories from './StepIndicator.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For a form or process split across pages** that groups into three or more high-level steps.
 - **When users move through the steps in order**, with back and next buttons.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **The number of steps can change** based on the user's answers: a step indicator that grows or
   shrinks is confusing. Show only the heading, or no indicator.
@@ -42,6 +49,10 @@ import * as StepIndicatorStories from './StepIndicator.stories';
 - **A short form with fewer than three steps:** leave it out.
 - **Showing where a page sits in a site:** use
   [Breadcrumbs](?path=/docs/actions-navigation-breadcrumbs--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

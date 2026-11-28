@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from '../src/Dialog';
 import { DialogOverlay } from '../src/DialogOverlay';
@@ -24,9 +26,12 @@ import * as DialogStories from './Dialog.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To confirm a decision that needs full attention**, usually one that can't be undone, such as
   "Delete this account?". Offer a clear choice, such as Cancel and Delete account.
@@ -34,7 +39,9 @@ import * as DialogStories from './Dialog.stories';
 - **To show optional information without leaving a task**, such as a privacy policy during sign-up.
   Closing it is usually the only action.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Look for something less disruptive first.** A dialog blocks the page, so treat it as a last
   resort.
@@ -43,6 +50,10 @@ import * as DialogStories from './Dialog.stories';
   [Alert](?path=/docs/overlays-feedback-alert--docs) at the top of the page.
 - **A few controls or details tied to one button**, where the rest of the page doesn't need to be
   blocked: use a [Popover](?path=/docs/overlays-feedback-popover--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

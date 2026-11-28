@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Accordion } from '../src/Accordion';
 import * as AccordionStories from './Accordion.stories';
@@ -23,15 +25,20 @@ import * as AccordionStories from './Accordion.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **Users need only a few parts of a long page**, such as a list of FAQs where each reader looks
   for one answer.
 - **There's a lot of content and little space**, and each section makes sense on its own.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Users need to read most or all of the content:** show it as plain text with clear headings.
   Hiding it adds a click for each section and makes users guess where things are.
@@ -40,6 +47,10 @@ import * as AccordionStories from './Accordion.stories';
   [Tabs](?path=/docs/actions-navigation-tabs--docs).
 - **Users need to find text with the browser's find in page:** a closed section's content isn't
   rendered, so find in page can't match it.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../src/Tabs';
 import * as TabsStories from './Tabs.stories';
@@ -24,15 +26,20 @@ import * as TabsStories from './Tabs.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To switch between related views in one place**, such as the sections of an account's
   settings, when users need only one at a time.
 - **When the content splits into a few groups** that each have a short, clear name.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Users need to compare panels or read them all:** show the content on the page under
   headings, or use an [Accordion](?path=/docs/data-display-accordion--docs), which can show
@@ -44,6 +51,10 @@ import * as TabsStories from './Tabs.stories';
   [StepIndicator](?path=/docs/actions-navigation-stepindicator--docs).
 - **Too many sections for one row:** use an Accordion or a side navigation. The tab list
   doesn't wrap or scroll.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

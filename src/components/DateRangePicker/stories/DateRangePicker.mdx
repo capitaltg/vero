@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { DateRangePicker } from '../src/DateRangePicker';
 import * as DateRangePickerStories from './DateRangePicker.stories';
@@ -26,20 +28,29 @@ import * as DateRangePickerStories from './DateRangePicker.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To pick a start and an end date**, such as a trip, a leave request or a reporting period,
   where seeing two months side by side helps.
 - [DatePicker](?path=/docs/data-display-datepicker--docs) has the full guidance for date pickers.
   It applies here too.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **A single date:** use a [DatePicker](?path=/docs/data-display-datepicker--docs).
 - **The day of the week doesn't matter, or users need to type the dates:** use two sets of text
   fields, one for the start and one for the end. The picker has no text field to type into.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

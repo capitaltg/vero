@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Checkbox } from '../src/Checkbox';
 import * as CheckboxStories from './Checkbox.stories';
@@ -23,9 +25,12 @@ import * as CheckboxStories from './Checkbox.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For a single yes-or-no choice**, such as accepting terms or opting in to emails. Unchecked
   means no; checked means yes.
@@ -33,12 +38,18 @@ import * as CheckboxStories from './Checkbox.stories';
   [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs), which has the full guidance for
   lists of checkboxes.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **A setting that takes effect immediately**, such as turning notifications on: use a
   [Switch](?path=/docs/inputs-forms-switch--docs).
 - **The label can't make both states clear:** use two radio buttons with their own labels, in a
   [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

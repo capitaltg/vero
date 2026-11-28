@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { CheckboxGroup } from '../src/CheckboxGroup';
 import { Checkbox } from '../../Checkbox';
@@ -24,22 +26,31 @@ import * as CheckboxGroupStories from './CheckboxGroup.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To let users choose any number of options from a list**, including none. Checkboxes show
   what's selected at a glance, and each one is easy to uncheck.
 - For a single yes-or-no choice, such as accepting terms, use one
   [Checkbox](?path=/docs/inputs-forms-checkbox--docs) on its own.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Only one option can be chosen:** use a [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
 - **A setting that takes effect immediately**, such as turning notifications on or off: use a
   [SwitchGroup](?path=/docs/inputs-forms-switchgroup--docs).
 - **A long list**, where checkboxes would take up too much space: consider a
   [MultiSelect](?path=/docs/inputs-forms-multiselect--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

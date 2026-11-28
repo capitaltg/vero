@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Autocomplete } from '../src/Autocomplete';
 import * as AutocompleteStories from './Autocomplete.stories';
@@ -24,9 +26,12 @@ import * as AutocompleteStories from './Autocomplete.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To choose one option from a long list**, more than about 15, where typing a few letters is
   faster than scrolling.
@@ -35,7 +40,9 @@ import * as AutocompleteStories from './Autocomplete.stories';
 - **When options need more than a line of text**, such as a name with an email address. Use
   `renderOption` and `renderValue`.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **About 7 to 15 options:** use a [Select](?path=/docs/inputs-forms-select--docs). Fewer than
   seven: use a [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs). USWDS found problems with
@@ -50,6 +57,10 @@ import * as AutocompleteStories from './Autocomplete.stories';
 - **The field asks for the user's own details**, such as their name or country: use an
   [Input](?path=/docs/inputs-forms-input--docs) with `autoComplete`, so browsers can fill it in
   (see [Your responsibility](#accessibility-your-responsibility)).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Badge } from '../src/Badge';
 import * as BadgeStories from './Badge.stories';
@@ -24,16 +26,21 @@ import * as BadgeStories from './Badge.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To label an item's status or category**, such as "Approved" or "Draft" in a table row.
 - **To show a count**, such as the number of unread messages next to a link.
 - **To draw attention to new or important content**, such as "New" next to a recently added
   feature.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Users can click it:** use a [Button](?path=/docs/actions-navigation-button--docs). A badge
   isn't interactive: it can't be focused and has no button role.
@@ -41,6 +48,10 @@ import * as BadgeStories from './Badge.stories';
   [Alert](?path=/docs/overlays-feedback-alert--docs).
 - **To highlight new content on a page users expect to change often**, such as a news feed: putting
   the new items first may be enough. Bold text or a background color can also mark them.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

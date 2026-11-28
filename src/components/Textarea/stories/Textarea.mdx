@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Textarea } from '../src/Textarea';
 import * as TextareaStories from './Textarea.stories';
@@ -27,21 +29,30 @@ import * as TextareaStories from './Textarea.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For free-form answers longer than a line or two**, such as comments, a description of a
   problem, or the reason for a request.
 - **When users may want to paste in a long answer**, such as a list or a paragraph from another
   document.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Short answers**, such as a name or an email address: use an
   [Input](?path=/docs/inputs-forms-input--docs).
 - **A choice from a fixed list:** use a [Select](?path=/docs/inputs-forms-select--docs) or a
   [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Combobox } from '../src/Combobox';
 import * as ComboboxStories from './Combobox.stories';
@@ -24,15 +26,20 @@ import * as ComboboxStories from './Combobox.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To choose one option from a long list**, more than about 15, where typing a few letters is
   faster than scrolling, such as a country or a state.
 - **When space is limited** and the list is too long for radio buttons.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Screen reader users are a priority:** prefer
   [Autocomplete](?path=/docs/data-display-autocomplete--docs) with a static `options` list. It
@@ -48,6 +55,10 @@ import * as ComboboxStories from './Combobox.stories';
 - **More than one option can be chosen:** use a
   [MultiSelect](?path=/docs/inputs-forms-multiselect--docs), or a
   [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs) for a short list.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

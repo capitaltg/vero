@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { DropdownButton } from '../src/DropdownButton';
 import * as DropdownButtonStories from './DropdownButton.stories';
@@ -27,15 +29,20 @@ import * as DropdownButtonStories from './DropdownButton.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To group related actions** that would crowd the page as separate buttons, such as Edit,
   Duplicate and Delete on a table row.
 - **For secondary actions**, where hiding them behind one button keeps the main action clear.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **One or two actions:** use separate [Buttons](?path=/docs/actions-navigation-button--docs).
   Actions in a menu are harder to find than actions on the page.
@@ -49,6 +56,10 @@ import * as DropdownButtonStories from './DropdownButton.stories';
   value.
 - **Showing content or a small form:** use a
   [Popover](?path=/docs/overlays-feedback-popover--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { SwitchGroup } from '../src/SwitchGroup';
 import { Switch } from '../../Switch';
@@ -26,9 +28,12 @@ import * as SwitchGroupStories from './SwitchGroup.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To turn several related settings on or off**, such as notification preferences on a settings
   page. Each switch works on its own.
@@ -36,7 +41,9 @@ import * as SwitchGroupStories from './SwitchGroup.stories';
   expect from a switch, as with a light switch.
 - For a single setting, use one [Switch](?path=/docs/inputs-forms-switch--docs) on its own.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **The choices are submitted with a form**, and only take effect when the user presses Submit:
   use a [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs).
@@ -44,6 +51,10 @@ import * as SwitchGroupStories from './SwitchGroup.stories';
   [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
 - **The two states aren't on and off**, such as "Monthly" and "Yearly": use a RadioGroup, so each
   state has its own label.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

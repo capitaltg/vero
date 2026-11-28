@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { FormItem } from '../src/FormItem';
 import * as FormItemStories from './FormItem.stories';
@@ -23,9 +25,12 @@ import * as FormItemStories from './FormItem.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For every single form field** that needs a label: an
   [Input](?path=/docs/inputs-forms-input--docs), a
@@ -33,13 +38,19 @@ import * as FormItemStories from './FormItem.stories';
   [Select](?path=/docs/inputs-forms-select--docs) and the other field components. FormItem lays
   out the label, hint and error text the same way for each, and links them to the field.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **A group of checkboxes, radio buttons or switches:** they need a `fieldset` and `legend`, not a
   label. See [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs) and
   [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs).
 - **A single checkbox, radio button or switch:** it has its own `label` prop.
 - **A label you lay out yourself:** use a [Label](?path=/docs/inputs-forms-label--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

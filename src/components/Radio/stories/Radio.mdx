@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Radio } from '../src/Radio';
 import * as RadioStories from './Radio.stories';
@@ -26,9 +28,12 @@ import * as RadioStories from './Radio.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **A radio is always one option in a
   [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs)**, which has the full guidance for
@@ -36,13 +41,19 @@ import * as RadioStories from './Radio.stories';
 - **Use `Radio` children when you need a custom layout**, such as content between options. For
   everything else, pass `options` to the group.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **A single yes-or-no choice**, such as accepting terms: use a
   [Checkbox](?path=/docs/inputs-forms-checkbox--docs). A lone radio can't be cleared once it's
   selected.
 - **A setting that takes effect immediately:** use a
   [Switch](?path=/docs/inputs-forms-switch--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

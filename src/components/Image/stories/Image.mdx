@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Image } from '../src/Image';
 import * as ImageStories from './Image.stories';
@@ -24,15 +26,20 @@ import * as ImageStories from './Image.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For photos and illustrations that load from a URL**, where a placeholder while loading, a
   fallback image or lazy loading helps.
 - **For avatars and thumbnails**, with `shape="circle"` or `shape="rounded"`.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Icons:** use an icon component, such as one from `lucide-react`, which Vero uses. An icon
   doesn't need a loading placeholder.
@@ -41,6 +48,10 @@ import * as ImageStories from './Image.stories';
 - **A purely decorative background:** use a CSS background image.
 - **Charts and diagrams:** alt text can't hold all their detail. Give the same information as text
   or a table next to them.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

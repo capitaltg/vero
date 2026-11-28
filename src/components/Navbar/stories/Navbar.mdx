@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Navbar, NavbarAction, NavbarBrand, NavbarItem, NavbarNav } from '../src/Navbar';
 import { NavbarDropdown, NavbarDropdownItem } from '../src/NavbarDropdown';
@@ -30,16 +32,21 @@ import * as NavbarStories from './Navbar.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **As the header on every page of a site or app**, holding the brand, the main sections and
   the user's account menu. Keep it in the same place on every page.
 - **For a modest number of main sections**, each with at most a handful of subpages in a
   dropdown.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Many sections or a deep hierarchy:** add a side navigation for the lower levels, rather than
   long dropdowns.
@@ -48,6 +55,10 @@ import * as NavbarStories from './Navbar.stories';
   [Breadcrumbs](?path=/docs/actions-navigation-breadcrumbs--docs) below the navbar.
 - **Commands, such as Sign out:** put them in the `NavbarProfile` menu. `NavbarNav` and its
   dropdowns are for links to pages.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

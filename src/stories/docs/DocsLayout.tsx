@@ -1,9 +1,17 @@
 import { ArgTypes, HeaderMdx, Markdown, Stories } from '@storybook/blocks';
+import { Check, Compass, X } from 'lucide-react';
 import { createContext, useContext } from 'react';
 import type { ComponentType, ReactNode } from 'react';
+import { cn } from '../../lib/utils';
 
 // The id of the DocsSection a heading is in, used to prefix the heading's id.
 const SectionIdContext = createContext<string | undefined>(undefined);
+
+/** A heading's id, prefixed with its section's id, e.g. `accessibility-built-in`. */
+const useHeadingId = (id: string) => {
+  const sectionId = useContext(SectionIdContext);
+  return sectionId ? `${sectionId}-${id}` : id;
+};
 
 interface DocsSectionProps {
   /** The anchor id, also used to label the section. */
@@ -11,6 +19,11 @@ interface DocsSectionProps {
   title: string;
   /** A sentence under the title saying what the section is for. */
   intro?: ReactNode;
+  /**
+   * `guidance` sets the section on a tinted panel with a compass by its title, so the advice
+   * on when and how to use the component stands out from the sections around it.
+   */
+  variant?: 'default' | 'guidance';
   className?: string;
   children: ReactNode;
 }
@@ -19,16 +32,50 @@ interface DocsSectionProps {
  * A top-level section of a docs page (Guidance, Try it, Examples, Accessibility, API
  * reference). Its heading uses the docs pages' h2 style from `.storybook/preview.css`,
  * whose hairline and space above set the section apart, the same as a markdown `##`.
+ *
+ * The `guidance` variant's heading is `sb-unstyled` and styled here instead: the panel
+ * replaces the hairline, and Storybook's h2 styles would otherwise outrank these classes.
  */
-export const DocsSection = ({ id, title, intro, className, children }: DocsSectionProps) => (
-  // The intro's spacing is set from the section: Storybook's paragraph style outranks a
-  // class on the paragraph itself.
-  <section aria-labelledby={id} className={`[&>h2+p]:mb-8 [&>h2+p]:mt-2.5 ${className ?? ''}`}>
-    <h2 id={id}>{title}</h2>
-    {intro ? <p className="max-w-3xl">{intro}</p> : null}
-    <SectionIdContext.Provider value={id}>{children}</SectionIdContext.Provider>
-  </section>
-);
+export const DocsSection = ({
+  id,
+  title,
+  intro,
+  variant = 'default',
+  className,
+  children,
+}: DocsSectionProps) => {
+  const isGuidance = variant === 'guidance';
+
+  return (
+    // The intro's spacing is set from the section: Storybook's paragraph style outranks a
+    // class on the paragraph itself.
+    <section
+      aria-labelledby={id}
+      className={cn(
+        '[&>h2+p]:mb-8 [&>h2+p]:mt-2.5',
+        // The panel's background matches Storybook's sidebar (its light theme's `appBg`).
+        isGuidance &&
+          'mt-16 rounded-lg border border-primary-200 bg-[#f6f9fc] px-4 pb-6 pt-1 sm:px-7 sm:pb-7',
+        className,
+      )}
+    >
+      {isGuidance ? (
+        <h2
+          className="sb-unstyled m-0 flex items-center gap-2.5 pt-5 text-2xl font-semibold
+            leading-normal tracking-[-0.02em] text-primary-600"
+          id={id}
+        >
+          <Compass className="h-6 w-6 shrink-0 text-primary-400" />
+          {title}
+        </h2>
+      ) : (
+        <h2 id={id}>{title}</h2>
+      )}
+      {intro ? <p className="max-w-3xl">{intro}</p> : null}
+      <SectionIdContext.Provider value={id}>{children}</SectionIdContext.Provider>
+    </section>
+  );
+};
 
 interface DocsSubheadingProps {
   /**
@@ -45,12 +92,78 @@ interface DocsSubheadingProps {
  * ids unique on pages that have their own headings with the same text, makes shared links
  * say which section they point to, and keeps links working if the heading is reworded.
  */
-export const DocsSubheading = ({ id, children }: DocsSubheadingProps) => {
-  const sectionId = useContext(SectionIdContext);
+export const DocsSubheading = ({ id, children }: DocsSubheadingProps) => (
+  <HeaderMdx as="h3" id={useHeadingId(id)}>
+    {children}
+  </HeaderMdx>
+);
+
+/**
+ * The "When to use" and "When to use something else" cards, side by side when there's room.
+ * The space around it is padding: the heading that follows is the first h3 at its level, so
+ * Storybook zeroes its top margin with a `:first-of-type` rule, and Storybook's div style
+ * resets margins on this element.
+ */
+export const DocsWhenToUse = ({ children }: { children: ReactNode }) => (
+  <div className="grid gap-4 pb-8 pt-2 md:grid-cols-2">{children}</div>
+);
+
+const whenToUseCards = {
+  use: {
+    id: 'when-to-use',
+    title: 'When to use',
+    Icon: Check,
+    iconClassName: 'text-success-500',
+    borderClassName: 'border-t-success-500',
+  },
+  avoid: {
+    id: 'when-to-use-something-else',
+    title: 'When to use something else',
+    Icon: X,
+    iconClassName: 'text-danger-500',
+    borderClassName: 'border-t-danger-500',
+  },
+};
+
+interface DocsWhenToUseCardProps {
+  /** `use` for "When to use", `avoid` for "When to use something else". */
+  kind: keyof typeof whenToUseCards;
+  children: ReactNode;
+}
+
+/**
+ * One card in DocsWhenToUse: a green or red top border, a heading with a check or a cross,
+ * then the list. The heading keeps the id it had as a DocsSubheading
+ * (`guidance-when-to-use`), so links to it still work. It's `sb-unstyled` because it's
+ * smaller than the page's other h3s.
+ */
+export const DocsWhenToUseCard = ({ kind, children }: DocsWhenToUseCardProps) => {
+  const { id, title, Icon, iconClassName, borderClassName } = whenToUseCards[kind];
+  const headingId = useHeadingId(id);
+
   return (
-    <HeaderMdx as="h3" id={sectionId ? `${sectionId}-${id}` : id}>
+    // Inline code wraps here: Storybook keeps it on one line, and a long snippet would run
+    // out of the card. `li code` matches Storybook's selector, which would win a tie.
+    <div
+      className={cn(
+        `min-w-0 rounded-md border border-t-4 border-primary-200 bg-white px-5 pb-1 pt-4
+        [&_li_code]:whitespace-normal [&_li_code]:break-words`,
+        borderClassName,
+      )}
+    >
+      <h3
+        className="sb-unstyled m-0 flex items-center gap-2 text-[1.0625rem] font-bold leading-normal
+          text-primary-600"
+        id={headingId}
+      >
+        <Icon
+          className={cn('h-[1.125rem] w-[1.125rem] shrink-0', iconClassName)}
+          strokeWidth={2.5}
+        />
+        {title}
+      </h3>
       {children}
-    </HeaderMdx>
+    </div>
   );
 };
 

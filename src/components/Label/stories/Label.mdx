@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Label } from '../src/Label';
 import * as LabelStories from './Label.stories';
@@ -26,22 +28,31 @@ import * as LabelStories from './Label.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **When you lay out a field yourself** and FormItem's layout doesn't fit, such as a label beside
   its field in a compact filter bar.
 - In most forms, use a [FormItem](?path=/docs/inputs-forms-formitem--docs) instead. It renders a
   Label for you and links the hint and error text too.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **A field with hint or error text:** use a
   [FormItem](?path=/docs/inputs-forms-formitem--docs), which links them to the field.
 - **A name for a group of checkboxes or radio buttons:** use a `fieldset` and `legend`. See
   [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs).
 - **A single checkbox, radio button or switch:** use its own `label` prop.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

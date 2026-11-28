@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { MultiSelect } from '../src/MultiSelect';
 import * as MultiSelectStories from './MultiSelect.stories';
@@ -25,15 +27,20 @@ import * as MultiSelectStories from './MultiSelect.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To choose several options from a long list**, more than about 15, where checkboxes would take
   up too much space, such as tagging a record with topics.
 - **When users know what they're looking for** and can find it by typing.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **A short list:** use a [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs). Every
   option is visible, checkboxes are familiar, and it's better supported by screen readers (see
@@ -43,6 +50,10 @@ import * as MultiSelectStories from './MultiSelect.stories';
   [Combobox](?path=/docs/inputs-forms-combobox--docs) for a longer list.
 - **Options come from a server as the user types:** MultiSelect needs every option up front.
   Autocomplete can fetch options, but chooses only one.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

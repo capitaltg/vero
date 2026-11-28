@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Alert } from '../src/Alert';
 import * as AlertStories from './Alert.stories';
@@ -23,16 +25,21 @@ import * as AlertStories from './Alert.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To tell users about the system's status**, such as an error, a warning or an update, whether
   or not they need to act on it.
 - **To confirm a result or ask for a correction**, such as "Your application was submitted" or
   "Fix the errors below".
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **An action that destroys the user's work**, such as deleting an account: ask for confirmation
   in a [Dialog](?path=/docs/overlays-feedback-dialog--docs), not an alert.
@@ -40,6 +47,10 @@ import * as AlertStories from './Alert.stories';
   at the top.
 - **Short help for one control:** use a [Tooltip](?path=/docs/overlays-feedback-tooltip--docs)
   or text next to the control.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

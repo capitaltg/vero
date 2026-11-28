@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { RadioGroup } from '../src/RadioGroup';
 import { Radio } from '../../Radio';
@@ -27,15 +29,20 @@ import * as RadioGroupStories from './RadioGroup.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To let users choose exactly one option from a short list**, such as a shipping speed or a
   payment method. Every option is visible at once, so users can compare them before choosing.
 - **When the options rule each other out.** Choosing one clears the one chosen before.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **More than one option can be chosen:** use a
   [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs).
@@ -46,6 +53,10 @@ import * as RadioGroupStories from './RadioGroup.stories';
 - **A long list, or little space:** consider a [Select](?path=/docs/inputs-forms-select--docs).
 - **A setting that takes effect immediately**, such as turning notifications on: use a
   [Switch](?path=/docs/inputs-forms-switch--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

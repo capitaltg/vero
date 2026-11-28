@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Tooltip, TooltipProvider } from '../src/Tooltip';
 import * as TooltipStories from './Tooltip.stories';
@@ -23,16 +25,21 @@ import * as TooltipStories from './Tooltip.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For brief, helpful information that isn't essential**, such as what an icon button does or a
   keyboard shortcut.
 - **To give users confidence about an interaction**, such as "Copies the link to your clipboard".
 - **As a last resort where space is tight**, after looking for a way to keep the text visible.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Information users need to complete the task:** put it on the page, as visible text or a
   field's description. Tooltips don't show on touch screens.
@@ -40,6 +47,10 @@ import * as TooltipStories from './Tooltip.stories';
   [Popover](?path=/docs/overlays-feedback-popover--docs).
 - **Text that repeats the trigger's visible label**, or explains something already obvious: leave
   the tooltip out.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

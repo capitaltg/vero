@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Breadcrumbs } from '../src/Breadcrumbs';
 import * as BreadcrumbsStories from './Breadcrumbs.stories';
@@ -26,15 +28,20 @@ import * as BreadcrumbsStories from './Breadcrumbs.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **When users need to know where they are** in a site with several levels, especially if they
   may arrive on an inner page from a search or a link.
 - **To show how a site is organized**, and let users move up to a parent page in one step.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **A simple or flat site**, where the main navigation already shows where the user is: leave
   breadcrumbs out.
@@ -44,6 +51,10 @@ import * as BreadcrumbsStories from './Breadcrumbs.stories';
 - **Steps in a process**, such as a multi-page form: use a
   [StepIndicator](?path=/docs/actions-navigation-stepindicator--docs). Breadcrumbs show a
   hierarchy, not progress.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

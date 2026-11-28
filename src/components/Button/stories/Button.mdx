@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Button } from '../src/Button';
 import * as ButtonStories from './Button.stories';
@@ -23,15 +25,20 @@ import * as ButtonStories from './Button.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **To let users take an action**, such as submitting a form, saving changes or opening a
   dialog. A button does something on the current page, or sends data.
 - **For the most important actions on a page**, styled so they stand out.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Going to another page:** use a link. If the link needs the button's look, such as a "Start
   your application" link, render an `<a>` with `asChild`:
@@ -45,6 +52,10 @@ import * as ButtonStories from './Button.stories';
   [CheckboxGroup](?path=/docs/inputs-forms-checkboxgroup--docs) or
   [Switch](?path=/docs/inputs-forms-switch--docs). Their `button` style looks like a row of
   buttons but keeps the right role and checked state.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

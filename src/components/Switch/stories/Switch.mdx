@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Switch } from '../src/Switch';
 import * as SwitchStories from './Switch.stories';
@@ -25,9 +27,12 @@ import * as SwitchStories from './Switch.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For a single setting that takes effect immediately**, such as turning notifications on, with
   no Save or Submit button.
@@ -35,12 +40,18 @@ import * as SwitchStories from './Switch.stories';
   [SwitchGroup](?path=/docs/inputs-forms-switchgroup--docs), which has the full guidance for sets
   of switches.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **The choice is submitted with a form**, such as accepting terms: use a
   [Checkbox](?path=/docs/inputs-forms-checkbox--docs).
 - **The two states aren't on and off**, such as "Monthly" and "Yearly": use a
   [RadioGroup](?path=/docs/inputs-forms-radiogroup--docs), so each state has its own label.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

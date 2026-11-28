@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Popover, PopoverContent, PopoverTrigger } from '../src/Popover';
 import * as PopoverStories from './Popover.stories';
@@ -24,16 +26,21 @@ import * as PopoverStories from './Popover.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For a few controls or details tied to one button**, such as a small settings form, a color
   picker or extra detail about an item, where the user stays on the page and carries on after.
 - **When the content needs to be clicked or typed into.** A popover stays open until it's
   dismissed, and focus moves into it.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **A decision the user must make before going on**, or anything that should block the page: use
   a [Dialog](?path=/docs/overlays-feedback-dialog--docs).
@@ -46,6 +53,10 @@ import * as PopoverStories from './Popover.stories';
   [Combobox](?path=/docs/inputs-forms-combobox--docs) or
   [MultiSelect](?path=/docs/inputs-forms-multiselect--docs).
 - **Content users need to complete the task:** put it on the page, where it's always visible.
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

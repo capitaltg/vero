@@ -4,6 +4,8 @@ import {
   DocsExamples,
   DocsSection,
   DocsSubheading,
+  DocsWhenToUse,
+  DocsWhenToUseCard,
 } from '../../../stories/docs/DocsLayout';
 import { Input } from '../src/Input';
 import * as InputStories from './Input.stories';
@@ -26,9 +28,12 @@ import * as InputStories from './Input.stories';
     </>
   }
   title="Guidance"
+  variant="guidance"
 >
 
-<DocsSubheading id="when-to-use">When to use</DocsSubheading>
+<DocsWhenToUse>
+
+<DocsWhenToUseCard kind="use">
 
 - **For short, free-form answers** that vary from user to user, such as a name, an email address
   or a reference number.
@@ -36,7 +41,9 @@ import * as InputStories from './Input.stories';
   date of birth.
 - **When users may want to paste the answer**, such as a code from an email.
 
-<DocsSubheading id="when-to-use-something-else">When to use something else</DocsSubheading>
+</DocsWhenToUseCard>
+
+<DocsWhenToUseCard kind="avoid">
 
 - **Answers longer than a line or two:** use a [Textarea](?path=/docs/inputs-forms-textarea--docs).
 - **A choice from a fixed list:** use a [Select](?path=/docs/inputs-forms-select--docs), a
@@ -44,6 +51,10 @@ import * as InputStories from './Input.stories';
   [Combobox](?path=/docs/inputs-forms-combobox--docs) for a long list.
 - **A date that users look up rather than know:** use a
   [DatePicker](?path=/docs/data-display-datepicker--docs).
+
+</DocsWhenToUseCard>
+
+</DocsWhenToUse>
 
 <DocsSubheading id="usability">Usability guidance</DocsSubheading>
 

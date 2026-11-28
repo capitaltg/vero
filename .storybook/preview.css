@@ -47,6 +47,16 @@
   padding: 1.75rem 0 0;
 }
 
+/* Storybook's "On this page" list (docs.toc) runs off the page below about 860px, and
+   Storybook only hides it at 768px. Hide it at 900px and narrower instead, where
+   DocsOnThisPage shows its tabs. The list's column has no class of its own, so it's found by
+   the list inside it. */
+@media (max-width: 56.25rem) {
+  .sbdocs-wrapper > div:has(> div > .toc-wrapper) {
+    display: none;
+  }
+}
+
 @tailwind utilities;
 
 /* Example of app-specific base styles */

@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as ComboboxStories from './Combobox.stories';
 # Combobox
 
 <Description of={ComboboxStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the combobox responds."
+  title="Try it"
+>
+  <Canvas of={ComboboxStories.Playground} />
+  <Controls of={ComboboxStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -75,15 +87,6 @@ import * as ComboboxStories from './Combobox.stories';
   Use a submit button.
 - **Avoid dependent options.** Don't change one field's options based on another field.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the combobox responds."
-  title="Try it"
->
-  <Canvas of={ComboboxStories.Playground} />
-  <Controls of={ComboboxStories.Playground} />
 </DocsSection>
 
 <DocsSection

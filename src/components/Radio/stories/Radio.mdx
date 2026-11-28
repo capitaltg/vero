@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as RadioStories from './Radio.stories';
 # Radio
 
 <Description of={RadioStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the radio responds."
+  title="Try it"
+>
+  <Canvas of={RadioStories.Playground} />
+  <Controls of={RadioStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -64,15 +76,6 @@ import * as RadioStories from './Radio.stories';
 - **Use one style per group.** Don't mix `default` and `tile` radios: a few tiles among plain
   radios can look like recommended options.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the radio responds."
-  title="Try it"
->
-  <Canvas of={RadioStories.Playground} />
-  <Controls of={RadioStories.Playground} />
 </DocsSection>
 
 <DocsSection

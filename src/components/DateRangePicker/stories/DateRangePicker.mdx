@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as DateRangePickerStories from './DateRangePicker.stories';
 # DateRangePicker
 
 <Description of={DateRangePickerStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the date range picker responds."
+  title="Try it"
+>
+  <Canvas of={DateRangePickerStories.Playground} />
+  <Controls of={DateRangePickerStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -67,15 +79,6 @@ import * as DateRangePickerStories from './DateRangePicker.stories';
   or clicking outside, closes it.
 - **Don't submit the form or start another action when the range is complete.**
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the date range picker responds."
-  title="Try it"
->
-  <Canvas of={DateRangePickerStories.Playground} />
-  <Controls of={DateRangePickerStories.Playground} />
 </DocsSection>
 
 <DocsSection

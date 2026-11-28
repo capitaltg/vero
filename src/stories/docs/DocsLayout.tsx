@@ -1,11 +1,17 @@
 import { ArgTypes, HeaderMdx, Markdown, Stories } from '@storybook/blocks';
 import { Check, Compass, X } from 'lucide-react';
-import { createContext, useContext } from 'react';
-import type { ComponentType, ReactNode } from 'react';
+import { createContext, useContext, useLayoutEffect, useRef, useState } from 'react';
+import type { ComponentType, MouseEvent, ReactNode } from 'react';
 import { cn } from '../../lib/utils';
 
 // The id of the DocsSection a heading is in, used to prefix the heading's id.
 const SectionIdContext = createContext<string | undefined>(undefined);
+
+/** Handles a click on an in-page `#id` link by scrolling smoothly to the element. */
+const scrollToId = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+  event.preventDefault();
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+};
 
 /** A heading's id, prefixed with its section's id, e.g. `accessibility-built-in`. */
 const useHeadingId = (id: string) => {
@@ -29,7 +35,7 @@ interface DocsSectionProps {
 }
 
 /**
- * A top-level section of a docs page (Guidance, Try it, Examples, Accessibility, API
+ * A top-level section of a docs page (Try it, Guidance, Examples, Accessibility, API
  * reference). Its heading uses the docs pages' h2 style from `.storybook/preview.css`,
  * whose hairline and space above set the section apart, the same as a markdown `##`.
  *
@@ -74,6 +80,68 @@ export const DocsSection = ({
       {intro ? <p className="max-w-3xl">{intro}</p> : null}
       <SectionIdContext.Provider value={id}>{children}</SectionIdContext.Provider>
     </section>
+  );
+};
+
+/**
+ * "On this page" links to the page's DocsSections, in page order, placed under the
+ * component's description. It finds the sections itself, so pages don't have to list them
+ * and the links follow if the sections are reordered or renamed.
+ */
+export const DocsOnThisPage = () => {
+  const navRef = useRef<HTMLElement>(null);
+  const [links, setLinks] = useState<{ id: string; title: string }[]>([]);
+
+  // The sections render in the same commit as this nav, so they're already in the page here,
+  // and the links appear before the first paint. Sections inside a section (the API
+  // reference's entries) are left out.
+  useLayoutEffect(() => {
+    const page = navRef.current?.closest('.sbdocs-content') ?? document;
+    const sections = Array.from(page.querySelectorAll('section[aria-labelledby]')).filter(
+      section => !section.parentElement?.closest('section'),
+    );
+    setLinks(
+      sections.flatMap(section => {
+        const id = section.getAttribute('aria-labelledby') ?? '';
+        const title = document.getElementById(id)?.textContent?.trim();
+        return title ? [{ id, title }] : [];
+      }),
+    );
+  }, []);
+
+  return (
+    // The div is for the font: Storybook sets its docs font on the elements it styles (div,
+    // p, li and so on), not on the page, so a nav that isn't inside one gets the browser's
+    // sans-serif. Its space above is padding because Storybook's div style resets margins.
+    <div className="pt-2">
+      <nav
+        ref={navRef}
+        aria-label="On this page"
+        className="flex flex-wrap items-baseline gap-x-5 gap-y-1"
+      >
+        {/* Hidden from screen readers, which hear the nav's label instead. */}
+        <span
+          aria-hidden="true"
+          className="sb-unstyled font-mono text-[0.6875rem] font-medium uppercase tracking-[0.08em]
+            text-gray-500"
+        >
+          On this page
+        </span>
+        <ul className="sb-unstyled m-0 flex list-none flex-wrap gap-x-5 gap-y-1 p-0">
+          {links.map(({ id, title }) => (
+            <li key={id}>
+              <a
+                className="text-sm font-semibold text-primary-400 no-underline hover:underline"
+                href={`#${id}`}
+                onClick={event => scrollToId(event, id)}
+              >
+                {title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   );
 };
 
@@ -275,10 +343,7 @@ export const ApiReference = ({ components }: { components: Documented[] }) => (
             className="sb-unstyled rounded-full border border-gray-300 bg-white px-3 py-1 font-mono
               text-sm text-gray-800 no-underline hover:border-gray-500 hover:bg-gray-50"
             href={`#${anchorId(name)}`}
-            onClick={event => {
-              event.preventDefault();
-              document.getElementById(anchorId(name))?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={event => scrollToId(event, anchorId(name))}
           >
             {name}
           </a>

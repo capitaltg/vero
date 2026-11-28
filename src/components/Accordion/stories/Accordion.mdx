@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as AccordionStories from './Accordion.stories';
 # Accordion
 
 <Description of={AccordionStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the accordion responds."
+  title="Try it"
+>
+  <Canvas of={AccordionStories.Playground} />
+  <Controls of={AccordionStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -67,15 +79,6 @@ import * as AccordionStories from './Accordion.stories';
   the color isn't announced and some users can't see it. If a section's status matters, say it in
   the title.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the accordion responds."
-  title="Try it"
->
-  <Canvas of={AccordionStories.Playground} />
-  <Controls of={AccordionStories.Playground} />
 </DocsSection>
 
 <DocsSection

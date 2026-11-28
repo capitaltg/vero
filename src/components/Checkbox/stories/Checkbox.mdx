@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as CheckboxStories from './Checkbox.stories';
 # Checkbox
 
 <Description of={CheckboxStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the checkbox responds."
+  title="Try it"
+>
+  <Canvas of={CheckboxStories.Playground} />
+  <Controls of={CheckboxStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -62,15 +74,6 @@ import * as CheckboxStories from './Checkbox.stories';
   an `id` (see [Your responsibility](#accessibility-your-responsibility)). The `tile` style makes the whole card
   clickable.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the checkbox responds."
-  title="Try it"
->
-  <Canvas of={CheckboxStories.Playground} />
-  <Controls of={CheckboxStories.Playground} />
 </DocsSection>
 
 <DocsSection

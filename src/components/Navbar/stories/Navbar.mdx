@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -22,6 +23,17 @@ import * as NavbarStories from './Navbar.stories';
 # Navbar
 
 <Description of={NavbarStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the navbar responds."
+  title="Try it"
+>
+  <Canvas of={NavbarStories.Playground} />
+  <Controls of={NavbarStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -74,15 +86,6 @@ import * as NavbarStories from './Navbar.stories';
   read by screen readers but not shown.
 - **Test your navigation with users**, and again after you change it.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the navbar responds."
-  title="Try it"
->
-  <Canvas of={NavbarStories.Playground} />
-  <Controls of={NavbarStories.Playground} />
 </DocsSection>
 
 <DocsSection

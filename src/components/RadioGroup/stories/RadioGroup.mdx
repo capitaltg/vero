@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -16,6 +17,17 @@ import * as RadioGroupStories from './RadioGroup.stories';
 # RadioGroup
 
 <Description of={RadioGroupStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the radio group responds."
+  title="Try it"
+>
+  <Canvas of={RadioGroupStories.Playground} />
+  <Controls of={RadioGroupStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -77,15 +89,6 @@ import * as RadioGroupStories from './RadioGroup.stories';
 - **Use the `button` style only for short options**, such as a view switcher in a toolbar, and see
   [Your responsibility](#accessibility-your-responsibility) before you choose it.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the radio group responds."
-  title="Try it"
->
-  <Canvas of={RadioGroupStories.Playground} />
-  <Controls of={RadioGroupStories.Playground} />
 </DocsSection>
 
 <DocsSection

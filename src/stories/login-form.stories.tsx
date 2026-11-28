@@ -8,6 +8,8 @@ const meta: Meta<typeof LoginForm> = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      // No "On this page" list: the page has no sections to list.
+      toc: false,
       description: {
         component:
           'A modern login form with email/password authentication and social login options. Includes error handling, remember me functionality, and password recovery link.',

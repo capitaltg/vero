@@ -87,6 +87,9 @@ export const DocsSection = ({
  * "On this page" links to the page's DocsSections, in page order, placed under the
  * component's description. It finds the sections itself, so pages don't have to list them
  * and the links follow if the sections are reordered or renamed.
+ *
+ * It shows only at 768px and narrower. Wider than that, Storybook's own list (`docs.toc` in
+ * `.storybook/preview.ts`) shows the same links in a column to the right.
  */
 export const DocsOnThisPage = () => {
   const navRef = useRef<HTMLElement>(null);
@@ -113,7 +116,7 @@ export const DocsOnThisPage = () => {
     // The div is for the font: Storybook sets its docs font on the elements it styles (div,
     // p, li and so on), not on the page, so a nav that isn't inside one gets the browser's
     // sans-serif. Its space above is padding because Storybook's div style resets margins.
-    <div className="pt-2">
+    <div className="pt-2 min-[769px]:hidden">
       <nav
         ref={navRef}
         aria-label="On this page"

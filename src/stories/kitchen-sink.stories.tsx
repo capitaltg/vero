@@ -8,6 +8,8 @@ const meta: Meta<typeof App> = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      // No "On this page" list: the page has no sections to list.
+      toc: false,
       description: {
         component:
           'A comprehensive example showcasing all Vero components in a single form. This demonstrates how components work together in a real-world application.',

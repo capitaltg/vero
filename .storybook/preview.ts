@@ -29,6 +29,28 @@ const preview: Preview = {
         // file has an autodocs page; the MDX docs pages don't use one.)
         filter: (story: { tags?: string[] }) => !story.tags?.includes('docs-hidden'),
       },
+      // "On this page": Storybook's list of the page's sections, in a column to the right
+      // that stays in view and highlights the section being read. It lists the h2s (Try it,
+      // Guidance and so on), not every heading, after an "Overview" link back to the top.
+      // Storybook hides it at 768px and narrower, where DocsOnThisPage shows the section
+      // links under the description instead.
+      toc: {
+        headingSelector: 'h1, h2',
+        title: 'On this page',
+        unsafeTocbotOptions: {
+          // A link scrolls to 64px above its heading: the page title sits 64px down, so
+          // "Overview" goes right to the top. A section counts as the current one once its
+          // heading is within 80px of the top, so it's current where a link leaves it.
+          scrollSmoothOffset: -64,
+          headingsOffset: 80,
+          // The page title, the only h1, is listed as "Overview", at the same level as the
+          // sections rather than as their parent.
+          headingObjectCallback: (heading: { nodeName: string }) =>
+            heading.nodeName === 'H1'
+              ? { ...heading, textContent: 'Overview', headingLevel: 2 }
+              : heading,
+        },
+      },
     },
     controls: {
       matchers: {

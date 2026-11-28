@@ -8,6 +8,8 @@ const meta: Meta<typeof SignUpForm> = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      // No "On this page" list: the page has no sections to list.
+      toc: false,
       description: {
         component:
           'A complete sign-up form example demonstrating form validation, error handling, and user input collection. Features include password confirmation, terms acceptance, and country selection.',

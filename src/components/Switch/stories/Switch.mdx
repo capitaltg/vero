@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as SwitchStories from './Switch.stories';
 # Switch
 
 <Description of={SwitchStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the switch responds."
+  title="Try it"
+>
+  <Canvas of={SwitchStories.Playground} />
+  <Controls of={SwitchStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -65,15 +77,6 @@ import * as SwitchStories from './Switch.stories';
   whole label becomes the switch's name, which screen readers read every time it's focused.
 - **Clicking the label toggles the switch**, which gives touch users a larger target.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the switch responds."
-  title="Try it"
->
-  <Canvas of={SwitchStories.Playground} />
-  <Controls of={SwitchStories.Playground} />
 </DocsSection>
 
 <DocsSection

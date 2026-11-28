@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -16,6 +17,17 @@ import * as DialogStories from './Dialog.stories';
 # Dialog
 
 <Description of={DialogStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the dialog responds."
+  title="Try it"
+>
+  <Canvas of={DialogStories.Playground} />
+  <Controls of={DialogStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -67,15 +79,6 @@ import * as DialogStories from './Dialog.stories';
 - **Keep the page stable.** Closing the dialog shouldn't reload or change the page behind it.
 - **Keep interactions simple.** A few buttons or fields are fine; a long form isn't.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the dialog responds."
-  title="Try it"
->
-  <Canvas of={DialogStories.Playground} />
-  <Controls of={DialogStories.Playground} />
 </DocsSection>
 
 <DocsSection

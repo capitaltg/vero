@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as TooltipStories from './Tooltip.stories';
 # Tooltip
 
 <Description of={TooltipStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the tooltip responds."
+  title="Try it"
+>
+  <Canvas of={TooltipStories.Playground} />
+  <Controls of={TooltipStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -61,15 +73,6 @@ import * as TooltipStories from './Tooltip.stories';
 - **Place it with `side` and `align`** so it doesn't cover what the user is working on.
 - **Wrap your app in one `TooltipProvider`.** Every `Tooltip` needs one above it.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the tooltip responds."
-  title="Try it"
->
-  <Canvas of={TooltipStories.Playground} />
-  <Controls of={TooltipStories.Playground} />
 </DocsSection>
 
 <DocsSection

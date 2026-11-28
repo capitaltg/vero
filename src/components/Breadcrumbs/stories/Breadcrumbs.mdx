@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as BreadcrumbsStories from './Breadcrumbs.stories';
 # Breadcrumbs
 
 <Description of={BreadcrumbsStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the breadcrumbs respond."
+  title="Try it"
+>
+  <Canvas of={BreadcrumbsStories.Playground} />
+  <Controls of={BreadcrumbsStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -70,15 +82,6 @@ import * as BreadcrumbsStories from './Breadcrumbs.stories';
 - **Add structured data for search engines yourself** if you want breadcrumbs in search
   results: Breadcrumbs doesn't output JSON-LD or RDFa.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the breadcrumbs respond."
-  title="Try it"
->
-  <Canvas of={BreadcrumbsStories.Playground} />
-  <Controls of={BreadcrumbsStories.Playground} />
 </DocsSection>
 
 <DocsSection

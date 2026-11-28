@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -18,6 +19,17 @@ import * as SelectStories from './Select.stories';
 # Select
 
 <Description of={SelectStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the select responds."
+  title="Try it"
+>
+  <Canvas of={SelectStories.Playground} />
+  <Controls of={SelectStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -76,15 +88,6 @@ import * as SelectStories from './Select.stories';
   Parts example.
 - **Test it with your users.** Usability experts call the select the "UI of last resort".
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the select responds."
-  title="Try it"
->
-  <Canvas of={SelectStories.Playground} />
-  <Controls of={SelectStories.Playground} />
 </DocsSection>
 
 <DocsSection

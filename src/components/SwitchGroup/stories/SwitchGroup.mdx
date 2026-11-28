@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -16,6 +17,17 @@ import * as SwitchGroupStories from './SwitchGroup.stories';
 # SwitchGroup
 
 <Description of={SwitchGroupStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the switch group responds."
+  title="Try it"
+>
+  <Canvas of={SwitchGroupStories.Playground} />
+  <Controls of={SwitchGroupStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -73,15 +85,6 @@ import * as SwitchGroupStories from './SwitchGroup.stories';
 - **Order switches logically**, such as by how often they're used, with related settings next to
   each other.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the switch group responds."
-  title="Try it"
->
-  <Canvas of={SwitchGroupStories.Playground} />
-  <Controls of={SwitchGroupStories.Playground} />
 </DocsSection>
 
 <DocsSection

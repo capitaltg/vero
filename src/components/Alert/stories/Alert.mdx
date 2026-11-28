@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as AlertStories from './Alert.stories';
 # Alert
 
 <Description of={AlertStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the alert responds."
+  title="Try it"
+>
+  <Canvas of={AlertStories.Playground} />
+  <Controls of={AlertStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -65,15 +77,6 @@ import * as AlertStories from './Alert.stories';
   itself: remove it in `onClose`.
 - **Don't hide an alert and reveal it later.** Add it to the page when it applies.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the alert responds."
-  title="Try it"
->
-  <Canvas of={AlertStories.Playground} />
-  <Controls of={AlertStories.Playground} />
 </DocsSection>
 
 <DocsSection

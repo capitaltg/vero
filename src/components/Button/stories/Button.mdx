@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as ButtonStories from './Button.stories';
 # Button
 
 <Description of={ButtonStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the button responds."
+  title="Try it"
+>
+  <Canvas of={ButtonStories.Playground} />
+  <Controls of={ButtonStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -81,15 +93,6 @@ import * as ButtonStories from './Button.stories';
 - **Make unavailable actions understandable.** If a button is disabled, say why nearby, or leave
   it enabled and explain what's missing when it's pressed.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the button responds."
-  title="Try it"
->
-  <Canvas of={ButtonStories.Playground} />
-  <Controls of={ButtonStories.Playground} />
 </DocsSection>
 
 <DocsSection

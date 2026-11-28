@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as LabelStories from './Label.stories';
 # Label
 
 <Description of={LabelStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the label responds."
+  title="Try it"
+>
+  <Canvas of={LabelStories.Playground} />
+  <Controls of={LabelStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -61,15 +73,6 @@ import * as LabelStories from './Label.stories';
 - **Mark required fields the same way across the form**, and explain the marker once at the top.
   The Required example adds an asterisk with CSS.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the label responds."
-  title="Try it"
->
-  <Canvas of={LabelStories.Playground} />
-  <Controls of={LabelStories.Playground} />
 </DocsSection>
 
 <DocsSection

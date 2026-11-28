@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as DatePickerStories from './DatePicker.stories';
 # DatePicker
 
 <Description of={DatePickerStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the date picker responds."
+  title="Try it"
+>
+  <Canvas of={DatePickerStories.Playground} />
+  <Controls of={DatePickerStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -77,15 +89,6 @@ import * as DatePickerStories from './DatePicker.stories';
 - **The picked date is shown with the month name**, such as "March 14, 2024", so it can't be
   misread as day-month or month-day.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the date picker responds."
-  title="Try it"
->
-  <Canvas of={DatePickerStories.Playground} />
-  <Controls of={DatePickerStories.Playground} />
 </DocsSection>
 
 <DocsSection

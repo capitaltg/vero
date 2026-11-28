@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as FormItemStories from './FormItem.stories';
 # FormItem
 
 <Description of={FormItemStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the form item responds."
+  title="Try it"
+>
+  <Canvas of={FormItemStories.Playground} />
+  <Controls of={FormItemStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -71,15 +83,6 @@ import * as FormItemStories from './FormItem.stories';
   [Tooltip](?path=/docs/overlays-feedback-tooltip--docs). Put anything users need in order to answer
   in `hintText`, where everyone sees it.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the form item responds."
-  title="Try it"
->
-  <Canvas of={FormItemStories.Playground} />
-  <Controls of={FormItemStories.Playground} />
 </DocsSection>
 
 <DocsSection

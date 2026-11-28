@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -16,6 +17,17 @@ import * as CheckboxGroupStories from './CheckboxGroup.stories';
 # CheckboxGroup
 
 <Description of={CheckboxGroupStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the checkbox group responds."
+  title="Try it"
+>
+  <Canvas of={CheckboxGroupStories.Playground} />
+  <Controls of={CheckboxGroupStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -70,15 +82,6 @@ import * as CheckboxGroupStories from './CheckboxGroup.stories';
 - **Use the `button` style only for short options**, such as filters in a compact toolbar, and see
   [Your responsibility](#accessibility-your-responsibility) before you choose it.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the checkbox group responds."
-  title="Try it"
->
-  <Canvas of={CheckboxGroupStories.Playground} />
-  <Controls of={CheckboxGroupStories.Playground} />
 </DocsSection>
 
 <DocsSection

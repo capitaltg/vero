@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as PopoverStories from './Popover.stories';
 # Popover
 
 <Description of={Popover} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the popover responds."
+  title="Try it"
+>
+  <Canvas of={PopoverStories.Playground} />
+  <Controls of={PopoverStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -69,15 +81,6 @@ import * as PopoverStories from './Popover.stories';
 - **Set stacking with `zIndex`, not `style`.** For now, passing `style` drops the z-index
   ([#230](https://github.com/capitaltg/vero/issues/230)).
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the popover responds."
-  title="Try it"
->
-  <Canvas of={PopoverStories.Playground} />
-  <Controls of={PopoverStories.Playground} />
 </DocsSection>
 
 <DocsSection

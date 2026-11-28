@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as AutocompleteStories from './Autocomplete.stories';
 # Autocomplete
 
 <Description of={AutocompleteStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the autocomplete responds."
+  title="Try it"
+>
+  <Canvas of={AutocompleteStories.Playground} />
+  <Controls of={AutocompleteStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -80,15 +92,6 @@ import * as AutocompleteStories from './Autocomplete.stories';
   Use a submit button.
 - **Avoid dependent options.** Don't change one field's options based on another field.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the autocomplete responds."
-  title="Try it"
->
-  <Canvas of={AutocompleteStories.Playground} />
-  <Controls of={AutocompleteStories.Playground} />
 </DocsSection>
 
 <DocsSection

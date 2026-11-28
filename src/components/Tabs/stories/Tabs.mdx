@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiReference,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as TabsStories from './Tabs.stories';
 # Tabs
 
 <Description of={TabsStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the tabs respond."
+  title="Try it"
+>
+  <Canvas of={TabsStories.Playground} />
+  <Controls of={TabsStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -72,15 +84,6 @@ import * as TabsStories from './Tabs.stories';
 - **For vertical tabs**, set `orientation="vertical"` so Up and Down move between them, and lay
   out the list yourself with `className`: the prop doesn't change the layout.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the tabs respond."
-  title="Try it"
->
-  <Canvas of={TabsStories.Playground} />
-  <Controls of={TabsStories.Playground} />
 </DocsSection>
 
 <DocsSection

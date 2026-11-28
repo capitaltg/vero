@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as InputStories from './Input.stories';
 # Input
 
 <Description of={InputStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the input responds."
+  title="Try it"
+>
+  <Canvas of={InputStories.Playground} />
+  <Controls of={InputStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -76,15 +88,6 @@ import * as InputStories from './Input.stories';
   ([#214](https://github.com/capitaltg/vero/issues/214)). Use `trim` only for values without
   spaces, such as an email address, or trim the value yourself when you save it.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the input responds."
-  title="Try it"
->
-  <Canvas of={InputStories.Playground} />
-  <Controls of={InputStories.Playground} />
 </DocsSection>
 
 <DocsSection

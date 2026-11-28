@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as MultiSelectStories from './MultiSelect.stories';
 # MultiSelect
 
 <Description of={MultiSelectStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the multi-select responds."
+  title="Try it"
+>
+  <Canvas of={MultiSelectStories.Playground} />
+  <Controls of={MultiSelectStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -71,15 +83,6 @@ import * as MultiSelectStories from './MultiSelect.stories';
 - **Don't act on a change.** The list stays open as options are chosen. Wait for a submit button
   before doing anything with the values.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the multi-select responds."
-  title="Try it"
->
-  <Canvas of={MultiSelectStories.Playground} />
-  <Controls of={MultiSelectStories.Playground} />
 </DocsSection>
 
 <DocsSection

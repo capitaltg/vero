@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as ImageStories from './Image.stories';
 # Image
 
 <Description of={ImageStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the image responds."
+  title="Try it"
+>
+  <Canvas of={ImageStories.Playground} />
+  <Controls of={ImageStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -65,15 +77,6 @@ import * as ImageStories from './Image.stories';
 - **Check how the image crops.** It's cropped to fill its wrapper, so a wrapper with a different
   shape, or `shape="circle"`, can cut off the edges.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the image responds."
-  title="Try it"
->
-  <Canvas of={ImageStories.Playground} />
-  <Controls of={ImageStories.Playground} />
 </DocsSection>
 
 <DocsSection

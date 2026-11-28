@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as StepIndicatorStories from './StepIndicator.stories';
 # StepIndicator
 
 <Description of={StepIndicatorStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the step indicator responds."
+  title="Try it"
+>
+  <Canvas of={StepIndicatorStories.Playground} />
+  <Controls of={StepIndicatorStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -68,15 +80,6 @@ import * as StepIndicatorStories from './StepIndicator.stories';
   segments and labels and shows only the heading.
 - **Use `showCurrentAsCompleted`** on a final confirmation page, so every step shows as done.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the step indicator responds."
-  title="Try it"
->
-  <Canvas of={StepIndicatorStories.Playground} />
-  <Controls of={StepIndicatorStories.Playground} />
 </DocsSection>
 
 <DocsSection

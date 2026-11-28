@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as BadgeStories from './Badge.stories';
 # Badge
 
 <Description of={BadgeStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the badge responds."
+  title="Try it"
+>
+  <Canvas of={BadgeStories.Playground} />
+  <Controls of={BadgeStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -64,15 +76,6 @@ import * as BadgeStories from './Badge.stories';
 - **Use the `light` tone for a quieter badge**, such as in a dense table, and `dark` where it needs
   to stand out.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the badge responds."
-  title="Try it"
->
-  <Canvas of={BadgeStories.Playground} />
-  <Controls of={BadgeStories.Playground} />
 </DocsSection>
 
 <DocsSection

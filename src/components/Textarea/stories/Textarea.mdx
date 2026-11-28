@@ -2,6 +2,7 @@ import { Canvas, Controls, Description, Meta } from '@storybook/blocks';
 import {
   ApiEntry,
   DocsExamples,
+  DocsOnThisPage,
   DocsSection,
   DocsSubheading,
   DocsWhenToUse,
@@ -15,6 +16,17 @@ import * as TextareaStories from './Textarea.stories';
 # Textarea
 
 <Description of={TextareaStories} />
+
+<DocsOnThisPage />
+
+<DocsSection
+  id="try-it"
+  intro="Change the values below to see how the textarea responds."
+  title="Try it"
+>
+  <Canvas of={TextareaStories.Playground} />
+  <Controls of={TextareaStories.Playground} />
+</DocsSection>
 
 <DocsSection
   id="guidance"
@@ -66,15 +78,6 @@ import * as TextareaStories from './Textarea.stories';
   Don't rely on `maxLength` alone: it silently cuts off pasted text.
 - **Don't use placeholder text in place of a hint.** It disappears as soon as users type.
 
-</DocsSection>
-
-<DocsSection
-  id="try-it"
-  intro="Change the values below to see how the textarea responds."
-  title="Try it"
->
-  <Canvas of={TextareaStories.Playground} />
-  <Controls of={TextareaStories.Playground} />
 </DocsSection>
 
 <DocsSection

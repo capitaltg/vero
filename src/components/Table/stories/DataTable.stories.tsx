@@ -24,6 +24,9 @@ const meta = {
   tags: ['autodocs', 'experimental'],
   parameters: {
     docs: {
+      // No "On this page" list: this page only lists its stories, and its guide is on the
+      // Table page.
+      toc: false,
       description: {
         component:
           '⚠️ **Experimental** — exported for early feedback. The API may change, or this component ' +

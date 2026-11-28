@@ -8,6 +8,8 @@ const meta: Meta<typeof ContactForm> = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      // No "On this page" list: the page has no sections to list.
+      toc: false,
       description: {
         component:
           'A comprehensive contact form for customer support and inquiries. Features subject categorization, priority selection, and detailed message input.',

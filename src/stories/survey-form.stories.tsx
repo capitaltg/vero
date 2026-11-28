@@ -8,6 +8,8 @@ const meta: Meta<typeof SurveyForm> = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      // No "On this page" list: the page has no sections to list.
+      toc: false,
       description: {
         component:
           'A multi-step survey form with progress tracking. Demonstrates step indicators, various input types, and conditional navigation based on form completion.',

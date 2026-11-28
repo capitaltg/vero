@@ -55,6 +55,20 @@
   .sbdocs-wrapper > div:has(> div > .toc-wrapper) {
     display: none;
   }
+
+  /* On pages with those tabs, the page title sticks to the top above them, shrinking as the
+     page scrolls. DocsOnThisPage sets --docs-title-progress from 0 at the top of the page to 1
+     where the title sticks. The line height shrinks by as much as the space above grows, so
+     the title stays 2.5rem tall and the page doesn't move under the reader as it shrinks. */
+  .sbdocs-content:has(> [data-docs-sticky-bar]) > h1 {
+    position: sticky;
+    top: 0;
+    z-index: 11;
+    padding-top: calc(0.75rem * var(--docs-title-progress, 0));
+    background: #fff;
+    font-size: calc(2rem - 0.75rem * var(--docs-title-progress, 0));
+    line-height: calc(2.5rem - 0.75rem * var(--docs-title-progress, 0));
+  }
 }
 
 @tailwind utilities;

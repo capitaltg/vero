@@ -8,11 +8,15 @@ import { cn } from '../../lib/utils';
 const SectionIdContext = createContext<string | undefined>(undefined);
 
 /**
- * The height of the sticky "On this page" bar (`data-docs-sticky-bar`), which covers the top
- * of the window once it sticks, or 0 on a page without one.
+ * How much of the top of the window the sticky "On this page" bar (`data-docs-sticky-bar`)
+ * covers once it sticks, together with the sticky page title above it: the bar's sticky top
+ * plus its height. 0 where the bar is hidden (wider than 900px) or the page has none.
  */
-const getStickyBarHeight = () =>
-  document.querySelector('[data-docs-sticky-bar]')?.getBoundingClientRect().height ?? 0;
+const getStickyOffset = () => {
+  const bar = document.querySelector<HTMLElement>('[data-docs-sticky-bar]');
+  if (!bar?.offsetParent) return 0;
+  return (parseFloat(getComputedStyle(bar).top) || 0) + bar.offsetHeight;
+};
 
 /**
  * Handles a click on an in-page link by scrolling smoothly to the element, stopping a little
@@ -21,7 +25,7 @@ const getStickyBarHeight = () =>
 const scrollToElement = (event: MouseEvent<HTMLAnchorElement>, element: Element | null) => {
   event.preventDefault();
   if (!element) return;
-  const top = element.getBoundingClientRect().top + window.scrollY - getStickyBarHeight() - 16;
+  const top = element.getBoundingClientRect().top + window.scrollY - getStickyOffset() - 16;
   window.scrollTo({ top, behavior: 'smooth' });
 };
 
@@ -107,7 +111,9 @@ export const DocsSection = ({
  * sections are reordered or renamed.
  *
  * It shows only at 900px (56.25rem) and narrower, starting with an "Overview" tab that goes
- * back to the top. Wider than that, Storybook's own list (`docs.toc` in
+ * back to the top. At that width the page title sticks above the bar too, shrinking as the
+ * page scrolls (the styles are in `.storybook/preview.css`); the bar sticks just below it,
+ * following its height. Wider than that, Storybook's own list (`docs.toc` in
  * `.storybook/preview.ts`) shows the same links in a column to the right; `preview.css`
  * hides that list at the same width, before it runs out of room.
  */
@@ -116,12 +122,16 @@ export const DocsOnThisPage = () => {
   const [links, setLinks] = useState<{ id: string; title: string }[]>([]);
   const [activeId, setActiveId] = useState<string>();
   const [isStuck, setIsStuck] = useState(false);
+  // The page title (its h1) and its height, which sets where the bar sticks.
+  const titleRef = useRef<HTMLElement | null>(null);
+  const [titleHeight, setTitleHeight] = useState(0);
 
   // The sections render in the same commit as this nav, so they're already in the page here,
   // and the links appear before the first paint. Sections inside a section (the API
   // reference's entries) are left out.
   useLayoutEffect(() => {
     const page = navRef.current?.closest('.sbdocs-content') ?? document;
+    titleRef.current = page.querySelector<HTMLElement>('h1');
     const sections = Array.from(page.querySelectorAll('section[aria-labelledby]')).filter(
       section => !section.parentElement?.closest('section'),
     );
@@ -134,15 +144,38 @@ export const DocsOnThisPage = () => {
     );
   }, []);
 
+  // Follows the title's height, which changes if the window is resized or its font loads.
+  useEffect(() => {
+    const title = titleRef.current;
+    if (!title) return undefined;
+    const observer = new ResizeObserver(() => setTitleHeight(title.offsetHeight));
+    observer.observe(title, { box: 'border-box' });
+    return () => observer.disconnect();
+  }, []);
+
   // The current section is the last one whose top has scrolled up to just below the bar. At
   // the bottom of the page it's the last section, which may be too short to get there. The
-  // bar is stuck once its top reaches the top of the window.
+  // bar is stuck once its top reaches where it sticks, under the title.
+  //
+  // The title shrinks as the page scrolls, reaching its smaller size just as it sticks. Its
+  // progress, from 0 at the top of the page to 1 where it sticks, goes in
+  // `--docs-title-progress`, which `preview.css` turns into its size.
   useEffect(() => {
     if (!links.length) return undefined;
+    const title = titleRef.current;
+    // Where the title sticks: its distance from the top of the page, measured while it isn't
+    // stuck. 64px is Storybook's space above it, for a page that loads already scrolled.
+    let stickPoint = 64;
     let frame = 0;
     const update = () => {
       frame = 0;
-      const line = getStickyBarHeight() + 32;
+      if (title) {
+        const titleTop = title.getBoundingClientRect().top;
+        if (titleTop > 0.5) stickPoint = titleTop + window.scrollY;
+        const progress = Math.min(Math.max(window.scrollY / stickPoint, 0), 1);
+        title.style.setProperty('--docs-title-progress', progress.toFixed(3));
+      }
+      const line = getStickyOffset() + 32;
       let current: string | undefined;
       links.forEach(({ id }) => {
         const top = getSection(id)?.getBoundingClientRect().top;
@@ -152,7 +185,11 @@ export const DocsOnThisPage = () => {
         window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
       if (atBottom) current = links[links.length - 1].id;
       setActiveId(current);
-      setIsStuck((navRef.current?.parentElement?.getBoundingClientRect().top ?? 1) <= 0);
+      const bar = navRef.current?.parentElement;
+      if (bar) {
+        const stickyTop = parseFloat(getComputedStyle(bar).top) || 0;
+        setIsStuck(bar.getBoundingClientRect().top <= stickyTop + 0.5);
+      }
     };
     // At most one update per frame, however often scroll events fire.
     const onScroll = () => {
@@ -165,6 +202,7 @@ export const DocsOnThisPage = () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
       cancelAnimationFrame(frame);
+      title?.style.removeProperty('--docs-title-progress');
     };
   }, [links]);
 
@@ -177,6 +215,7 @@ export const DocsOnThisPage = () => {
     <div
       className="sticky top-0 z-10 bg-white pt-1 [@media(min-width:56.3125rem)]:hidden"
       data-docs-sticky-bar=""
+      style={{ top: titleHeight }}
     >
       {/* The line under the tabs shows only once the bar is stuck. Before that, the first
           section's own line sits just below it, and two lines read as a mistake. */}
